@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=pg_pass
+
+  frontend:
+    build: frontend/
+
+  backend:
+    build: backend/
+    environment:
+      - POSTGRES_PASSWORD=pg_pass
+    depends_on:
+      - db
+      - frontend
+
+  serv:
+    image: nginx
+    depends_on:
+      - backend
+      - frontend
+    volumes:
+      - ./bidsoup_nginx.conf:/etc/nginx/nginx.conf:ro

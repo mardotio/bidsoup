@@ -1,0 +1,10 @@
+# Python bytecode
+*.py[co]
+__pycache__
+
+# Dev tool artifacts
+.vscode
+.idea
+
+# node
+/node_modules

@@ -1,0 +1,31 @@
+version: '2'
+
+services:
+  db:
+    environment:
+      - POSTGRES_PASSWORD=$PG_PASS
+    volumes:
+      - /var/www/data/prod:/var/lib/postgresql/data
+
+  serv:
+    volumes:
+      - static:/code/bidsoup/bids/static
+    ports:
+      - "127.0.0.1:8000:80"
+
+  backend:
+    environment:
+      - DJANGO_SECRET_KEY=$DJANGO_SECRET_KEY
+      - POSTGRES_PASSWORD=$PG_PASS
+    volumes:
+      - static:/var/www/static
+    command: /bin/bash /code/start-prod.sh
+
+  frontend:
+    volumes:
+      - static:/usr/app/build
+    command: ["yarn", "build"]
+
+
+volumes:
+  static:

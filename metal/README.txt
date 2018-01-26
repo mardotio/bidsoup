@@ -1,0 +1,1 @@
+This folder holds scripts and configurations which exist on the bare metal server where this project is hosted. They are only kept here for version control and reference. Changes to these files will not implicitly be applied to an environment.

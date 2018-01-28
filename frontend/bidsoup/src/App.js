@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import logo from './logo.svg';
 import './App.css';
+
+const ApiText = styled.p`
+  color: rgb(24, 90, 134);
+  font-size: large;
+`;
 
 class App extends Component {
   constructor() {
@@ -33,9 +39,7 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <p className="App-api">
-          {this.state.data}
-        </p>
+        <ApiText>{this.state.data}</ApiText>
       </div>
     );
   }

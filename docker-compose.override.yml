@@ -15,7 +15,6 @@ services:
     volumes:
       - ./frontend/bidsoup/src:/usr/app/src/
       - ./frontend/bidsoup/public:/usr/app/public/
-      - ./frontend/bidsoup/package.json/:/usr/app/package.json
     ports:
       - 3000:3000
     environment:

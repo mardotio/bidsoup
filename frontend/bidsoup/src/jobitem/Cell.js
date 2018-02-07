@@ -28,10 +28,12 @@ const CurrencySpan = styled.span`
   float: right;
 `
 
-const capitalize = word => {
+const capitalize = word => (word[0].toUpperCase() + word.slice(1));
+
+const capitalizeHeader = word => {
   let words = word.split(' ');
   let capitalizedWords = words.map(singleWord => (
-    singleWord[0].toUpperCase() + singleWord.slice(1)
+    capitalize(singleWord)
   ));
   return capitalizedWords.join(' ');
 };
@@ -42,24 +44,25 @@ const beautifyNumber = num => (
 
 export default class Cell extends Component {
   render() {
-    let contents = this.props.value
-    let value;
+    let contents;
 
-    if (isNaN(contents)) {
-      value = capitalize(contents);
-    } else if (this.props.category === 'total' || this.props.category === 'price' || this.props.category === 'final') {
-      value = (
+    if (this.props.cellStyle === 'header') {
+      contents = capitalizeHeader(this.props.value);
+    } else if (this.props.cellStyle === 'currency') {
+      contents = (
         <React.Fragment>
-          $<CurrencySpan>{beautifyNumber(contents)}</CurrencySpan>
+          $<CurrencySpan>{beautifyNumber(this.props.value.toFixed(2))}</CurrencySpan>
         </React.Fragment>
       );
+    } else if (!isNaN(this.props.value)) {
+      contents = beautifyNumber(this.props.value);
     } else {
-      value = beautifyNumber(contents);
+      contents = capitalize(this.props.value)
     }
 
     return (
       <TableCell category={this.props.category}>
-        {value}
+        {contents}
       </TableCell>
     );
   }

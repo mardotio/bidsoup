@@ -29,20 +29,21 @@ export default class Table extends Component {
       }
       return <Row key={data.indexOf(row)} value={rowWithTotal}/>
     });
-    let stuff = [
-      {description: category},
-      {description: 'total',
-      final: categoryTotal
-      }
-    ];
+    let categoryData = {
+      category,
+      total: categoryTotal
+    }
 
     return (
       <TableWrapper>
-        <Row value={headers}/>
+        <Row
+          value={headers}
+          rowStyle='header'
+        />
         {rows}
         <Overview
           background={color}
-          value={stuff}
+          value={categoryData}
         />
       </TableWrapper>
     );

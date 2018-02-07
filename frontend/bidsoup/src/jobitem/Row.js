@@ -9,7 +9,7 @@ const TableRow = styled.div`
     ? determineFontColor(props.background)
     : 'inherit'
   };
-  font-size: ${props => (props.header || props.overview)
+  font-size: ${props => (props.large)
     ? '.9em'
     : '.8em'
   };
@@ -38,19 +38,32 @@ const determineFontColor = color => {
 export default class Row extends Component {
   getCells(cellData) {
     let keys = Object.keys(cellData);
-    let contents = keys.map(key => (
-      <Cell
-        key={key}
-        category={key}
-        value={cellData[key]}
-      />
-    ));
+    let currencyCells = ['total', 'final', 'price']
+    let contents = keys.map(key => {
+      let cellStyle = false;
+      if (this.props.rowStyle === 'header') {
+        cellStyle = 'header';
+      } else if (currencyCells.indexOf(key) >= 0) {
+        cellStyle = 'currency';
+      }
+      return (
+        <Cell
+          key={key}
+          category={key}
+          value={cellData[key]}
+          cellStyle={cellStyle}
+        />
+      );
+    });
     return contents;
   }
 
   render() {
     return (
-      <TableRow background={this.props.background}>
+      <TableRow
+        background={this.props.background}
+        large={this.props.rowStyle === 'header'}
+      >
         {this.getCells(this.props.value)}
       </TableRow>
     );

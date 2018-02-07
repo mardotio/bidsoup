@@ -12,23 +12,23 @@ const data = {
   ],
   data: [{
     description: 'This is a long description for an item',
-    quantity: 1,
+    quantity: 10,
     price: 999.99
   },{
     description: 'Some description',
     quantity: 13,
-    price: 54
+    price: 5400
   },{
     description: 'Some description',
     quantity: 8,
-    price: 514
+    price: 5141
   },{
     description: 'Some description',
     quantity: 4,
-    price: 254
+    price: 2540
   },{
     description: 'Some description',
-    quantity: 1,
+    quantity: 16,
     price: 2354
   }]
 }

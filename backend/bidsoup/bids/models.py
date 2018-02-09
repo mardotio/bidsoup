@@ -2,14 +2,17 @@ from django.db import models
 
 class Customer(models.Model):
     name = models.CharField(max_length=100)
-    address = models.CharField(max_length=100)
-    phone = models.CharField(max_length=15)
-    email = models.EmailField()
+    address = models.CharField(max_length=100, blank=True)
+    phone = models.CharField(max_length=15, blank=True)
+    email = models.EmailField(blank=True)
+
+    def __str__(self):
+        return self.name
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    markup_percent = models.DecimalField(max_digits=6, decimal_places=3)
+    markup_percent = models.DecimalField(max_digits=6, decimal_places=3, null=True, blank=True)
     color = models.CharField(max_length=6)
 
     def __str__(self):
@@ -42,17 +45,21 @@ class BidItem(models.Model):
     item_type = models.ForeignKey(ItemType, on_delete=models.PROTECT)
     notes = models.TextField(blank=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-    markup_percent = models.DecimalField(max_digits=6, decimal_places=3)
+    markup_percent = models.DecimalField(max_digits=6, decimal_places=3, null=True, blank=True)
     quantity = models.DecimalField(max_digits=7, decimal_places=2)
     parent = models.ForeignKey('BidTask', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
-        return self.item_type
+        return self.item_type.name
 
 class BidTask(models.Model):
-    parent = models.ForeignKey('BidTask', on_delete=models.SET_NULL, null=True)
+    parent = models.ForeignKey('BidTask', on_delete=models.SET_NULL, null=True, blank=True)
+    bid = models.ForeignKey('Bid', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.TextField()
+
+    def __str__(self):
+        return self.title
 
 class Bid(models.Model):
     name = models.CharField(max_length=100)

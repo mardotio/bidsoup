@@ -1,0 +1,191 @@
+[
+{
+  "model": "bids.customer",
+  "pk": 1,
+  "fields": {
+    "name": "Our Best Customer",
+    "address": "123 Main St. Atown, MD 12345",
+    "phone": "",
+    "email": "best.customer@gmail.com"
+  }
+},
+{
+  "model": "bids.category",
+  "pk": 1,
+  "fields": {
+    "name": "Labor",
+    "description": "",
+    "markup_percent": "10.000",
+    "color": "609ab6"
+  }
+},
+{
+  "model": "bids.category",
+  "pk": 2,
+  "fields": {
+    "name": "Materials",
+    "description": "",
+    "markup_percent": "15.000",
+    "color": "32CD32"
+  }
+},
+{
+  "model": "bids.itemtype",
+  "pk": 1,
+  "fields": {
+    "name": "Welder (week)",
+    "description": "",
+    "unit": "WK",
+    "unit_price": "600.00"
+  }
+},
+{
+  "model": "bids.itemtype",
+  "pk": 2,
+  "fields": {
+    "name": "Crane operator",
+    "description": "",
+    "unit": "HR",
+    "unit_price": "40.00"
+  }
+},
+{
+  "model": "bids.itemtype",
+  "pk": 3,
+  "fields": {
+    "name": "Foreman (hour)",
+    "description": "",
+    "unit": "HR",
+    "unit_price": "90.00"
+  }
+},
+{
+  "model": "bids.itemtype",
+  "pk": 4,
+  "fields": {
+    "name": "Sheet steel (.5 in thick)",
+    "description": "",
+    "unit": "FT2",
+    "unit_price": "2.50"
+  }
+},
+{
+  "model": "bids.itemtype",
+  "pk": 5,
+  "fields": {
+    "name": "Steel cutting wheels",
+    "description": "",
+    "unit": "EA",
+    "unit_price": "40.00"
+  }
+},
+{
+  "model": "bids.itemtype",
+  "pk": 6,
+  "fields": {
+    "name": "Welding wire",
+    "description": "",
+    "unit": "FT",
+    "unit_price": "0.75"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": 2,
+  "fields": {
+    "bid": 1,
+    "item_type": 3,
+    "notes": "",
+    "category": 1,
+    "markup_percent": null,
+    "quantity": "8.00",
+    "parent": 1
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": 3,
+  "fields": {
+    "bid": 1,
+    "item_type": 1,
+    "notes": "",
+    "category": 1,
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": 1
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": 4,
+  "fields": {
+    "bid": 1,
+    "item_type": 2,
+    "notes": "",
+    "category": 1,
+    "markup_percent": null,
+    "quantity": "2.00",
+    "parent": 1
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": 5,
+  "fields": {
+    "bid": 1,
+    "item_type": 4,
+    "notes": "For repairing floor",
+    "category": 2,
+    "markup_percent": null,
+    "quantity": "80.00",
+    "parent": 1
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": 6,
+  "fields": {
+    "bid": 1,
+    "item_type": 5,
+    "notes": "Consumable",
+    "category": 2,
+    "markup_percent": null,
+    "quantity": "3.00",
+    "parent": 1
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": 7,
+  "fields": {
+    "bid": 1,
+    "item_type": 6,
+    "notes": "",
+    "category": 2,
+    "markup_percent": null,
+    "quantity": "20.00",
+    "parent": 1
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": 1,
+  "fields": {
+    "parent": null,
+    "bid": 1,
+    "title": "Repair tank floor",
+    "description": "The floor is rusted and needs to be patched."
+  }
+},
+{
+  "model": "bids.bid",
+  "pk": 1,
+  "fields": {
+    "name": "Repair Tank A",
+    "description": "Tank A sits between Tank B and the headquarters. Customer has asked for any repairs that are needed.",
+    "bid_date": "2018-02-09",
+    "created_on": "2018-02-09T01:56:24.818Z",
+    "customer": 1
+  }
+}
+]

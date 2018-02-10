@@ -10,6 +10,7 @@ class Customer(models.Model):
         return self.name
 
 class Category(models.Model):
+    bid = models.ForeignKey('Bid', on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     markup_percent = models.DecimalField(max_digits=6, decimal_places=3, null=True, blank=True)

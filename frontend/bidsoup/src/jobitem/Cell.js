@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const TableCell = styled.div`
   box-sizing: border-box;
-  padding: .5em 1em;
+  padding: .8em 1em;
   flex-basis: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -17,6 +17,7 @@ const TableCell = styled.div`
       return '1';
     }
   }};
+  cursor: pointer;
 `
 
 const CurrencySpan = styled.span`

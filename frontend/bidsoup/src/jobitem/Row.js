@@ -13,6 +13,19 @@ const TableRow = styled.div`
     ? '.9em'
     : '.8em'
   };
+  border-bottom: ${props => (props.background || props.isKeys)
+    ? '0'
+    : '1px solid #eaeaea'
+  };
+  &:hover {
+    background-color: ${props => {
+      if (props.isKeys) {
+        return 'white';
+      } else {
+        return props.background || '#eaeaea';
+      }
+    }};
+  }
 `
 
 const hexToRgb = hex => {
@@ -78,6 +91,7 @@ export default class Row extends Component {
       <TableRow
         background={this.props.background}
         large={this.props.rowStyle === 'header'}
+        isKeys={this.props.isKeys}
       >
         {this.getCells()}
       </TableRow>

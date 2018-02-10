@@ -4,17 +4,12 @@ import styled from 'styled-components';
 const TableCell = styled.div`
   box-sizing: border-box;
   padding: .5em 1em;
-  flex-basis: ${props => (props.category === 'final')
-    ? '22%'
-    : '0'
-  };
+  flex-basis: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   flex-grow: ${props => {
-    if (props.category === 'final') {
-      return '0';
-    } else if (props.category === 'description') {
+    if (props.category === 'description') {
       return '2';
     } else if (props.category === 'quantity') {
       return '.75';
@@ -42,22 +37,37 @@ const beautifyNumber = num => (
   num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 );
 
-export default class Cell extends Component {
-  render() {
-    let contents;
-
-    if (this.props.cellStyle === 'header') {
-      contents = capitalizeHeader(this.props.value);
-    } else if (this.props.cellStyle === 'currency') {
+const styleCell = (value, style) => {
+  let contents;
+  switch (style) {
+    case 'header':
+      contents = capitalizeHeader(value);
+      break;
+    case 'currency':
       contents = (
         <React.Fragment>
-          $<CurrencySpan>{beautifyNumber(this.props.value.toFixed(2))}</CurrencySpan>
+          $<CurrencySpan>{beautifyNumber(value.toFixed(2))}</CurrencySpan>
         </React.Fragment>
       );
-    } else if (!isNaN(this.props.value)) {
-      contents = beautifyNumber(this.props.value);
-    } else {
-      contents = capitalize(this.props.value)
+      break;
+    case 'number':
+      contents = beautifyNumber(value);
+      break;
+    case 'text':
+      contents = capitalize(value);
+      break;
+    default:
+      contents = value;
+  }
+  return contents;
+};
+
+export default class Cell extends Component {
+  render() {
+    let contents = this.props.value;
+
+    if (contents) {
+      contents = styleCell(this.props.value, this.props.cellStyle);
     }
 
     return (

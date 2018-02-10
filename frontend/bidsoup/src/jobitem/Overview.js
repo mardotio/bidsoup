@@ -13,7 +13,7 @@ export default class Overview extends Component {
       },{
         data: {
           description: 'total',
-          final: total
+          total: total
         }
       }
     ];
@@ -22,7 +22,8 @@ export default class Overview extends Component {
       <Row
         background={this.props.background}
         key={overviewData.indexOf(row)}
-        value={row['data']}
+        keys={this.props.keys}
+        row={row['data']}
         rowStyle={row['style']}
        />
     ));

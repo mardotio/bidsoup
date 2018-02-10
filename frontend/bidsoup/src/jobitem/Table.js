@@ -12,38 +12,38 @@ const TableWrapper = styled.div`
 
 export default class Table extends Component {
   render() {
-    let {category, color, data} = this.props.value;
     let categoryTotal = 0;
-    let headers = {
-      description: 'description',
-      quantity: 'quantity',
-      price: 'price',
-      total: 'total'
-    };
-    let rows = data.map(row => {
+    let rows = this.props.rows.map(row => {
       let total = row['price'] * row['quantity'];
       categoryTotal += total;
       let rowWithTotal = {
         ...row,
         total
       }
-      return <Row key={data.indexOf(row)} value={rowWithTotal}/>
+      return (
+        <Row
+          key={this.props.rows.indexOf(row)}
+          keys={this.props.columns}
+          row={rowWithTotal}
+        />);
     });
     let categoryData = {
-      category,
+      category: this.props.category,
       total: categoryTotal
     }
 
     return (
       <TableWrapper>
         <Row
-          value={headers}
-          rowStyle='header'
+          row={this.props.columns}
+          rowStyle={'header'}
+          isKeys={true}
         />
         {rows}
         <Overview
-          background={color}
+          background={this.props.color}
           value={categoryData}
+          keys={this.props.columns}
         />
       </TableWrapper>
     );

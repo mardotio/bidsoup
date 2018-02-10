@@ -4,13 +4,21 @@ import Table from './jobitem/Table';
 const data = {
   category: 'labor',
   color: '#05b57a',
-  headers: [
-    'description',
-    'quantity',
-    'price',
-    'total'
+  columns: [{
+      name: 'description',
+      style: 'text'
+    },{
+      name: 'quantity',
+      style: 'number'
+    },{
+      name: 'price',
+      style: 'currency'
+    },{
+      name: 'total',
+      style: 'currency'
+    }
   ],
-  data: [{
+  rows: [{
     description: 'This is a long description for an item',
     quantity: 10,
     price: 999.99
@@ -36,7 +44,7 @@ const data = {
 class App extends Component {
   render() {
     return (
-      <Table value={data}/>
+      <Table {...data} />
     );
   }
 }

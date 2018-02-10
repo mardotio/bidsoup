@@ -36,21 +36,36 @@ const determineFontColor = color => {
 };
 
 export default class Row extends Component {
-  getCells(cellData) {
-    let keys = Object.keys(cellData);
-    let currencyCells = ['total', 'final', 'price']
-    let contents = keys.map(key => {
-      let cellStyle = false;
-      if (this.props.rowStyle === 'header') {
-        cellStyle = 'header';
-      } else if (currencyCells.indexOf(key) >= 0) {
-        cellStyle = 'currency';
+  getCells() {
+    let keys = this.props.isKeys
+      ? this.props.row
+      : this.props.keys;
+
+    let value = {};
+    if (this.props.isKeys) {
+      for (let i = 0; i < keys.length; i++) {
+        value[keys[i]['name']] = keys[i]['name'];
       }
+    } else {
+      value = this.props.row;
+    }
+
+    let contents = keys.map(key => {
+      let cellStyle = this.props.rowStyle === 'header'
+        ? 'header'
+        : key['style']
+      let cellValue;
+      if (value.hasOwnProperty(key['name'])) {
+        cellValue = value[key['name']]
+      } else {
+        cellValue = null;
+      }
+
       return (
         <Cell
-          key={key}
-          category={key}
-          value={cellData[key]}
+          key={key['name']}
+          category={key['name']}
+          value={cellValue}
           cellStyle={cellStyle}
         />
       );
@@ -64,7 +79,7 @@ export default class Row extends Component {
         background={this.props.background}
         large={this.props.rowStyle === 'header'}
       >
-        {this.getCells(this.props.value)}
+        {this.getCells()}
       </TableRow>
     );
   }

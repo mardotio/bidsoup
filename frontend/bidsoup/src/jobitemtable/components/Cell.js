@@ -18,6 +18,7 @@ const TableCell = styled.div`
     }
   }};
   cursor: pointer;
+  flex-shrink: ${props => props.category === 'description' ? '2' : '1'};
 `
 
 const CurrencySpan = styled.span`
@@ -38,37 +39,38 @@ const beautifyNumber = num => (
   num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 );
 
-const styleCell = (value, style) => {
-  let contents;
-  switch (style) {
-    case 'header':
-      contents = capitalizeHeader(value);
-      break;
-    case 'currency':
-      contents = (
-        <React.Fragment>
-          $<CurrencySpan>{beautifyNumber(value.toFixed(2))}</CurrencySpan>
-        </React.Fragment>
-      );
-      break;
-    case 'number':
-      contents = beautifyNumber(value);
-      break;
-    case 'text':
-      contents = capitalize(value);
-      break;
-    default:
-      contents = value;
-  }
-  return contents;
-};
-
 export default class Cell extends Component {
+  styleCell() {
+    let contents;
+    let {value, cellStyle} = this.props
+    switch (cellStyle) {
+      case 'header':
+        contents = capitalizeHeader(value);
+        break;
+      case 'currency':
+        contents = (
+          <React.Fragment>
+            $<CurrencySpan>{beautifyNumber(value.toFixed(2))}</CurrencySpan>
+          </React.Fragment>
+        );
+        break;
+      case 'number':
+        contents = beautifyNumber(value);
+        break;
+      case 'text':
+        contents = capitalize(value);
+        break;
+      default:
+        contents = value;
+    }
+    return contents;
+  }
+
   render() {
     let contents = this.props.value;
 
     if (contents) {
-      contents = styleCell(this.props.value, this.props.cellStyle);
+      contents = this.styleCell(this.props.value, this.props.cellStyle);
     }
 
     return (

@@ -54,11 +54,14 @@ export default class Row extends Component {
       ? this.props.row
       : this.props.keys;
 
-    let value = {};
+    let value;
     if (this.props.isKeys) {
-      for (let i = 0; i < keys.length; i++) {
-        value[keys[i]['name']] = keys[i]['name'];
-      }
+      value = keys.reduce((rows, {name}) => (
+        {
+          ...rows,
+          [name]: name
+        }
+      ), {});
     } else {
       value = this.props.row;
     }

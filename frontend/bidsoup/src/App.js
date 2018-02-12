@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Table from './jobitem/Table';
+import Table from './jobitemtable/components/Table';
 
 const data = {
   category: 'labor',
@@ -21,7 +21,7 @@ const data = {
   rows: [{
     description: 'This is a long description for an item',
     quantity: 10,
-    price: 999.99
+    price: 9999.99
   },{
     description: 'Some description',
     quantity: 13,

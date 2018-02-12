@@ -18,10 +18,10 @@ export default class Overview extends Component {
       }
     ];
 
-    let overview = overviewData.map(row => (
+    let overview = overviewData.map((row, i) => (
       <Row
         background={this.props.background}
-        key={overviewData.indexOf(row)}
+        key={i}
         keys={this.props.keys}
         row={row['data']}
         rowStyle={row['style']}

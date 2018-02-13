@@ -1,46 +1,50 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
-import logo from './logo.svg';
-import './App.css';
+import Table from './jobitemtable/components/Table';
 
-const ApiText = styled.p`
-  color: rgb(24, 90, 134);
-  font-size: large;
-`;
+const data = {
+  category: 'labor',
+  color: '#05b57a',
+  columns: [{
+      name: 'description',
+      style: 'text'
+    },{
+      name: 'quantity',
+      style: 'number'
+    },{
+      name: 'price',
+      style: 'currency'
+    },{
+      name: 'total',
+      style: 'currency'
+    }
+  ],
+  rows: [{
+    description: 'This is a long description for an item',
+    quantity: 10,
+    price: 9999.99
+  },{
+    description: 'Some description',
+    quantity: 13,
+    price: 5400
+  },{
+    description: 'Some description',
+    quantity: 8,
+    price: 5141
+  },{
+    description: 'Some description',
+    quantity: 4,
+    price: 2540
+  },{
+    description: 'Some description',
+    quantity: 16,
+    price: 2354
+  }]
+}
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      data: null,
-    };
-  }
-
-  componentDidMount() {
-    fetch('/api/bids')
-    .then(results => {
-      return results.json();
-    }).then(data => {
-      this.setState({data:data.message});
-    }).catch(error => {
-      this.setState({data:"Failed to GET"})
-      console.log(error);
-    })
-  }
-
   render() {
-    console.log(this.state.data);
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <ApiText>{this.state.data}</ApiText>
-      </div>
+      <Table {...data} />
     );
   }
 }

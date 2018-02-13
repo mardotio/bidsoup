@@ -24,6 +24,11 @@ With Docker installed, you can follow these steps:
 
 The package [web-pdb](https://github.com/romanvm/python-web-pdb) is installed to assist with debugging. To use, add `import web_pdb; web_pdb.set_trace()` on a line you wish to set a breakpoing and then when it is hit, open a browser at \<IP>:5555. More documention is available on the python-web-pdb github page.
 
+### Loading Data ###
+Data can be seeded using django's fixture tools. Running `manage.py loaddata <fixture>` will place the data into the database.
+
+If for some reason you want to start over in development with a fresh database, a command is available to drop all the tables and re-migrate. To do this, run `./manage.py updatedb --reset`.
+
 ### Deploy ###
 TBD
 

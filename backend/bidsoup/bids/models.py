@@ -2,14 +2,18 @@ from django.db import models
 
 class Customer(models.Model):
     name = models.CharField(max_length=100)
-    address = models.CharField(max_length=100)
-    phone = models.CharField(max_length=15)
-    email = models.EmailField()
+    address = models.CharField(max_length=100, blank=True)
+    phone = models.CharField(max_length=15, blank=True)
+    email = models.EmailField(blank=True)
+
+    def __str__(self):
+        return self.name
 
 class Category(models.Model):
+    bid = models.ForeignKey('Bid', on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    markup_percent = models.DecimalField(max_digits=6, decimal_places=3)
+    markup_percent = models.DecimalField(max_digits=6, decimal_places=3, null=True, blank=True)
     color = models.CharField(max_length=6)
 
     def __str__(self):
@@ -18,7 +22,7 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = "categories"
 
-class ItemType(models.Model):
+class UnitType(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     UNIT_CHOICES = (
@@ -38,21 +42,32 @@ class ItemType(models.Model):
         return self.name
 
 class BidItem(models.Model):
+    """
+    The BidItem instances make up the data affecting the price of the bid.
+    A BidItem has either a unit_type OR a price. The unit_type/quantity
+    can make up the items price, or the price can be explicit.
+    """
     bid = models.ForeignKey('Bid', on_delete=models.CASCADE, db_index=True)
-    item_type = models.ForeignKey(ItemType, on_delete=models.PROTECT)
+    unit_type = models.ForeignKey(UnitType, on_delete=models.PROTECT, null=True, blank=True)
+    price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+    description = models.CharField(max_length=100, blank=True)
     notes = models.TextField(blank=True)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-    markup_percent = models.DecimalField(max_digits=6, decimal_places=3)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    markup_percent = models.DecimalField(max_digits=6, decimal_places=3, null=True, blank=True)
     quantity = models.DecimalField(max_digits=7, decimal_places=2)
-    parent = models.ForeignKey('BidTask', on_delete=models.SET_NULL, null=True, blank=True)
+    parent = models.ForeignKey('BidTask', on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
-        return self.item_type
+        return self.item_type.name
 
 class BidTask(models.Model):
-    parent = models.ForeignKey('BidTask', on_delete=models.SET_NULL, null=True)
+    parent = models.ForeignKey('BidTask', on_delete=models.SET_NULL, null=True, blank=True)
+    bid = models.ForeignKey('Bid', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.TextField()
+
+    def __str__(self):
+        return self.title
 
 class Bid(models.Model):
     name = models.CharField(max_length=100)
@@ -60,6 +75,7 @@ class Bid(models.Model):
     bid_date = models.DateField()
     created_on = models.DateTimeField(auto_now_add=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True)
+    tax_percent = models.DecimalField(max_digits=5, decimal_places=3, null=True, blank=True)
 
     def __str__(self):
         return self.name

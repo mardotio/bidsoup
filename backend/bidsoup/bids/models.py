@@ -52,7 +52,7 @@ class BidItem(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     description = models.CharField(max_length=100, blank=True)
     notes = models.TextField(blank=True)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     markup_percent = models.DecimalField(max_digits=6, decimal_places=3, null=True, blank=True)
     quantity = models.DecimalField(max_digits=7, decimal_places=2)
     parent = models.ForeignKey('BidTask', on_delete=models.SET_NULL, blank=True, null=True)
@@ -75,7 +75,7 @@ class Bid(models.Model):
     bid_date = models.DateField()
     created_on = models.DateTimeField(auto_now_add=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True)
-#    tax_percent = models.DecimalField(max_digits=5, decimal_places=3)
+    tax_percent = models.DecimalField(max_digits=5, decimal_places=3, null=True, blank=True)
 
     def __str__(self):
         return self.name

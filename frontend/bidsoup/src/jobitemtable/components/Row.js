@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Cell from './Cell';
 
@@ -48,56 +48,56 @@ const determineFontColor = color => {
     : 'white';
 };
 
-export default class Row extends Component {
-  getCells() {
-    let keys = this.props.isKeys
-      ? this.props.row
-      : this.props.keys;
+const getCells = ({isKeys, row, rowStyle, keys}) => {
+  let rowKeys = isKeys
+    ? row
+    : keys;
 
-    let value;
-    if (this.props.isKeys) {
-      value = keys.reduce((rows, {name}) => (
-        {
-          ...rows,
-          [name]: name
-        }
-      ), {});
+  let value;
+  if (isKeys) {
+    value = rowKeys.reduce((rows, {name}) => (
+      {
+        ...rows,
+        [name]: name
+      }
+    ), {});
+  } else {
+    value = row;
+  }
+
+  let contents = rowKeys.map(key => {
+    let cellStyle = rowStyle === 'header'
+      ? 'header'
+      : key['style']
+    let cellValue;
+    if (value.hasOwnProperty(key['name'])) {
+      cellValue = value[key['name']]
     } else {
-      value = this.props.row;
+      cellValue = null;
     }
 
-    let contents = keys.map(key => {
-      let cellStyle = this.props.rowStyle === 'header'
-        ? 'header'
-        : key['style']
-      let cellValue;
-      if (value.hasOwnProperty(key['name'])) {
-        cellValue = value[key['name']]
-      } else {
-        cellValue = null;
-      }
-
-      return (
-        <Cell
-          key={key['name']}
-          category={key['name']}
-          value={cellValue}
-          cellStyle={cellStyle}
-        />
-      );
-    });
-    return contents;
-  }
-
-  render() {
     return (
-      <TableRow
-        background={this.props.background}
-        large={this.props.rowStyle === 'header'}
-        isKeys={this.props.isKeys}
-      >
-        {this.getCells()}
-      </TableRow>
+      <Cell
+        key={key['name']}
+        category={key['name']}
+        value={cellValue}
+        cellStyle={cellStyle}
+      />
     );
-  }
-}
+  });
+  return contents;
+};
+
+const Row = props => {
+  return (
+    <TableRow
+      background={props.background}
+      large={props.rowStyle === 'header'}
+      isKeys={props.isKeys}
+    >
+      {getCells(props)}
+    </TableRow>
+  );
+};
+
+export default Row;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const TableCell = styled.div`
@@ -39,44 +39,43 @@ const beautifyNumber = num => (
   num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 );
 
-export default class Cell extends Component {
-  styleCell() {
-    let contents;
-    let {value, cellStyle} = this.props
-    switch (cellStyle) {
-      case 'header':
-        contents = capitalizeHeader(value);
-        break;
-      case 'currency':
-        contents = (
-          <React.Fragment>
-            $<CurrencySpan>{beautifyNumber(value.toFixed(2))}</CurrencySpan>
-          </React.Fragment>
-        );
-        break;
-      case 'number':
-        contents = beautifyNumber(value);
-        break;
-      case 'text':
-        contents = capitalize(value);
-        break;
-      default:
-        contents = value;
-    }
-    return contents;
+const styleCell = ({value, cellStyle}) => {
+  let contents;
+  switch (cellStyle) {
+    case 'header':
+      contents = capitalizeHeader(value);
+      break;
+    case 'currency':
+      contents = (
+        <React.Fragment>
+          $<CurrencySpan>{beautifyNumber(value.toFixed(2))}</CurrencySpan>
+        </React.Fragment>
+      );
+      break;
+    case 'number':
+      contents = beautifyNumber(value);
+      break;
+    case 'text':
+      contents = capitalize(value);
+      break;
+    default:
+      contents = value;
+  }
+  return contents;
+};
+
+const Cell = props => {
+  let contents = props.value;
+
+  if (contents) {
+    contents = styleCell(props);
   }
 
-  render() {
-    let contents = this.props.value;
-
-    if (contents) {
-      contents = this.styleCell(this.props.value, this.props.cellStyle);
-    }
-
-    return (
-      <TableCell category={this.props.category}>
-        {contents}
-      </TableCell>
-    );
-  }
+  return (
+    <TableCell category={props.category}>
+      {contents}
+    </TableCell>
+  );
 }
+
+export default Cell;

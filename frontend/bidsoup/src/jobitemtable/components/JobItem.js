@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import Table from './Table';
+
+const TableContainer = styled.div`
+  display: flex;
+`
 
 class JobItem extends Component {
   createCategoryTables() {
@@ -18,9 +23,9 @@ class JobItem extends Component {
 
   render() {
     return (
-      <div>
+      <TableContainer>
         {this.createCategoryTables()}
-      </div>
+      </TableContainer>
     );
   }
 

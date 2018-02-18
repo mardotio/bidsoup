@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Row from './Row';
 import Overview from './Overview';
@@ -10,53 +10,52 @@ const TableWrapper = styled.div`
   box-shadow: 0px 1px 3px 1px rgba(0,0,0,0.1);
 `
 
-export default class Table extends Component {
-  columns2Headers() {
-    let {columns} = this.props
-    let convertedColumns = columns.reduce((row, column) => (
-      {
-        ...row,
-        [column.name]: column.name
-      }
-    ), {});
-    return convertedColumns;
-  }
-
-  render() {
-    let categoryTotal = 0;
-    let rows = this.props.rows.map(row => {
-      let total = row.price * row.quantity;
-      categoryTotal += total;
-      let rowWithTotal = {
-        ...row,
-        total
-      }
-      return (
-        <Row
-          key={this.props.rows.indexOf(row)}
-          keys={this.props.columns}
-          row={rowWithTotal}
-        />);
-    });
-    let categoryData = {
-      category: this.props.category,
-      total: categoryTotal
+const columns2Headers = columns => {
+  let convertedColumns = columns.reduce((row, column) => (
+    {
+      ...row,
+      [column.name]: column.name
     }
+  ), {});
+  return convertedColumns;
+};
 
+const Table = props => {
+  let categoryTotal = 0;
+  let rows = props.rows.map(row => {
+    let total = row.price * row.quantity;
+    categoryTotal += total;
+    let rowWithTotal = {
+      ...row,
+      total
+    }
     return (
-      <TableWrapper>
-        <Row
-          keys={this.props.columns}
-          row={this.columns2Headers()}
-          isHeader={true}
-        />
-        {rows}
-        <Overview
-          background={this.props.color}
-          value={categoryData}
-          keys={this.props.columns}
-        />
-      </TableWrapper>
-    );
+      <Row
+        key={props.rows.indexOf(row)}
+        keys={props.columns}
+        row={rowWithTotal}
+      />);
+  });
+  let categoryData = {
+    category: props.category,
+    total: categoryTotal
   }
-}
+
+  return (
+    <TableWrapper>
+      <Row
+        keys={props.columns}
+        row={columns2Headers(props.columns)}
+        isHeader={true}
+      />
+      {rows}
+      <Overview
+        background={props.color}
+        value={categoryData}
+        keys={props.columns}
+      />
+    </TableWrapper>
+  );
+};
+
+export default Table;

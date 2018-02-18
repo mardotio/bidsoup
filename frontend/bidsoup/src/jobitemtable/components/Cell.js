@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import {capitalize, capitalizeAll, beautifyNumber} from '../../utils/styling'
 
 const TableCell = styled.div`
   box-sizing: border-box;
@@ -25,25 +26,11 @@ const CurrencySpan = styled.span`
   float: right;
 `
 
-const capitalize = word => (word[0].toUpperCase() + word.slice(1));
-
-const capitalizeHeader = word => {
-  let words = word.split(' ');
-  let capitalizedWords = words.map(singleWord => (
-    capitalize(singleWord)
-  ));
-  return capitalizedWords.join(' ');
-};
-
-const beautifyNumber = num => (
-  num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-);
-
 const styleCell = ({value, cellStyle}) => {
   let contents;
   switch (cellStyle) {
     case 'header':
-      contents = capitalizeHeader(value);
+      contents = capitalizeAll(value);
       break;
     case 'currency':
       contents = (

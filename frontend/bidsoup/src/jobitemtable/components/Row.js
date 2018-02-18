@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Cell from './Cell';
+import {determineFontColor} from '../../utils/styling'
 
 const TableRow = styled.div`
   display: flex;
@@ -27,26 +28,6 @@ const TableRow = styled.div`
     }};
   }
 `
-
-const hexToRgb = hex => {
-  let colorSections = /([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  let red = parseInt(colorSections[1], 16);
-  let green = parseInt(colorSections[2], 16);
-  let blue = parseInt(colorSections[3], 16);
-  return ({
-    red,
-    green,
-    blue
-  });
-};
-
-const determineFontColor = color => {
-  let {red, green, blue} = hexToRgb(color);
-  let check = 1 - (0.299 * red + 0.587 * green + 0.114 * blue) / 255;
-  return (check < 0.5)
-    ? 'black'
-    : 'white';
-};
 
 const getCells = ({isKeys, row, rowStyle, keys}) => {
   let rowKeys = isKeys

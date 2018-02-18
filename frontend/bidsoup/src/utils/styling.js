@@ -8,7 +8,7 @@ export const hex2Rgb = hex => {
     green,
     blue
   });
-}
+};
 
 export const determineFontColor = color => {
   let {red, green, blue} = hex2Rgb(color);
@@ -30,4 +30,4 @@ export const capitalizeAll = word => {
 
 export const beautifyNumber = num => (
   num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-)
+);

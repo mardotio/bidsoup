@@ -11,10 +11,21 @@ const TableWrapper = styled.div`
 `
 
 export default class Table extends Component {
+  columns2Headers() {
+    let {columns} = this.props
+    let convertedColumns = columns.reduce((row, column) => (
+      {
+        ...row,
+        [column.name]: column.name
+      }
+    ), {});
+    return convertedColumns;
+  }
+
   render() {
     let categoryTotal = 0;
     let rows = this.props.rows.map(row => {
-      let total = row['price'] * row['quantity'];
+      let total = row.price * row.quantity;
       categoryTotal += total;
       let rowWithTotal = {
         ...row,
@@ -35,9 +46,9 @@ export default class Table extends Component {
     return (
       <TableWrapper>
         <Row
-          row={this.props.columns}
-          rowStyle={'header'}
-          isKeys={true}
+          keys={this.props.columns}
+          row={this.columns2Headers()}
+          isHeader={true}
         />
         {rows}
         <Overview

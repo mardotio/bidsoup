@@ -10,11 +10,11 @@ const TableRow = styled.div`
     ? determineFontColor(props.background)
     : 'inherit'
   };
-  font-size: ${props => (props.large)
+  font-size: ${props => (props.isHeader)
     ? '.9em'
     : '.8em'
   };
-  border-bottom: ${props => (props.background || props.isKeys)
+  border-bottom: ${props => (props.background || props.isHeader)
     ? '0'
     : '1px solid #eaeaea'
   };
@@ -29,38 +29,21 @@ const TableRow = styled.div`
   }
 `
 
-const getCells = ({isKeys, row, rowStyle, keys}) => {
-  let rowKeys = isKeys
-    ? row
-    : keys;
-
-  let value;
-  if (isKeys) {
-    value = rowKeys.reduce((rows, {name}) => (
-      {
-        ...rows,
-        [name]: name
-      }
-    ), {});
-  } else {
-    value = row;
-  }
-
-  let contents = rowKeys.map(key => {
-    let cellStyle = rowStyle === 'header'
+const getCells = ({row, isHeader, keys}) => {
+  let contents = keys.map(key => {
+    let cellStyle = isHeader
       ? 'header'
-      : key['style']
+      : key.style
     let cellValue;
-    if (value.hasOwnProperty(key['name'])) {
-      cellValue = value[key['name']]
+    if (row.hasOwnProperty(key.name)) {
+      cellValue = row[key.name]
     } else {
       cellValue = null;
     }
-
     return (
       <Cell
-        key={key['name']}
-        category={key['name']}
+        key={key.name}
+        category={key.name}
         value={cellValue}
         cellStyle={cellStyle}
       />
@@ -73,8 +56,7 @@ const Row = props => {
   return (
     <TableRow
       background={props.background}
-      large={props.rowStyle === 'header'}
-      isKeys={props.isKeys}
+      isHeader={props.isHeader}
     >
       {getCells(props)}
     </TableRow>

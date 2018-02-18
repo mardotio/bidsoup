@@ -5,7 +5,7 @@ const Overview = props => {
   let {category, total} = props.value;
   let overviewData = [
     {
-      style: 'header',
+      isHeader: true,
       data: {
         description: category
       }
@@ -22,9 +22,9 @@ const Overview = props => {
       background={props.background}
       key={i}
       keys={props.keys}
-      row={row['data']}
-      rowStyle={row['style']}
-      />
+      row={row.data}
+      isHeader={row.isHeader}
+    />
   ));
 
   return overview;

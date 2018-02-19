@@ -7,7 +7,7 @@ const TableWrapper = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 500px;
-  box-shadow: 0px 1px 3px 1px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.37);
   margin: 1em;
 `
 

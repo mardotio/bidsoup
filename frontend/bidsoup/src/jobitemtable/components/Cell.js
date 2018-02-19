@@ -63,6 +63,6 @@ const Cell = props => {
       {contents}
     </TableCell>
   );
-}
+};
 
 export default Cell;

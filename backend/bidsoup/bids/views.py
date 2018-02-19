@@ -1,6 +1,70 @@
-from rest_framework.decorators import api_view
+from .models import Bid, BidItem, BidTask, Category, Customer, UnitType
+from django.db.models import Q
+from rest_framework import viewsets
+from rest_framework.decorators import detail_route
 from rest_framework.response import Response
+from .serializers import BidSerializer, BidItemSerializer, BidTaskSerializer, \
+                         CustomerSerializer, CategorySerializer, \
+                         UnitTypeSerializer
 
-@api_view()
-def test(request):
-    return Response({"message": "Hello, World!"})
+
+class BidViewSet(viewsets.ModelViewSet):
+    queryset = Bid.objects.all().order_by('-created_on')
+    serializer_class = BidSerializer
+
+
+class BidItemViewSet(viewsets.ModelViewSet):
+    serializer_class = BidItemSerializer
+
+    def get_queryset(self):
+        q = BidItem.objects.all()
+        if 'bid_pk' in self.kwargs:
+            q = q.filter(bid_id=self.kwargs['bid_pk'])
+
+        return q
+
+
+class BidTaskViewSet(viewsets.ModelViewSet):
+    serializer_class = BidTaskSerializer
+
+    def get_queryset(self):
+        q = BidTask.objects.all().filter(Q(parent=None))
+        if 'bid_pk' in self.kwargs:
+            q = q.filter(bid_id=self.kwargs['bid_pk'])
+
+        return q
+
+    def get_object(self):
+        """Custom function for detail view because queryset only returns
+        tasks at root.
+        """
+        print(self.kwargs[self.lookup_field])
+        task = BidTask.objects.get(pk=self.kwargs[self.lookup_field])
+        return task
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    serializer_class = CategorySerializer
+
+    def get_queryset(self):
+        q = Category.objects.all()
+        if 'bid_pk' in self.kwargs:
+            q = q.filter(bid_id=self.kwargs['bid_pk'])
+
+        return q
+
+
+class CustomerViewSet(viewsets.ModelViewSet):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+
+    @detail_route(methods=['get'])
+    def bids(self, request, pk=None):
+        queryset = Bid.objects.all().filter(customer_id=pk)
+        serializer = BidSerializer(queryset, many=True, context={'request':request})
+        return Response(serializer.data)
+
+
+class UnitTypeViewSet(viewsets.ModelViewSet):
+    queryset = UnitType.objects.all()
+    serializer_class = UnitTypeSerializer

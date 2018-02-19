@@ -58,10 +58,10 @@ class BidItem(models.Model):
     parent = models.ForeignKey('BidTask', on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
-        return self.item_type.name
+        return self.unit_type.name
 
 class BidTask(models.Model):
-    parent = models.ForeignKey('BidTask', on_delete=models.SET_NULL, null=True, blank=True)
+    parent = models.ForeignKey('BidTask', on_delete=models.SET_NULL, null=True, blank=True, related_name='children')
     bid = models.ForeignKey('Bid', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.TextField()
@@ -71,7 +71,7 @@ class BidTask(models.Model):
 
 class Bid(models.Model):
     name = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     bid_date = models.DateField()
     created_on = models.DateTimeField(auto_now_add=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True)

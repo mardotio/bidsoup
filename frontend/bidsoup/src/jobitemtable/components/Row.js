@@ -29,7 +29,7 @@ const TableRow = styled.div`
   }
 `
 
-const getCells = ({row, isHeader, keys}) => {
+const getCells = ({row, isHeader, keys, sortBy}) => {
   let contents = keys.map(key => {
     let cellStyle = isHeader
       ? 'header'
@@ -46,6 +46,7 @@ const getCells = ({row, isHeader, keys}) => {
         category={key.name}
         value={cellValue}
         cellStyle={cellStyle}
+        sortBy={() => sortBy(cellValue)}
       />
     );
   });

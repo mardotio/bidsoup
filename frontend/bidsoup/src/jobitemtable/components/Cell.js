@@ -59,7 +59,10 @@ const Cell = props => {
   }
 
   return (
-    <TableCell category={props.category}>
+    <TableCell
+      category={props.category}
+      onClick={props.sortBy}
+    >
       {contents}
     </TableCell>
   );

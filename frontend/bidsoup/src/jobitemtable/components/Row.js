@@ -20,8 +20,8 @@ const TableRow = styled.div`
   };
   &:hover {
     background-color: ${props => {
-      if (props.isKeys) {
-        return 'white';
+      if (props.isHeader) {
+        return props.background || 'white';
       } else {
         return props.background || '#eaeaea';
       }
@@ -29,7 +29,7 @@ const TableRow = styled.div`
   }
 `
 
-const getCells = ({row, isHeader, keys, sortBy}) => {
+const getCells = ({row, isHeader, keys, sortBy, filter}) => {
   let contents = keys.map(key => {
     let cellStyle = isHeader
       ? 'header'
@@ -46,7 +46,8 @@ const getCells = ({row, isHeader, keys, sortBy}) => {
         category={key.name}
         value={cellValue}
         cellStyle={cellStyle}
-        sortBy={() => sortBy(cellValue)}
+        highlight={key.name === filter}
+        sortBy={sortBy ? () => sortBy(cellValue) : null}
       />
     );
   });

@@ -15,7 +15,7 @@ export default class Table extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sortBy: this.props.columns[0].name,
+      sortBy: null,
       reverse: false,
     };
     this.sortBy = this.sortBy.bind(this);
@@ -45,35 +45,38 @@ export default class Table extends Component {
   }
 
   dataSort() {
-    //TODO: Verify sorting of words
+    let {sortBy, reverse} = this.state;
     let rows = this.props.rows.slice();
-    let {sortBy} = this.state
-    if (this.state.reverse) {
-      rows.sort((a, b) => a[sortBy] - b[sortBy]);
-    } else {
-      rows.sort((a, b) => b[sortBy] - a[sortBy]);
+    if (sortBy) {
+      let style = this.props.columns.reduce((colStyle, col) => {
+        if (col.name === sortBy) {
+          return col.style;
+        } else {
+          return colStyle;
+        }
+      }, '');
+      if (style === 'text') {
+        rows.sort((a, b) => a[sortBy].localeCompare(b[sortBy]));
+      } else {
+        rows.sort((a, b) => b[sortBy] - a[sortBy]);
+      }
+      if (reverse) {
+        rows.reverse();
+      }
     }
-    console.log(this.props.rows)
-    console.log(rows);
     return rows;
   }
 
   render() {
     let categoryTotal = 0;
     let sortedRows = this.dataSort();
-    //TODO: allow sorting by total
     let rows = sortedRows.map(row => {
-      let total = row.price * row.quantity;
-      categoryTotal += total;
-      let rowWithTotal = {
-        ...row,
-        total
-      }
+      categoryTotal += row.total;
       return (
         <Row
           key={this.props.rows.indexOf(row)}
           keys={this.props.columns}
-          row={rowWithTotal}
+          row={row}
         />);
     });
     let categoryData = {
@@ -88,6 +91,7 @@ export default class Table extends Component {
           row={this.columns2Headers()}
           sortBy={this.sortBy}
           isHeader={true}
+          filter={this.state.sortBy}
         />
         {rows}
         <Overview

@@ -20,13 +20,14 @@ const TableCell = styled.div`
   }};
   cursor: pointer;
   flex-shrink: ${props => props.category === 'description' ? '2' : '1'};
+  color: ${props => props.highlight ? '#435466' : 'inherit'};
 `
 
 const CurrencySpan = styled.span`
   float: right;
 `
 
-const styleCell = ({value, cellStyle}) => {
+const styleCell = ({value, cellStyle, highlight}) => {
   let contents;
   switch (cellStyle) {
     case 'header':
@@ -61,6 +62,7 @@ const Cell = props => {
   return (
     <TableCell
       category={props.category}
+      highlight={props.highlight}
       onClick={props.sortBy}
     >
       {contents}

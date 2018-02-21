@@ -1,5 +1,5 @@
 const JobItemsReducer = () => {
-  return [{
+  let itemData = [{
     category: 'labor',
     color: '#05b57a',
     columns: [{
@@ -114,6 +114,21 @@ const JobItemsReducer = () => {
       price: 2354
     }]
   }];
+
+  let itemsWithTotal = itemData.map(item => {
+    let rows = item.rows.map(row => (
+      {
+        ...row,
+        total: row.quantity * row.price,
+      }
+    ));
+    return {
+      ...item,
+      rows,
+    };
+  });
+  
+  return itemsWithTotal;
 };
 
 export default JobItemsReducer;

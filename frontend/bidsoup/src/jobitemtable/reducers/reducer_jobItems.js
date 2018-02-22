@@ -68,6 +68,18 @@ const JobItemsReducer = () => {
       price: 5141
     },{
       description: 'Some description',
+      quantity: 8,
+      price: 5141
+    },{
+      description: 'Some description',
+      quantity: 8,
+      price: 5141
+    },{
+      description: 'Some description',
+      quantity: 8,
+      price: 5141
+    },{
+      description: 'Some description',
       quantity: 4,
       price: 2540
     },{
@@ -104,6 +116,10 @@ const JobItemsReducer = () => {
       description: 'Some description',
       quantity: 8,
       price: 5141
+    },{
+      description: 'Some description',
+      quantity: 4,
+      price: 2540
     },{
       description: 'Some description',
       quantity: 4,

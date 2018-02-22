@@ -9,6 +9,7 @@ const TableWrapper = styled.div`
   max-width: 500px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.37);
   margin: 1em;
+  height: min-content;
 `
 
 export default class Table extends Component {

@@ -13,6 +13,7 @@ const JobItemHeader = styled.div`
 const TableContainer = styled.div`
   display: flex;
   margin-left: 1em;
+  flex-wrap: wrap;
 `
 
 const createCategoryTables = ({jobItems}) => {

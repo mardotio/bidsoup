@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import Cell from './Cell';
-import {determineFontColor} from '../../utils/styling'
+import { determineFontColor } from '../../utils/styling'
+
+const offColor = '#eaeaea';
 
 const TableRow = styled.div`
   display: flex;
@@ -20,14 +22,14 @@ const TableRow = styled.div`
   };
   border-bottom: ${props => (props.background || props.isHeader)
     ? '0'
-    : '1px solid #eaeaea'
+    : `1px solid ${offColor}`
   };
   &:hover {
     background-color: ${props => {
       if (props.isHeader) {
         return props.background || 'white';
       } else {
-        return props.background || '#eaeaea';
+        return props.background || offColor;
       }
     }};
   }

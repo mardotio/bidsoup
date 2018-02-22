@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import {capitalize, beautifyNumber} from '../../utils/styling'
+import { capitalize, beautifyNumber } from '../../utils/styling'
+
+const selectedHeaderColor = '#435466'
 
 const TableCell = styled.div`
   box-sizing: border-box;
@@ -20,7 +22,7 @@ const TableCell = styled.div`
   }};
   cursor: pointer;
   flex-shrink: ${props => props.category === 'description' ? '2' : '1'};
-  color: ${props => props.highlight ? '#435466' : 'inherit'};
+  color: ${props => props.highlight ? selectedHeaderColor : 'inherit'};
 `
 
 const CurrencySpan = styled.span`

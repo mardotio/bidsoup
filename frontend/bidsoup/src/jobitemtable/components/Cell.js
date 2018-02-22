@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import {capitalize, capitalizeAll, beautifyNumber} from '../../utils/styling'
+import { capitalize, beautifyNumber } from '../../utils/styling'
+
+const selectedHeaderColor = '#435466'
 
 const TableCell = styled.div`
   box-sizing: border-box;
@@ -20,17 +22,18 @@ const TableCell = styled.div`
   }};
   cursor: pointer;
   flex-shrink: ${props => props.category === 'description' ? '2' : '1'};
+  color: ${props => props.highlight ? selectedHeaderColor : 'inherit'};
 `
 
 const CurrencySpan = styled.span`
   float: right;
 `
 
-const styleCell = ({value, cellStyle}) => {
+const styleCell = ({value, cellStyle, highlight}) => {
   let contents;
   switch (cellStyle) {
     case 'header':
-      contents = capitalizeAll(value);
+      contents = value.toUpperCase();
       break;
     case 'currency':
       contents = (
@@ -59,10 +62,14 @@ const Cell = props => {
   }
 
   return (
-    <TableCell category={props.category}>
+    <TableCell
+      category={props.category}
+      highlight={props.highlight}
+      onClick={props.sortBy}
+    >
       {contents}
     </TableCell>
   );
-}
+};
 
 export default Cell;

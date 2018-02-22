@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import Cell from './Cell';
-import {determineFontColor} from '../../utils/styling'
+import { determineFontColor } from '../../utils/styling'
+
+const offColor = '#eaeaea';
 
 const TableRow = styled.div`
   display: flex;
@@ -11,25 +13,29 @@ const TableRow = styled.div`
     : 'inherit'
   };
   font-size: ${props => (props.isHeader)
-    ? '.9em'
-    : '.8em'
+    ? '.85em'
+    : '1em'
+  };
+  font-weight: ${props => (props.isHeader)
+    ? '600'
+    : 'inherit'
   };
   border-bottom: ${props => (props.background || props.isHeader)
     ? '0'
-    : '1px solid #eaeaea'
+    : `1px solid ${offColor}`
   };
   &:hover {
     background-color: ${props => {
-      if (props.isKeys) {
-        return 'white';
+      if (props.isHeader) {
+        return props.background || 'white';
       } else {
-        return props.background || '#eaeaea';
+        return props.background || offColor;
       }
     }};
   }
 `
 
-const getCells = ({row, isHeader, keys}) => {
+const getCells = ({row, isHeader, keys, sortBy, filter}) => {
   let contents = keys.map(key => {
     let cellStyle = isHeader
       ? 'header'
@@ -46,6 +52,8 @@ const getCells = ({row, isHeader, keys}) => {
         category={key.name}
         value={cellValue}
         cellStyle={cellStyle}
+        highlight={key.name === filter}
+        sortBy={sortBy ? () => sortBy(cellValue) : null}
       />
     );
   });

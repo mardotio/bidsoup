@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {capitalize, capitalizeAll, beautifyNumber} from '../../utils/styling'
+import {capitalize, beautifyNumber} from '../../utils/styling'
 
 const TableCell = styled.div`
   box-sizing: border-box;
@@ -31,7 +31,7 @@ const styleCell = ({value, cellStyle, highlight}) => {
   let contents;
   switch (cellStyle) {
     case 'header':
-      contents = capitalizeAll(value);
+      contents = value.toUpperCase();
       break;
     case 'currency':
       contents = (

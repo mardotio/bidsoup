@@ -11,8 +11,12 @@ const TableRow = styled.div`
     : 'inherit'
   };
   font-size: ${props => (props.isHeader)
-    ? '.9em'
-    : '.8em'
+    ? '.85em'
+    : '1em'
+  };
+  font-weight: ${props => (props.isHeader)
+    ? '600'
+    : 'inherit'
   };
   border-bottom: ${props => (props.background || props.isHeader)
     ? '0'

@@ -28,6 +28,12 @@ export const capitalizeAll = word => {
   return capitalizedWords.join(' ');
 };
 
-export const beautifyNumber = num => (
-  num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-);
+export const beautifyNumber = (num, accuracy = null) => {
+  let numToFormat = accuracy
+    ? num.toFixed(accuracy)
+    : num;
+  let numParts = numToFormat.toString().split('.');
+  let [dollarAmount] = numParts; 
+  numParts[0] = dollarAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return numParts.join('.');
+};

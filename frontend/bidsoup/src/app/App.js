@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import JobItem from './jobitemtable/containers/JobItem';
+import JobItem from './jobItem/containers/JobItem';
 
 export default class App extends Component {
   render() {

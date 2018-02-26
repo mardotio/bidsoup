@@ -38,7 +38,7 @@ const styleCell = ({value, cellStyle, highlight}) => {
     case 'currency':
       contents = (
         <React.Fragment>
-          $<CurrencySpan>{beautifyNumber(value.toFixed(2))}</CurrencySpan>
+          $<CurrencySpan>{beautifyNumber(value, 2)}</CurrencySpan>
         </React.Fragment>
       );
       break;

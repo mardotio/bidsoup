@@ -1,5 +1,6 @@
 import React from 'react';
 import JobItem from '../containers/JobItem';
+import TaskTree from '../components/TaskTree';
 
 const TaskItem = props => {
   let {categoriesAreFetching, itemsAreFetching} = props;
@@ -7,7 +8,7 @@ const TaskItem = props => {
     return (
       <React.Fragment>
         <button
-          onClick={() => props.refreshItems(2)}
+          onClick={() => props.refreshItems(1)}
         >
           Click to load
         </button>
@@ -32,14 +33,13 @@ const TaskItem = props => {
       >
         Click to load
       </button>
-      <button
-        onClick={() => props.selectTask(
-          "http://192.168.99.100:3000/api/bidtasks/6/",
+      <TaskTree
+        tasks={props.tasks}
+        onTaskSelect={t => props.selectTask(
+          t,
           props.categories.list,
-          props.items.list)}
-      >
-        Click display data
-      </button>
+          props.items)}
+      />
       <JobItem />
     </React.Fragment>
   );

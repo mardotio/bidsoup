@@ -18,10 +18,14 @@
     "noUnusedLocals": true,
     "baseUrl": ".",
     "typeRoots": [
-        "node_modules/@types"
+        "node_modules/@types",
+        "src/types"
     ],
     "paths": {
-        "react": ["node_modules/@types/react"]
+        "react": ["node_modules/@types/react"],
+        "redux-thunk": ["src/types/redux-thunk"],
+        "cross-fetch": ["src/types/cross-fetch"]
+
     }
   },
   "exclude": [

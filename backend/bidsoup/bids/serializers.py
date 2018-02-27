@@ -31,12 +31,9 @@ class CustomerSerializer(serializers.HyperlinkedModelSerializer):
             model = Bid
             fields = ('id', 'name', 'bid_date')
 
-    #TODO Don't need this probably
-    bid_set = BidSer(many=True, read_only=True)
-
     class Meta:
         model = Customer
-        fields = ('id', 'name', 'email', 'phone', 'bid_set')
+        fields = ('id', 'name', 'email', 'phone')
 
 class UnitTypeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

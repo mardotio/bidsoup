@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='bid',
-            name='description',
-            field=models.TextField(blank=True),
+            name='customer',
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='bids', to='bids.Customer'),
         ),
     ]

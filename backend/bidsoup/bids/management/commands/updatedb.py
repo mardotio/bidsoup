@@ -23,7 +23,7 @@ class Command(BaseCommand):
                 with psycopg2.connect(dbname='postgres', user='postgres', password=passwd, host='db') as conn:
                     tables = []
                     with conn.cursor() as curs:
-                        curs.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'")
+                        curs.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_name LIKE 'bids%'")
                         for t in curs.fetchall():
                             tables.append(t[0])
 
@@ -34,7 +34,7 @@ class Command(BaseCommand):
                             curs.execute(command)
 
                 conn.close()
-                self.stdout.write('All tables dropped. Now performing all migrations.')
+                self.stdout.write('All bid tables dropped. Now performing all migrations.')
             else:
                 self.stdout.write('Performing migrations only.')
 

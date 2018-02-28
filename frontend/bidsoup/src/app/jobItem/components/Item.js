@@ -21,7 +21,7 @@ export default class Item extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedCategory: 'labor',
+      selectedCategory: this.props.jobItems[0].category,
     };
     this.selectCategory = this.selectCategory.bind(this);
   }

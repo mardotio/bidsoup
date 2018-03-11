@@ -19,7 +19,7 @@ const Card = styled.div`
 `
 
 const CardContent = styled.div`
-  padding: 1em;
+  padding: .5em 1em;
 `
 
 const AlignRight = styled.span`

@@ -32,30 +32,29 @@ const ArrowIcon= styled.i`
   font-size: 16px;
   transition: transform 0.5s ease;
   transform: ${props => (
-    props.flip
+    props.reverseOrder
       ? 'rotate(180deg)'
       : 'rotate(0)'
   )};
 `
 
-const styleCell = ({value, cellStyle, highlight, flip}) => {
+const styleCell = ({value, cellStyle, highlight, reverseOrder}) => {
   let contents;
   switch (cellStyle) {
     case 'header':
-      contents = value.toUpperCase();
-      if (highlight) {
-        contents = (
+      contents = highlight
+        ? (
           <React.Fragment>
-            {contents}
+            {value.toUpperCase()}
             <ArrowIcon
-              flip={flip}
+              reverseOrder={reverseOrder}
               className="material-icons"
             >
               arrow_upward
             </ArrowIcon>
           </React.Fragment>
-        );
-      }
+        )
+        : value.toUpperCase();
       break;
     case 'currency':
       contents = (

@@ -91,7 +91,7 @@ export default class Table extends Component {
           keys={this.props.columns}
           row={this.columns2Headers()}
           sortBy={this.sortBy}
-          flip={this.state.reverse}
+          reverseOrder={this.state.reverse}
           isHeader={true}
           filter={this.state.sortBy}
         />

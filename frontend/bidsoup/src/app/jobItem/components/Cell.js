@@ -20,7 +20,7 @@ const TableCell = styled.div`
   }};
   cursor: pointer;
   flex-shrink: ${props => props.category === 'description' ? '2' : '1'};
-  display: flex;
+  display: ${props => props.cellStyle === 'header' ? 'flex' : 'initial'};
   align-items: center;
 `
 
@@ -87,6 +87,7 @@ const Cell = props => {
       category={props.category}
       highlight={props.highlight}
       onClick={props.sortBy}
+      cellStyle={props.cellStyle}
     >
       {contents}
     </TableCell>

@@ -16,8 +16,8 @@ export default class Table extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sortBy: null,
-      reverse: false,
+      sortBy: this.props.columns[0].name,
+      reverse: true,
     };
     this.sortBy = this.sortBy.bind(this);
   }
@@ -35,7 +35,7 @@ export default class Table extends Component {
 
   sortBy(column) {
     let sortBy = this.state.sortBy;
-    let newStateReverse = false;
+    let newStateReverse = true;
     if (column === sortBy) {
       newStateReverse = !this.state.reverse;
     }
@@ -57,7 +57,7 @@ export default class Table extends Component {
         }
       }, '');
       if (style === 'text') {
-        rows.sort((a, b) => a[sortBy].localeCompare(b[sortBy]));
+        rows.sort((a, b) => b[sortBy].localeCompare(a[sortBy]));
       } else {
         rows.sort((a, b) => b[sortBy] - a[sortBy]);
       }
@@ -91,6 +91,7 @@ export default class Table extends Component {
           keys={this.props.columns}
           row={this.columns2Headers()}
           sortBy={this.sortBy}
+          reverseOrder={this.state.reverse}
           isHeader={true}
           filter={this.state.sortBy}
         />

@@ -35,7 +35,7 @@ const TableRow = styled.div`
   }
 `
 
-const getCells = ({row, isHeader, keys, sortBy, filter}) => {
+const getCells = ({row, isHeader, keys, sortBy, filter, reverseOrder}) => {
   let contents = keys.map(key => {
     let cellStyle = isHeader
       ? 'header'
@@ -53,6 +53,7 @@ const getCells = ({row, isHeader, keys, sortBy, filter}) => {
         value={cellValue}
         cellStyle={cellStyle}
         highlight={key.name === filter}
+        reverseOrder={reverseOrder}
         sortBy={sortBy ? () => sortBy(cellValue) : null}
       />
     );

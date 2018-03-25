@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { determineFontColor } from '../utils/styling'
 
 const defaultSize = '56px';
@@ -41,13 +42,28 @@ const Fab = props => {
   return (
     <ButtonContainer
       buttonColor={props.color}
-      overrideFont={props.overrideColor || false}
-      isMini={props.mini || false}
+      overrideFont={props.overrideColor}
+      isMini={props.mini}
       onClick={() => props.onClick()}
     >
-      <ButtonIcon className="material-icons">{props.icon}</ButtonIcon>
+      <ButtonIcon className="material-icons">
+        {props.icon}
+      </ButtonIcon>
     </ButtonContainer>
   );
+};
+
+Fab.propTypes = {
+  color: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
+  mini: PropTypes.bool,
+  onClick: PropTypes.func.isRequired,
+  overrideColor: PropTypes.bool,
+};
+
+Fab.defaultProps = {
+  mini: false,
+  overrideColor: false,
 };
 
 export default Fab;

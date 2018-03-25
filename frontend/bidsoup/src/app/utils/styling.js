@@ -10,12 +10,18 @@ export const hex2Rgb = hex => {
   });
 };
 
-export const determineFontColor = color => {
+export const determineFontColor = (color, override = false, darkColor = 'black', lightColor = 'white') => {
   let {red, green, blue} = hex2Rgb(color);
   let check = 1 - (0.299 * red + 0.587 * green + 0.114 * blue) / 255;
-  return (check < 0.5)
-    ? 'black'
-    : 'white';
+  if (override) {
+    return (check < 0.5)
+      ? lightColor
+      : darkColor;
+  } else {
+    return (check < 0.5)
+      ? darkColor
+      : lightColor;
+  }
 };
 
 export const capitalize = word => (word[0].toUpperCase() + word.slice(1));

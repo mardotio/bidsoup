@@ -4,6 +4,8 @@ WORKDIR /usr/app
 COPY bidsoup/package.json /usr/app/
 COPY bidsoup/yarn.lock /usr/app/
 RUN yarn install
+COPY bidsoup/tsconfig.json /usr/app/
+COPY bidsoup/tslint.json /usr/app/
 COPY bidsoup/src/ src
 COPY bidsoup/public/ public
 CMD ["npm", "start"]

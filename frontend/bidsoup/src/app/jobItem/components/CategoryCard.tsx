@@ -1,8 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
-import { determineFontColor, beautifyNumber, capitalize } from '../../utils/styling'
+import styled, { StyledFunction } from 'styled-components';
+import { determineFontColor, beautifyNumber, capitalize } from '../../utils/styling';
 
-const Card = styled.div`
+interface CardProps {
+  background: string;
+  selected: boolean;
+}
+
+const stylediv: StyledFunction<CardProps & React.HTMLProps<HTMLDivElement>> = styled.div;
+
+const Card = stylediv`
   box-shadow: ${props => (
     props.selected
       ? '0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.3)'
@@ -12,27 +19,34 @@ const Card = styled.div`
   min-width: 100px;
   height: min-content;
   background-color: ${props => props.background};
-  color: ${props => props.fontColor};
+  color: ${props => determineFontColor(props.background)};
   margin: 1em;
   border-radius: 2px;
   cursor: pointer;
-`
+`;
 
 const CardContent = styled.div`
   padding: .5em 1em;
-`
+`;
 
 const AlignRight = styled.span`
   float: right;
   margin-left: .5em;
-`
+`;
 
-const CategoryCard = props => {
+interface Props {
+  background: string;
+  selected: boolean;
+  category: string;
+  onClick: (s: string) => void;
+  total: number;
+}
+
+const CategoryCard = (props: Props) => {
   return (
     <Card
       background={props.background}
       selected={props.selected}
-      fontColor={determineFontColor(props.background)}
       onClick={() => props.onClick(props.category)}
     >
       <CardContent>

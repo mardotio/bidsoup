@@ -38,7 +38,7 @@ interface Props {
   background: string;
   selected: boolean;
   category: string;
-  onClick: (s: string) => void;
+  onClick: (c: Props['category']) => void;
   total: number;
 }
 

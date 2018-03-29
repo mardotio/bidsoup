@@ -1,5 +1,6 @@
 import React from 'react';
-import styled, { StyledFunction } from 'styled-components';
+import styled from 'styled-components';
+import { withProps } from '../../styled-components';
 import { determineFontColor, beautifyNumber, capitalize } from '../../utils/styling';
 
 interface CardProps {
@@ -7,9 +8,7 @@ interface CardProps {
   selected: boolean;
 }
 
-const stylediv: StyledFunction<CardProps & React.HTMLProps<HTMLDivElement>> = styled.div;
-
-const Card = stylediv`
+const Card = withProps<CardProps>()(styled.div)`
   box-shadow: ${props => (
     props.selected
       ? '0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.3)'

@@ -1,16 +1,18 @@
-export const hex2Rgb = hex => {
+import { ThemedStyledFunction } from 'styled-components';
+
+export const hex2Rgb = (hex: string) => {
   let colorSections = /([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  let red = parseInt(colorSections[1], 16);
-  let green = parseInt(colorSections[2], 16);
-  let blue = parseInt(colorSections[3], 16);
-  return ({
-    red,
-    green,
-    blue
-  });
+  if (colorSections == null) {
+    return { red: 0, green: 0, blue: 0};
+  }
+
+  const red = parseInt(colorSections[1], 16);
+  const green = parseInt(colorSections[2], 16);
+  const blue = parseInt(colorSections[3], 16);
+  return { red, green, blue };
 };
 
-export const determineFontColor = (color, override = false, darkColor = 'black', lightColor = 'white') => {
+export const determineFontColor = (color: string, override = false, darkColor = 'black', lightColor = 'white') => {
   let {red, green, blue} = hex2Rgb(color);
   let check = 1 - (0.299 * red + 0.587 * green + 0.114 * blue) / 255;
   if (override) {
@@ -24,9 +26,9 @@ export const determineFontColor = (color, override = false, darkColor = 'black',
   }
 };
 
-export const capitalize = word => (word[0].toUpperCase() + word.slice(1));
+export const capitalize = (word: string) => (word[0].toUpperCase() + word.slice(1));
 
-export const capitalizeAll = word => {
+export const capitalizeAll = (word: string) => {
   let words = word.split(' ');
   let capitalizedWords = words.map(singleWord => (
     capitalize(singleWord)
@@ -34,12 +36,15 @@ export const capitalizeAll = word => {
   return capitalizedWords.join(' ');
 };
 
-export const beautifyNumber = (num, accuracy = null) => {
-  let numToFormat = accuracy
-    ? num.toFixed(accuracy)
-    : num;
-  let numParts = numToFormat.toString().split('.');
-  let [dollarAmount] = numParts; 
-  numParts[0] = dollarAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+export const beautifyNumber = (num: number, accuracy = 0) => {
+  let numToFormat = num.toFixed(accuracy);
+  let numParts = numToFormat.split('.');
+  let [dollarAmount] = numParts;
+  numParts[0] = dollarAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   return numParts.join('.');
 };
+
+export const withProps = <U>() =>
+    <P, T, O>(
+        fn: ThemedStyledFunction<P, T, O>
+    ): ThemedStyledFunction<P & U, T, O & U> => fn;

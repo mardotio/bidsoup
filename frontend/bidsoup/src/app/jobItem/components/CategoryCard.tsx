@@ -1,7 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
-import { withProps } from '../../styled-components';
-import { determineFontColor, beautifyNumber, capitalize } from '../../utils/styling';
+import { withProps, determineFontColor, beautifyNumber, capitalize } from '../../utils/styling';
 
 interface CardProps {
   background: string;

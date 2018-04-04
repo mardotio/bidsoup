@@ -15,7 +15,11 @@ bids_router.register(r'categories', views.CategoryViewSet, base_name='bid-catego
 bids_router.register(r'biditems', views.BidItemViewSet, base_name='bid-biditem')
 bids_router.register(r'bidtasks', views.BidTaskViewSet, base_name='bid-bidtask')
 
+category_router = routers.NestedSimpleRouter(router, r'categories', lookup='category')
+category_router.register(r'biditems', views.BidItemViewSet, base_name='category-biditem')
+
 urlpatterns = [
     path('', include(router.urls)),
     path('', include(bids_router.urls)),
+    path('', include(category_router.urls)),
 ]

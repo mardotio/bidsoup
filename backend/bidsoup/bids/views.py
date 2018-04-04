@@ -20,6 +20,8 @@ class BidItemViewSet(viewsets.ModelViewSet):
         q = BidItem.objects.all()
         if 'bid_pk' in self.kwargs:
             q = q.filter(bid_id=self.kwargs['bid_pk'])
+        elif 'category_pk' in self.kwargs:
+            q = q.filter(category_id=self.kwargs['category_pk'])
 
         return q
 

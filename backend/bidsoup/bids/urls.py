@@ -4,7 +4,7 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'bids', views.BidViewSet)
-router.register(r'biditems', views.BidItemViewSet, base_name='biditems')
+router.register(r'biditems', views.BidItemViewSet, base_name='biditem')
 router.register(r'bidtasks', views.BidTaskViewSet, base_name='bidtask')
 router.register(r'customers', views.CustomerViewSet)
 router.register(r'categories', views.CategoryViewSet, base_name='category')

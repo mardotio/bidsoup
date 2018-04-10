@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 class Customer(models.Model):
     name = models.CharField(max_length=100)
@@ -59,6 +60,22 @@ class BidItem(models.Model):
 
     def __str__(self):
         return self.unit_type.name
+
+    def clean(self):
+        errors = {}
+        # Don't allow categories from another bid.
+        if self.category.bid.id != self.bid.id:
+            errors['category'] = ValidationError(('Category from different bid'), code='invalid')
+
+        if self.parent.bid.id != self.bid.id:
+            errors['parent'] = ValidationError(('Parent belongs to different bid'), code='invalid')
+
+        if errors:
+            raise ValidationError(errors)
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
 
 class BidTask(models.Model):
     parent = models.ForeignKey('BidTask', on_delete=models.SET_NULL, null=True, blank=True, related_name='children')

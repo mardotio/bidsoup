@@ -2,10 +2,33 @@ from .models import Bid, BidItem, BidTask, Category, Customer, UnitType
 from django.db.models import Q
 from rest_framework import viewsets
 from rest_framework.decorators import detail_route
+from django.core.exceptions import ValidationError as DjangoValidationError
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from .serializers import BidSerializer, BidItemSerializer, BidTaskSerializer, \
                          CustomerSerializer, CategorySerializer, \
                          UnitTypeSerializer
+
+
+class TrapDjangoValidationErrorMixin(object):
+    """Mixin providing translation from Django native Validation Errors
+
+    In order to use the validator which exists in the model, this mixin
+    provides a translation from Django's ValidationError to DRF's so a
+    useful response can be returned to the client
+    """
+
+    def perform_create(self, serializer):
+        try:
+            super().perform_create(serializer)
+        except DjangoValidationError as detail:
+            raise ValidationError(detail.message_dict)
+
+    def perform_update(self, serializer):
+        try:
+            super().perform_create(serializer)
+        except DjangoValidationError as detail:
+            raise ValidationError(detail.message_dict)
 
 
 class BidViewSet(viewsets.ModelViewSet):
@@ -13,7 +36,7 @@ class BidViewSet(viewsets.ModelViewSet):
     serializer_class = BidSerializer
 
 
-class BidItemViewSet(viewsets.ModelViewSet):
+class BidItemViewSet(TrapDjangoValidationErrorMixin, viewsets.ModelViewSet):
     serializer_class = BidItemSerializer
 
     def get_queryset(self):

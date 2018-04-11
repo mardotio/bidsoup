@@ -17,13 +17,13 @@ export const receiveBidTasks = (bid, payload) => ({
 export const fetchBidTasks = bid => {
   return dispatch => {
     dispatch(requestBidTasks(bid));
-    return fetch(`/api/bids/${bid}/bidtaks`)
+    return fetch(`/api/bids/${bid}/bidtasks`)
       .then(
-        response => reponse.json,
+        response => response.json(),
         error => console.log('An error occured while fetching bid tasks', error)
       )
       .then(
-        dispatch(receiveBidTasks(bid, json))
+        json => dispatch(receiveBidTasks(bid, json))
       );
   };
 };

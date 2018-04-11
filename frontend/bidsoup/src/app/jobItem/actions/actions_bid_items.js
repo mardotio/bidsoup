@@ -19,11 +19,11 @@ export const fetchBidItems = bid => {
     dispatch(requestBidItems(bid));
     return fetch(`/api/bids/${bid}/biditems`)
       .then(
-        response => response.json,
+        response => response.json(),
         error => console.log('An error occured while fetching bid items', error)
       )
       .then(
-        dispatch(receiveBidItems(bid, json))
+        json => dispatch(receiveBidItems(bid, json))
       );
   };
 };

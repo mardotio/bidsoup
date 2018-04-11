@@ -19,11 +19,11 @@ export const fetchBidCategories = bid => {
     dispatch(requestBidCategories(bid));
     return fetch(`/api/bids/${bid}/categories`)
       .then(
-        response => response.json,
+        response => response.json(),
         error => console.log('Error while fetching bid categories', error)
       )
       .then(
-        dispatch(receiveBidCategories(bid, payload))
+        json => dispatch(receiveBidCategories(bid, json))
       );
   };
 };

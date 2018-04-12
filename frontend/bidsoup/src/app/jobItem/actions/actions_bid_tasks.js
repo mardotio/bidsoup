@@ -2,6 +2,7 @@ import fetch from 'cross-fetch';
 
 export const REQUEST_BID_TASKS = 'REQUEST_BID_TASKS';
 export const RECEIVE_BID_TASKS = 'RECEIVE_BID_TASKS';
+export const SELECT_BID_TASK = 'SELECT_BID_TASK';
 
 export const requestBidTasks = bid => ({
   type: REQUEST_BID_TASKS,
@@ -27,3 +28,11 @@ export const fetchBidTasks = bid => {
       );
   };
 };
+
+export const selectBidTask = (task, categories, items) => ({
+  type: SELECT_BID_TASK,
+  task,
+  categories,
+  items
+});
+

@@ -1,25 +1,27 @@
 import { RECEIVE_BID_ITEMS } from '../actions/actions_bid_items';
 import { RECEIVE_BID_CATEGORIES } from '../actions/actions_bid_categories';
+import { SELECT_BID_TASK } from '../actions/actions_bid_tasks';
+
+let columns = [{
+    name: 'description',
+    style: 'text'
+  },{
+    name: 'quantity',
+    style: 'number'
+  },{
+    name: 'price',
+    style: 'currency'
+  },{
+    name: 'total',
+    style: 'currency'
+  }
+];
 
 const categoryTablesReducer = (state = [], action) => {
   switch(action.type) {
-    case RECEIVE_BID_CATEGORIES:
-      let columns = [{
-          name: 'description',
-          style: 'text'
-        },{
-          name: 'quantity',
-          style: 'number'
-        },{
-          name: 'price',
-          style: 'currency'
-        },{
-          name: 'total',
-          style: 'currency'
-        }
-      ];
-      let categories = action.payload;
-      let taskData = categories.map(category => ({
+    case SELECT_BID_TASK:
+      let {task, categories, items} = action;
+      let reducedCategories = categories.map(category => ({
         categoryUrl: category.url,
         category: category.name,
         color: category.color.indexOf('#') >= 0
@@ -27,35 +29,35 @@ const categoryTablesReducer = (state = [], action) => {
           : `#` + category.color,
         columns,
       }));
-      return taskData;
-    case RECEIVE_BID_ITEMS:
-      let items = action.payload;
-      let categoryChildren = state.reduce((combined, currentCat) => {
-        let newObj = {...combined};
-        newObj[currentCat.categoryUrl] = items.reduce((children, currentItem) => {
-          if (currentItem.category === currentCat.categoryUrl) {
-            let {description, quantity, price, url} = currentItem;
-            let normalizedItem = {
-              description,
-              quantity: Number(quantity),
-              price: Number(price),
-              total: Number(price * quantity),
-              url
-            }
-            return [...children, normalizedItem];
-          }
-          return children;
-        }, []);
-        return newObj;
+      let taskItems = items.reduce((matchingItems, item) => {
+        return item.parent === task
+          ? [...matchingItems, item]
+          : matchingItems;
+      }, []);
+      let itemsByCategory = taskItems.reduce((sortedItems, item) => {
+        let {description, quantity, price, url} = item;
+        let normalizedItem = {
+          description,
+          quantity: Number(quantity),
+          price: Number(price),
+          total: Number(price * quantity),
+          url
+        }
+        let categoryChildren = item.category in sortedItems
+          ? [...sortedItems[item.category], normalizedItem]
+          : [normalizedItem];
+        return {
+          ...sortedItems,
+          [item.category]: categoryChildren
+        }
       }, {});
-      let updatedTaskData = state.map(category => {
+      let updatedTableData = reducedCategories.map(category => {
         return {
           ...category,
-          rows: categoryChildren[category.categoryUrl]
+          rows: itemsByCategory[category.categoryUrl]
         };
       });
-      console.log(updatedTaskData);
-      return updatedTaskData;
+      return updatedTableData;
     default:
       return state;
   }

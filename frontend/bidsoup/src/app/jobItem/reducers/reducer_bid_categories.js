@@ -5,7 +5,8 @@ import {
 
 const defaultState = {
   areFetching: false,
-  list: []
+  list: [],
+  lastFetch: null
 }
 
 const bidCategoriesReducer = (state = defaultState, action) => {
@@ -19,9 +20,9 @@ const bidCategoriesReducer = (state = defaultState, action) => {
     case RECEIVE_BID_CATEGORIES:
       console.log('receiving categories');
       return {
-        ...state,
         areFetching: false,
-        list: action.payload
+        list: action.payload,
+        lastFetch: Date.now()
       };
     default:
       return state;

@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import JobItemsReducer from '../jobItem/reducers/reducer_jobItems'
+import bidComponentsRootReducer from '../jobItem/reducers/reducer_bid_components'
 
 const rootReducer = combineReducers({
-  jobItems: JobItemsReducer,
+  bidData: bidComponentsRootReducer
 });
 
 export default rootReducer;

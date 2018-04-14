@@ -6,7 +6,7 @@ const defaultState = {
   lastFetch: null
 }
 
-export const bidTasksReducer = (state = defaultState, action) => {
+export const bidTasks = (state = defaultState, action) => {
   switch(action.type) {
     case tasksActions.REQUEST_BID_TASKS:
       console.log('requesting tasks');
@@ -26,7 +26,7 @@ export const bidTasksReducer = (state = defaultState, action) => {
   }
 };
 
-export const selectTaskReducer = (state = null, action) => {
+export const selectTask = (state = null, action) => {
   switch(action.type) {
     case tasksActions.SELECT_BID_TASK:
       return action.task;
@@ -34,3 +34,10 @@ export const selectTaskReducer = (state = null, action) => {
       return state;
   }  
 };
+
+const bidTasksReducer = {
+  bidTasks,
+  selectTask
+};
+
+export default bidTasksReducer;

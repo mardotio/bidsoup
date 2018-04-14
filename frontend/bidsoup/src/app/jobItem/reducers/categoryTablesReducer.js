@@ -45,6 +45,7 @@ const categoryTablesReducer = (state = [], action) => {
           [item.category]: categoryChildren
         }
       }, {});
+      // TODO: Only return categories that have children
       let updatedTableData = reducedCategories.map(category => {
         return {
           ...category,

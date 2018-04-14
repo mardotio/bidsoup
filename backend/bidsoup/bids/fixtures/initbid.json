@@ -13,7 +13,7 @@
   "model": "bids.category",
   "pk": 1,
   "fields": {
-    "bid": 2,
+    "bid": 1,
     "name": "Labor",
     "description": "",
     "markup_percent": "10.000",
@@ -34,6 +34,17 @@
 {
   "model": "bids.category",
   "pk": 3,
+  "fields": {
+    "bid": 1,
+    "name": "Travel",
+    "description": "",
+    "markup_percent": null,
+    "color": "FAFAFA"
+  }
+},
+{
+  "model": "bids.category",
+  "pk": 4,
   "fields": {
     "bid": 2,
     "name": "Travel",
@@ -189,6 +200,21 @@
     "category": 2,
     "markup_percent": null,
     "quantity": "20.00",
+    "parent": 1
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": 10,
+  "fields": {
+    "bid": 1,
+    "unit_type": null,
+    "price": "800.00",
+    "description": "Week of lodging",
+    "notes": "",
+    "category": 3,
+    "markup_percent": null,
+    "quantity": "1.00",
     "parent": 1
   }
 },

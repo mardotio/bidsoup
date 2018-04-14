@@ -1,7 +1,4 @@
-import {
-  REQUEST_BID_CATEGORIES,
-  RECEIVE_BID_CATEGORIES
-} from '../actions/actions_bid_categories';
+import categoriesActions from '../actions/bidCategoriesActions';
 
 const defaultState = {
   areFetching: false,
@@ -11,13 +8,13 @@ const defaultState = {
 
 const bidCategoriesReducer = (state = defaultState, action) => {
   switch(action.type) {
-    case REQUEST_BID_CATEGORIES:
+    case categoriesActions.REQUEST_BID_CATEGORIES:
       console.log('requesting categories');
       return {
         ...state,
         areFetching: true,
       };
-    case RECEIVE_BID_CATEGORIES:
+    case categoriesActions.RECEIVE_BID_CATEGORIES:
       console.log('receiving categories');
       return {
         areFetching: false,

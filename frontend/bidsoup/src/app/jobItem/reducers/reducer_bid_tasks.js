@@ -1,8 +1,4 @@
-import {
-  REQUEST_BID_TASKS,
-  RECEIVE_BID_TASKS,
-  SELECT_BID_TASK
-} from '../actions/actions_bid_tasks';
+import tasksActions from '../actions/bidTasksActions';
 
 const defaultState = {
   areFetching: false,
@@ -12,13 +8,13 @@ const defaultState = {
 
 export const bidTasksReducer = (state = defaultState, action) => {
   switch(action.type) {
-    case REQUEST_BID_TASKS:
+    case tasksActions.REQUEST_BID_TASKS:
       console.log('requesting tasks');
       return {
         ...state,
         areFetching: true
       };
-    case RECEIVE_BID_TASKS:
+    case tasksActions.RECEIVE_BID_TASKS:
       console.log('receiving tasks');
       return {
         areFetching: false,
@@ -32,7 +28,7 @@ export const bidTasksReducer = (state = defaultState, action) => {
 
 export const selectTaskReducer = (state = null, action) => {
   switch(action.type) {
-    case SELECT_BID_TASK:
+    case tasksActions.SELECT_BID_TASK:
       return action.task;
     default:
       return state;

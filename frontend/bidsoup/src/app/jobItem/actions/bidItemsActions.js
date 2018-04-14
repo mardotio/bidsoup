@@ -27,3 +27,13 @@ export const fetchBidItems = bid => {
       );
   };
 };
+
+const bidItemsActions = {
+  REQUEST_BID_ITEMS,
+  RECEIVE_BID_ITEMS,
+  requestBidItems,
+  receiveBidItems,
+  fetchBidItems
+};
+
+export default bidItemsActions;

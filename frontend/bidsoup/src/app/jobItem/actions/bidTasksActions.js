@@ -36,3 +36,14 @@ export const selectBidTask = (task, categories, items) => ({
   items
 });
 
+const bidTasksActions = {
+  REQUEST_BID_TASKS,
+  RECEIVE_BID_TASKS,
+  SELECT_BID_TASK,
+  requestBidTasks,
+  receiveBidTasks,
+  fetchBidTasks,
+  selectBidTask
+};
+
+export default bidTasksActions;

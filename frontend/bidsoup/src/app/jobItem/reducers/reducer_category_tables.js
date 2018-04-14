@@ -1,6 +1,4 @@
-import { RECEIVE_BID_ITEMS } from '../actions/actions_bid_items';
-import { RECEIVE_BID_CATEGORIES } from '../actions/actions_bid_categories';
-import { SELECT_BID_TASK } from '../actions/actions_bid_tasks';
+import taskActions from '../actions/bidTasksActions';
 
 let columns = [{
     name: 'description',
@@ -19,7 +17,7 @@ let columns = [{
 
 const categoryTablesReducer = (state = [], action) => {
   switch(action.type) {
-    case SELECT_BID_TASK:
+    case taskActions.SELECT_BID_TASK:
       let {task, categories, items} = action;
       let reducedCategories = categories.map(category => ({
         categoryUrl: category.url,

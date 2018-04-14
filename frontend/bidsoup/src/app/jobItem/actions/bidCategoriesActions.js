@@ -27,3 +27,13 @@ export const fetchBidCategories = bid => {
       );
   };
 };
+
+const bidCategoriesActions = {
+  REQUEST_BID_CATEGORIES,
+  RECEIVE_BID_CATEGORIES,
+  requestBidCategories,
+  receiveBidCategories,
+  fetchBidCategories
+};
+
+export default bidCategoriesActions;

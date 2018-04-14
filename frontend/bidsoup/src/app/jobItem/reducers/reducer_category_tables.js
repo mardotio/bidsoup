@@ -29,11 +29,7 @@ const categoryTablesReducer = (state = [], action) => {
           : `#` + category.color,
         columns,
       }));
-      let taskItems = items.reduce((matchingItems, item) => {
-        return item.parent === task
-          ? [...matchingItems, item]
-          : matchingItems;
-      }, []);
+      let taskItems = items.filter(item => item.parent === task);
       let itemsByCategory = taskItems.reduce((sortedItems, item) => {
         let {description, quantity, price, url} = item;
         let normalizedItem = {

@@ -27,6 +27,19 @@ const TaskItem = props => {
   }
   return (
     <React.Fragment>
+      <button
+        onClick={() => props.refreshItems(2)}
+      >
+        Click to load
+      </button>
+      <button
+        onClick={() => props.selectTask(
+          "http://192.168.99.100:3000/api/bidtasks/6/",
+          props.categories.list,
+          props.items.list)}
+      >
+        Click display data
+      </button>
       <JobItem />
     </React.Fragment>
   );

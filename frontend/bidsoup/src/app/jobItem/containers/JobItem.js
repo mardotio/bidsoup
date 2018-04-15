@@ -3,7 +3,7 @@ import Item from '../components/Item';
 
 const mapStateToProps = state => {
   return {
-    jobItems: state.jobItems,
+    tableData: state.bidData.categoryTablesData,
   };
 };
 

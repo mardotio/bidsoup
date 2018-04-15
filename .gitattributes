@@ -1,2 +1,10 @@
-#Ensure all .sh scripts end with lf
+# Use LF EOL for the following files
+*.css text eol=lf
+*.html text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.jsx text eol=lf
+*.py text eol=lf
 *.sh text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf

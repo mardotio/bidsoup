@@ -21,7 +21,7 @@ export default class Item extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedCategory: this.props.jobItems[0].category,
+      selectedCategory: this.props.tableData[0].category,
     };
     this.selectCategory = this.selectCategory.bind(this);
   }
@@ -35,8 +35,8 @@ export default class Item extends Component {
   }
 
   createCategoryTables() {
-    let {jobItems} = this.props;
-    let [selectedCategory] = jobItems.filter(item => (
+    let {tableData} = this.props;
+    let [selectedCategory] = tableData.filter(item => (
       item.category === this.state.selectedCategory
     ));
     return (
@@ -48,8 +48,8 @@ export default class Item extends Component {
   }
 
   createCategoryCards() {
-    let {jobItems} = this.props;
-    let categoryCards = jobItems.map(item => {
+    let {tableData} = this.props;
+    let categoryCards = tableData.map(item => {
       let total = item.rows.reduce((currentTotal, next) => {
         return currentTotal += next.total;
       }, 0);

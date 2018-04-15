@@ -1,21 +1,21 @@
 import fetch from 'cross-fetch';
 
-export const REQUEST_BID_TASKS = 'REQUEST_BID_TASKS';
-export const RECEIVE_BID_TASKS = 'RECEIVE_BID_TASKS';
-export const SELECT_BID_TASK = 'SELECT_BID_TASK';
+const REQUEST_BID_TASKS = 'REQUEST_BID_TASKS';
+const RECEIVE_BID_TASKS = 'RECEIVE_BID_TASKS';
+const SELECT_BID_TASK = 'SELECT_BID_TASK';
 
-export const requestBidTasks = bid => ({
+const requestBidTasks = bid => ({
   type: REQUEST_BID_TASKS,
   bid
 });
 
-export const receiveBidTasks = (bid, payload) => ({
+const receiveBidTasks = (bid, payload) => ({
   type: RECEIVE_BID_TASKS,
   bid,
   payload
 });
 
-export const fetchBidTasks = bid => {
+const fetchBidTasks = bid => {
   return dispatch => {
     dispatch(requestBidTasks(bid));
     return fetch(`/api/bids/${bid}/bidtasks`)
@@ -29,7 +29,7 @@ export const fetchBidTasks = bid => {
   };
 };
 
-export const selectBidTask = (task, categories, items) => ({
+const selectBidTask = (task, categories, items) => ({
   type: SELECT_BID_TASK,
   task,
   categories,

@@ -2,7 +2,7 @@ import tasksActions from './bidTasksActions';
 import categoriesActions from './bidCategoriesActions';
 import itemsActions from './bidItemsActions';
 
-export const fetchBidComponents = bid => {
+const fetchBidComponents = bid => {
   return dispatch => Promise.all([
     dispatch(tasksActions.fetchBidTasks(bid)),
     dispatch(categoriesActions.fetchBidCategories(bid)),

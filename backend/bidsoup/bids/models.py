@@ -18,7 +18,7 @@ class Category(models.Model):
     color = models.CharField(max_length=6)
 
     def __str__(self):
-        return self.name
+        return '{self.name} - {self.bid.name}'.format(self=self)
 
     class Meta:
         verbose_name_plural = "categories"
@@ -56,10 +56,13 @@ class BidItem(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     markup_percent = models.DecimalField(max_digits=6, decimal_places=3, null=True, blank=True)
     quantity = models.DecimalField(max_digits=7, decimal_places=2)
-    parent = models.ForeignKey('BidTask', on_delete=models.SET_NULL, blank=True, null=True)
+    parent = models.ForeignKey('BidTask', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.unit_type.name
+        if self.unit_type is not None:
+            return self.unit_type.name
+        else:
+            return self.description
 
     def clean(self):
         errors = {}
@@ -67,14 +70,23 @@ class BidItem(models.Model):
         if self.category.bid.id != self.bid.id:
             errors['category'] = ValidationError(('Category from different bid'), code='invalid')
 
+        # Don't allow parent tasks from another bid.
         if self.parent.bid.id != self.bid.id:
             errors['parent'] = ValidationError(('Parent belongs to different bid'), code='invalid')
+
+        # Must not set both unit_type AND price
+        if self.price is not None and self.unit_type is not None:
+            errors['price'] = ValidationError(('Ambiguous price. Cannot set both price and unit type.'), code='invalid')
+
+        # Must set at least unit_type OR price
+        if self.price is None and self.unit_type is None:
+            errors['price'] = ValidationError(('Must set either price OR unit type.'), code='invalid')
 
         if errors:
             raise ValidationError(errors)
 
     def save(self, *args, **kwargs):
-        self.clean()
+        self.full_clean()
         super().save(*args, **kwargs)
 
 class BidTask(models.Model):
@@ -84,7 +96,7 @@ class BidTask(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return self.title
+        return '{self.title} - {self.bid.name}'.format(self=self)
 
 class Bid(models.Model):
     name = models.CharField(max_length=100)

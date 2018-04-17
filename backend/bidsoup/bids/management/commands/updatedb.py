@@ -35,6 +35,7 @@ class Command(BaseCommand):
 
                 conn.close()
                 self.stdout.write('All bid tables dropped. Now performing all migrations.')
+                call_command('migrate', 'bids', 'zero', fake=True)
             else:
                 self.stdout.write('Performing migrations only.')
 

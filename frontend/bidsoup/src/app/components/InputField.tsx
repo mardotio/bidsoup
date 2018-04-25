@@ -99,7 +99,7 @@ interface State {
 
 class InputField extends React.Component<Props, State> {
   static defaultProps: Partial<Props> = {
-    errorMessage: 'Error',
+    errorMessage: 'Invalid input',
     hasError: true,
     optional: false
   };
@@ -109,22 +109,13 @@ class InputField extends React.Component<Props, State> {
     this.state = {
       isFocused: false
     };
-    this.focus = this.focus.bind(this);
-    this.blur = this.blur.bind(this);
   }
 
-  focus() {
+  setFocus(focusOrBlur: () => void) {
     this.setState({
-      isFocused: true
+      isFocused: !this.state.isFocused
     });
-    this.props.onFocus();
-  }
-
-  blur() {
-    this.setState({
-      isFocused: false
-    });
-    this.props.onBlur();
+    focusOrBlur();
   }
 
   labelOnTop() {
@@ -163,9 +154,9 @@ class InputField extends React.Component<Props, State> {
           focusColor={this.props.focusColor}
           hasError={this.props.hasError!}
           id={labelKey}
-          onBlur={this.blur}
+          onBlur={() => this.setFocus(this.props.onBlur)}
           onChange={this.props.onChange}
-          onFocus={this.focus}
+          onFocus={() => this.setFocus(this.props.onFocus)}
           value={this.props.value}
         />
         {this.renderErrorMessage()}

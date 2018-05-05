@@ -1,4 +1,5 @@
 import taskActions from '../actions/bidTasksActions';
+import { isEmpty } from '../../utils/utils';
 
 let columns = [{
     name: 'description',
@@ -45,13 +46,19 @@ const categoryTablesReducer = (state = [], action) => {
           [item.category]: categoryChildren
         }
       }, {});
-      // TODO: Only return categories that have children
-      let updatedTableData = reducedCategories.map(category => {
-        return {
+      let updatedTableData = reducedCategories.reduce((data, category) => {
+        // itemsByCategory[category.categoryUrl] returns undefined if a category
+        // does not have any items
+        let categoryItems = itemsByCategory[category.categoryUrl] || [];
+        if (isEmpty(categoryItems)) {
+          return data;
+        }
+        let categoryWithItems = {
           ...category,
           rows: itemsByCategory[category.categoryUrl]
         };
-      });
+        return [...data, categoryWithItems];
+      }, []);
       return updatedTableData;
     default:
       return state;

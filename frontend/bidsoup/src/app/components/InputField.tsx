@@ -116,52 +116,47 @@ const Option = styled.div`
 `;
 
 interface DropDownItem {
-  name: string;
   id: string;
-}
-
-interface Props {
-  focusColor: string;
-  label: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  selectOption?: (option: DropDownItem) => void;
-  optional?: boolean;
-  value: string;
-  errorState: Error;
-  options?: DropDownOptions;
-  selected?: string;
+  name: string;
 }
 
 interface DropDownOptions {
-  select: (option: DropDownItem) => void;
   list: DropDownItem[];
+  select: (option: DropDownItem) => void;
+  selected: string;
 }
 
 interface Error {
-  message: string;
-  hasError: boolean;
   display: string;
+  hasError: boolean;
+  message: string;
+}
+
+interface Props {
+  errorState: Error;
+  focusColor: string;
+  label: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  optional?: boolean;
+  options?: DropDownOptions;
+  type?: string;
+  value: string;
 }
 
 interface State {
   isFocused: boolean;
-  selectedItem: DropDownItem;
 }
 
 class InputField extends React.Component<Props, State> {
   static defaultProps: Partial<Props> = {
     optional: false,
-    selected: ''
+    type: 'text'
   };
 
   constructor(props: Props) {
     super(props);
     this.state = {
       isFocused: false,
-      selectedItem: {
-        name: '',
-        id: ''
-      },
     };
     this.updateOrSelect = this.updateOrSelect.bind(this);
   }
@@ -201,7 +196,7 @@ class InputField extends React.Component<Props, State> {
     if (isEmpty(filteredOptions)) {
       return null;
     }
-    let optionsToDisplay = isEmpty(this.props.selected!)
+    let optionsToDisplay = isEmpty(this.props.options.selected)
       ? filteredOptions
       : this.props.options!.list;
     return (
@@ -237,7 +232,6 @@ class InputField extends React.Component<Props, State> {
     let labelKey = this.props.label.replace(/ /g, '-');
     return (
       <Wrapper>
-        {/* Used hasError! to avoid compiler error */}
         <Label
           focusColor={this.props.focusColor}
           hasError={this.props.errorState.hasError}
@@ -258,6 +252,7 @@ class InputField extends React.Component<Props, State> {
           onChange={this.updateOrSelect}
           onFocus={() => this.setFocus()}
           value={this.props.value}
+          type={this.props.type!}
         />
         {this.renderErrorMessage()}
         {this.displayOptions()}

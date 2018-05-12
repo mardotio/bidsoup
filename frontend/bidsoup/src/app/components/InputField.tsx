@@ -127,138 +127,136 @@ interface DropDownOptions {
 }
 
 interface Error {
-  display: string;
   hasError: boolean;
   message: string;
 }
 
+interface InputFieldState {
+  isFocused: boolean;
+  touched: boolean;
+}
+
 interface Props {
-  errorState: Error;
+  state: InputFieldState;
+  errorState?: Error;
   focusColor: string;
   label: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onFocusChange: (state: InputFieldState) => void;
   optional?: boolean;
-  options?: DropDownOptions;
+  options?: DropDownOptions | null;
   type?: string;
   value: string;
 }
 
-interface State {
-  isFocused: boolean;
-}
+const filterOptions = (options: DropDownOptions, value: string) => (
+  options.list.filter(option => (
+    option.name.toLowerCase().includes(value.toLowerCase())
+  ))
+);
 
-class InputField extends React.Component<Props, State> {
-  static defaultProps: Partial<Props> = {
-    optional: false,
-    type: 'text'
-  };
+const setFocus = ({onFocusChange, state}: Props) => {
+  onFocusChange({
+    isFocused: !state.isFocused,
+    touched: true
+  });
+};
 
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      isFocused: false,
-    };
-    this.updateOrSelect = this.updateOrSelect.bind(this);
+const labelIsOnTop = ({state, value}: Props) => (
+  state.isFocused || !isEmpty(value)
+);
+
+const renderErrorMessage = ({errorState}: Props) => {
+  if (errorState!.hasError) {
+    return (
+      <HelperMessage>
+        {errorState!.message}
+      </HelperMessage>
+    );
   }
+  return null;
+};
 
-  filterOptions() {
-    return this.props.options!.list.filter(option => (
-      option.name.toLowerCase().includes(this.props.value.toLowerCase())
-    ));
-  }
-
-  setFocus() {
-    this.setState(prevState => ({
-      isFocused: !prevState.isFocused,
-    }));
-  }
-
-  labelOnTop() {
-    return this.state.isFocused || !isEmpty(this.props.value);
-  }
-
-  renderErrorMessage() {
-    if (this.props.errorState.hasError) {
-      return (
-        <HelperMessage>
-          {this.props.errorState.message}
-        </HelperMessage>
-      );
-    }
+const displayOptions = ({options, state, value}: Props) => {
+  if (!options || !state.isFocused) {
     return null;
   }
-
-  displayOptions() {
-    if (!this.props.options || !this.state.isFocused) {
-      return null;
-    }
-    let filteredOptions = this.filterOptions();
-    if (isEmpty(filteredOptions)) {
-      return null;
-    }
-    let optionsToDisplay = isEmpty(this.props.options.selected)
-      ? filteredOptions
-      : this.props.options!.list;
-    return (
-      <OptionsContainer>
-        {optionsToDisplay.map(option => (
-          <Option
-            key={option.id}
-            onMouseDown={() => this.props.options!.select(option)}
-          >
-            {option.name}
-          </Option>
-        ))}
-      </OptionsContainer>
-    );
+  let filteredOptions = filterOptions(options, value);
+  if (isEmpty(filteredOptions)) {
+    return null;
   }
-
-  updateOrSelect(event: React.ChangeEvent<HTMLInputElement>) {
-    if (this.props.options) {
-      let selectedOption = this.props.options.list.filter(option => (
-        option.name.toLowerCase() === event.target.value.toLocaleLowerCase()
-      ));
-      if (isEmpty(selectedOption)) {
-        this.props.onChange(event);
-      } else {
-        this.props.options.select(selectedOption[0]);
-      }
-    } else {
-      this.props.onChange(event);
-    }
-  }
-
-  render() {
-    let labelKey = this.props.label.replace(/ /g, '-');
-    return (
-      <Wrapper>
-        <Label
-          focusColor={this.props.focusColor}
-          hasError={this.props.errorState.hasError}
-          htmlFor={labelKey}
-          isFocused={this.state.isFocused}
-          labelOnTop={this.labelOnTop()}
+  let optionsToDisplay = isEmpty(options.selected) || filteredOptions.length > 1
+    ? filteredOptions
+    : options.list;
+  return (
+    <OptionsContainer>
+      {optionsToDisplay.map(option => (
+        <Option
+          key={option.id}
+          onMouseDown={() => options.select(option)}
         >
-          {this.props.optional
-            ? `${capitalizeAll(this.props.label)} (optional)`
-            : capitalizeAll(this.props.label)
-          }
-        </Label>
-        <StyledInput
-          focusColor={this.props.focusColor}
-          hasError={this.props.errorState.hasError}
-          id={labelKey}
-          onBlur={() => this.setFocus()}
-          onChange={this.updateOrSelect}
-          onFocus={() => this.setFocus()}
-          value={this.props.value}
-          type={this.props.type!}
-        />
-        {this.renderErrorMessage()}
-        {this.displayOptions()}
-      </Wrapper>
-    );
+          {option.name}
+        </Option>
+      ))}
+    </OptionsContainer>
+  );
+};
+
+const updateOrSelect = (event: React.ChangeEvent<HTMLInputElement>, {options, onChange}: Props) => {
+  if (options) {
+    let selectedOption = options.list.filter(option => (
+      option.name.toLowerCase() === event.target.value.toLocaleLowerCase()
+    ));
+    if (isEmpty(selectedOption)) {
+      onChange(event);
+    } else {
+      options.select(selectedOption[0]);
+    }
+  } else {
+    onChange(event);
   }
-}
+};
+
+const InputField: React.SFC<Props> = (props) => {
+  let labelKey = props.label.replace(/ /g, '-');
+  return (
+    <Wrapper>
+      <Label
+        focusColor={props.focusColor}
+        hasError={props.errorState!.hasError}
+        htmlFor={labelKey}
+        isFocused={props.state.isFocused}
+        labelOnTop={labelIsOnTop(props)}
+      >
+        {props.optional
+          ? `${capitalizeAll(props.label)} (optional)`
+          : capitalizeAll(props.label)
+        }
+      </Label>
+      <StyledInput
+        focusColor={props.focusColor}
+        hasError={props.errorState!.hasError}
+        id={labelKey}
+        onBlur={() => setFocus(props)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateOrSelect(e, props)}
+        onFocus={() => setFocus(props)}
+        value={props.value}
+        type={props.type!}
+      />
+      {renderErrorMessage(props)}
+      {displayOptions(props)}
+    </Wrapper>
+  );
+};
+
+InputField.defaultProps = {
+  errorState: {
+    message: '',
+    hasError: false,
+  },
+  optional: false,
+  options: null,
+  type: 'text',
+};
 
 export default InputField;

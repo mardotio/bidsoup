@@ -73,10 +73,10 @@ interface Props {
   cost: number;
   containedCost: number;
   arrow?: ArrowStyle;
-  onArrowClick?: (index: string) => void;
-  onTaskClick: (index: string) => void;
   indent?: string;
   width?: string;
+  onArrowClick?(index: string): void;
+  onTaskClick(index: string): void;
 }
 
 class TaskRow extends React.Component<Props> {

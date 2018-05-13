@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import TaskRow, { ArrowStyle } from '../components/TaskRow';
+import { isEmpty } from '../../utils/utils';
 
 /* Sizing constants */
 const TREE_WIDTH = 600;
@@ -10,14 +11,9 @@ const Tree = styled.div`
   width: {toPx(TREE_WIDTH)};
 `;
 
-const toPx = (n: number) => {
-  return n.toString() + 'px';
-};
-
-interface TaskCallbacks {
-  onArrowClick(url: string): void;
-  onTaskClick(url: string): string;
-}
+const toPx = (n: number) => (
+  n.toString() + 'px'
+);
 
 interface Task {
   url: string;
@@ -46,7 +42,7 @@ class TaskTree extends React.Component<Props, State> {
   }
 
   onArrowClick = (url: string) => {
-    let collapsed = this.state.collapsed;
+    let {collapsed} = this.state;
 
     if (collapsed[url]) {
       delete collapsed[url];
@@ -54,7 +50,7 @@ class TaskTree extends React.Component<Props, State> {
       collapsed[url] = {};
     }
 
-    this.setState({ collapsed: collapsed });
+    this.setState({collapsed});
   }
 
   /**
@@ -62,16 +58,15 @@ class TaskTree extends React.Component<Props, State> {
    * and flattens them into TaskRow elements with proper indention.
    *
    * @param tasks An array of tree shaped tasks.
-   * @param callbacks Callbacks passed to each generated row.
    * @param lvl The starting depth. Normally 0.
    */
-  flattenTasks = (tasks: Task[], callbacks: TaskCallbacks, lvl: number = 0 ) => {
+  flattenTasks = (tasks: Task[], lvl: number = 0 ) => {
     let children: JSX.Element[] = [];
-    tasks.map(task => {
+    tasks.forEach(task => {
       const w = TREE_WIDTH - (lvl * INDENT_PX);
       const i = lvl * INDENT_PX;
       let arrow;
-      if (task.children.length > 0) {
+      if (!isEmpty(task.children)) {
         arrow = this.state.collapsed[task.url] ? ArrowStyle.Collapsed : ArrowStyle.Expanded;
       }
 
@@ -85,12 +80,12 @@ class TaskTree extends React.Component<Props, State> {
           width={toPx(w)}
           indent={toPx(i)}
           arrow={arrow}
-          onArrowClick={callbacks.onArrowClick}
-          onTaskClick={callbacks.onTaskClick}
+          onArrowClick={this.onArrowClick}
+          onTaskClick={this.props.onTaskSelect}
         />));
 
       if (task.children.length > 0 && !this.state.collapsed[task.url]) {
-        let ret = this.flattenTasks(task.children, callbacks, lvl + 1);
+        let ret = this.flattenTasks(task.children, lvl + 1);
         children = children.concat(ret);
       }
     });
@@ -98,14 +93,9 @@ class TaskTree extends React.Component<Props, State> {
   }
 
   render() {
-    const callbacks: TaskCallbacks = {
-      onArrowClick: this.onArrowClick,
-      onTaskClick: this.props.onTaskSelect
-    };
-
     return (
       <Tree>
-        {this.flattenTasks(this.props.tasks, callbacks)}
+        {this.flattenTasks(this.props.tasks)}
       </Tree>
     );
   }

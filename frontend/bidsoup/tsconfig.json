@@ -23,8 +23,7 @@
     ],
     "paths": {
         "react": ["node_modules/@types/react"],
-        "redux-thunk": ["src/types/redux-thunk"],
-        "cross-fetch": ["src/types/cross-fetch"]
+        "redux-thunk": ["src/types/redux-thunk"]
 
     }
   },

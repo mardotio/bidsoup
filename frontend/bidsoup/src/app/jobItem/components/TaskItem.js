@@ -8,15 +8,18 @@ const TaskItem = props => {
     return (
       <React.Fragment>
         <button
-          onClick={() => props.refreshItems(1)}
+          onClick={() => {
+            props.fetchApi();
+            props.refreshItems(1);
+          }}
         >
           Click to load
         </button>
         <button
           onClick={() => props.selectTask(
-            "http://192.168.99.100:3000/api/bidtasks/6/",
+            props.endpoints.bidtasks + '1/',
             props.categories.list,
-            props.items.list)}
+            props.items)}
         >
           Click display data
         </button>

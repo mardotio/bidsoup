@@ -97,6 +97,13 @@ class TaskRow extends React.Component<Props> {
     });
   }
 
+  onArrowClick = (e: React.MouseEvent<HTMLElement>) => {
+    if (this.props.onArrowClick) {
+        this.props.onArrowClick(this.props.url);
+        e.stopPropagation();
+      }
+  }
+
   render() {
     return (
       <Task
@@ -109,7 +116,7 @@ class TaskRow extends React.Component<Props> {
         <Triangle
          arrow={this.props.arrow}
          className="material-icons"
-         onClick={event => this.props.onArrowClick ? this.props.onArrowClick(this.props.url) : undefined}
+         onClick={this.onArrowClick}
         >
           arrow_drop_up
         </Triangle>

@@ -81,88 +81,182 @@ const HelperMessage = styled.div`
   margin-top: 8px;
 `;
 
+const OptionsContainer = styled.div`
+  background-color: white;
+  box-shadow:
+    0 8px 10px 1px rgba(0,0,0,0.14),
+    0 3px 14px 2px rgba(0,0,0,0.12),
+    0 5px 5px -3px rgba(0,0,0,0.2);
+  cursor: pointer;
+  max-height: 300px;
+  overflow-y: scroll;
+  padding: 8px 0;
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #ddd;
+  }
+`;
+
+const Option = styled.div`
+  font-size: 14px;
+  min-width: 0;
+  min-width: 0;
+  overflow-x: hidden;
+  padding: 9px 0 9px 24px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  &:hover {
+    background-color: #eee;
+  }
+`;
+
+interface DropDownItem {
+  id: string;
+  name: string;
+}
+
+interface DropDownOptions {
+  list: DropDownItem[];
+  select: (option: DropDownItem) => void;
+  selected: string;
+}
+
+interface Error {
+  hasError: boolean;
+  message: string;
+}
+
+interface InputFieldState {
+  isFocused: boolean;
+  touched: boolean;
+}
+
 interface Props {
-  errorMessage?: string;
+  state: InputFieldState;
+  errorState?: Error;
   focusColor: string;
-  hasError?: boolean;
   label: string;
-  onBlur: () => void;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onFocus: () => void;
+  onFocusChange: (state: InputFieldState) => void;
   optional?: boolean;
+  options?: DropDownOptions | null;
+  type?: string;
   value: string;
 }
 
-interface State {
-  isFocused: boolean;
-}
+const filterOptions = (options: DropDownOptions, value: string) => (
+  options.list.filter(option => (
+    option.name.toLowerCase().includes(value.toLowerCase())
+  ))
+);
 
-class InputField extends React.Component<Props, State> {
-  static defaultProps: Partial<Props> = {
-    errorMessage: 'Invalid input',
-    hasError: true,
-    optional: false
-  };
+const setFocus = ({onFocusChange, state}: Props) => {
+  onFocusChange({
+    isFocused: !state.isFocused,
+    touched: true
+  });
+};
 
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      isFocused: false
-    };
-  }
+const labelIsOnTop = ({state, value}: Props) => (
+  state.isFocused || !isEmpty(value)
+);
 
-  setFocus(focusOrBlur: () => void) {
-    this.setState({
-      isFocused: !this.state.isFocused
-    });
-    focusOrBlur();
-  }
-
-  labelOnTop() {
-    return this.state.isFocused || !isEmpty(this.props.value);
-  }
-
-  renderErrorMessage() {
-    if (this.props.hasError) {
-      return (
-        <HelperMessage>
-          {this.props.errorMessage}
-        </HelperMessage>
-      );
-    }
-    return null;
-  }
-
-  render() {
-    let labelKey = this.props.label.replace(/ /g, '-');
+const renderErrorMessage = ({errorState}: Props) => {
+  if (errorState!.hasError) {
     return (
-      <Wrapper>
-        {/* Used hasError! to avoid compiler error */}
-        <Label
-          focusColor={this.props.focusColor}
-          hasError={this.props.hasError!}
-          htmlFor={labelKey}
-          isFocused={this.state.isFocused}
-          labelOnTop={this.labelOnTop()}
-        >
-          {this.props.optional
-            ? `${capitalizeAll(this.props.label)} (optional)`
-            : capitalizeAll(this.props.label)
-          }
-        </Label>
-        <StyledInput
-          focusColor={this.props.focusColor}
-          hasError={this.props.hasError!}
-          id={labelKey}
-          onBlur={() => this.setFocus(this.props.onBlur)}
-          onChange={this.props.onChange}
-          onFocus={() => this.setFocus(this.props.onFocus)}
-          value={this.props.value}
-        />
-        {this.renderErrorMessage()}
-      </Wrapper>
+      <HelperMessage>
+        {errorState!.message}
+      </HelperMessage>
     );
   }
-}
+  return null;
+};
+
+const displayOptions = ({options, state, value}: Props) => {
+  if (!options || !state.isFocused) {
+    return null;
+  }
+  let filteredOptions = filterOptions(options, value);
+  if (isEmpty(filteredOptions)) {
+    return null;
+  }
+  let optionsToDisplay = isEmpty(options.selected) || filteredOptions.length > 1
+    ? filteredOptions
+    : options.list;
+  return (
+    <OptionsContainer>
+      {optionsToDisplay.map(option => (
+        <Option
+          key={option.id}
+          onMouseDown={() => options.select(option)}
+        >
+          {option.name}
+        </Option>
+      ))}
+    </OptionsContainer>
+  );
+};
+
+const updateOrSelect = (event: React.ChangeEvent<HTMLInputElement>, {options, onChange}: Props) => {
+  if (options) {
+    let selectedOption = options.list.filter(option => (
+      option.name.toLowerCase() === event.target.value.toLocaleLowerCase()
+    ));
+    if (isEmpty(selectedOption)) {
+      onChange(event);
+    } else {
+      options.select(selectedOption[0]);
+    }
+  } else {
+    onChange(event);
+  }
+};
+
+const InputField: React.SFC<Props> = (props) => {
+  let labelKey = props.label.replace(/ /g, '-');
+  return (
+    <Wrapper>
+      <Label
+        focusColor={props.focusColor}
+        hasError={props.errorState!.hasError}
+        htmlFor={labelKey}
+        isFocused={props.state.isFocused}
+        labelOnTop={labelIsOnTop(props)}
+      >
+        {props.optional
+          ? `${capitalizeAll(props.label)} (optional)`
+          : capitalizeAll(props.label)
+        }
+      </Label>
+      <StyledInput
+        focusColor={props.focusColor}
+        hasError={props.errorState!.hasError}
+        id={labelKey}
+        onBlur={() => setFocus(props)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateOrSelect(e, props)}
+        onFocus={() => setFocus(props)}
+        value={props.value}
+        type={props.type!}
+      />
+      {renderErrorMessage(props)}
+      {displayOptions(props)}
+    </Wrapper>
+  );
+};
+
+InputField.defaultProps = {
+  errorState: {
+    message: '',
+    hasError: false,
+  },
+  optional: false,
+  options: null,
+  type: 'text',
+};
 
 export default InputField;

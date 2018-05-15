@@ -1,6 +1,27 @@
 import React from 'react';
 import JobItem from '../containers/JobItem';
+import Modal from '../../components/Modal';
 import TaskTree from '../components/TaskTree';
+import Fab from '../../components/Fab';
+
+const addElements = props => {
+  if (props.ui.modalShowing) {
+    return (
+      <React.Fragment>
+        <Fab onClick={props.showModal}/>
+        <Modal onClose={props.hideModal}>
+          <p>Add a new task!</p>
+          <button>Ok!</button>
+          <button onClick={props.hideModal}>Nevermind</button>
+        </Modal>
+      </React.Fragment>
+    );
+  } else {
+    return (
+      <Fab onClick={props.showModal} color={'green'}/>
+    );
+  }
+}
 
 const TaskItem = props => {
   let {categoriesAreFetching, itemsAreFetching} = props;
@@ -43,6 +64,7 @@ const TaskItem = props => {
           props.categories.list,
           props.items)}
       />
+      {addElements(props)}
       <JobItem />
     </React.Fragment>
   );

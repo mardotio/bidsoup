@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import TaskItem from '../components/TaskItem';
 import { fetchApi } from '../actions/apiActions';
 import tasksActions from '../actions/bidTasksActions';
+import { Actions as uiActions } from '../../actions/uiActions';
 import componentsActions from '../actions/bidComponentsActions';
 
 const buildTask = (task, items) => {
@@ -51,6 +52,7 @@ const getTasks = (state) => {
 
 const mapStateToProps = state => ({
   endpoints: state.api.endpoints,
+  ui: state.ui,
   tableData: state.bidData.categoryTablesData,
   categories: state.bidData.categories,
   items: getItems(state),
@@ -64,7 +66,9 @@ const mapDispatchToProps = dispatch => {
     refreshItems: (bid) =>
       dispatch(componentsActions.fetchBidComponents(bid)),
     selectTask: (task, categories, items) =>
-      dispatch(tasksActions.selectBidTask(task, categories, items))
+      dispatch(tasksActions.selectBidTask(task, categories, items)),
+    showModal: () => dispatch(uiActions.showModal()),
+    hideModal: () => dispatch(uiActions.hideModal())
   };
 };
 

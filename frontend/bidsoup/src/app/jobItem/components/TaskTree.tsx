@@ -59,35 +59,37 @@ class TaskTree extends React.Component<Props, State> {
    * @param tasks An array of tree shaped tasks.
    * @param lvl The starting depth. Normally 0.
    */
-  flattenTasks = (tasks: Task[], lvl: number = 0 ) => {
-    let children: JSX.Element[] = [];
-    tasks.forEach(task => {
-      const i = lvl * INDENT_PX;
-      let arrow;
-      if (!isEmpty(task.children)) {
-        arrow = this.state.collapsed[task.url] ? ArrowStyle.Collapsed : ArrowStyle.Expanded;
-      }
+  flattenTasks = (tasks: Task[], lvl: number = 0 ) => (
+    tasks.reduce(
+      (collected, task) => {
+        const i = lvl * INDENT_PX;
+        let arrow;
+        if (!isEmpty(task.children)) {
+          arrow = this.state.collapsed[task.url] ? ArrowStyle.Collapsed : ArrowStyle.Expanded;
+        }
 
-      children.push((
-        <TaskRow
-          key={task.url}
-          url={task.url}
-          title={task.title}
-          cost={task.cost}
-          containedCost={task.containedCost}
-          indent={toPx(i)}
-          arrow={arrow}
-          onArrowClick={this.onArrowClick}
-          onTaskClick={this.props.onTaskSelect}
-        />));
-
-      if (task.children.length > 0 && !this.state.collapsed[task.url]) {
-        let ret = this.flattenTasks(task.children, lvl + 1);
-        children = children.concat(ret);
-      }
-    });
-    return children;
-  }
+        let newChild = (
+          <TaskRow
+            key={task.url}
+            url={task.url}
+            title={task.title}
+            cost={task.cost}
+            containedCost={task.containedCost}
+            indent={toPx(i)}
+            arrow={arrow}
+            onArrowClick={this.onArrowClick}
+            onTaskClick={this.props.onTaskSelect}
+          />
+        );
+        if (!isEmpty(task.children) && !this.state.collapsed[task.url]) {
+          let ret: JSX.Element[] = this.flattenTasks(task.children, lvl + 1);
+          return [...collected, newChild, ...ret];
+        }
+        return [...collected, newChild];
+      },
+      []
+    )
+  )
 
   render() {
     return (

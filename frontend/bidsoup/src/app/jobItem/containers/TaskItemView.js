@@ -8,7 +8,7 @@ const buildTask = (task, items) => {
   const sumCost = items
     .filter(i => i.parent == task.url)
     .reduce((total, item) => {
-      return total = item.total;
+      return total += item.total;
       }, 0);
 
   if (task.children.length > 0) {

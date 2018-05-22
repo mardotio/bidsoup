@@ -6,9 +6,8 @@ import Overview from './Overview';
 const TableWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 650px;
   min-width: 500px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.37);
+  width: 100%;
   margin: 1em;
   height: min-content;
 `

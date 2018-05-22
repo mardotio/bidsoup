@@ -4,16 +4,15 @@ import TaskRow, { ArrowStyle } from '../components/TaskRow';
 import { isEmpty } from '../../utils/utils';
 
 /* Sizing constants */
-const TREE_WIDTH = 600;
 const INDENT_PX = 20;
-
-const Tree = styled.div`
-  width: {toPx(TREE_WIDTH)};
-`;
 
 const toPx = (n: number) => (
   n.toString() + 'px'
 );
+
+const Tree = styled.div`
+  width: 100%;
+`;
 
 interface Task {
   url: string;
@@ -63,7 +62,6 @@ class TaskTree extends React.Component<Props, State> {
   flattenTasks = (tasks: Task[], lvl: number = 0 ) => {
     let children: JSX.Element[] = [];
     tasks.forEach(task => {
-      const w = TREE_WIDTH - (lvl * INDENT_PX);
       const i = lvl * INDENT_PX;
       let arrow;
       if (!isEmpty(task.children)) {
@@ -77,7 +75,6 @@ class TaskTree extends React.Component<Props, State> {
           title={task.title}
           cost={task.cost}
           containedCost={task.containedCost}
-          width={toPx(w)}
           indent={toPx(i)}
           arrow={arrow}
           onArrowClick={this.onArrowClick}

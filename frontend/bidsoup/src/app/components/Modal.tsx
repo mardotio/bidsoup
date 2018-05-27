@@ -14,7 +14,7 @@ const Overlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: #232f3499;
 `;
 
 interface InnerProps {
@@ -28,7 +28,7 @@ const Inner = withProps<InnerProps>()(styled.div)`
   padding-left: 15px;
   padding-right: 15px;
   background-color: white;
-  box-shadow: 2px 4px 10px 0px #454545;
+  box-shadow: 0px 10px 8px 0px #4545457d;
   border-radius: 2px;
 `;
 
@@ -40,9 +40,9 @@ const CloseX = styled.div`
 `;
 
 interface Props {
-  onClose(): void;
   width?: string;
   height?: string;
+  onClose(): void;
 }
 
 class Modal extends React.Component<Props> {

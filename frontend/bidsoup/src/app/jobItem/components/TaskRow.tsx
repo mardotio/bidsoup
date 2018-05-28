@@ -29,7 +29,7 @@ interface TriangleProps {
 }
 
 const Triangle = withProps<TriangleProps>()(styled.i)`
-  transition: transform 0.4s ease;
+  transition: transform 0.5s ease;
   visibility: ${props => typeof props.arrow === 'undefined' ? 'hidden' : 'visible'};
   margin-left: ${props => props.indent || '0'};
   user-select: none;

@@ -17,8 +17,6 @@ const ViewConatiner = styled.div`
 const TaskContent = Card.extend`
   max-width: 1000px;
   min-width: 800px;
-  //transition: flex .3s ease;
-  //flex: 1;
 `;
 
 const ItemContent = Card.extend`
@@ -32,6 +30,13 @@ const ItemContent = Card.extend`
     ? '1'
     : '0'
   )};
+`;
+
+const FabContainer = styled.div`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 500;
 `;
 
 const displayTaskItems = ({tableData}) => {
@@ -48,7 +53,13 @@ const addElements = props => {
   if (props.ui.modalShowing) {
     return (
       <React.Fragment>
-        <Fab onClick={props.showModal}/>
+        <FabContainer>
+          <Fab
+            onClick={props.showModal}
+            color={'#b71c2d'}
+            icon={'add'}
+          />
+        </FabContainer>
         <Modal onClose={props.hideModal}>
           <p>Add a new task!</p>
           <button>Ok!</button>
@@ -58,7 +69,13 @@ const addElements = props => {
     );
   } else {
     return (
-      <Fab onClick={props.showModal} color={'green'}/>
+      <FabContainer>
+        <Fab
+          onClick={props.showModal}
+          color={'#b71c2d'}
+          icon={'add'}
+        />
+      </FabContainer>
     );
   }
 }

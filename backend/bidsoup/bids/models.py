@@ -45,8 +45,8 @@ class UnitType(models.Model):
 class BidItem(models.Model):
     """
     The BidItem instances make up the data affecting the price of the bid.
-    A BidItem has either a unit_type OR a price. The unit_type/quantity
-    can make up the items price, or the price can be explicit.
+    A BidItem has either a unit_type OR a price. The unit_type or the price
+    times the quantity make up the total price. This value should be derived.
     """
     bid = models.ForeignKey('Bid', on_delete=models.CASCADE, db_index=True)
     unit_type = models.ForeignKey(UnitType, on_delete=models.PROTECT, null=True, blank=True)

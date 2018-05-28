@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import JobItem from '../containers/JobItem';
+import Modal from '../../components/Modal';
 import TaskTree from '../components/TaskTree';
 import Card from '../../components/Card';
+import Fab from '../../components/Fab';
 
 const ViewConatiner = styled.div`
   display: flex;
@@ -42,6 +44,25 @@ const displayTaskItems = ({tableData}) => {
   }
 }
 
+const addElements = props => {
+  if (props.ui.modalShowing) {
+    return (
+      <React.Fragment>
+        <Fab onClick={props.showModal}/>
+        <Modal onClose={props.hideModal}>
+          <p>Add a new task!</p>
+          <button>Ok!</button>
+          <button onClick={props.hideModal}>Nevermind</button>
+        </Modal>
+      </React.Fragment>
+    );
+  } else {
+    return (
+      <Fab onClick={props.showModal} color={'green'}/>
+    );
+  }
+}
+
 const TaskItem = props => {
   let {categoriesAreFetching, itemsAreFetching} = props;
   if (props.tasks.length <= 0) {
@@ -76,6 +97,7 @@ const TaskItem = props => {
           {displayTaskItems(props)}
         </ItemContent>
       </ViewConatiner>
+      {addElements(props)}
     </React.Fragment>
   );
 };

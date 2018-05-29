@@ -131,18 +131,13 @@ interface Error {
   message: string;
 }
 
-interface InputFieldState {
-  isFocused: boolean;
-  touched: boolean;
-}
-
 interface Props {
-  state: InputFieldState;
+  isFocused: boolean;
   errorState?: Error;
   focusColor: string;
   label: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onFocusChange: (state: InputFieldState) => void;
+  onFocusChange: (hasFocus: boolean) => void;
   optional?: boolean;
   options?: DropDownOptions | null;
   type?: string;
@@ -155,15 +150,8 @@ const filterOptions = (options: DropDownOptions, value: string) => (
   ))
 );
 
-const setFocus = ({onFocusChange, state}: Props) => {
-  onFocusChange({
-    isFocused: !state.isFocused,
-    touched: true
-  });
-};
-
-const labelIsOnTop = ({state, value}: Props) => (
-  state.isFocused || !isEmpty(value)
+const labelIsOnTop = ({isFocused, value}: Props) => (
+  isFocused || !isEmpty(value)
 );
 
 const renderErrorMessage = ({errorState}: Props) => {
@@ -177,8 +165,8 @@ const renderErrorMessage = ({errorState}: Props) => {
   return null;
 };
 
-const displayOptions = ({options, state, value}: Props) => {
-  if (!options || !state.isFocused) {
+const displayOptions = ({options, isFocused, value}: Props) => {
+  if (!options || !isFocused) {
     return null;
   }
   let filteredOptions = filterOptions(options, value);
@@ -225,7 +213,7 @@ const InputField: React.SFC<Props> = (props) => {
         focusColor={props.focusColor}
         hasError={props.errorState!.hasError}
         htmlFor={labelKey}
-        isFocused={props.state.isFocused}
+        isFocused={props.isFocused}
         labelOnTop={labelIsOnTop(props)}
       >
         {props.optional
@@ -237,9 +225,9 @@ const InputField: React.SFC<Props> = (props) => {
         focusColor={props.focusColor}
         hasError={props.errorState!.hasError}
         id={labelKey}
-        onBlur={() => setFocus(props)}
+        onBlur={() => props.onFocusChange(false)}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateOrSelect(e, props)}
-        onFocus={() => setFocus(props)}
+        onFocus={() => props.onFocusChange(true)}
         value={props.value}
         type={props.type!}
       />

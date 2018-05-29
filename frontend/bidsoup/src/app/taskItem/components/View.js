@@ -75,6 +75,7 @@ const addElements = props => {
         </FabContainer>
         <Modal onClose={props.hideModal}>
           <p>Add a new task!</p>
+          <NewTaskForm/>
           <button>Ok!</button>
           <button onClick={props.hideModal}>Nevermind</button>
         </Modal>

@@ -137,9 +137,10 @@ interface Props {
   focusColor: string;
   label: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onFocusChange: (hasFocus: boolean) => void;
+  onFocusChange?: (hasFocus: boolean) => void;
   optional?: boolean;
   options?: DropDownOptions | null;
+  name?: string;
   type?: string;
   value: string;
 }
@@ -225,9 +226,10 @@ const InputField: React.SFC<Props> = (props) => {
         focusColor={props.focusColor}
         hasError={props.errorState!.hasError}
         id={labelKey}
-        onBlur={() => props.onFocusChange(false)}
+        name={props.name}
+        onBlur={() => props.onFocusChange && props.onFocusChange(false)}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateOrSelect(e, props)}
-        onFocus={() => props.onFocusChange(true)}
+        onFocus={() => props.onFocusChange && props.onFocusChange(true)}
         value={props.value}
         type={props.type!}
       />

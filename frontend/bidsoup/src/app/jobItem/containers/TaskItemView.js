@@ -41,7 +41,10 @@ const getItems = (state) => {
     } else if (i.unit_type) {
       total = Number.parseFloat(i.quantity) * Number.parseFloat(state.bidData.units.units[i.unit_type].unit_price);
     }
-    return{...i, total: total};
+    return {
+      ...i,
+      total
+    };
   }));
 }
 

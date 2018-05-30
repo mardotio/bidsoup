@@ -110,14 +110,14 @@ class TaskRow extends React.Component<Props> {
         onClick={e => this.props.onTaskClick(this.props.url)}
       >
         <Title>
-        <Triangle
-         arrow={this.props.arrow}
-         className="material-icons"
-         onClick={this.onArrowClick}
-         indent={this.props.indent}
-        >
-          arrow_drop_up
-        </Triangle>
+          <Triangle
+            arrow={this.props.arrow}
+            className="material-icons"
+            onClick={this.onArrowClick}
+            indent={this.props.indent}
+          >
+            arrow_drop_up
+          </Triangle>
           {this.props.title}
         </Title>
         <Cost>

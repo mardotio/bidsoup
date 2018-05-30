@@ -71,7 +71,7 @@ export default class Item extends Component {
     return (
       <ItemWrapper>
         <JobItemHeader>
-          Add handrails to tank
+          {this.props.selectedTask.title}
         </JobItemHeader>
         <Container>
           {this.createCategoryCards()}

@@ -3,20 +3,18 @@ import styled from 'styled-components';
 import { withProps } from '../../utils/styling';
 import { beautifyNumber } from '../../utils/styling';
 
-interface TaskProps {
-  indent?: string;
-  width?: string;
-}
+const offColor = '#eaeaea';
 
-const Task = withProps<TaskProps>()(styled.div)`
-  display: block;
+const Task = styled.div`
+  display: flex;
+  align-items: center;
   padding: 10px;
-  margin-left: ${props => props.indent || '0px'};
-  width: ${props => props.width || '100%'};
+  width: 100%;
   position: relative;
-  background-color: #F4F3F3;
+  background-color: white;
+  box-sizing: border-box;
   &:hover {
-    background-color: #FCFAFA;
+    background-color: ${offColor};
   }
 `;
 
@@ -27,11 +25,14 @@ export enum ArrowStyle {
 
 interface TriangleProps {
   arrow?: ArrowStyle;
+  indent?: string;
 }
 
 const Triangle = withProps<TriangleProps>()(styled.i)`
-  transition: transform 0.4s ease;
+  transition: transform 0.5s ease;
   visibility: ${props => typeof props.arrow === 'undefined' ? 'hidden' : 'visible'};
+  margin-left: ${props => props.indent || '0'};
+  user-select: none;
   transform: ${props => (
     props.arrow === ArrowStyle.Expanded
       ? 'rotate(180deg)'
@@ -40,15 +41,13 @@ const Triangle = withProps<TriangleProps>()(styled.i)`
 `;
 
 const Title = styled.div`
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  flex: 1;
   font-size: 110%;
-  padding: 5px 10px;
-  min-width: 40px;
-  max-width: 800px;
 `;
 
 const Cost = styled.div`
-  display: inline-block;
   padding: 5px 10px;
   font-size: 110%;
   font-weight: bold;
@@ -74,7 +73,6 @@ interface Props {
   containedCost: number;
   arrow?: ArrowStyle;
   indent?: string;
-  width?: string;
   onArrowClick?(index: string): void;
   onTaskClick(index: string): void;
 }
@@ -109,18 +107,17 @@ class TaskRow extends React.Component<Props> {
       <Task
         onMouseEnter={this.mouseEnter}
         onMouseLeave={this.mouseLeave}
-        indent={this.props.indent}
-        width={this.props.width}
         onClick={e => this.props.onTaskClick(this.props.url)}
       >
-        <Triangle
-         arrow={this.props.arrow}
-         className="material-icons"
-         onClick={this.onArrowClick}
-        >
-          arrow_drop_up
-        </Triangle>
         <Title>
+          <Triangle
+            arrow={this.props.arrow}
+            className="material-icons"
+            onClick={this.onArrowClick}
+            indent={this.props.indent}
+          >
+            arrow_drop_up
+          </Triangle>
           {this.props.title}
         </Title>
         <Cost>

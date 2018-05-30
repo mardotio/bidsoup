@@ -9,7 +9,7 @@ const buildTask = (task, items) => {
   const sumCost = items
     .filter(i => i.parent == task.url)
     .reduce((total, item) => {
-      return total = item.total;
+      return total += item.total;
       }, 0);
 
   if (task.children.length > 0) {
@@ -41,7 +41,10 @@ const getItems = (state) => {
     } else if (i.unit_type) {
       total = Number.parseFloat(i.quantity) * Number.parseFloat(state.bidData.units.units[i.unit_type].unit_price);
     }
-    return{...i, total: total};
+    return {
+      ...i,
+      total
+    };
   }));
 }
 

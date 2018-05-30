@@ -28,7 +28,7 @@ const Inner = withProps<InnerProps>()(styled.div)`
   padding-left: 15px;
   padding-right: 15px;
   background-color: white;
-  box-shadow: 0px 10px 8px 0px #4545457d;
+  box-shadow: 0px 10px 8px 0px rgba(0, 0, 0, 0.14);
   border-radius: 2px;
 `;
 

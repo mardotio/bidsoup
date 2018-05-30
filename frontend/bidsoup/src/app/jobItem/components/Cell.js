@@ -64,7 +64,7 @@ const styleCell = ({value, cellStyle, highlight, reverseOrder}) => {
       );
       break;
     case 'number':
-      contents = beautifyNumber(value);
+      contents = beautifyNumber(value, 2);
       break;
     case 'text':
       contents = capitalize(value);

@@ -1,14 +1,65 @@
 import React from 'react';
+import styled from 'styled-components';
 import JobItem from '../containers/JobItem';
 import Modal from '../../components/Modal';
 import TaskTree from '../components/TaskTree';
+import Card from '../../components/Card';
 import Fab from '../../components/Fab';
+
+const ViewConatiner = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 80%;
+  height: 100%;
+  margin: 0 auto;
+`;
+
+const TaskContent = Card.extend`
+  max-width: 1000px;
+  min-width: 800px;
+`;
+
+const ItemContent = Card.extend`
+  overflow: hidden;
+  margin-left: ${({shouldDisplay}) => (shouldDisplay
+    ? '20px'
+    : '0'
+  )};
+  transition: flex .3s ease;
+  flex: ${({shouldDisplay}) => (shouldDisplay
+    ? '1'
+    : '0'
+  )};
+`;
+
+const FabContainer = styled.div`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 500;
+`;
+
+const displayTaskItems = ({tableData}) => {
+  if (tableData.length <= 0) {
+    return null;
+  } else {
+    return (
+      <JobItem />
+    );
+  }
+}
 
 const addElements = props => {
   if (props.ui.modalShowing) {
     return (
       <React.Fragment>
-        <Fab onClick={props.showModal}/>
+        <FabContainer>
+          <Fab
+            onClick={props.showModal}
+            color={'#b71c2d'}
+            icon={'add'}
+          />
+        </FabContainer>
         <Modal onClose={props.hideModal}>
           <p>Add a new task!</p>
           <button>Ok!</button>
@@ -18,14 +69,20 @@ const addElements = props => {
     );
   } else {
     return (
-      <Fab onClick={props.showModal} color={'green'}/>
+      <FabContainer>
+        <Fab
+          onClick={props.showModal}
+          color={'#b71c2d'}
+          icon={'add'}
+        />
+      </FabContainer>
     );
   }
 }
 
 const TaskItem = props => {
   let {categoriesAreFetching, itemsAreFetching} = props;
-  if (props.tableData.length <= 0) {
+  if (props.tasks.length <= 0) {
     return (
       <React.Fragment>
         <button
@@ -36,36 +93,28 @@ const TaskItem = props => {
         >
           Click to load
         </button>
-        <button
-          onClick={() => props.selectTask(
-            props.endpoints.bidtasks + '1/',
-            props.categories.list,
-            props.items)}
-        >
-          Click display data
-        </button>
-        <div>
-          Nothing to see here
-        </div>
       </React.Fragment>
     );
   }
   return (
     <React.Fragment>
-      <button
-        onClick={() => props.refreshItems(2)}
-      >
-        Click to load
-      </button>
-      <TaskTree
-        tasks={props.tasks}
-        onTaskSelect={t => props.selectTask(
-          t,
-          props.categories.list,
-          props.items)}
-      />
+      <ViewConatiner>
+        <TaskContent>
+          <TaskTree
+            tasks={props.tasks}
+            onTaskSelect={t => props.selectTask(
+              t,
+              props.categories.list,
+              props.items)}
+          />
+        </TaskContent>
+        <ItemContent
+          shouldDisplay={props.tableData.length > 0}
+        >
+          {displayTaskItems(props)}
+        </ItemContent>
+      </ViewConatiner>
       {addElements(props)}
-      <JobItem />
     </React.Fragment>
   );
 };

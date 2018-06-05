@@ -105,7 +105,8 @@ const TaskItem = props => {
             onTaskSelect={t => props.selectTask(
               t,
               props.categories.list,
-              props.items)}
+              props.items,
+              props.units.units)}
           />
         </TaskContent>
         <ItemContent

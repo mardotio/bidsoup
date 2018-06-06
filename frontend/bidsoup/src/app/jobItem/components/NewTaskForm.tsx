@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { Task } from '../../types/types';
 import InputField from '../../components/InputField';
+import { isEmpty } from '../../utils/utils';
 
 const name = 'name';
 const desc = 'desc';
 type FieldNames = typeof name | typeof desc;
 interface FieldData {
+  label: string;
   currentValue: string;
-  isValid: (s: string) => boolean;
+  validate: (s: string) => {validated: string, error?: string}
 }
 type FieldSet = { [K in FieldNames]: FieldData };
 
@@ -23,53 +25,69 @@ const onFocusChange = (hasFocus: boolean) => {
   console.log('has focus: ', hasFocus);
 };
 
-const testValidate = (s: string) => {
-  return true;
+const testValidate = (inStr: string) => {
+  if (inStr.length < 100) {
+    return {
+      validated: inStr
+    };
+  } else {
+    return {
+      validated: inStr.slice(0, 100),
+    };
+  }
 }
 
 class NewTaskForm extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    // Add a bunch of validators for each field. Then bundle them
-    // up like:
-    // name: for input field. Use as key
-    // currentValue: Assign to defaults
-    // isValid: set to validators
     this.state = {
       fieldInfo: {
         name: {
-          currentValue: 'Name',
-          isValid: testValidate
+          label: 'Name',
+          currentValue: 'Name of the task',
+          validate: testValidate
         },
         desc: {
-          currentValue: 'Desc',
-          isValid: testValidate
+          label: 'Description',
+          currentValue: 'What is the task',
+          validate: testValidate
         }
       }
     };
   }
 
   fieldChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.name);
+    const key = e.target.name as FieldNames;
     let newFieldInfo: FieldSet = Object.assign(this.state.fieldInfo);
-    newFieldInfo.name.currentValue = e.target.value;
+    newFieldInfo[key].currentValue = this.state.fieldInfo[key].validate(e.target.value).validated;
 
     this.setState({fieldInfo: newFieldInfo});
   };
 
   render() {
-    return(
-      <React.Fragment>
+    const fields = Object.keys(this.state.fieldInfo).map((key: FieldNames) => {
+      const error = this.state.fieldInfo[key].validate(this.state.fieldInfo[key].currentValue).error || '';
+
+      return (
         <InputField
-          name={'test'}
-          focusColor={'black'}
+          key={key}
+          name={key}
+          focusColor={'blue'}
           isFocused={false}
-          label={'Test'}
-          value={this.state.fieldInfo.name.currentValue}
+          errorState={{
+            hasError: !isEmpty(error),
+            message: error}}
+          label={this.state.fieldInfo[key].label}
+          value={this.state.fieldInfo[key].currentValue}
           onChange={this.fieldChanged}
           onFocusChange={onFocusChange}
-        />
+        />);
+      });
+
+    return(
+      <React.Fragment>
+        {fields}
       </React.Fragment>
     );
   }

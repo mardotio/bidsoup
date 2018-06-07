@@ -2,6 +2,17 @@ import * as React from 'react';
 import { Task } from '../../types/types';
 import InputField from '../../components/InputField';
 import { isEmpty } from '../../utils/utils';
+import styled from 'styled-components';
+
+const FormContainer = styled.div`
+  margin-left: 20px;
+  margin-right: 20px;
+`;
+
+const MyInputField = styled(InputField)`
+  margin-top: 10px;
+  margin-bottom: 20px;
+`;
 
 const name = 'name';
 const desc = 'desc';
@@ -9,7 +20,7 @@ type FieldNames = typeof name | typeof desc;
 interface FieldData {
   label: string;
   currentValue: string;
-  validate: (s: string) => {validated: string, error?: string}
+  validate: (s: string) => {validated: string, error?: string};
 }
 type FieldSet = { [K in FieldNames]: FieldData };
 
@@ -21,10 +32,6 @@ interface State {
   fieldInfo: FieldSet;
 }
 
-const onFocusChange = (hasFocus: boolean) => {
-  console.log('has focus: ', hasFocus);
-};
-
 const testValidate = (inStr: string) => {
   if (inStr.length < 100) {
     return {
@@ -35,7 +42,7 @@ const testValidate = (inStr: string) => {
       validated: inStr.slice(0, 100),
     };
   }
-}
+};
 
 class NewTaskForm extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -63,14 +70,14 @@ class NewTaskForm extends React.Component<Props, State> {
     newFieldInfo[key].currentValue = this.state.fieldInfo[key].validate(e.target.value).validated;
 
     this.setState({fieldInfo: newFieldInfo});
-  };
+  }
 
   render() {
     const fields = Object.keys(this.state.fieldInfo).map((key: FieldNames) => {
       const error = this.state.fieldInfo[key].validate(this.state.fieldInfo[key].currentValue).error || '';
 
       return (
-        <InputField
+        <MyInputField
           key={key}
           name={key}
           focusColor={'blue'}
@@ -81,16 +88,15 @@ class NewTaskForm extends React.Component<Props, State> {
           label={this.state.fieldInfo[key].label}
           value={this.state.fieldInfo[key].currentValue}
           onChange={this.fieldChanged}
-          onFocusChange={onFocusChange}
         />);
       });
 
     return(
-      <React.Fragment>
+      <FormContainer>
         {fields}
-      </React.Fragment>
+      </FormContainer>
     );
   }
-};
+}
 
 export default NewTaskForm;

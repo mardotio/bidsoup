@@ -131,13 +131,11 @@ interface Error {
   message: string;
 }
 
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLInputElement> {
   isFocused: boolean;
   errorState?: Error;
   focusColor: string;
   label: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onFocusChange?: (hasFocus: boolean) => void;
   optional?: boolean;
   options?: DropDownOptions | null;
   name?: string;
@@ -196,12 +194,12 @@ const updateOrSelect = (event: React.ChangeEvent<HTMLInputElement>, {options, on
     let selectedOption = options.list.filter(option => (
       option.name.toLowerCase() === event.target.value.toLocaleLowerCase()
     ));
-    if (isEmpty(selectedOption)) {
+    if (isEmpty(selectedOption) && onChange) {
       onChange(event);
     } else {
       options.select(selectedOption[0]);
     }
-  } else {
+  } else if (onChange) {
     onChange(event);
   }
 };
@@ -209,7 +207,7 @@ const updateOrSelect = (event: React.ChangeEvent<HTMLInputElement>, {options, on
 const InputField: React.SFC<Props> = (props) => {
   let labelKey = props.label.replace(/ /g, '-');
   return (
-    <Wrapper>
+    <Wrapper className={props.className}>
       <Label
         focusColor={props.focusColor}
         hasError={props.errorState!.hasError}
@@ -227,9 +225,9 @@ const InputField: React.SFC<Props> = (props) => {
         hasError={props.errorState!.hasError}
         id={labelKey}
         name={props.name}
-        onBlur={() => props.onFocusChange && props.onFocusChange(false)}
+        onBlur={props.onBlur}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateOrSelect(e, props)}
-        onFocus={() => props.onFocusChange && props.onFocusChange(true)}
+        onFocus={props.onFocus}
         value={props.value}
         type={props.type!}
       />

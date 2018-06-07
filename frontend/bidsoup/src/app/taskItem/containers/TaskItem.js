@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import TaskItem from '../components/TaskItem';
+import View from '../components/View';
 import { fetchApi } from '../actions/apiActions';
 import tasksActions from '../actions/bidTasksActions';
 import { Actions as uiActions } from '../../actions/uiActions';
@@ -75,6 +75,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const TaskItemView = connect(mapStateToProps, mapDispatchToProps)(TaskItem);
+const TaskItem = connect(mapStateToProps, mapDispatchToProps)(View);
 
-export default TaskItemView;
+export default TaskItem;

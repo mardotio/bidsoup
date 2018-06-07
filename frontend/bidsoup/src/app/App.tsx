@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Component } from 'react';
-import TaskItemView from './jobItem/containers/TaskItemView';
+import TaskItem from './taskItem/containers/TaskItem';
 
 export default class App extends Component {
   render() {
     return (
-      <TaskItemView />
+      <TaskItem />
     );
   }
 }

@@ -17,6 +17,10 @@ const Container = styled.div`
   flex-wrap: wrap;
 `
 
+const TableContainer = styled.div`
+  width: 100%;
+`
+
 export default class Item extends Component {
   constructor(props) {
     super(props);
@@ -36,9 +40,9 @@ export default class Item extends Component {
 
   createCategoryTables() {
     let {tableData} = this.props;
-    let [selectedCategory] = tableData.filter(item => (
+    let selectedCategory = tableData.find(item => (
       item.category === this.state.selectedCategory
-    ));
+    )) || tableData[0];
     return (
       <Table
         key={selectedCategory.category}
@@ -76,9 +80,9 @@ export default class Item extends Component {
         <Container>
           {this.createCategoryCards()}
         </Container>
-        <Container>
+        <TableContainer>
           {this.createCategoryTables()}
-        </Container>
+        </TableContainer>
       </ItemWrapper>
     );
   }

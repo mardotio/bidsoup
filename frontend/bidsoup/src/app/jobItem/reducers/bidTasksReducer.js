@@ -1,10 +1,21 @@
 import tasksActions from '../actions/bidTasksActions';
+import { isEmpty } from '../../utils/utils';
 
 const defaultState = {
   areFetching: false,
   list: [],
   lastFetch: null
 }
+
+const flattenChildren = arr => (
+  arr.reduce((all, item) => {
+    if (isEmpty(item.children.length)) {
+      return [...all, item];
+    } else {
+      return [...all, item, ...flattenChildren(item.children)]
+    }
+  }, [])
+);
 
 const bidTasks = (state = defaultState, action) => {
   switch(action.type) {
@@ -19,6 +30,7 @@ const bidTasks = (state = defaultState, action) => {
       return {
         areFetching: false,
         list: action.payload,
+        flattenedList: flattenChildren(action.payload),
         lastFetch: Date.now()
       };
     default:

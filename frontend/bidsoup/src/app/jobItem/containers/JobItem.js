@@ -4,7 +4,7 @@ import Item from '../components/Item';
 const mapStateToProps = state => {
   return {
     tableData: state.bidData.categoryTablesData,
-    selectedTask: state.bidData.tasks.list.find(task =>(
+    selectedTask: state.bidData.tasks.flattenedList.find(task =>(
       task.url === state.bidData.selectedTask
     ))
   };

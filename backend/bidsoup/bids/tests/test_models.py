@@ -3,7 +3,7 @@ from bids.models import BidItem, Category
 from django.core.exceptions import ValidationError
 
 class ModelTest(TestCase):
-    fixtures = ['initbid.json']
+    fixtures = ['ctc-fixture.json']
 
     def test_category_from_different_bid(self):
         # Get any item belonging to a bid

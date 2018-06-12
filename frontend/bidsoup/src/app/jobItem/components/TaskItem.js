@@ -9,14 +9,16 @@ import Fab from '../../components/Fab';
 const ViewConatiner = styled.div`
   display: flex;
   justify-content: center;
-  width: 80%;
+  width: 95%;
   height: 100%;
   margin: 0 auto;
+  overflow: hidden;
 `;
 
 const TaskContent = Card.extend`
   max-width: 1000px;
-  min-width: 800px;
+  min-width: 600px;
+  overflow: scroll;
 `;
 
 const ItemContent = Card.extend`

@@ -1,0 +1,1979 @@
+[
+    {
+        "fields": {
+            "address": "",
+            "email": "noreply@kindermorgan.com",
+            "name": "Kinder Morgan",
+            "phone": "1234567891"
+        },
+        "model": "bids.customer",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "color": "516077",
+            "description": "All man hours go here",
+            "markup_percent": null,
+            "name": "Labor"
+        },
+        "model": "bids.category",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "color": "b2135d",
+            "description": "All meterials",
+            "markup_percent": null,
+            "name": "Materials"
+        },
+        "model": "bids.category",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "color": "704bc6",
+            "description": "Category for all equipment",
+            "markup_percent": null,
+            "name": "Equipment"
+        },
+        "model": "bids.category",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "color": "24af63",
+            "description": "Company vehicles",
+            "markup_percent": null,
+            "name": "Vehicles"
+        },
+        "model": "bids.category",
+        "pk": 4
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "color": "ce5056",
+            "description": "All labor from subcontractors",
+            "markup_percent": null,
+            "name": "Subcontractors"
+        },
+        "model": "bids.category",
+        "pk": 5
+    },
+    {
+        "fields": {
+            "description": "Average hourly price for one crew member",
+            "name": "Worker Average",
+            "unit": "HR",
+            "unit_price": "300.00"
+        },
+        "model": "bids.unittype",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "description": "Daily rate for skid steer",
+            "name": "Skid Steer - Daily",
+            "unit": "EA",
+            "unit_price": "350.00"
+        },
+        "model": "bids.unittype",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "description": "Weekly rate for skid steer",
+            "name": "Skid Steer - Weekly",
+            "unit": "WK",
+            "unit_price": "1050.00"
+        },
+        "model": "bids.unittype",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "description": "Price per mile for crew vehicles",
+            "name": "Crew Vehicle",
+            "unit": "EA",
+            "unit_price": "0.80"
+        },
+        "model": "bids.unittype",
+        "pk": 4
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 24,
+            "price": null,
+            "quantity": "48.75",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 25,
+            "price": null,
+            "quantity": "2.93",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 26,
+            "price": null,
+            "quantity": "1.50",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 27,
+            "price": null,
+            "quantity": "1.25",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 4
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 28,
+            "price": null,
+            "quantity": "2.81",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 5
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 29,
+            "price": null,
+            "quantity": "1.80",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 6
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 30,
+            "price": null,
+            "quantity": "1.50",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 7
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 31,
+            "price": null,
+            "quantity": "10.35",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 8
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 32,
+            "price": null,
+            "quantity": "1.20",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 9
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 33,
+            "price": null,
+            "quantity": "5.22",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 10
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 34,
+            "price": null,
+            "quantity": "2.25",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 11
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 35,
+            "price": null,
+            "quantity": "1.07",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 12
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 36,
+            "price": null,
+            "quantity": "2.31",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 13
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 37,
+            "price": null,
+            "quantity": "1.62",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 14
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 38,
+            "price": null,
+            "quantity": "1.38",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 15
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 39,
+            "price": null,
+            "quantity": "1.00",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 16
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 40,
+            "price": null,
+            "quantity": "4.50",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 17
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 41,
+            "price": null,
+            "quantity": "1.50",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 18
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 42,
+            "price": null,
+            "quantity": "6.38",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 19
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 43,
+            "price": null,
+            "quantity": "10.00",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 20
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 44,
+            "price": null,
+            "quantity": "37.50",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 21
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 45,
+            "price": null,
+            "quantity": "16.00",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 22
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "Install chains",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 3,
+            "price": null,
+            "quantity": "12.00",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 23
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "Replace Teflon Fabric Seal on Gauge Pole Float",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 4,
+            "price": null,
+            "quantity": "1.25",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 24
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "Install Float",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 5,
+            "price": null,
+            "quantity": "1.50",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 25
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "Raise Varec Hanger Support 6\"",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 10,
+            "price": null,
+            "quantity": "7.50",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 26
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "Pressure-Test (7) Nozzle Repads and Install Tell Tale 90s",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 17,
+            "price": null,
+            "quantity": "2.50",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 27
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "Remove Skillets/Blinds",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 21,
+            "price": null,
+            "quantity": "27.50",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 28
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "Monitor First Fill",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 23,
+            "price": null,
+            "quantity": "8.00",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 29
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 46,
+            "price": null,
+            "quantity": "24.00",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 30
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 47,
+            "price": null,
+            "quantity": "24.00",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 31
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 49,
+            "price": null,
+            "quantity": "75.00",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 32
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 50,
+            "price": null,
+            "quantity": "8.00",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 33
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 51,
+            "price": null,
+            "quantity": "125.00",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 34
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 52,
+            "price": null,
+            "quantity": "2.25",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 35
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 53,
+            "price": null,
+            "quantity": "3.75",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 36
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 54,
+            "price": null,
+            "quantity": "9.00",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 37
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 55,
+            "price": null,
+            "quantity": "4.50",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 38
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 56,
+            "price": null,
+            "quantity": "5.00",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 39
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 57,
+            "price": null,
+            "quantity": "4.00",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 40
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 58,
+            "price": null,
+            "quantity": "13.75",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 41
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 59,
+            "price": null,
+            "quantity": "1.00",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 42
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 60,
+            "price": null,
+            "quantity": "1.50",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 43
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 61,
+            "price": null,
+            "quantity": "1.50",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 44
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 62,
+            "price": null,
+            "quantity": "2.25",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 45
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 63,
+            "price": null,
+            "quantity": "1.50",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 46
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 64,
+            "price": null,
+            "quantity": "4.00",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 47
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 65,
+            "price": null,
+            "quantity": "1.00",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 48
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 66,
+            "price": null,
+            "quantity": "6.00",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 49
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 1,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 67,
+            "price": null,
+            "quantity": "9.00",
+            "unit_type": 1
+        },
+        "model": "bids.biditem",
+        "pk": 50
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "S.S Chain",
+            "markup_percent": null,
+            "notes": "Specialty",
+            "parent": 3,
+            "price": "3.75",
+            "quantity": "60.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 51
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "Miscellaneous parts",
+            "markup_percent": null,
+            "notes": "Specialty",
+            "parent": 3,
+            "price": "150.00",
+            "quantity": "1.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 52
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "Freight",
+            "markup_percent": null,
+            "notes": "Freight",
+            "parent": 3,
+            "price": "80.00",
+            "quantity": "1.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 53
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "Teflon Fabric",
+            "markup_percent": null,
+            "notes": "Specialty",
+            "parent": 4,
+            "price": "100.00",
+            "quantity": "1.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 54
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "8\" Gauge Pole Float",
+            "markup_percent": null,
+            "notes": "Specialty",
+            "parent": 5,
+            "price": "648.97",
+            "quantity": "1.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 55
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "Freight",
+            "markup_percent": null,
+            "notes": "Freight",
+            "parent": 5,
+            "price": "50.00",
+            "quantity": "1.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 56
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "Hardware",
+            "markup_percent": null,
+            "notes": "Misc",
+            "parent": 8,
+            "price": "150.00",
+            "quantity": "1.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 57
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "Column Well Lid",
+            "markup_percent": null,
+            "notes": "Specialty",
+            "parent": 9,
+            "price": "850.00",
+            "quantity": "1.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 58
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "Freight",
+            "markup_percent": null,
+            "notes": "Freight",
+            "parent": 9,
+            "price": "100.00",
+            "quantity": "1.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 59
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "Weld Consumables",
+            "markup_percent": null,
+            "notes": "Weld Consumables",
+            "parent": 10,
+            "price": "80.00",
+            "quantity": "1.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 60
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "Column Well Seals",
+            "markup_percent": null,
+            "notes": "Specialty",
+            "parent": 11,
+            "price": "110.00",
+            "quantity": "8.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 61
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "Gauge Pole Well Seals",
+            "markup_percent": null,
+            "notes": "Specialty",
+            "parent": 11,
+            "price": "120.00",
+            "quantity": "2.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 62
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "Freight",
+            "markup_percent": null,
+            "notes": "Freight",
+            "parent": 11,
+            "price": "80.00",
+            "quantity": "1.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 63
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "1/4\" A36 Mod Steel",
+            "markup_percent": null,
+            "notes": "Steel",
+            "parent": 13,
+            "price": "2453.10",
+            "quantity": "1.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 64
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "Weld Consumables",
+            "markup_percent": null,
+            "notes": "Weld Consumables",
+            "parent": 13,
+            "price": "850.00",
+            "quantity": "1.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 65
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "185 Air Comp",
+            "markup_percent": null,
+            "notes": "Equipment",
+            "parent": 14,
+            "price": "850.00",
+            "quantity": "1.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 66
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "1/4\" A36 Mod Steel",
+            "markup_percent": null,
+            "notes": "Steel",
+            "parent": 14,
+            "price": "175.00",
+            "quantity": "1.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 67
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "Weld Consumables",
+            "markup_percent": null,
+            "notes": "Weld Consumables",
+            "parent": 14,
+            "price": "180.00",
+            "quantity": "1.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 68
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "Weld Consumables",
+            "markup_percent": null,
+            "notes": "Weld Consumables",
+            "parent": 15,
+            "price": "80.00",
+            "quantity": "1.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 69
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "SS Tell Tales",
+            "markup_percent": null,
+            "notes": "Pipe",
+            "parent": 17,
+            "price": "5.00",
+            "quantity": "7.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 70
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "Varec Parts",
+            "markup_percent": null,
+            "notes": "Specialty",
+            "parent": 18,
+            "price": "20.00",
+            "quantity": "1.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 71
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "MW Gaskets",
+            "markup_percent": null,
+            "notes": "Bolts & Gaskets",
+            "parent": 20,
+            "price": "195.00",
+            "quantity": "2.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 72
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "Line/MW Bolts and Gaskets",
+            "markup_percent": null,
+            "notes": "Bolts & Gaskets",
+            "parent": 20,
+            "price": "300.00",
+            "quantity": "1.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 73
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "Freight",
+            "markup_percent": null,
+            "notes": "Freight",
+            "parent": 20,
+            "price": "60.00",
+            "quantity": "1.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 74
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 2,
+            "description": "Pipe",
+            "markup_percent": null,
+            "notes": "Pipe",
+            "parent": 22,
+            "price": "250.00",
+            "quantity": "1.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 75
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 3,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 13,
+            "price": null,
+            "quantity": "1.00",
+            "unit_type": 3
+        },
+        "model": "bids.biditem",
+        "pk": 76
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 3,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 14,
+            "price": null,
+            "quantity": "2.00",
+            "unit_type": 2
+        },
+        "model": "bids.biditem",
+        "pk": 77
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 4,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 46,
+            "price": null,
+            "quantity": "550.00",
+            "unit_type": 4
+        },
+        "model": "bids.biditem",
+        "pk": 78
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 4,
+            "description": "",
+            "markup_percent": null,
+            "notes": "",
+            "parent": 47,
+            "price": null,
+            "quantity": "550.00",
+            "unit_type": 4
+        },
+        "model": "bids.biditem",
+        "pk": 79
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "category": 5,
+            "description": "NDE (MT)",
+            "markup_percent": null,
+            "notes": "Testing",
+            "parent": 14,
+            "price": "3250.00",
+            "quantity": "1.00",
+            "unit_type": null
+        },
+        "model": "bids.biditem",
+        "pk": 80
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Mobilization",
+            "parent": null,
+            "title": "Mobilization"
+        },
+        "model": "bids.bidtask",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Fixed Cone Roof & Appurtance Repairs",
+            "parent": null,
+            "title": "Fixed Cone Roof & Appurtance Repairs"
+        },
+        "model": "bids.bidtask",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install Removable S.S. Chains Above (12) Perimeter Roof Vents",
+            "parent": null,
+            "title": "Install Removable S.S. Chains Above (12) Perimeter Roof Vents"
+        },
+        "model": "bids.bidtask",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Replace Teflon Fabric Seal on Gauge Pole Float",
+            "parent": null,
+            "title": "Replace Teflon Fabric Seal on Gauge Pole Float"
+        },
+        "model": "bids.bidtask",
+        "pk": 4
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Provide and Install New 8\" Gauge Pole Float for Second Gauge Pole",
+            "parent": null,
+            "title": "Provide and Install New 8\" Gauge Pole Float for Second Gauge Pole"
+        },
+        "model": "bids.bidtask",
+        "pk": 5
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Provide and Install Safety Net for Inspection Hatch",
+            "parent": null,
+            "title": "Provide and Install Safety Net for Inspection Hatch"
+        },
+        "model": "bids.bidtask",
+        "pk": 6
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Floating Roof Repairs",
+            "parent": null,
+            "title": "Floating Roof Repairs"
+        },
+        "model": "bids.bidtask",
+        "pk": 7
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Replace ALL Aluminum Pontoons (Furnished by KM)",
+            "parent": null,
+            "title": "Replace ALL Aluminum Pontoons (Furnished by KM)"
+        },
+        "model": "bids.bidtask",
+        "pk": 8
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Repair (1) Column Well Lid that is Bent",
+            "parent": null,
+            "title": "Repair (1) Column Well Lid that is Bent"
+        },
+        "model": "bids.bidtask",
+        "pk": 9
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Raise Varec Hanger Support 6\"",
+            "parent": null,
+            "title": "Raise Varec Hanger Support 6\""
+        },
+        "model": "bids.bidtask",
+        "pk": 10
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Replace All Negotiator Seals",
+            "parent": null,
+            "title": "Replace All Negotiator Seals"
+        },
+        "model": "bids.bidtask",
+        "pk": 11
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Tank Bottom Repairs",
+            "parent": null,
+            "title": "Tank Bottom Repairs"
+        },
+        "model": "bids.bidtask",
+        "pk": 12
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install (92) Lap Patches",
+            "parent": null,
+            "title": "Install (92) Lap Patches"
+        },
+        "model": "bids.bidtask",
+        "pk": 13
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Replace (1) Bottom Sheet",
+            "parent": null,
+            "title": "Replace (1) Bottom Sheet"
+        },
+        "model": "bids.bidtask",
+        "pk": 14
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Repair (4) Lap Weld Pin Holes (Vac Box Test Before Repairing)",
+            "parent": null,
+            "title": "Repair (4) Lap Weld Pin Holes (Vac Box Test Before Repairing)"
+        },
+        "model": "bids.bidtask",
+        "pk": 15
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Nozzle and Appurtenance Repairs",
+            "parent": null,
+            "title": "Nozzle and Appurtenance Repairs"
+        },
+        "model": "bids.bidtask",
+        "pk": 16
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Pressure-Test (7) Nozzle Repads and Install Tell Tale 90s",
+            "parent": null,
+            "title": "Pressure-Test (7) Nozzle Repads and Install Tell Tale 90s"
+        },
+        "model": "bids.bidtask",
+        "pk": 17
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Varec Gauge Repairs",
+            "parent": null,
+            "title": "Varec Gauge Repairs"
+        },
+        "model": "bids.bidtask",
+        "pk": 18
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Tank Button Up",
+            "parent": null,
+            "title": "Tank Button Up"
+        },
+        "model": "bids.bidtask",
+        "pk": 19
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Provide All Nuts, Bolts, an Gaskets Needed",
+            "parent": null,
+            "title": "Provide All Nuts, Bolts, an Gaskets Needed"
+        },
+        "model": "bids.bidtask",
+        "pk": 20
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Remove Skillets/Blinds",
+            "parent": null,
+            "title": "Remove Skillets/Blinds"
+        },
+        "model": "bids.bidtask",
+        "pk": 21
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Re-Align (2) Pressure Relief Lines",
+            "parent": null,
+            "title": "Re-Align (2) Pressure Relief Lines"
+        },
+        "model": "bids.bidtask",
+        "pk": 22
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Monitor First Fill",
+            "parent": null,
+            "title": "Monitor First Fill"
+        },
+        "model": "bids.bidtask",
+        "pk": 23
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install (65) 12\" x 12\"",
+            "parent": 13,
+            "title": "Install (65) 12\" x 12\""
+        },
+        "model": "bids.bidtask",
+        "pk": 24
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install (1) 32\" x 32\" (Split)",
+            "parent": 13,
+            "title": "Install (1) 32\" x 32\" (Split)"
+        },
+        "model": "bids.bidtask",
+        "pk": 25
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install (1) 24\" x 28\"",
+            "parent": 13,
+            "title": "Install (1) 24\" x 28\""
+        },
+        "model": "bids.bidtask",
+        "pk": 26
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install (1) 20\" x 20\"",
+            "parent": 13,
+            "title": "Install (1) 20\" x 20\""
+        },
+        "model": "bids.bidtask",
+        "pk": 27
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install (3) 18\" x 12\"",
+            "parent": 13,
+            "title": "Install (3) 18\" x 12\""
+        },
+        "model": "bids.bidtask",
+        "pk": 28
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install (1) 40\" x 16\"",
+            "parent": 13,
+            "title": "Install (1) 40\" x 16\""
+        },
+        "model": "bids.bidtask",
+        "pk": 29
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install (1) 18\" x 34\"",
+            "parent": 13,
+            "title": "Install (1) 18\" x 34\""
+        },
+        "model": "bids.bidtask",
+        "pk": 30
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install (2) 42\" x 68\" (Split)",
+            "parent": 13,
+            "title": "Install (2) 42\" x 68\" (Split)"
+        },
+        "model": "bids.bidtask",
+        "pk": 31
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install (1) 18\" x 20\"",
+            "parent": 13,
+            "title": "Install (1) 18\" x 20\""
+        },
+        "model": "bids.bidtask",
+        "pk": 32
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install (6) 12\" x 16\"",
+            "parent": 13,
+            "title": "Install (6) 12\" x 16\""
+        },
+        "model": "bids.bidtask",
+        "pk": 33
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install (2) 20\" x 16\"",
+            "parent": 13,
+            "title": "Install (2) 20\" x 16\""
+        },
+        "model": "bids.bidtask",
+        "pk": 34
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install (1) 12\" x 22\"",
+            "parent": 13,
+            "title": "Install (1) 12\" x 22\""
+        },
+        "model": "bids.bidtask",
+        "pk": 35
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install (1) 26\" x 48\"",
+            "parent": 13,
+            "title": "Install (1) 26\" x 48\""
+        },
+        "model": "bids.bidtask",
+        "pk": 36
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install (2) 12\" x 14\"",
+            "parent": 13,
+            "title": "Install (2) 12\" x 14\""
+        },
+        "model": "bids.bidtask",
+        "pk": 37
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install (1) 20\" x 24\"",
+            "parent": 13,
+            "title": "Install (1) 20\" x 24\""
+        },
+        "model": "bids.bidtask",
+        "pk": 38
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install (1) 16\" x 16\"",
+            "parent": 13,
+            "title": "Install (1) 16\" x 16\""
+        },
+        "model": "bids.bidtask",
+        "pk": 39
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install (1) 60\" x 40\" (Split)",
+            "parent": 13,
+            "title": "Install (1) 60\" x 40\" (Split)"
+        },
+        "model": "bids.bidtask",
+        "pk": 40
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install (1) 30\" x 18\"",
+            "parent": 13,
+            "title": "Install (1) 30\" x 18\""
+        },
+        "model": "bids.bidtask",
+        "pk": 41
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install (2) 30\" x 72\"",
+            "parent": 13,
+            "title": "Install (2) 30\" x 72\""
+        },
+        "model": "bids.bidtask",
+        "pk": 42
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Time to Set Up",
+            "parent": 13,
+            "title": "Time to Set Up"
+        },
+        "model": "bids.bidtask",
+        "pk": 43
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Time to Fab up Patches",
+            "parent": 13,
+            "title": "Time to Fab up Patches"
+        },
+        "model": "bids.bidtask",
+        "pk": 44
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Vac Box Testing",
+            "parent": 13,
+            "title": "Vac Box Testing"
+        },
+        "model": "bids.bidtask",
+        "pk": 45
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Mobilize to Orlando",
+            "parent": 1,
+            "title": "Mobilize to Orlando"
+        },
+        "model": "bids.bidtask",
+        "pk": 46
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Demobilize to Concord",
+            "parent": 1,
+            "title": "Demobilize to Concord"
+        },
+        "model": "bids.bidtask",
+        "pk": 47
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Remove Exististing pontoons",
+            "parent": 8,
+            "title": "Remove Exististing pontoons"
+        },
+        "model": "bids.bidtask",
+        "pk": 49
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Inventory New Pontoons",
+            "parent": 8,
+            "title": "Inventory New Pontoons"
+        },
+        "model": "bids.bidtask",
+        "pk": 50
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install New Pontoons",
+            "parent": 8,
+            "title": "Install New Pontoons"
+        },
+        "model": "bids.bidtask",
+        "pk": 51
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Remove existing lid",
+            "parent": 9,
+            "title": "Remove existing lid"
+        },
+        "model": "bids.bidtask",
+        "pk": 52
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "install new lid",
+            "parent": 9,
+            "title": "install new lid"
+        },
+        "model": "bids.bidtask",
+        "pk": 53
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Replace (8) Column Seals",
+            "parent": 11,
+            "title": "Replace (8) Column Seals"
+        },
+        "model": "bids.bidtask",
+        "pk": 54
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Replace (2) Gauge well seals",
+            "parent": 11,
+            "title": "Replace (2) Gauge well seals"
+        },
+        "model": "bids.bidtask",
+        "pk": 55
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Gouge out existing sheet & remove",
+            "parent": 14,
+            "title": "Gouge out existing sheet & remove"
+        },
+        "model": "bids.bidtask",
+        "pk": 56
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Fab new split sheet",
+            "parent": 14,
+            "title": "Fab new split sheet"
+        },
+        "model": "bids.bidtask",
+        "pk": 57
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Install new sheet",
+            "parent": 14,
+            "title": "Install new sheet"
+        },
+        "model": "bids.bidtask",
+        "pk": 58
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Vac Box",
+            "parent": 14,
+            "title": "Vac Box"
+        },
+        "model": "bids.bidtask",
+        "pk": 59
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "MT Test",
+            "parent": 14,
+            "title": "MT Test"
+        },
+        "model": "bids.bidtask",
+        "pk": 60
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Vac Box and Locate Pin Holes",
+            "parent": 15,
+            "title": "Vac Box and Locate Pin Holes"
+        },
+        "model": "bids.bidtask",
+        "pk": 61
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Repair",
+            "parent": 15,
+            "title": "Repair"
+        },
+        "model": "bids.bidtask",
+        "pk": 62
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Vac Box Again",
+            "parent": 15,
+            "title": "Vac Box Again"
+        },
+        "model": "bids.bidtask",
+        "pk": 63
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Open Gauge and Dry Out",
+            "parent": 18,
+            "title": "Open Gauge and Dry Out"
+        },
+        "model": "bids.bidtask",
+        "pk": 64
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Replace Plug",
+            "parent": 18,
+            "title": "Replace Plug"
+        },
+        "model": "bids.bidtask",
+        "pk": 65
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Time to re-install pressure reliefs",
+            "parent": 22,
+            "title": "Time to re-install pressure reliefs"
+        },
+        "model": "bids.bidtask",
+        "pk": 66
+    },
+    {
+        "fields": {
+            "bid": 1,
+            "description": "Minor Mods",
+            "parent": 22,
+            "title": "Minor Mods"
+        },
+        "model": "bids.bidtask",
+        "pk": 67
+    },
+    {
+        "fields": {
+            "bid_date": "2018-05-31",
+            "created_on": "2018-06-09T01:07:00.777Z",
+            "customer": 1,
+            "description": "Central Florida Pipeline\r\nOrlando, Fl",
+            "name": "Tank 100-1 Repairs",
+            "tax_percent": null
+        },
+        "model": "bids.bid",
+        "pk": 1
+    }
+]

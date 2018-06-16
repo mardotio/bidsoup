@@ -19,11 +19,11 @@
     "baseUrl": ".",
     "typeRoots": [
         "node_modules/@types",
-        "src/types"
+        "src/definitions"
     ],
     "paths": {
         "react": ["node_modules/@types/react"],
-        "redux-thunk": ["src/types/redux-thunk"]
+        "redux-thunk": ["src/definitions/redux-thunk"]
 
     }
   },

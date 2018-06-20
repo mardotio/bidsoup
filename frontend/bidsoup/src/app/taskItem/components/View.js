@@ -16,12 +16,19 @@ const ViewConatiner = styled.div`
 `;
 
 const TaskContent = Card.extend`
-  max-width: 1000px;
   min-width: 600px;
   overflow: scroll;
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #ddd;
+  }
 `;
 
 const ItemContent = Card.extend`
+  display: flex;
+  justify-content: center;
   overflow: hidden;
   margin-left: ${({shouldDisplay}) => (shouldDisplay
     ? '20px'

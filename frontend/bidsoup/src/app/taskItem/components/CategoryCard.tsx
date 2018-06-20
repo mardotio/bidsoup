@@ -18,7 +18,7 @@ const Card = withProps<CardProps>()(styled.div)`
   height: min-content;
   background-color: ${props => props.background};
   color: ${props => determineFontColor(props.background)};
-  margin: 1em;
+  margin-right: 2em;
   border-radius: 2px;
   cursor: pointer;
 `;

@@ -16,3 +16,14 @@ export const nestedFind = (arr: Object[], key: string, match: any, nestedKey: st
   });
   return result;
 };
+
+export const getInitials = (str: string, maxLength = 1) => (
+  str.split(' ').reduce(
+    (collector, word) => (
+      collector.length < maxLength
+       ? collector + word.charAt(0)
+       : collector
+    ),
+    ''
+  ).toUpperCase()
+);

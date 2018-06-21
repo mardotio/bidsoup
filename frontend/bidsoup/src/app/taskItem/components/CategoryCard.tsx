@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { withProps, determineFontColor, beautifyNumber, capitalize } from '../../utils/styling';
+import { getInitials } from '../../utils/utils';
 
 const CardContent = styled.div`
   padding: .1em 1em;
@@ -41,17 +42,6 @@ const Card = withProps<CardProps>()(styled.div)`
     background-color: #eaeaea;
   }
 `;
-
-const getInitials = (str: string, maxLength = 1) => (
-  str.split(' ').reduce(
-    (collector, word) => (
-      collector.length < maxLength
-       ? collector + word.charAt(0)
-       : collector
-    ),
-    ''
-  )
-);
 
 interface Props {
   background: string;

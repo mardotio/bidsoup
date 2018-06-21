@@ -2,35 +2,56 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { withProps, determineFontColor, beautifyNumber, capitalize } from '../../utils/styling';
 
-interface CardProps {
+const CardContent = styled.div`
+  padding: .1em 1em;
+`;
+
+interface CircleProps {
   background: string;
+}
+
+const CircleInitials = withProps<CircleProps>()(styled.div)`
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  background-color: ${props => props.background};
+  color: ${props => determineFontColor(props.background)};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+interface CardProps {
   selected: boolean;
 }
 
 const Card = withProps<CardProps>()(styled.div)`
-  box-shadow: ${props => (
-    props.selected
-      ? '0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.3)'
-      : '0 1px 4px rgba(0,0,0,0.37)'
-  )};
-  transition: box-shadow .28s;
-  min-width: 100px;
-  height: min-content;
-  background-color: ${props => props.background};
-  color: ${props => determineFontColor(props.background)};
-  margin-right: 2em;
-  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  padding: .5em;
+  border-radius: 27px;
   cursor: pointer;
+  margin-right: 1em;
+  transition: background .28s ease;
+  background-color: ${props => (props.selected
+    ? '#eaeaea'
+    : 'inherit'
+  )};
+  &:hover {
+    background-color: #eaeaea;
+  }
 `;
 
-const CardContent = styled.div`
-  padding: .5em 1em;
-`;
-
-const AlignRight = styled.span`
-  float: right;
-  margin-left: .5em;
-`;
+const getInitials = (str: string, maxLength = 1) => (
+  str.split(' ').reduce(
+    (collector, word) => (
+      collector.length < maxLength
+       ? collector + word.charAt(0)
+       : collector
+    ),
+    ''
+  )
+);
 
 interface Props {
   background: string;
@@ -43,19 +64,22 @@ interface Props {
 const CategoryCard = (props: Props) => {
   return (
     <Card
-      background={props.background}
       selected={props.selected}
       onClick={() => props.onClick(props.category)}
     >
+      <CircleInitials
+        background={props.background}
+      >
+        {getInitials(props.category, 2)}
+      </CircleInitials>
+      <div>
       <CardContent>
         {capitalize(props.category)}
       </CardContent>
       <CardContent>
-        Total:
-        <AlignRight>
-          ${beautifyNumber(props.total, 2)}
-        </AlignRight>
+        ${beautifyNumber(props.total, 2)}
       </CardContent>
+      </div>
     </Card>
   );
 };

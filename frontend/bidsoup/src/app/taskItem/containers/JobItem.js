@@ -5,7 +5,8 @@ import { nestedFind } from '../../utils/utils';
 const mapStateToProps = ({bidData}) => (
   {
     tableData: bidData.categoryTablesData,
-    selectedTask: nestedFind(bidData.tasks.list, 'url', bidData.selectedTask, 'children')
+    selectedTask: nestedFind(bidData.tasks.list, 'url', bidData.selectedTask, 'children'),
+    key: bidData.selectedTask
   }
 );
 

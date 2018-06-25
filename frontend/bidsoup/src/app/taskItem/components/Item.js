@@ -44,9 +44,7 @@ export default class Item extends Component {
   }
 
   createCategoryTables() {
-    console.log('Calling create tables')
     let {tableData} = this.props;
-    console.log(tableData[0])
     let selectedCategory = tableData.find(item => (
       item.category === this.state.selectedCategory
     ));

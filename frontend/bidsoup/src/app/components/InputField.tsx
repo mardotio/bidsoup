@@ -115,15 +115,15 @@ const Option = styled.div`
   }
 `;
 
-interface DropDownItem {
+export interface DropDownItem {
   id: string;
   name: string;
 }
 
-interface DropDownOptions {
+export interface DropDownOptions {
   list: DropDownItem[];
   select: (option: DropDownItem) => void;
-  selected: string;
+  filter: boolean;
 }
 
 interface Error {
@@ -137,7 +137,7 @@ interface Props extends React.HTMLAttributes<HTMLInputElement> {
   focusColor: string;
   label: string;
   optional?: boolean;
-  options?: DropDownOptions | null;
+  options?: DropDownOptions;
   name?: string;
   type?: string;
   value: string;
@@ -169,12 +169,12 @@ const displayOptions = ({options, isFocused, value}: Props) => {
     return null;
   }
   let filteredOptions = filterOptions(options, value);
+  console.log('filteredOptions: ', filteredOptions);
   if (isEmpty(filteredOptions)) {
     return null;
   }
-  let optionsToDisplay = isEmpty(options.selected) || filteredOptions.length > 1
-    ? filteredOptions
-    : options.list;
+  let optionsToDisplay = options.filter ? filteredOptions : options.list;
+  console.log(optionsToDisplay);
   return (
     <OptionsContainer>
       {optionsToDisplay.map(option => (
@@ -190,6 +190,9 @@ const displayOptions = ({options, isFocused, value}: Props) => {
 };
 
 const updateOrSelect = (event: React.ChangeEvent<HTMLInputElement>, {options, onChange}: Props) => {
+  if (onChange) {
+    onChange(event);
+  }
   if (options) {
     let selectedOption = options.list.filter(option => (
       option.name.toLowerCase() === event.target.value.toLocaleLowerCase()
@@ -243,7 +246,7 @@ InputField.defaultProps = {
     hasError: false,
   },
   optional: false,
-  options: null,
+  options: undefined,
   type: 'text',
 };
 

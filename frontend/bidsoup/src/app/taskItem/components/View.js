@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Modal from '../../components/Modal';
 import TaskTree from '../components/TaskTree';
 import Card from '../../components/Card';
+import NewTaskForm from './NewTaskForm';
 import Fab from '../../components/Fab';
 import Item from './Item';
 
@@ -74,10 +75,8 @@ const addElements = props => {
           />
         </FabContainer>
         <Modal onClose={props.hideModal}>
-          <p>Add a new task!</p>
-          <NewTaskForm/>
-          <button>Ok!</button>
-          <button onClick={props.hideModal}>Nevermind</button>
+          <p style={{fontSize: 'large'}}><b>Add a new task!</b></p>
+          <NewTaskForm tasks={props.tasks}/>/>
         </Modal>
       </React.Fragment>
     );

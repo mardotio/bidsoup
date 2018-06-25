@@ -5,7 +5,11 @@ import { beautifyNumber } from '../../utils/styling';
 
 const offColor = '#eaeaea';
 
-const Task = styled.div`
+interface TaskProps {
+  clickable: boolean;
+}
+
+const Task = withProps<TaskProps>()(styled.div)`
   display: flex;
   align-items: center;
   padding: 10px;
@@ -16,6 +20,7 @@ const Task = styled.div`
   &:hover {
     background-color: ${offColor};
   }
+  cursor: ${props => props.clickable ? 'pointer' : 'default'};
 `;
 
 export enum ArrowStyle {
@@ -44,14 +49,12 @@ const Title = styled.div`
   display: flex;
   align-items: center;
   flex: 1;
-  font-size: 110%;
+  flex-basis: 40%;
 `;
 
 const Cost = styled.div`
-  padding: 5px 10px;
-  font-size: 110%;
-  font-weight: bold;
-  float: right;
+  text-align: right;
+  flex-grow: 1;
 `;
 
 const buildCostString = (cost: number, containedCost: number) => {
@@ -108,6 +111,7 @@ class TaskRow extends React.Component<Props> {
         onMouseEnter={this.mouseEnter}
         onMouseLeave={this.mouseLeave}
         onClick={e => this.props.onTaskClick(this.props.url)}
+        clickable={this.props.cost > 0}
       >
         <Title>
           <Triangle

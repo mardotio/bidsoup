@@ -60,6 +60,7 @@ const mapStateToProps = state => ({
   categories: state.bidData.categories,
   items: getItems(state),
   tasks: getTasks(state),
+  units: state.bidData.units
 });
 
 const mapDispatchToProps = dispatch => {
@@ -68,8 +69,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchApi()),
     refreshItems: (bid) =>
       dispatch(componentsActions.fetchBidComponents(bid)),
-    selectTask: (task, categories, items) =>
-      dispatch(tasksActions.selectBidTask(task, categories, items)),
+    selectTask: (task, categories, items, units) =>
+      dispatch(tasksActions.selectBidTask(task, categories, items, units)),
     showModal: () => dispatch(uiActions.showModal()),
     hideModal: () => dispatch(uiActions.hideModal())
   };

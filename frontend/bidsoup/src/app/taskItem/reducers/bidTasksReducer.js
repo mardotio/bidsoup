@@ -1,4 +1,5 @@
 import tasksActions from '../actions/bidTasksActions';
+import { isEmpty } from '../../utils/utils';
 
 const defaultState = {
   areFetching: false,

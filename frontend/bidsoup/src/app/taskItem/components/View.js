@@ -9,17 +9,26 @@ import Fab from '../../components/Fab';
 const ViewConatiner = styled.div`
   display: flex;
   justify-content: center;
-  width: 80%;
+  width: 95%;
   height: 100%;
   margin: 0 auto;
+  overflow: hidden;
 `;
 
 const TaskContent = Card.extend`
-  max-width: 1000px;
-  min-width: 800px;
+  min-width: 600px;
+  overflow: scroll;
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #ddd;
+  }
 `;
 
 const ItemContent = Card.extend`
+  display: flex;
+  justify-content: center;
   overflow: hidden;
   margin-left: ${({shouldDisplay}) => (shouldDisplay
     ? '20px'
@@ -105,7 +114,8 @@ const View = props => {
             onTaskSelect={t => props.selectTask(
               t,
               props.categories.list,
-              props.items)}
+              props.items,
+              props.units.units)}
           />
         </TaskContent>
         <ItemContent

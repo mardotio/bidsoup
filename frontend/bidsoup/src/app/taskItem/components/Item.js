@@ -1,20 +1,29 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Table from './Table';
-import CategoryCard from './CategoryCard'
+import CategoryCard from './CategoryCard';
+import HorizontalRule from '../../components/HorizontalRule';
 
 const ItemWrapper = styled.div`
   margin-top: 1em;
+  width: 95%;
 `
 
 const JobItemHeader = styled.div`
-  margin-left: 1em;
+  font-size: 1.5em;
 `
 
-const Container = styled.div`
+const TaskDescription = styled.div`
+`
+
+const CardContainer = styled.div`
   display: flex;
-  margin-left: 1em;
   flex-wrap: wrap;
+  padding: 1em 0;
+`
+
+const TableContainer = styled.div`
+  width: 100%;
 `
 
 export default class Item extends Component {
@@ -36,7 +45,7 @@ export default class Item extends Component {
 
   createCategoryTables() {
     let {tableData} = this.props;
-    let [selectedCategory] = tableData.filter(item => (
+    let selectedCategory = tableData.find(item => (
       item.category === this.state.selectedCategory
     ));
     return (
@@ -50,9 +59,9 @@ export default class Item extends Component {
   createCategoryCards() {
     let {tableData} = this.props;
     let categoryCards = tableData.map(item => {
-      let total = item.rows.reduce((currentTotal, next) => {
-        return currentTotal += next.total;
-      }, 0);
+      let total = item.rows.reduce((currentTotal, next) => (
+        currentTotal + next.total
+      ), 0);
       return (
         <CategoryCard
           key={item.category}
@@ -73,12 +82,16 @@ export default class Item extends Component {
         <JobItemHeader>
           {this.props.selectedTask.title}
         </JobItemHeader>
-        <Container>
+        <HorizontalRule />
+        <TaskDescription>
+          {this.props.selectedTask.description}
+        </TaskDescription>
+        <CardContainer>
           {this.createCategoryCards()}
-        </Container>
-        <Container>
+        </CardContainer>
+        <TableContainer>
           {this.createCategoryTables()}
-        </Container>
+        </TableContainer>
       </ItemWrapper>
     );
   }

@@ -8,8 +8,9 @@ const TableWrapper = styled.div`
   flex-direction: column;
   min-width: 500px;
   width: 100%;
-  margin: 1em;
+  padding: 1em 0;
   height: min-content;
+  box-sizing: border-box;
 `
 
 export default class Table extends Component {

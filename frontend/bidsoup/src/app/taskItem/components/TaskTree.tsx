@@ -65,7 +65,7 @@ class TaskTree extends React.Component<Props, State> {
         const i = lvl * INDENT_PX;
         let arrow;
         if (!isEmpty(task.children)) {
-          arrow = this.state.collapsed[task.url] ? ArrowStyle.Collapsed : ArrowStyle.Expanded;
+          arrow = this.state.collapsed[task.url] ? ArrowStyle.Expanded : ArrowStyle.Collapsed;
         }
 
         let newChild = (
@@ -81,7 +81,7 @@ class TaskTree extends React.Component<Props, State> {
             onTaskClick={this.props.onTaskSelect}
           />
         );
-        if (!isEmpty(task.children) && !this.state.collapsed[task.url]) {
+        if (!isEmpty(task.children) && this.state.collapsed[task.url]) {
           let ret: JSX.Element[] = this.flattenTasks(task.children, lvl + 1);
           return [...collected, newChild, ...ret];
         }

@@ -19,7 +19,7 @@ let columns = [{
 const categoryTablesReducer = (state = [], action) => {
   switch(action.type) {
     case taskActions.SELECT_BID_TASK:
-      let {task, categories, items} = action;
+      let {task, categories, items, units} = action;
       let reducedCategories = categories.map(category => ({
         categoryUrl: category.url,
         category: category.name,
@@ -30,7 +30,16 @@ const categoryTablesReducer = (state = [], action) => {
       }));
       let taskItems = items.filter(item => item.parent === task);
       let itemsByCategory = taskItems.reduce((sortedItems, item) => {
-        let {description, quantity, price, url} = item;
+        let {quantity, url} = item;
+        let price, description;
+        if (item.price) {
+          price = item.price;
+          description = item.description;
+        } else {
+          let unit = units[item.unit_type];
+          price = unit.unit_price;
+          description = unit.name;
+        }
         let normalizedItem = {
           description,
           quantity: Number(quantity),

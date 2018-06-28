@@ -4,6 +4,82 @@ import { fetchApi } from '../actions/apiActions';
 import tasksActions from '../actions/bidTasksActions';
 import { Actions as uiActions } from '../../actions/uiActions';
 import componentsActions from '../actions/bidComponentsActions';
+import { nestedFind } from '../../utils/utils';
+
+const getItemsByTask = (task, items) => (
+  items.filter(item => item.parent === task)
+);
+
+const columns = [
+  {
+    name: 'description',
+    style: 'text',
+  },
+  {
+    name: 'quantity',
+    style: 'number',
+  },
+  {
+    name: 'price',
+    style: 'currency',
+  },
+  {
+    name: 'total',
+    style: 'currency',
+  },
+];
+
+const generateTableData = ({categories, items, units, selectedTask}) => {
+  let categoryList = categories.list;
+  let itemList = getItemsByTask(selectedTask, items.list);
+  let unitList = units.units;
+
+  let itemsByCategory = itemList.reduce((ordered, item) => (
+    {
+      ...ordered,
+      [item.category]: ordered[item.category]
+        ? [...ordered[item.category], item]
+        : [item]
+    }
+  ), {});
+
+  let tableData = categoryList.reduce((formattedData, category) => {
+    if (itemsByCategory[category.url]) {
+      let rows = itemsByCategory[category.url].reduce((tableRows, item) => {
+        let {description, price, quantity, url} = item;
+        if (price === null) {
+          let unit = unitList[item.unit_type];
+          description = unit.name;
+          price = unit.unit_price;
+        }
+        return [
+          ...tableRows,
+          {
+            description,
+            quantity: Number(quantity),
+            price: Number(price),
+            total: Number(price * quantity),
+            url,
+          }
+        ]
+      }, []);
+      return [
+        ...formattedData,
+        {
+          category: category.name,
+          categoryUrl: category.url,
+          color: `#${category.color}`,
+          columns,
+          rows,
+        }
+      ];
+    } else {
+      return formattedData;
+    }
+  }, [])
+
+  return tableData;
+};
 
 const buildTask = (task, items) => {
   const sumCost = items
@@ -56,7 +132,8 @@ const getTasks = (state) => {
 const mapStateToProps = state => ({
   endpoints: state.api.endpoints,
   ui: state.ui,
-  tableData: state.bidData.categoryTablesData,
+  tableData: generateTableData(state.bidData),
+  selectedTask: nestedFind(state.bidData.tasks.list, 'url', state.bidData.selectedTask, 'children'),
   categories: state.bidData.categories,
   items: getItems(state),
   tasks: getTasks(state),
@@ -69,8 +146,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchApi()),
     refreshItems: (bid) =>
       dispatch(componentsActions.fetchBidComponents(bid)),
-    selectTask: (task, categories, items, units) =>
-      dispatch(tasksActions.selectBidTask(task, categories, items, units)),
+    selectTask: (task) =>
+      dispatch(tasksActions.selectBidTask(task)),
     showModal: () => dispatch(uiActions.showModal()),
     hideModal: () => dispatch(uiActions.hideModal())
   };

@@ -44,19 +44,19 @@ const formatItemForTable = (item, unitList) => {
     price: Number(price),
     total: Number(price * quantity),
     url,
-  }
+  };
 };
 
 const generateTableData = ({categories, items, units, selectedTask}) => {
-  let itemList = getItemsByTask(selectedTask, items.list);
-  let itemsByCategory = array2HashByKey(itemList, 'category');
+  const itemList = getItemsByTask(selectedTask, items.list);
+  const itemsByCategory = array2HashByKey(itemList, 'category');
 
-  let categoriesWithItems = categories.list.filter(category => (
+  const categoriesWithItems = categories.list.filter(category => (
     itemsByCategory[category.url]
   ));
 
   return categoriesWithItems.map(category => {
-    let rows = itemsByCategory[category.url].map(item => (
+    const rows = itemsByCategory[category.url].map(item => (
       formatItemForTable(item, units.units)
     ));
     return {
@@ -72,9 +72,7 @@ const generateTableData = ({categories, items, units, selectedTask}) => {
 const buildTask = (task, items) => {
   const sumCost = items
     .filter(i => i.parent == task.url)
-    .reduce((total, item) => {
-      return total += item.total;
-      }, 0);
+    .reduce((total, item) => (total += item.total), 0);
 
   if (!isEmpty(task.children)) {
     // Get cost from children and update object
@@ -92,14 +90,14 @@ const buildTask = (task, items) => {
       ...task,
       containedCost: 0,
       cost: sumCost,
-    }
+    };
   }
-}
+};
 
 const getTasks = ({tasks, items, units}) => {
   const formattedItems = items.list.map(item => formatItemForTable(item, units.units));
   return tasks.list.map(t => buildTask(t, formattedItems));
-}
+};
 
 const mapStateToProps = ({api, ui, bidData}) => ({
   endpoints: api.endpoints,
@@ -107,7 +105,6 @@ const mapStateToProps = ({api, ui, bidData}) => ({
   tableData: generateTableData(bidData),
   selectedTask: nestedFind(bidData.tasks.list, 'url', bidData.selectedTask, 'children'),
   categories: bidData.categories,
-  items: bidData.items.list,
   tasks: getTasks(bidData),
   units: bidData.units
 });

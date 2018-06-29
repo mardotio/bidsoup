@@ -4,11 +4,7 @@ import { fetchApi } from '../actions/apiActions';
 import tasksActions from '../actions/bidTasksActions';
 import { Actions as uiActions } from '../../actions/uiActions';
 import componentsActions from '../actions/bidComponentsActions';
-import { nestedFind } from '../../utils/utils';
-
-const getItemsByTask = (task, items) => (
-  items.filter(item => item.parent === task)
-);
+import { isEmpty, nestedFind } from '../../utils/utils';
 
 const columns = [
   {
@@ -29,10 +25,29 @@ const columns = [
   },
 ];
 
+const getItemsByTask = (task, items) => (
+  items.filter(item => item.parent === task)
+);
+
+const formatItemForTable = (item, unitList) => {
+  let {description, price, quantity, url, unit_type} = item;
+  if (unit_type) {
+    let unit = unitList[unit_type];
+    description = unit.name;
+    price = unit.unit_price;
+  }
+  return {
+    ...item,
+    description,
+    quantity: Number(quantity),
+    price: Number(price),
+    total: Number(price * quantity),
+    url,
+  }
+};
+
 const generateTableData = ({categories, items, units, selectedTask}) => {
-  let categoryList = categories.list;
   let itemList = getItemsByTask(selectedTask, items.list);
-  let unitList = units.units;
 
   let itemsByCategory = itemList.reduce((ordered, item) => (
     {
@@ -43,42 +58,22 @@ const generateTableData = ({categories, items, units, selectedTask}) => {
     }
   ), {});
 
-  let tableData = categoryList.reduce((formattedData, category) => {
-    if (itemsByCategory[category.url]) {
-      let rows = itemsByCategory[category.url].reduce((tableRows, item) => {
-        let {description, price, quantity, url} = item;
-        if (price === null) {
-          let unit = unitList[item.unit_type];
-          description = unit.name;
-          price = unit.unit_price;
-        }
-        return [
-          ...tableRows,
-          {
-            description,
-            quantity: Number(quantity),
-            price: Number(price),
-            total: Number(price * quantity),
-            url,
-          }
-        ]
-      }, []);
-      return [
-        ...formattedData,
-        {
-          category: category.name,
-          categoryUrl: category.url,
-          color: `#${category.color}`,
-          columns,
-          rows,
-        }
-      ];
-    } else {
-      return formattedData;
-    }
-  }, [])
+  let categoriesWithItems = categories.list.filter(category => (
+    itemsByCategory[category.url]
+  ));
 
-  return tableData;
+  return categoriesWithItems.map(category => {
+    let rows = itemsByCategory[category.url].map(item => (
+      formatItemForTable(item, units.units)
+    ));
+    return {
+      category: category.name,
+      categoryUrl: category.url,
+      color: `#${category.color}`,
+      columns,
+      rows,
+    };
+  });
 };
 
 const buildTask = (task, items) => {
@@ -88,7 +83,7 @@ const buildTask = (task, items) => {
       return total += item.total;
       }, 0);
 
-  if (task.children.length > 0) {
+  if (!isEmpty(task.children)) {
     // Get cost from children and update object
     const children = task.children.map(t => buildTask(t, items));
     const cost = children.reduce((total, child) => total + child.cost, 0);
@@ -108,36 +103,20 @@ const buildTask = (task, items) => {
   }
 }
 
-const getItems = (state) => {
-  return (state.bidData.items.list.map(i => {
-    // Add a total attribute.
-    let total = 0;
-    if (i.price) {
-      total = i.price * i.quantity;
-    } else if (i.unit_type) {
-      total = Number.parseFloat(i.quantity) * Number.parseFloat(state.bidData.units.units[i.unit_type].unit_price);
-    }
-    return {
-      ...i,
-      total
-    };
-  }));
+const getTasks = ({tasks, items, units}) => {
+  const formattedItems = items.list.map(item => formatItemForTable(item, units.units));
+  return tasks.list.map(t => buildTask(t, formattedItems));
 }
 
-const getTasks = (state) => {
-  const items = getItems(state);
-  return state.bidData.tasks.list.map(t => buildTask(t, items));
-}
-
-const mapStateToProps = state => ({
-  endpoints: state.api.endpoints,
-  ui: state.ui,
-  tableData: generateTableData(state.bidData),
-  selectedTask: nestedFind(state.bidData.tasks.list, 'url', state.bidData.selectedTask, 'children'),
-  categories: state.bidData.categories,
-  items: getItems(state),
-  tasks: getTasks(state),
-  units: state.bidData.units
+const mapStateToProps = ({api, ui, bidData}) => ({
+  endpoints: api.endpoints,
+  ui: ui,
+  tableData: generateTableData(bidData),
+  selectedTask: nestedFind(bidData.tasks.list, 'url', bidData.selectedTask, 'children'),
+  categories: bidData.categories,
+  items: bidData.items.list,
+  tasks: getTasks(bidData),
+  units: bidData.units
 });
 
 const mapDispatchToProps = dispatch => {

@@ -5,6 +5,7 @@ import tasksActions from '../actions/bidTasksActions';
 import { Actions as uiActions } from '../../actions/uiActions';
 import componentsActions from '../actions/bidComponentsActions';
 import { isEmpty, nestedFind } from '../../utils/utils';
+import { array2HashByKey } from '../../utils/sorting';
 
 const columns = [
   {
@@ -48,15 +49,7 @@ const formatItemForTable = (item, unitList) => {
 
 const generateTableData = ({categories, items, units, selectedTask}) => {
   let itemList = getItemsByTask(selectedTask, items.list);
-
-  let itemsByCategory = itemList.reduce((ordered, item) => (
-    {
-      ...ordered,
-      [item.category]: ordered[item.category]
-        ? [...ordered[item.category], item]
-        : [item]
-    }
-  ), {});
+  let itemsByCategory = array2HashByKey(itemList, 'category');
 
   let categoriesWithItems = categories.list.filter(category => (
     itemsByCategory[category.url]

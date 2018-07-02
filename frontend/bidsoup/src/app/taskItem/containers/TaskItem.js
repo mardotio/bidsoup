@@ -62,6 +62,7 @@ const generateTableData = ({categories, items, units, selectedTask}) => {
     return {
       category: category.name,
       categoryUrl: category.url,
+      categoryDescription: category.description,
       color: `#${category.color}`,
       columns,
       rows,

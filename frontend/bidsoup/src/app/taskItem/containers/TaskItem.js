@@ -4,15 +4,77 @@ import { fetchApi } from '../actions/apiActions';
 import tasksActions from '../actions/bidTasksActions';
 import { Actions as uiActions } from '../../actions/uiActions';
 import componentsActions from '../actions/bidComponentsActions';
+import { isEmpty, nestedFind } from '../../utils/utils';
+import { array2HashByKey } from '../../utils/sorting';
+
+const columns = [
+  {
+    name: 'description',
+    style: 'text',
+  },
+  {
+    name: 'quantity',
+    style: 'number',
+  },
+  {
+    name: 'price',
+    style: 'currency',
+  },
+  {
+    name: 'total',
+    style: 'currency',
+  },
+];
+
+const getItemsByTask = (task, items) => (
+  items.filter(item => item.parent === task)
+);
+
+const formatItemForTable = (item, unitList) => {
+  let {description, price, quantity, url, unit_type} = item;
+  if (unit_type) {
+    let unit = unitList[unit_type];
+    description = unit.name;
+    price = unit.unit_price;
+  }
+  return {
+    ...item,
+    description,
+    quantity: Number(quantity),
+    price: Number(price),
+    total: Number(price * quantity),
+    url,
+  };
+};
+
+const generateTableData = ({categories, items, units, selectedTask}) => {
+  const itemList = getItemsByTask(selectedTask, items.list);
+  const itemsByCategory = array2HashByKey(itemList, 'category');
+
+  const categoriesWithItems = categories.list.filter(category => (
+    itemsByCategory[category.url]
+  ));
+
+  return categoriesWithItems.map(category => {
+    const rows = itemsByCategory[category.url].map(item => (
+      formatItemForTable(item, units.units)
+    ));
+    return {
+      category: category.name,
+      categoryUrl: category.url,
+      color: `#${category.color}`,
+      columns,
+      rows,
+    };
+  });
+};
 
 const buildTask = (task, items) => {
   const sumCost = items
     .filter(i => i.parent == task.url)
-    .reduce((total, item) => {
-      return total += item.total;
-      }, 0);
+    .reduce((total, item) => (total += item.total), 0);
 
-  if (task.children.length > 0) {
+  if (!isEmpty(task.children)) {
     // Get cost from children and update object
     const children = task.children.map(t => buildTask(t, items));
     const cost = children.reduce((total, child) => total + child.cost, 0);
@@ -28,39 +90,23 @@ const buildTask = (task, items) => {
       ...task,
       containedCost: 0,
       cost: sumCost,
-    }
-  }
-}
-
-const getItems = (state) => {
-  return (state.bidData.items.list.map(i => {
-    // Add a total attribute.
-    let total = 0;
-    if (i.price) {
-      total = i.price * i.quantity;
-    } else if (i.unit_type) {
-      total = Number.parseFloat(i.quantity) * Number.parseFloat(state.bidData.units.units[i.unit_type].unit_price);
-    }
-    return {
-      ...i,
-      total
     };
-  }));
-}
+  }
+};
 
-const getTasks = (state) => {
-  const items = getItems(state);
-  return state.bidData.tasks.list.map(t => buildTask(t, items));
-}
+const getTasks = ({tasks, items, units}) => {
+  const formattedItems = items.list.map(item => formatItemForTable(item, units.units));
+  return tasks.list.map(t => buildTask(t, formattedItems));
+};
 
-const mapStateToProps = state => ({
-  endpoints: state.api.endpoints,
-  ui: state.ui,
-  tableData: state.bidData.categoryTablesData,
-  categories: state.bidData.categories,
-  items: getItems(state),
-  tasks: getTasks(state),
-  units: state.bidData.units
+const mapStateToProps = ({api, ui, bidData}) => ({
+  endpoints: api.endpoints,
+  ui: ui,
+  tableData: generateTableData(bidData),
+  selectedTask: nestedFind(bidData.tasks.list, 'url', bidData.selectedTask, 'children'),
+  categories: bidData.categories,
+  tasks: getTasks(bidData),
+  units: bidData.units
 });
 
 const mapDispatchToProps = dispatch => {
@@ -69,8 +115,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchApi()),
     refreshItems: (bid) =>
       dispatch(componentsActions.fetchBidComponents(bid)),
-    selectTask: (task, categories, items, units) =>
-      dispatch(tasksActions.selectBidTask(task, categories, items, units)),
+    selectTask: (task) =>
+      dispatch(tasksActions.selectBidTask(task)),
     showModal: () => dispatch(uiActions.showModal()),
     hideModal: () => dispatch(uiActions.hideModal())
   };

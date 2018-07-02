@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import JobItem from '../containers/JobItem';
 import Modal from '../../components/Modal';
 import TaskTree from '../components/TaskTree';
 import Card from '../../components/Card';
 import Fab from '../../components/Fab';
+import Item from './Item';
 
 const ViewConatiner = styled.div`
   display: flex;
@@ -48,12 +48,16 @@ const FabContainer = styled.div`
   z-index: 500;
 `;
 
-const displayTaskItems = ({tableData}) => {
+const displayTaskItems = ({tableData, selectedTask}) => {
   if (tableData.length <= 0) {
     return null;
   } else {
     return (
-      <JobItem />
+      <Item
+        tableData={tableData}
+        selectedTask={selectedTask}
+        key={selectedTask.url}
+      />
     );
   }
 }
@@ -111,11 +115,7 @@ const View = props => {
         <TaskContent>
           <TaskTree
             tasks={props.tasks}
-            onTaskSelect={t => props.selectTask(
-              t,
-              props.categories.list,
-              props.items,
-              props.units.units)}
+            onTaskSelect={t => props.selectTask(t)}
           />
         </TaskContent>
         <ItemContent

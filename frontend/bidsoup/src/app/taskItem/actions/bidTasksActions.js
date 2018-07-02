@@ -29,12 +29,9 @@ const fetchBidTasks = bid => {
   };
 };
 
-const selectBidTask = (task, categories, items, units) => ({
+const selectBidTask = task => ({
   type: SELECT_BID_TASK,
-  task,
-  categories,
-  items,
-  units
+  task
 });
 
 const bidTasksActions = {

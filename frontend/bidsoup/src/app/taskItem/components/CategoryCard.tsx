@@ -47,6 +47,7 @@ interface Props {
   background: string;
   selected: boolean;
   category: string;
+  categoryDescription: string;
   onClick: (c: Props['category']) => void;
   total: number;
 }
@@ -56,6 +57,7 @@ const CategoryCard = (props: Props) => {
     <Card
       selected={props.selected}
       onClick={() => props.onClick(props.category)}
+      title={props.categoryDescription}
     >
       <CircleInitials
         background={props.background}

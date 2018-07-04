@@ -66,6 +66,7 @@ export default class Item extends Component {
         <CategoryCard
           key={item.category}
           category={item.category}
+          categoryDescription={item.categoryDescription}
           selected={this.state.selectedCategory === item.category}
           total={total}
           background={item.color}

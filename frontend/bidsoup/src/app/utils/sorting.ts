@@ -1,12 +1,21 @@
-// tslint:disable-next-line:no-any
-export const array2HashByKey = (arr: any[], key: any) => {
-  return arr.reduce(
-    (ordered, el) => ({
-      ...ordered,
-      [el[key]]: ordered[el[key]]
-        ? [...ordered[el[key]], el]
-        : [el]
-    }),
+type ObjOfObjs<T> = {
+  [key in string]: Array<T>
+};
+
+type HasString<K extends string> = {
+  [key in K]: string
+};
+
+export const array2HashByKey = <T extends HasString<K>, K extends keyof T & string>(arr: T[], key: K) => {
+  return arr.reduce<ObjOfObjs<T>>(
+    (ordered, el) => {
+      if (el[key] in ordered) {
+        ordered[el[key]].push(el);
+      } else {
+        ordered[el[key]] = [el];
+      }
+    return ordered;
+    },
     {}
   );
 };

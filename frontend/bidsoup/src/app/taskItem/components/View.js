@@ -76,7 +76,7 @@ const addElements = props => {
         </FabContainer>
         <Modal onClose={props.hideModal}>
           <p style={{fontSize: 'large'}}><b>Add a new task!</b></p>
-          <NewTaskForm tasks={props.tasks}/>/>
+          <NewTaskForm tasks={props.tasks} onAddTask={(task) => {props.hideModal(); props.addTask(task)}}/>
         </Modal>
       </React.Fragment>
     );

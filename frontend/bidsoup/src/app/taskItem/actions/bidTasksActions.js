@@ -2,6 +2,7 @@ import fetch from 'cross-fetch';
 
 const REQUEST_BID_TASKS = 'REQUEST_BID_TASKS';
 const RECEIVE_BID_TASKS = 'RECEIVE_BID_TASKS';
+const CREATE_BID_TASK = 'CREATE_BID_TASK';
 const SELECT_BID_TASK = 'SELECT_BID_TASK';
 
 const requestBidTasks = bid => ({
@@ -29,6 +30,11 @@ const fetchBidTasks = bid => {
   };
 };
 
+const createBidTask = task => ({
+  type: CREATE_BID_TASK,
+  task
+});
+
 const selectBidTask = task => ({
   type: SELECT_BID_TASK,
   task
@@ -37,10 +43,10 @@ const selectBidTask = task => ({
 const bidTasksActions = {
   REQUEST_BID_TASKS,
   RECEIVE_BID_TASKS,
+  CREATE_BID_TASK,
   SELECT_BID_TASK,
-  requestBidTasks,
-  receiveBidTasks,
   fetchBidTasks,
+  createBidTask,
   selectBidTask
 };
 

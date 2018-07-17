@@ -7,7 +7,7 @@ type Nested<T, P extends keyof T> = {
   [key in P]: T[]
 };
 
-export const nestedFind = 
+export const nestedFind =
     <P extends keyof T, T extends Nested<T, P>, K extends keyof T>
     (arr: T[], key: K, match: T[K], nestedKey: P) => {
   let result: Object | null = null;
@@ -31,4 +31,22 @@ export const getInitials = (str: string, maxLength = 1) => (
     ),
     ''
   ).toUpperCase()
+);
+
+/**
+ * Calls a function on each item in a nested object structure. Results are flattened
+ *
+ * @param arr Array of objects with nested shape
+ * @param key location of array of nested objects
+ * @param func Function to be called on each object
+ */
+export const flatmap = <K extends keyof T, T extends Nested<T, K>, R>(arr: T[], key: K, func: (i: T) => R) => (
+  arr.reduce((acc, t) => {
+    acc.push(func(t));
+    if (t[key].length > 0) {
+      acc = acc.concat(flatmap(t[key], key, func));
+    }
+    return acc;
+  },
+  [] as R[])
 );

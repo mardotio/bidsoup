@@ -40,13 +40,11 @@ export const getInitials = (str: string, maxLength = 1) => (
  * @param key location of array of nested objects
  * @param func Function to be called on each object
  */
-export const flatmap = <K extends keyof T, T extends Nested<T, K>, R>(arr: T[], key: K, func: (i: T) => R) => (
-  arr.reduce((acc, t) => {
-    acc.push(func(t));
-    if (t[key].length > 0) {
-      acc = acc.concat(flatmap(t[key], key, func));
-    }
-    return acc;
-  },
-  [] as R[])
+export const flatmap = <K extends keyof T, T extends Nested<T, K>, R>(arr: T[], key: K, func: (i: T) => R): R[] => (
+  arr.reduce((acc, t) => (
+    isEmpty(t[key])
+      ? [...acc, func(t)]
+      : [...acc, func(t), ...flatmap(t[key], key, func)]
+  ),
+  [])
 );

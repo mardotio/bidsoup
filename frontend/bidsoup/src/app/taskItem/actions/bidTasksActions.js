@@ -30,10 +30,24 @@ const fetchBidTasks = bid => {
   };
 };
 
-const createBidTask = task => ({
-  type: CREATE_BID_TASK,
-  task
-});
+const createBidTask = (bid, task) => {
+  return (dispatch, getState) => {
+    const newTask = {
+      bid: bid,
+      ...task
+    };
+    return fetch(getState().api.endpoints.bidtasks, {
+        method: 'POST',
+        headers: {
+          'Content-Type': "application/json"
+        },
+        body: JSON.stringify(newTask)
+      })
+      .then(response => response.ok ? response.json() : Promise.reject(new Error(`POST response ${response.status}`)))
+      .then(json => dispatch(fetchBidTasks(1)))
+      .catch(error => console.log(error));
+  };
+};
 
 const selectBidTask = task => ({
   type: SELECT_BID_TASK,

@@ -46,7 +46,7 @@ interface State {
 }
 
 const validateName = (inStr: string) => {
-  if (inStr.length == 0) {
+  if (inStr.length === 0) {
     return {
       validated: inStr,
       error: 'Must input a name.'
@@ -138,16 +138,13 @@ class NewTaskForm extends React.Component<Props, State> {
     if (isEmpty(Object.keys(state.fieldInfo).filter(key =>
       state.fieldInfo[key].validate(state.fieldInfo[key].currentValue).error !== undefined
     ))) {
-      const newTask =
-        {
+      const newTask = {
           parent: state.parentUrl,
           title: state.fieldInfo[name].currentValue,
           description: state.fieldInfo[desc].currentValue
         };
 
       props.onAddTask(newTask);
-      console.log('No errors!');
-      console.log(newTask);
     }
   }
 

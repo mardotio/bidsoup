@@ -93,7 +93,7 @@ class BidTask(models.Model):
     parent = models.ForeignKey('BidTask', on_delete=models.SET_NULL, null=True, blank=True, related_name='children')
     bid = models.ForeignKey('Bid', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(blank=True)
 
     def __str__(self):
         return '{self.title} - {self.bid.name}'.format(self=self)

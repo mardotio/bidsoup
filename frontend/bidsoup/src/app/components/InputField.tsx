@@ -169,12 +169,10 @@ const displayOptions = ({options, isFocused, value}: Props) => {
     return null;
   }
   let filteredOptions = filterOptions(options, value);
-  console.log('filteredOptions: ', filteredOptions);
   if (isEmpty(filteredOptions)) {
     return null;
   }
   let optionsToDisplay = options.filter ? filteredOptions : options.list;
-  console.log(optionsToDisplay);
   return (
     <OptionsContainer>
       {optionsToDisplay.map(option => (

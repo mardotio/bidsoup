@@ -3,27 +3,25 @@ import fetch from 'cross-fetch';
 const REQUEST_BID_CATEGORIES = 'REQUEST_BID_CATEGORIES';
 const RECEIVE_BID_CATEGORIES = 'RECEIVE_BID_CATEGORIES';
 
-const requestBidCategories = bid => ({
-  type: REQUEST_BID_CATEGORIES,
-  bid
+const requestBidCategories = () => ({
+  type: REQUEST_BID_CATEGORIES
 });
 
-const receiveBidCategories = (bid, payload) => ({
+const receiveBidCategories = (payload) => ({
   type: RECEIVE_BID_CATEGORIES,
-  bid,
   payload
 });
 
-const fetchBidCategories = bid => {
-  return dispatch => {
-    dispatch(requestBidCategories(bid));
-    return fetch(`/api/bids/${bid}/categories`)
+const fetchBidCategories = () => {
+  return (dispatch, getState) => {
+    dispatch(requestBidCategories());
+    return fetch(getState().bidData.bids.currentBid.categories)
       .then(
         response => response.json(),
         error => console.log('Error while fetching bid categories', error)
       )
       .then(
-        json => dispatch(receiveBidCategories(bid, json))
+        json => dispatch(receiveBidCategories(json))
       );
   };
 };

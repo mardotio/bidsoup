@@ -26,18 +26,17 @@ const unitTypeDecoder: Decoder<Unit> = object({
 export const REQUEST_UNIT_TYPES = 'REQUEST_UNIT_TYPES';
 export const RECEIVE_UNIT_TYPES = 'RECEIVE_UNIT_TYPES';
 export const Actions = {
-  requestUnitTypes: (bid: number) =>
-    createAction( REQUEST_UNIT_TYPES, { bid }),
-  receiveUnitTypes: (bid: number, units: UnitDict, fetchTime: number) =>
-    createAction( RECEIVE_UNIT_TYPES, { bid, units, fetchTime })
+  requestUnitTypes: () =>
+    createAction( REQUEST_UNIT_TYPES),
+  receiveUnitTypes: (units: UnitDict, fetchTime: number) =>
+    createAction( RECEIVE_UNIT_TYPES, { units, fetchTime })
 };
 
 export type Actions = ActionsUnion<typeof Actions>;
 
-/* tslint:disable no-any */
-export function fetchUnitTypes(bid: number): ThunkAction<Promise<any>, object, never, Actions> {
-  return (dispatch, getState, extra) => {
-    dispatch(Actions.requestUnitTypes(bid));
+export const fetchUnitTypes = (): ThunkAction<Promise<void>, never, never, Actions> => {
+  return (dispatch) => {
+    dispatch(Actions.requestUnitTypes());
     return fetch(`/api/unittypes`)
       .then(
         response => response.json()
@@ -45,6 +44,7 @@ export function fetchUnitTypes(bid: number): ThunkAction<Promise<any>, object, n
       .then(
         json => {
           let units: UnitDict = {};
+          // tslint:disable-next-line:no-any
           json.map((u: any) => {
             let res = unitTypeDecoder.run(u);
             if (res.ok) {
@@ -52,8 +52,8 @@ export function fetchUnitTypes(bid: number): ThunkAction<Promise<any>, object, n
               units[url] = res.result;
             }
           });
-          dispatch(Actions.receiveUnitTypes(bid, units, Date.now()));
+          dispatch(Actions.receiveUnitTypes(units, Date.now()));
         }
       );
   };
-}
+};

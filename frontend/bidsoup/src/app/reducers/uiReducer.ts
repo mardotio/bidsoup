@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import * as fromActions from '../actions/uiActions';
 
-interface UiState {
+export interface UiState {
   modalShowing: boolean;
 }
 

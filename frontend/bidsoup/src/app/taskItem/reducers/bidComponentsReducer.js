@@ -1,15 +1,16 @@
 import { combineReducers } from 'redux';
+import bidReducer from './bidReducer';
 import bidItemsReducer from './bidItemsReducer';
 import bidCategoriesReducer from './bidCategoriesReducer';
 import bidTasksReducer from './bidTasksReducer';
 import unitTypeReducer from './unitTypeReducer';
 
 const bidComponentsReducer = combineReducers({
-  tasks: bidTasksReducer.bidTasks,
+  bids: bidReducer,
+  tasks: bidTasksReducer,
   categories: bidCategoriesReducer,
   items: bidItemsReducer,
-  units: unitTypeReducer,
-  selectedTask: bidTasksReducer.selectTask
+  units: unitTypeReducer
 });
 
 export default bidComponentsReducer;

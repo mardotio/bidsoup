@@ -1,21 +1,21 @@
 import fetch from 'cross-fetch';
 import { createAction, ActionsUnion } from '../../utils/reduxUtils';
 import { ThunkAction } from 'redux-thunk';
+import { AppState } from '../../types/types';
 
 export const REQUEST_API = 'REQUEST_API';
 export const RECEIVE_API = 'RECEIVE_API';
 export const Actions = {
   requestApi: () =>
     createAction(REQUEST_API),
-  receiveApi: (api: object, fetchTime: number) =>
-    createAction( RECEIVE_API, { api, fetchTime })
+  receiveApi: (api: {[k in string]: string}, fetchTime: number) =>
+    createAction(RECEIVE_API, { api, fetchTime })
 };
 
 export type Actions = ActionsUnion<typeof Actions>;
 
-/* tslint:disable no-any */
-export function fetchApi(): ThunkAction<Promise<any>, any, never, Actions> {
-  return (dispatch, getState, extra) => {
+export function fetchApi(): ThunkAction<Promise<Actions|void>, AppState, never, Actions> {
+  return (dispatch, getState) => {
     const apiState = getState().api;
     // API shouldn't change. Just fetch once per session.
     if (apiState.areFetching || apiState.lastFetch != null) {

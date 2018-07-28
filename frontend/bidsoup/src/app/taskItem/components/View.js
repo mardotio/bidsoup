@@ -106,8 +106,10 @@ const View = props => {
       <React.Fragment>
         <button
           onClick={() => {
-            props.fetchApi();
-            props.refreshItems(1);
+            props.fetchAllAndSelectFirst();
+//            props.fetchBidList();
+//            props.setCurrentBid();
+//            props.refreshItems();
           }}
         >
           Click to load

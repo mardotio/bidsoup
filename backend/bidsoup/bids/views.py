@@ -35,6 +35,13 @@ class BidViewSet(viewsets.ModelViewSet):
     queryset = Bid.objects.all().order_by('-created_on')
     serializer_class = BidSerializer
 
+    def list(self, request):
+        # Don't provide the subresource links in list view
+        queryset = self.get_queryset()
+        to_exclude = ('biditems', 'bidtasks', 'categories')
+        serializer = BidSerializer(queryset, exclude_fields=to_exclude, many=True, context={'request': request})
+        return Response(serializer.data)
+
 
 class BidItemViewSet(TrapDjangoValidationErrorMixin, viewsets.ModelViewSet):
     serializer_class = BidItemSerializer

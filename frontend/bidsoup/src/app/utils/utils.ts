@@ -41,10 +41,12 @@ export const getInitials = (str: string, maxLength = 1) => (
  * @param func Function to be called on each object
  */
 export const flatmap = <K extends keyof T, T extends Nested<T, K>, R>(arr: T[], key: K, func: (i: T) => R): R[] => (
-  arr.reduce((acc, t) => (
-    isEmpty(t[key])
-      ? [...acc, func(t)]
-      : [...acc, func(t), ...flatmap(t[key], key, func)]
-  ),
-  [])
+  arr.reduce(
+    (acc, t) => (
+      isEmpty(t[key])
+        ? [...acc, func(t)]
+        : [...acc, func(t), ...flatmap(t[key], key, func)]
+    ),
+    []
+  )
 );

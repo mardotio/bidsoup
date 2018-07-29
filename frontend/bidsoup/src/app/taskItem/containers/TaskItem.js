@@ -118,6 +118,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(componentsActions.fetchBidComponents(bid)),
     selectTask: (task) =>
       dispatch(tasksActions.selectBidTask(task)),
+    addTask: (bid, task) =>
+      dispatch(tasksActions.createBidTask(bid, task)),
     showModal: () => dispatch(uiActions.showModal()),
     hideModal: () => dispatch(uiActions.hideModal())
   };

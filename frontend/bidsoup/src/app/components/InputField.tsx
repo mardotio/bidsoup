@@ -115,15 +115,15 @@ const Option = styled.div`
   }
 `;
 
-interface DropDownItem {
+export interface DropDownItem {
   id: string;
   name: string;
 }
 
-interface DropDownOptions {
+export interface DropDownOptions {
   list: DropDownItem[];
   select: (option: DropDownItem) => void;
-  selected: string;
+  filter: boolean;
 }
 
 interface Error {
@@ -131,20 +131,14 @@ interface Error {
   message: string;
 }
 
-interface InputFieldState {
+interface Props extends React.HTMLAttributes<HTMLInputElement> {
   isFocused: boolean;
-  touched: boolean;
-}
-
-interface Props {
-  state: InputFieldState;
   errorState?: Error;
   focusColor: string;
   label: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onFocusChange: (state: InputFieldState) => void;
   optional?: boolean;
-  options?: DropDownOptions | null;
+  options?: DropDownOptions;
+  name?: string;
   type?: string;
   value: string;
 }
@@ -155,15 +149,8 @@ const filterOptions = (options: DropDownOptions, value: string) => (
   ))
 );
 
-const setFocus = ({onFocusChange, state}: Props) => {
-  onFocusChange({
-    isFocused: !state.isFocused,
-    touched: true
-  });
-};
-
-const labelIsOnTop = ({state, value}: Props) => (
-  state.isFocused || !isEmpty(value)
+const labelIsOnTop = ({isFocused, value}: Props) => (
+  isFocused || !isEmpty(value)
 );
 
 const renderErrorMessage = ({errorState}: Props) => {
@@ -177,17 +164,15 @@ const renderErrorMessage = ({errorState}: Props) => {
   return null;
 };
 
-const displayOptions = ({options, state, value}: Props) => {
-  if (!options || !state.isFocused) {
+const displayOptions = ({options, isFocused, value}: Props) => {
+  if (!options || !isFocused) {
     return null;
   }
   let filteredOptions = filterOptions(options, value);
   if (isEmpty(filteredOptions)) {
     return null;
   }
-  let optionsToDisplay = isEmpty(options.selected) || filteredOptions.length > 1
-    ? filteredOptions
-    : options.list;
+  let optionsToDisplay = options.filter ? filteredOptions : options.list;
   return (
     <OptionsContainer>
       {optionsToDisplay.map(option => (
@@ -203,16 +188,19 @@ const displayOptions = ({options, state, value}: Props) => {
 };
 
 const updateOrSelect = (event: React.ChangeEvent<HTMLInputElement>, {options, onChange}: Props) => {
+  if (onChange) {
+    onChange(event);
+  }
   if (options) {
     let selectedOption = options.list.filter(option => (
       option.name.toLowerCase() === event.target.value.toLocaleLowerCase()
     ));
-    if (isEmpty(selectedOption)) {
+    if (isEmpty(selectedOption) && onChange) {
       onChange(event);
     } else {
       options.select(selectedOption[0]);
     }
-  } else {
+  } else if (onChange) {
     onChange(event);
   }
 };
@@ -220,12 +208,12 @@ const updateOrSelect = (event: React.ChangeEvent<HTMLInputElement>, {options, on
 const InputField: React.SFC<Props> = (props) => {
   let labelKey = props.label.replace(/ /g, '-');
   return (
-    <Wrapper>
+    <Wrapper className={props.className}>
       <Label
         focusColor={props.focusColor}
         hasError={props.errorState!.hasError}
         htmlFor={labelKey}
-        isFocused={props.state.isFocused}
+        isFocused={props.isFocused}
         labelOnTop={labelIsOnTop(props)}
       >
         {props.optional
@@ -237,9 +225,10 @@ const InputField: React.SFC<Props> = (props) => {
         focusColor={props.focusColor}
         hasError={props.errorState!.hasError}
         id={labelKey}
-        onBlur={() => setFocus(props)}
+        name={props.name}
+        onBlur={props.onBlur}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateOrSelect(e, props)}
-        onFocus={() => setFocus(props)}
+        onFocus={props.onFocus}
         value={props.value}
         type={props.type!}
       />
@@ -255,7 +244,7 @@ InputField.defaultProps = {
     hasError: false,
   },
   optional: false,
-  options: null,
+  options: undefined,
   type: 'text',
 };
 

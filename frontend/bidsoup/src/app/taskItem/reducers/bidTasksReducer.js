@@ -22,6 +22,10 @@ const bidTasks = (state = defaultState, action) => {
         list: action.payload,
         lastFetch: Date.now()
       };
+    case tasksActions.CREATE_BID_TASK:
+      console.log('Creating task');
+      console.log('action: ', action);
+      return state;
     default:
       return state;
   }
@@ -33,7 +37,7 @@ const selectTask = (state = null, action) => {
       return action.task;
     default:
       return state;
-  }  
+  }
 };
 
 const bidTasksReducer = {

@@ -2,6 +2,7 @@ import fetch from 'cross-fetch';
 import { createAction, ActionsUnion } from '../../utils/reduxUtils';
 import { ThunkAction } from 'redux-thunk';
 import { Decoder, object, string } from '@mojotech/json-type-validation';
+import { AppState } from '../../types/types';
 
 interface Unit {
   url: string;
@@ -34,10 +35,10 @@ export const Actions = {
 
 export type Actions = ActionsUnion<typeof Actions>;
 
-export const fetchUnitTypes = (): ThunkAction<Promise<void>, never, never, Actions> => {
-  return (dispatch) => {
+export const fetchUnitTypes = (): ThunkAction<Promise<void>, AppState, never, Actions> => {
+  return (dispatch, getState) => {
     dispatch(Actions.requestUnitTypes());
-    return fetch(`/api/unittypes`)
+    return fetch(getState().api.endpoints.unittypes)
       .then(
         response => response.json()
       )

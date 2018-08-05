@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import bidReducer from './bidReducer';
+import bidReducer from '../../bidSetup/reducers/bidReducer';
 import bidItemsReducer from './bidItemsReducer';
 import bidCategoriesReducer from './bidCategoriesReducer';
 import bidTasksReducer from './bidTasksReducer';

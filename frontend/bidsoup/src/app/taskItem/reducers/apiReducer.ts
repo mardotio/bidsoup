@@ -3,15 +3,13 @@ import * as fromActions from '../actions/apiActions';
 
 export interface ApiState {
   areFetching: boolean;
-  endpoints: {
-    [key in string]: string;
-  };
+  endpoints: fromActions.Endpoints;
   lastFetch: number | null;
 }
 
 const defaultState: ApiState = {
   areFetching: false,
-  endpoints: {},
+  endpoints: {} as fromActions.Endpoints,
   lastFetch: null
 };
 

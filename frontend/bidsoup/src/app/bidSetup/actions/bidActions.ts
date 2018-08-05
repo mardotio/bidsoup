@@ -1,9 +1,9 @@
 import { createAction, ActionsUnion } from '../../utils/reduxUtils';
 import { Bid, AppState } from '../../types/types';
-import componentsActions from '../actions/bidComponentsActions';
+import componentsActions from '../../taskItem/actions/bidComponentsActions';
 import { ThunkAction } from 'redux-thunk';
 import { Decoder, constant, union, object, string, array } from '@mojotech/json-type-validation';
-import { fetchApi } from './apiActions';
+import { fetchApi } from '../../taskItem/actions/apiActions';
 
 const bidListDecoder: Decoder<Bid[]> = array(object({
   url: string(),
@@ -83,17 +83,9 @@ export const fetchCurrentBid = (): ThunkAction<Promise<Actions>, AppState, never
 export const fetchAllAndSelectFirst = (): ThunkAction<Promise<any>, AppState, never, Actions> => {
   return (dispatch, getState) => {
     return dispatch(fetchApi())
-      .then(() => {
-        return dispatch(fetchBidList());
-      })
-      .then(() => {
-        return dispatch(Actions.setCurrentBid(getState().bidData.bids.bidList[0].url));
-      })
-      .then(() => {
-        return dispatch(fetchCurrentBid());
-      })
-      .then(() => {
-        return dispatch(componentsActions.fetchBidComponents());
-      });
+      .then(() => dispatch(fetchBidList()))
+      .then(() => dispatch(Actions.setCurrentBid(getState().bidData.bids.bidList[0].url)))
+      .then(() => dispatch(fetchCurrentBid()))
+      .then(() => dispatch(componentsActions.fetchBidComponents()));
   };
 };

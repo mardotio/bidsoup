@@ -5,7 +5,6 @@ import * as unitActions from './unitTypeActions';
 
 const fetchBidComponents = () => {
   return (dispatch, getState) => {
-    const bid = getState().bidData.currentBid;
     return Promise.all([
       dispatch(tasksActions.fetchBidTasks()),
       dispatch(unitActions.fetchUnitTypes()).then(() => dispatch(itemsActions.fetchBidItems())),

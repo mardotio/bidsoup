@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import View from '../components/View';
 import { fetchApi } from '../actions/apiActions';
-import tasksActions from '../actions/bidTasksActions';
+import { Actions as tasksActions, createBidTask } from '../actions/bidTasksActions';
 import { Actions as uiActions } from '../../actions/uiActions';
+import { Actions as bidActions, fetchBidList, fetchAllAndSelectFirst } from '../../bidSetup/actions/bidActions'
 import componentsActions from '../actions/bidComponentsActions';
 import { isEmpty, nestedFind } from '../../utils/utils';
 import { array2HashByKey } from '../../utils/sorting';
@@ -103,6 +104,7 @@ const getTasks = ({tasks, items, units}) => {
 const mapStateToProps = ({api, ui, bidData}) => ({
   endpoints: api.endpoints,
   ui: ui,
+  bids: bidData.bids,
   tableData: generateTableData(bidData),
   selectedTask: nestedFind(bidData.tasks.list, 'url', bidData.selectedTask, 'children'),
   categories: bidData.categories,
@@ -112,14 +114,20 @@ const mapStateToProps = ({api, ui, bidData}) => ({
 
 const mapDispatchToProps = dispatch => {
   return {
+    fetchAllAndSelectFirst: () =>
+      dispatch(fetchAllAndSelectFirst()),
     fetchApi: () =>
       dispatch(fetchApi()),
-    refreshItems: (bid) =>
-      dispatch(componentsActions.fetchBidComponents(bid)),
+    fetchBidList: () =>
+      dispatch(fetchBidList()),
+    setCurrentBid: (bid) =>
+      dispatch(bidActions.setCurrentBid(bid)),
+    refreshItems: () =>
+      dispatch(componentsActions.fetchBidComponents()),
     selectTask: (task) =>
       dispatch(tasksActions.selectBidTask(task)),
     addTask: (bid, task) =>
-      dispatch(tasksActions.createBidTask(bid, task)),
+      dispatch(createBidTask(task)),
     showModal: () => dispatch(uiActions.showModal()),
     hideModal: () => dispatch(uiActions.hideModal())
   };

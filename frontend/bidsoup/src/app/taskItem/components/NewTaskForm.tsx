@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Task } from '../../types/types';
+import { BidTask } from '../../types/types';
 import InputField from '../../components/InputField';
 import { DropDownOptions, DropDownItem } from '../../components/InputField';
 import { isEmpty, flatmap } from '../../utils/utils';
@@ -36,8 +36,8 @@ interface FieldData {
 type FieldSet = { [K in FieldName]: FieldData };
 
 interface Props {
-  tasks: Task[];
-  onAddTask(t: Partial<Task>): void;
+  tasks: BidTask[];
+  onAddTask(t: Partial<BidTask>): void;
 }
 
 interface State {

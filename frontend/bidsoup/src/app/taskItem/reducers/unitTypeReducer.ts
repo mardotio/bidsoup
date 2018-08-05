@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import * as fromActions from '../actions/unitTypeActions';
 
-interface UnitState {
+export interface UnitState {
   areFetching: boolean;
   units: object;
   lastFetch: number | null;

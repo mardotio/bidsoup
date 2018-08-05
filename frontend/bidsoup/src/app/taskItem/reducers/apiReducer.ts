@@ -1,15 +1,15 @@
 import { Reducer } from 'redux';
 import * as fromActions from '../actions/apiActions';
 
-interface ApiState {
+export interface ApiState {
   areFetching: boolean;
-  endpoints: object;
+  endpoints: fromActions.Endpoints;
   lastFetch: number | null;
 }
 
 const defaultState: ApiState = {
   areFetching: false,
-  endpoints: {},
+  endpoints: {} as fromActions.Endpoints,
   lastFetch: null
 };
 

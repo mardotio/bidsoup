@@ -3,14 +3,14 @@ import * as fromActions from '../actions/bidTasksActions';
 import { BidTask } from '../../types/types';
 
 export interface BidTaskState {
-  areFetching: boolean;
+  fetching: boolean;
   list: BidTask[];
   currentTask: BidTask | null;
   lastFetch: number | null;
 }
 
 const defaultState: BidTaskState = {
-  areFetching: false,
+  fetching: false,
   list: [],
   currentTask: null,
   lastFetch: null
@@ -21,12 +21,12 @@ const bidTaskReducer: Reducer<BidTaskState> = (state = defaultState, action: fro
     case fromActions.REQUEST_BID_TASKS:
       return {
         ...state,
-        areFetching: true
+        fetching: true
       };
     case fromActions.RECEIVE_BID_TASKS:
       return {
         ...state,
-        areFetching: false,
+        fetching: false,
         list: action.payload.tasks,
         lastFetch: action.payload.fetchTime
       };

@@ -15,7 +15,7 @@ const receiveBidItems = (payload) => ({
 const fetchBidItems = () => {
   return (dispatch, getState) => {
     dispatch(requestBidItems());
-    return fetch(getState().bidData.bids.currentBid.biditems)
+    return fetch(getState().bids.selectedBid.biditems)
       .then(
         response => response.json(),
         error => console.log('An error occured while fetching bid items', error)

@@ -1,7 +1,7 @@
 import itemActions from '../actions/bidItemsActions';
 
 const defaultState = {
-  areFetching: false,
+  fetching: false,
   list: [],
   lastFetch: null
 }
@@ -12,12 +12,12 @@ const bidItemsReducer = (state = defaultState, action) => {
       console.log('requesting items');
       return {
         ...state,
-        areFetching: true,
+        fetching: true,
       };
     case itemActions.RECEIVE_BID_ITEMS:
       console.log('receiving items');
       return {
-        areFetching: false,
+        fetching: false,
         list: action.payload,
         lastFetch: Date.now()
       };

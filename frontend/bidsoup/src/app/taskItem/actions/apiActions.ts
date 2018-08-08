@@ -33,7 +33,7 @@ export function fetchApi(): ThunkAction<Promise<Actions|void>, AppState, never, 
   return (dispatch, getState) => {
     const apiState = getState().api;
     // API shouldn't change. Just fetch once per session.
-    if (apiState.areFetching || apiState.lastFetch != null) {
+    if (apiState.fetching || apiState.lastFetch != null) {
       return Promise.resolve();
     }
     dispatch(Actions.requestApi());

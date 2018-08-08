@@ -2,13 +2,13 @@ import { Reducer } from 'redux';
 import * as fromActions from '../actions/apiActions';
 
 export interface ApiState {
-  areFetching: boolean;
+  fetching: boolean;
   endpoints: fromActions.Endpoints;
   lastFetch: number | null;
 }
 
 const defaultState: ApiState = {
-  areFetching: false,
+  fetching: false,
   endpoints: {} as fromActions.Endpoints,
   lastFetch: null
 };
@@ -18,12 +18,12 @@ const apiReducer: Reducer<ApiState> = (state = defaultState, action: fromActions
     case fromActions.REQUEST_API:
       return {
         ...state,
-        areFetching: true,
+        fetching: true,
       };
 
     case fromActions.RECEIVE_API:
       return {
-        areFetching: false,
+        fetching: false,
         endpoints: action.payload.api,
         lastFetch: action.payload.fetchTime
       };

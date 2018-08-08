@@ -15,7 +15,7 @@ const receiveBidCategories = (payload) => ({
 const fetchBidCategories = () => {
   return (dispatch, getState) => {
     dispatch(requestBidCategories());
-    return fetch(getState().bidData.bids.currentBid.categories)
+    return fetch(getState().bids.selectedBid.categories)
       .then(
         response => response.json(),
         error => console.log('Error while fetching bid categories', error)

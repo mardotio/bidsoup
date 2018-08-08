@@ -1,18 +1,30 @@
 import { Reducer } from 'redux';
 import * as fromActions from '../actions/bidActions';
-import { Bid } from '../../types/types';
+import { Bid, Customer } from '../../types/types';
 
 export interface BidState {
-  bidList: Bid[];
-  areFetching: boolean;
-  currentBid: Bid;
+  list: Bid[];
+  fetching: boolean;
+  selectedBid: Bid;
   lastFetch: number | null;
 }
 
 const defaultState: BidState = {
-  bidList: [],
-  areFetching: false,
-  currentBid: {} as Bid,
+  list: [],
+  fetching: false,
+  selectedBid: {} as Bid,
+  lastFetch: null
+};
+
+export interface CustomerState {
+  list: Customer[];
+  fetching: boolean;
+  lastFetch: number | null;
+}
+
+const defaultCustomerState: CustomerState = {
+  list: [],
+  fetching: false,
   lastFetch: null
 };
 
@@ -21,8 +33,8 @@ const bidReducer: Reducer<BidState> = (state = defaultState, action: fromActions
     case fromActions.SET_CURRENT_BID:
       return {
         ...state,
-        currentBid: {
-          ...state.currentBid,
+        selectedBid: {
+          ...state.selectedBid,
           url: action.payload.bid,
         }
       };
@@ -30,33 +42,51 @@ const bidReducer: Reducer<BidState> = (state = defaultState, action: fromActions
     case fromActions.REQUEST_BID_LIST:
       return {
         ...state,
-        areFetching: true
+        fetching: true
       };
 
     case fromActions.RECEIVE_BID_LIST:
       return {
         ...state,
-        bidList: action.payload.bidList,
+        list: action.payload.list,
         lastFetch: action.payload.fetchTime,
-        areFetching: false
+        fetching: false
       };
 
     case fromActions.REQUEST_CURRENT_BID:
       return {
         ...state,
-        areFetching: true
+        fetching: true
       };
 
     case fromActions.RECEIVE_CURRENT_BID:
       return {
         ...state,
-        currentBid: action.payload.bid,
+        selectedBid: action.payload.bid,
         lastFetch: action.payload.fetchTime,
-        areFetching: false
+        fetching: false
       };
 
     default:
       return state;
+  }
+};
+
+export const customersReducer: Reducer<CustomerState> = (state = defaultCustomerState, action: fromActions.Actions) => {
+  switch (action.type) {
+    case fromActions.REQUEST_CUSTOMER_LIST:
+     return {
+       ...state,
+       fetching: true
+     };
+    case fromActions.RECEIVE_CUSTOMER_LIST:
+     return {
+       list: action.payload.list,
+       fetching: false,
+       lastFetch: action.payload.fetchTime
+     };
+    default:
+     return state;
   }
 };
 

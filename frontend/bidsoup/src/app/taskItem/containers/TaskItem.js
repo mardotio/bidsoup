@@ -48,8 +48,8 @@ const formatItemForTable = (item, unitList) => {
   };
 };
 
-const generateTableData = ({categories, items, units, selectedTask}) => {
-  const itemList = getItemsByTask(selectedTask, items.list);
+const generateTableData = ({categories, items, units, tasks: {currentTask}}) => {
+  const itemList = getItemsByTask(currentTask, items.list);
   const itemsByCategory = array2HashByKey(itemList, 'category');
 
   const categoriesWithItems = categories.list.filter(category => (
@@ -106,7 +106,7 @@ const mapStateToProps = ({api, ui, bidData}) => ({
   ui: ui,
   bids: bidData.bids,
   tableData: generateTableData(bidData),
-  selectedTask: nestedFind(bidData.tasks.list, 'url', bidData.selectedTask, 'children'),
+  selectedTask: nestedFind(bidData.tasks.list, 'url', bidData.tasks.currentTask, 'children'),
   categories: bidData.categories,
   tasks: getTasks(bidData),
   units: bidData.units

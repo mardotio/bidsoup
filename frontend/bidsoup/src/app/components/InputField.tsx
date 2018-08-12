@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { withProps, capitalizeAll } from '../utils/styling';
+import { capitalizeAll } from '../utils/styling';
 import { isEmpty } from '../utils/utils';
 
 const errorColor = '#ff1744';
@@ -20,7 +20,7 @@ interface StyledInputProps {
   hasError: boolean;
 }
 
-const StyledInput = withProps<StyledInputProps>()(styled.input)`
+const StyledInput = styled.input<StyledInputProps>`
   border: none;
   border-bottom: 2px solid;
   border-color: ${({hasError}) => (hasError
@@ -48,7 +48,7 @@ interface LabelProps {
   labelOnTop: boolean;
 }
 
-const Label = withProps<LabelProps>()(styled.label)`
+const Label = styled.label<LabelProps>`
   color: ${({isFocused, focusColor, hasError, labelOnTop}) => {
     if (labelOnTop && hasError) {
       return errorColor;

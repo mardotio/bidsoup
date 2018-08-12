@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { withProps, determineFontColor, beautifyNumber, capitalize } from '../../utils/styling';
+import { determineFontColor, beautifyNumber, capitalize } from '../../utils/styling';
 import { getInitials } from '../../utils/utils';
 
 const CardContent = styled.div`
@@ -11,7 +11,7 @@ interface CircleProps {
   background: string;
 }
 
-const CircleInitials = withProps<CircleProps>()(styled.div)`
+const CircleInitials = styled.div<CircleProps>`
   border-radius: 50%;
   height: 30px;
   width: 30px;
@@ -26,7 +26,7 @@ interface CardProps {
   selected: boolean;
 }
 
-const Card = withProps<CardProps>()(styled.div)`
+const Card = styled.div<CardProps>`
   display: flex;
   align-items: center;
   padding: .5em;

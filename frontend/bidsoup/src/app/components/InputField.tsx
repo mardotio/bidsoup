@@ -153,11 +153,11 @@ const labelIsOnTop = ({isFocused, value}: Props) => (
   isFocused || !isEmpty(value)
 );
 
-const renderErrorMessage = ({errorState}: Props) => {
-  if (errorState!.hasError) {
+const renderErrorMessage = ({errorState= {hasError: false, message: ''}}: Props) => {
+  if (errorState.hasError) {
     return (
       <HelperMessage>
-        {errorState!.message}
+        {errorState.message}
       </HelperMessage>
     );
   }
@@ -205,13 +205,24 @@ const updateOrSelect = (event: React.ChangeEvent<HTMLInputElement>, {options, on
   }
 };
 
-const InputField: React.SFC<Props> = (props) => {
-  let labelKey = props.label.replace(/ /g, '-');
+const defaults = {
+  errorState: {
+    message: '',
+    hasError: false,
+  },
+  optional: false,
+  options: undefined,
+  type: 'text',
+};
+
+const InputField = (p: Props) => {
+  let labelKey = p.label.replace(/ /g, '-');
+  const props = {...defaults, ...p};
   return (
     <Wrapper className={props.className}>
       <Label
         focusColor={props.focusColor}
-        hasError={props.errorState!.hasError}
+        hasError={props.errorState.hasError}
         htmlFor={labelKey}
         isFocused={props.isFocused}
         labelOnTop={labelIsOnTop(props)}
@@ -223,29 +234,19 @@ const InputField: React.SFC<Props> = (props) => {
       </Label>
       <StyledInput
         focusColor={props.focusColor}
-        hasError={props.errorState!.hasError}
+        hasError={props.errorState.hasError}
         id={labelKey}
         name={props.name}
         onBlur={props.onBlur}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateOrSelect(e, props)}
         onFocus={props.onFocus}
         value={props.value}
-        type={props.type!}
+        type={props.type}
       />
       {renderErrorMessage(props)}
       {displayOptions(props)}
     </Wrapper>
   );
-};
-
-InputField.defaultProps = {
-  errorState: {
-    message: '',
-    hasError: false,
-  },
-  optional: false,
-  options: undefined,
-  type: 'text',
 };
 
 export default InputField;

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import styled from 'styled-components';
-import { withProps } from '../utils/styling';
 
 const modalRoot = document.getElementById('modal-root');
 
@@ -22,7 +21,7 @@ interface InnerProps {
   height?: string;
 }
 
-const Inner = withProps<InnerProps>()(styled.div)`
+const Inner = styled.div<InnerProps>`
   width: ${props => props.width || '60%'};
   height: ${props => props.height || '80%'};
   padding-left: 15px;

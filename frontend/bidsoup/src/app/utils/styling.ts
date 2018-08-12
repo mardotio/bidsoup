@@ -1,5 +1,3 @@
-import { ThemedStyledFunction } from 'styled-components';
-
 export const hex2Rgb = (hex: string) => {
   let colorSections = /([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   if (colorSections == null) {
@@ -43,8 +41,3 @@ export const beautifyNumber = (num: number, accuracy = 0) => {
   numParts[0] = dollarAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   return numParts.join('.');
 };
-
-export const withProps = <U>() =>
-    <P, T, O>(
-        fn: ThemedStyledFunction<P, T, O>
-    ): ThemedStyledFunction<P & U, T, O & U> => fn;

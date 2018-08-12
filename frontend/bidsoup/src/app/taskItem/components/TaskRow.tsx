@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { withProps } from '../../utils/styling';
 import { beautifyNumber } from '../../utils/styling';
 
 const offColor = '#eaeaea';
@@ -9,7 +8,7 @@ interface TaskProps {
   clickable: boolean;
 }
 
-const Task = withProps<TaskProps>()(styled.div)`
+const Task = styled.div<TaskProps>`
   display: flex;
   align-items: center;
   padding: 10px;
@@ -33,7 +32,7 @@ interface TriangleProps {
   indent?: string;
 }
 
-const Triangle = withProps<TriangleProps>()(styled.i)`
+const Triangle = styled.i<TriangleProps>`
   transition: transform 0.5s ease;
   visibility: ${props => typeof props.arrow === 'undefined' ? 'hidden' : 'visible'};
   margin-left: ${props => props.indent || '0'};

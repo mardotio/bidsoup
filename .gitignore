@@ -9,3 +9,6 @@ __pycache__
 # node
 **/node_modules
 package-lock.json
+
+# OS Files
+.DS_Store

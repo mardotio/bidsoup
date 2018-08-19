@@ -16,6 +16,13 @@ export interface Bid {
   categories?: string;
 }
 
+export interface Customer {
+  url: string;
+  name: string;
+  email: string;
+  phone: string;
+}
+
 export interface BidTask {
   url: string;
   parent?: string;
@@ -26,7 +33,7 @@ export interface BidTask {
 }
 
 export interface BidCategoryState {
-  areFetching: boolean;
+  isFetching: boolean;
   list: {
     url: string;
     bid: string;
@@ -39,7 +46,7 @@ export interface BidCategoryState {
 }
 
 export interface BidItemState {
-  areFetching: boolean;
+  isFetching: boolean;
   list: {
     url: string;
     bid: string;
@@ -56,7 +63,6 @@ export interface BidItemState {
 }
 
 export interface BidComponentsState {
-  bids: BidState;
   tasks: BidTaskState;
   categories: BidCategoryState;
   items: BidItemState;
@@ -68,5 +74,6 @@ export interface BidComponentsState {
 export interface AppState {
   api: ApiState;
   bidData: BidComponentsState;
+  bids: BidState;
   ui: UiState;
 }

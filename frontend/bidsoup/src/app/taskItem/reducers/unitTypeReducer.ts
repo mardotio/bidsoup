@@ -2,13 +2,13 @@ import { Reducer } from 'redux';
 import * as fromActions from '../actions/unitTypeActions';
 
 export interface UnitState {
-  areFetching: boolean;
+  isFetching: boolean;
   units: object;
   lastFetch: number | null;
 }
 
 const defaultState: UnitState = {
-  areFetching: false,
+  isFetching: false,
   units: {},
   lastFetch: null
 };
@@ -18,12 +18,12 @@ const unitTypeReducer: Reducer<UnitState> = (state = defaultState, action: fromA
     case fromActions.REQUEST_UNIT_TYPES:
       return {
         ...state,
-        areFetching: true,
+        isFetching: true,
       };
 
     case fromActions.RECEIVE_UNIT_TYPES:
       return {
-        areFetching: false,
+        isFetching: false,
         units: action.payload.units,
         lastFetch: action.payload.fetchTime
       };

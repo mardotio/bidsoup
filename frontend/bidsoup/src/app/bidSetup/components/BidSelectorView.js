@@ -15,10 +15,6 @@ const Container = styled.div`
   }
 `
 
-      //onClick={() => selectBid(bid.url)}
-        //<Redirect to={`/dashboard/${bid.url.match(/(?<=bids\/)\d+/g)}`}/>
-        //onClick={() => this.props.route(`/dashboard/${bid.url.match(/(?<=bids\/)\d+/g)[0]}`)}
-
 const generateBidCards = ({bids}) => {
   return bids.map(bid => (
     <BidCard 

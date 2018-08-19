@@ -1,7 +1,7 @@
 import categoriesActions from '../actions/bidCategoriesActions';
 
 const defaultState = {
-  fetching: false,
+  isFetching: false,
   list: [],
   lastFetch: null
 }
@@ -12,12 +12,12 @@ const bidCategoriesReducer = (state = defaultState, action) => {
       console.log('requesting categories');
       return {
         ...state,
-        fetching: true,
+        isFetching: true,
       };
     case categoriesActions.RECEIVE_BID_CATEGORIES:
       console.log('receiving categories');
       return {
-        fetching: false,
+        isFetching: false,
         list: action.payload,
         lastFetch: Date.now()
       };

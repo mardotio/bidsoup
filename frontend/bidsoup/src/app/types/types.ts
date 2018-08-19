@@ -33,7 +33,7 @@ export interface BidTask {
 }
 
 export interface BidCategoryState {
-  fetching: boolean;
+  isFetching: boolean;
   list: {
     url: string;
     bid: string;
@@ -46,7 +46,7 @@ export interface BidCategoryState {
 }
 
 export interface BidItemState {
-  fetching: boolean;
+  isFetching: boolean;
   list: {
     url: string;
     bid: string;

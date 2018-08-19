@@ -4,27 +4,27 @@ import { Bid, Customer } from '../../types/types';
 
 export interface BidState {
   list: Bid[];
-  fetching: boolean;
+  isFetching: boolean;
   selectedBid: Bid;
   lastFetch: number | null;
 }
 
 const defaultState: BidState = {
   list: [],
-  fetching: false,
+  isFetching: false,
   selectedBid: {} as Bid,
   lastFetch: null
 };
 
 export interface CustomerState {
   list: Customer[];
-  fetching: boolean;
+  isFetching: boolean;
   lastFetch: number | null;
 }
 
 const defaultCustomerState: CustomerState = {
   list: [],
-  fetching: false,
+  isFetching: false,
   lastFetch: null
 };
 
@@ -42,7 +42,7 @@ const bidReducer: Reducer<BidState> = (state = defaultState, action: fromActions
     case fromActions.REQUEST_BID_LIST:
       return {
         ...state,
-        fetching: true
+        isFetching: true
       };
 
     case fromActions.RECEIVE_BID_LIST:
@@ -50,13 +50,13 @@ const bidReducer: Reducer<BidState> = (state = defaultState, action: fromActions
         ...state,
         list: action.payload.list,
         lastFetch: action.payload.fetchTime,
-        fetching: false
+        isFetching: false
       };
 
     case fromActions.REQUEST_CURRENT_BID:
       return {
         ...state,
-        fetching: true
+        isFetching: true
       };
 
     case fromActions.RECEIVE_CURRENT_BID:
@@ -64,7 +64,7 @@ const bidReducer: Reducer<BidState> = (state = defaultState, action: fromActions
         ...state,
         selectedBid: action.payload.bid,
         lastFetch: action.payload.fetchTime,
-        fetching: false
+        isFetching: false
       };
 
     default:
@@ -77,12 +77,12 @@ export const customersReducer: Reducer<CustomerState> = (state = defaultCustomer
     case fromActions.REQUEST_CUSTOMER_LIST:
      return {
        ...state,
-       fetching: true
+       isFetching: true
      };
     case fromActions.RECEIVE_CUSTOMER_LIST:
      return {
        list: action.payload.list,
-       fetching: false,
+       isFetching: false,
        lastFetch: action.payload.fetchTime
      };
     default:

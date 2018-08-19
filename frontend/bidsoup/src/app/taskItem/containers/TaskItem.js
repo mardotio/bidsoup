@@ -3,7 +3,7 @@ import View from '../components/View';
 import { fetchApi } from '../actions/apiActions';
 import { Actions as tasksActions, createBidTask } from '../actions/bidTasksActions';
 import { Actions as uiActions } from '../../actions/uiActions';
-import { Actions as bidActions, fetchBidList, fetchAllAndSelectFirst } from '../../bidSetup/actions/bidActions'
+import { Actions as bidActions, fetchBidList } from '../../bidSetup/actions/bidActions'
 import componentsActions from '../actions/bidComponentsActions';
 import { isEmpty, nestedFind } from '../../utils/utils';
 import { array2HashByKey } from '../../utils/sorting';
@@ -48,8 +48,8 @@ const formatItemForTable = (item, unitList) => {
   };
 };
 
-const generateTableData = ({categories, items, units, tasks: {currentTask}}) => {
-  const itemList = getItemsByTask(currentTask, items.list);
+const generateTableData = ({categories, items, units, tasks: { selectedTask }}) => {
+  const itemList = getItemsByTask(selectedTask, items.list);
   const itemsByCategory = array2HashByKey(itemList, 'category');
 
   const categoriesWithItems = categories.list.filter(category => (
@@ -106,7 +106,7 @@ const mapStateToProps = ({api, ui, bidData}) => ({
   ui: ui,
   bids: bidData.bids,
   tableData: generateTableData(bidData),
-  selectedTask: nestedFind(bidData.tasks.list, 'url', bidData.tasks.currentTask, 'children'),
+  selectedTask: nestedFind(bidData.tasks.list, 'url', bidData.tasks.selectedTask, 'children'),
   categories: bidData.categories,
   tasks: getTasks(bidData),
   units: bidData.units
@@ -114,8 +114,6 @@ const mapStateToProps = ({api, ui, bidData}) => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchAllAndSelectFirst: () =>
-      dispatch(fetchAllAndSelectFirst()),
     fetchApi: () =>
       dispatch(fetchApi()),
     fetchBidList: () =>

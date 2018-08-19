@@ -115,15 +115,3 @@ export const setAndFetchBid = (bid: string): ThunkAction<Promise<any>, AppState,
       .then(() => dispatch(componentsActions.fetchBidComponents()));
   };
 };
-
-// This is a temporary action for development use.
-// tslint:disable-next-line:no-any
-// export const fetchAllAndSelectFirst = (): ThunkAction<Promise<any>, AppState, never, Actions> => {
-//   return (dispatch, getState) => {
-//     return dispatch(fetchApi())
-//       .then(() => dispatch(fetchBidList()))
-//       .then(() => dispatch(Actions.setCurrentBid(getState().bids.list[1].url)))
-//       .then(() => dispatch(fetchCurrentBid()))
-//       .then(() => dispatch(componentsActions.fetchBidComponents()));
-//   };
-// };

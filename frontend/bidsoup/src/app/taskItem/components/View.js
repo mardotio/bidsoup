@@ -103,18 +103,9 @@ const View = props => {
   let {categoriesAreFetching, itemsAreFetching} = props;
   if (props.tasks.length <= 0) {
     return (
-      <React.Fragment>
-        <button
-          onClick={() => {
-            props.fetchAllAndSelectFirst();
-//            props.fetchBidList();
-//            props.setCurrentBid();
-//            props.refreshItems();
-          }}
-        >
-          Click to load
-        </button>
-      </React.Fragment>
+      <div>
+        Load something first
+      </div>
     );
   }
   return (

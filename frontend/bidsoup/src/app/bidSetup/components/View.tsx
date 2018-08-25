@@ -17,18 +17,6 @@ const OverviewContainer = styled.div`
   padding: 1em 3em;
 `;
 
-const generateBody = ({selectedBid, categoriesWithItems}: Props) => {
-  if (selectedBid.url) {
-    return (
-      <BidOverview
-        bid={selectedBid}
-        categoriesWithItems={categoriesWithItems}
-      />
-    );
-  }
-  return 'Select a Bid to learn more';
-};
-
 interface Props {
   bid: number | null;
   bids: Bid[];
@@ -54,12 +42,24 @@ class View extends React.Component<Props> {
     }
   }
 
+  generateBody() {
+    if (this.props.selectedBid.url) {
+      return (
+        <BidOverview
+          bid={this.props.selectedBid}
+          categoriesWithItems={this.props.categoriesWithItems}
+        />
+      );
+    }
+    return 'Select a Bid to learn more';
+  }
+
   render() {
     return (
       <Container>
         <BidSelector/>
         <OverviewContainer>
-          {generateBody(this.props)}
+          {this.generateBody()}
         </OverviewContainer>
       </Container>
     );

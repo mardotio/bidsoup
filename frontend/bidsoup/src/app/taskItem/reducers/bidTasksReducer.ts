@@ -5,14 +5,14 @@ import { BidTask } from '../../types/types';
 export interface BidTaskState {
   isFetching: boolean;
   list: BidTask[];
-  currentTask: BidTask | null;
+  selectedTask: BidTask | null;
   lastFetch: number | null;
 }
 
 const defaultState: BidTaskState = {
   isFetching: false,
   list: [],
-  currentTask: null,
+  selectedTask: null,
   lastFetch: null
 };
 
@@ -33,7 +33,7 @@ const bidTaskReducer: Reducer<BidTaskState> = (state = defaultState, action: fro
     case fromActions.SELECT_BID_TASK:
       return {
         ...state,
-        currentTask: action.payload.task
+        selectedTask: action.payload.task
       };
     default:
       return state;

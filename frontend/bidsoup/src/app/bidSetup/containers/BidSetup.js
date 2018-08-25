@@ -20,7 +20,6 @@ const itemsByCategory = (items, categories) => {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  state,
   bids: state.bids.list,
   selectedBid: state.bids.selectedBid,
   categoriesWithItems: itemsByCategory(state.bidData.items.list, state.bidData.categories.list),

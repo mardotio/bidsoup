@@ -1,16 +1,15 @@
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
-import SideNav from '../../components/SideNav';
 import BidOverview from './BidOverview';
 import BidSelector from '../containers/BidSelector';
-import Overview from '../../taskItem/components/Overview';
-import { Redirect } from 'react-router-dom';
+import { Bid } from '../../types/types';
+import { Actions } from '../actions/bidActions';
 
 const Container = styled.div`
   display: flex;
   height: 100%;
   overflow: hidden;
-`
+`;
 
 const OverviewContainer = styled.div`
   flex-grow: 1;
@@ -18,7 +17,7 @@ const OverviewContainer = styled.div`
   padding: 1em 3em;
 `;
 
-const generateBody = ({selectedBid, fetchBid, categoriesWithItems}) => {
+const generateBody = ({selectedBid, categoriesWithItems}: Props) => {
   if (selectedBid.url) {
     return (
       <BidOverview
@@ -30,17 +29,26 @@ const generateBody = ({selectedBid, fetchBid, categoriesWithItems}) => {
   return 'Select a Bid to learn more';
 };
 
-class View extends React.Component {
+interface Props {
+  bid: number | null;
+  bids: Bid[];
+  selectedBid: Bid;
+  categoriesWithItems: Object;
+  loadPage: () => Promise<Actions>;
+  selectBid: () => Promise<Actions>;
+}
+
+class View extends React.Component<Props> {
   componentDidMount() {
     this.props.loadPage()
       .then(() => {
-        if(this.props.bid) {
+        if (this.props.bid) {
           this.props.selectBid();
         }
       });
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (prevProps.bid !== this.props.bid) {
       this.props.selectBid();
     }
@@ -56,6 +64,6 @@ class View extends React.Component {
       </Container>
     );
   }
-};
+}
 
 export default View;

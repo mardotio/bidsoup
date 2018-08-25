@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import Card from '../../components/Card';
 import { textColor } from '../../utils/color';
@@ -23,7 +23,14 @@ const Truncate = styled.div`
   color: ${textColor.inactive};
 `;
 
-const BidCard = props => {
+interface Props {
+  bid_number: string;
+  name: string;
+  customer: string | null;
+  url: string;
+}
+
+const BidCard = (props: Props) => {
   return(
     <Link to={`/dashboard/${props.bid_number}`}>
       <CardContainer>

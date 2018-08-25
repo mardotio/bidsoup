@@ -25,18 +25,6 @@ const SvgContainer = styled.svg`
   transform: rotate(-90deg);
 `;
 
-const calculateCircleDimensions = ({ radius, stroke, percent }: {radius: number, stroke: number, percent: number}) => {
-  let diameter = radius * 2;
-  let circumference = Math.round(3.14 * diameter);
-  let actualPercent = percent >= 1 ? percent : 1;
-  return {
-    outsideDiameter: diameter + stroke * 2,
-    center: radius + stroke,
-    filledPercent: Math.round(((1 - actualPercent / 100) * circumference)),
-    circumference
-  };
-};
-
 interface DonutProps {
   radius: number;
   stroke: number;
@@ -45,6 +33,18 @@ interface DonutProps {
   altColor: string;
   offsetStroke: number;
 }
+
+const calculateCircleDimensions = ({ radius, stroke, percent }: DonutProps) => {
+  let diameter = radius * 2;
+  let circumference = Math.round(Math.PI * diameter);
+  let actualPercent = percent >= 1 ? percent : 1;
+  return {
+    outsideDiameter: diameter + stroke * 2,
+    center: radius + stroke,
+    filledPercent: Math.round(((1 - actualPercent / 100) * circumference)),
+    circumference
+  };
+};
 
 const DonutGraph = (props: DonutProps) => {
   let circle = calculateCircleDimensions(props);

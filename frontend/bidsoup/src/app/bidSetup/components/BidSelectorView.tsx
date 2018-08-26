@@ -27,7 +27,7 @@ const generateBidCards = ({bids}: Props) => {
       name={bid.name}
       customer={bid.customer}
       url={bid.url}
-      bid_number={bid.url.match(/(?<=bids\/)\d+/g)![0]}
+      bidNumber={bid.url.match(/bids\/\d+/)![0].split('/')[1]}
     />
   ));
 };

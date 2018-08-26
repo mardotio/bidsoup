@@ -24,7 +24,7 @@ const Truncate = styled.div`
 `;
 
 interface Props {
-  bid_number: string;
+  bidNumber: string;
   name: string;
   customer: string | null;
   url: string;
@@ -32,7 +32,7 @@ interface Props {
 
 const BidCard = (props: Props) => {
   return(
-    <Link to={`/dashboard/${props.bid_number}`}>
+    <Link to={`/dashboard/${props.bidNumber}`}>
       <CardContainer>
         <Title>{props.name}</Title>
         <Truncate>{props.customer}</Truncate>

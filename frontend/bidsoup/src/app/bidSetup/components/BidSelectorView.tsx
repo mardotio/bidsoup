@@ -1,6 +1,7 @@
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import BidCard from './BidCard';
+import { Bid } from '../../types/types';
 
 const Container = styled.div`
   width: 15%;
@@ -13,21 +14,25 @@ const Container = styled.div`
   ::-webkit-scrollbar-thumb {
     background: #ddd;
   }
-`
+`;
 
-const generateBidCards = ({bids}) => {
+interface Props {
+  bids: Bid[];
+}
+
+const generateBidCards = ({bids}: Props) => {
   return bids.map(bid => (
     <BidCard 
       key={bid.url}
       name={bid.name}
       customer={bid.customer}
       url={bid.url}
-      bid_number={bid.url.match(/(?<=bids\/)\d+/g)[0]}
+      bidNumber={bid.url.match(/bids\/\d+/)![0].split('/')[1]}
     />
   ));
-}
+};
 
-const BidSelectorView = props => {
+const BidSelectorView = (props: Props) => {
   let cards = props.bids.length < 1
     ? 'Nothing to see here'
     : generateBidCards(props);
@@ -37,6 +42,6 @@ const BidSelectorView = props => {
       {cards}
     </Container>
   );
-}
+};
 
 export default BidSelectorView;

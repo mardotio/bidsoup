@@ -23,6 +23,12 @@ export interface Customer {
   phone: string;
 }
 
+export interface CustomerState {
+  isFetching: boolean;
+  list: Customer[];
+  lastFetch: number | null;
+}
+
 export interface BidTask {
   url: string;
   parent?: string;
@@ -75,5 +81,6 @@ export interface AppState {
   api: ApiState;
   bidData: BidComponentsState;
   bids: BidState;
+  customers: CustomerState;
   ui: UiState;
 }

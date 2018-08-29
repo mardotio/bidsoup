@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { determineFontColor } from '../utils/styling'
+import { textColor } from '../utils/color';
 
 const defaultSize = '56px';
 const miniSize = '40px';
@@ -20,7 +21,7 @@ const ButtonContainer = styled.div`
     0 1px 5px 0 rgba(0, 0, 0, 0.12),
     0 3px 1px -2px rgba(0, 0, 0, 0.2);
   color: ${({buttonColor, overrideFont}) => determineFontColor(
-    buttonColor, overrideFont, '#757575'
+    buttonColor, overrideFont, textColor.medium
   )};
   cursor: pointer;
   display: flex;

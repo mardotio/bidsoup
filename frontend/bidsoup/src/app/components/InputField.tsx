@@ -2,11 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { capitalizeAll } from '../utils/styling';
 import { isEmpty } from '../utils/utils';
-
-const errorColor = '#ff1744';
-const bottomLineColor = '#949494';
-const textColor = '#212121';
-const labelColor = '#757575';
+import { components, theme, textColor, interactions } from '../utils/color';
 
 // TODO: Change to using em instead of px
 
@@ -24,17 +20,17 @@ const StyledInput = styled.input<StyledInputProps>`
   border: none;
   border-bottom: 2px solid;
   border-color: ${({hasError}) => (hasError
-    ? errorColor
-    : bottomLineColor
+    ? theme.error
+    : components.darkBorder
   )};
-  color: ${textColor};
+  color: ${textColor.dark};
   font-size: 16px;
   padding: 20px 0 8px 0;
   transition: .28s ease;
   width: 100%;
   &:focus {
     border-color: ${({focusColor, hasError}) => (hasError
-      ? errorColor
+      ? theme.error
       : focusColor
     )};
     outline: none;
@@ -51,11 +47,11 @@ interface LabelProps {
 const Label = styled.label<LabelProps>`
   color: ${({isFocused, focusColor, hasError, labelOnTop}) => {
     if (labelOnTop && hasError) {
-      return errorColor;
+      return theme.error;
     } else {
       return isFocused
         ? focusColor
-        : labelColor;
+        : textColor.light;
     }
   }};
   cursor: ${({labelOnTop}) => (labelOnTop
@@ -76,7 +72,7 @@ const Label = styled.label<LabelProps>`
 `;
 
 const HelperMessage = styled.div`
-  color: ${errorColor};
+  color: ${theme.error};
   font-size: 12px;
   margin-top: 8px;
 `;
@@ -98,7 +94,7 @@ const OptionsContainer = styled.div`
     width: 5px;
   }
   ::-webkit-scrollbar-thumb {
-    background: #ddd;
+    background: ${components.scrollbar};
   }
 `;
 
@@ -111,7 +107,7 @@ const Option = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   &:hover {
-    background-color: #eee;
+    background-color: ${interactions.hover};
   }
 `;
 

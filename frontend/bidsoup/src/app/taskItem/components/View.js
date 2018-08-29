@@ -6,6 +6,7 @@ import Card from '../../components/Card';
 import NewTaskForm from './NewTaskForm';
 import Fab from '../../components/Fab';
 import Item from './Item';
+import { theme, components } from '../../utils/color';
 
 const ViewConatiner = styled.div`
   display: flex;
@@ -23,7 +24,7 @@ const TaskContent = Card.extend`
     width: 5px;
   }
   ::-webkit-scrollbar-thumb {
-    background: #ddd;
+    background: ${components.scrollbar};
   }
 `;
 
@@ -70,7 +71,7 @@ const addElements = props => {
         <FabContainer>
           <Fab
             onClick={props.showModal}
-            color={'#b71c2d'}
+            color={theme.accent}
             icon={'add'}
           />
         </FabContainer>
@@ -91,7 +92,7 @@ const addElements = props => {
       <FabContainer>
         <Fab
           onClick={props.showModal}
-          color={'#b71c2d'}
+          color={theme.accent}
           icon={'add'}
         />
       </FabContainer>

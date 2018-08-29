@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Route } from "react-router-dom";
 import Link from './Link';
+import { theme } from '../utils/color';
 
 const NavContainer = styled.div`
   display: flex;
@@ -19,7 +20,7 @@ const NavIcon = styled.i`
   padding: 1em;
   cursor: pointer;
   &:hover {
-    color: purple;
+  color: ${theme.primary};
   }
 `
 

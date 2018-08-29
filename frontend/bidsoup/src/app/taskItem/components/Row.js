@@ -6,7 +6,7 @@ import { interactions } from '../../utils/color';
 
 const TableRow = styled.div`
   display: flex;
-  background-color: ${props => props.background || 'white'};
+  background-color: ${props => props.background || 'inherit'};
   color: ${props => props.background
     ? determineFontColor(props.background)
     : 'inherit'
@@ -26,7 +26,7 @@ const TableRow = styled.div`
   &:hover {
     background-color: ${props => {
       if (props.isHeader) {
-        return props.background || 'white';
+        return props.background || 'inherit';
       } else {
         return props.background || interactions.hover;
       }

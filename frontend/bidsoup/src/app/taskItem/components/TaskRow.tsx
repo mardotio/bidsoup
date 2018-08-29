@@ -13,7 +13,6 @@ const Task = styled.div<TaskProps>`
   padding: 10px;
   width: 100%;
   position: relative;
-  background-color: white;
   box-sizing: border-box;
   &:hover {
     background-color: ${interactions.hover};

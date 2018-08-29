@@ -11,12 +11,11 @@ const Container = styled.div`
   display: flex;
   height: 100%;
   overflow: hidden;
-  background-color: ${theme.background};
+  background-color: ${theme.fill};
 `
 
 const BodyContainer = styled.div`
   flex-grow: 1;
-  //background-color: white;
 `
 
 const View = props => {

@@ -7,7 +7,7 @@ import { theme } from '../utils/color';
 const NavContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: white;
+  background-color: ${theme.background};
   text-align: center;
   padding: 1em 0;
   width: 100px;

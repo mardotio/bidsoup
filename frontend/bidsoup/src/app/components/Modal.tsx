@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import styled from 'styled-components';
+import { theme } from '../utils/color';
 
 const modalRoot = document.getElementById('modal-root');
 
@@ -26,7 +27,7 @@ const Inner = styled.div<InnerProps>`
   height: ${props => props.height || '80%'};
   padding-left: 15px;
   padding-right: 15px;
-  background-color: white;
+  background-color: ${theme.background};
   box-shadow: 0px 10px 8px 0px rgba(0, 0, 0, 0.14);
   border-radius: 2px;
 `;

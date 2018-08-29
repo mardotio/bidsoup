@@ -11,7 +11,8 @@ export const textColor = {
 };
 
 export const theme = {
-  background: '#f3f6f9',
+  fill: '#f3f6f9',
+  background: shade(0),
   primary: '#4a2aea',
   secondary: '#842aea',
   accent: '#1180f7',

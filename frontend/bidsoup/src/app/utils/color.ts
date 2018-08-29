@@ -1,4 +1,4 @@
-// Returns hex color code based on concentartion of black
+// Returns hex color code based on concentration of black
 // Expects a number from 0-100 (percent of black)
 export const shade = (percent: number) => (
   `#${Math.round((100 - percent) * 255 / 100).toString(16).repeat(3)}`

@@ -6,7 +6,7 @@ import Card from '../../components/Card';
 import NewTaskForm from './NewTaskForm';
 import Fab from '../../components/Fab';
 import Item from './Item';
-import { theme, components } from '../../utils/color';
+import { theme } from '../../utils/color';
 
 const ViewConatiner = styled.div`
   display: flex;
@@ -24,7 +24,7 @@ const TaskContent = Card.extend`
     width: 5px;
   }
   ::-webkit-scrollbar-thumb {
-    background: ${components.scrollbar};
+    background: ${theme.components.scrollbar};
   }
 `;
 

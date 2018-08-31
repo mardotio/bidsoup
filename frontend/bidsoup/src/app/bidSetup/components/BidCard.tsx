@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import Card from '../../components/Card';
-import { textColor } from '../../utils/color';
+import { theme } from '../../utils/color';
 import Link from '../../components/Link';
 
 const CardContainer = Card.extend`
@@ -20,7 +20,7 @@ const Truncate = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: ${textColor.medium};
+  color: ${theme.text.medium};
 `;
 
 interface Props {

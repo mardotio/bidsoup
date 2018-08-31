@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Cell from './Cell';
 import { determineFontColor } from '../../utils/styling'
-import { interactions } from '../../utils/color';
+import { theme } from '../../utils/color';
 
 const TableRow = styled.div`
   display: flex;
@@ -21,14 +21,14 @@ const TableRow = styled.div`
   };
   border-bottom: ${props => (props.background || props.isHeader)
     ? '0'
-    : `1px solid ${interactions.hover}`
+    : `1px solid ${theme.interactions.hover}`
   };
   &:hover {
     background-color: ${props => {
       if (props.isHeader) {
         return props.background || 'inherit';
       } else {
-        return props.background || interactions.hover;
+        return props.background || theme.interactions.hover;
       }
     }};
   }

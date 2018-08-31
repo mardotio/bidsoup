@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import BidCard from './BidCard';
 import { Bid } from '../../types/types';
-import { components } from '../../utils/color';
+import { theme } from '../../utils/color';
 
 const Container = styled.div`
   width: 15%;
@@ -13,7 +13,7 @@ const Container = styled.div`
     width: 5px;
   }
   ::-webkit-scrollbar-thumb {
-    background: ${components.scrollbar};
+    background: ${theme.components.scrollbar};
   }
 `;
 

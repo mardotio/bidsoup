@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { capitalizeAll } from '../utils/styling';
 import { isEmpty } from '../utils/utils';
-import { components, theme, textColor, interactions } from '../utils/color';
+import { theme } from '../utils/color';
 
 // TODO: Change to using em instead of px
 
@@ -21,9 +21,9 @@ const StyledInput = styled.input<StyledInputProps>`
   border-bottom: 2px solid;
   border-color: ${({hasError}) => (hasError
     ? theme.error
-    : components.darkBorder
+    : theme.components.darkBorder 
   )};
-  color: ${textColor.dark};
+  color: ${theme.text.dark};
   font-size: 16px;
   padding: 20px 0 8px 0;
   transition: .28s ease;
@@ -51,7 +51,7 @@ const Label = styled.label<LabelProps>`
     } else {
       return isFocused
         ? focusColor
-        : textColor.light;
+        : theme.text.light;
     }
   }};
   cursor: ${({labelOnTop}) => (labelOnTop
@@ -94,7 +94,7 @@ const OptionsContainer = styled.div`
     width: 5px;
   }
   ::-webkit-scrollbar-thumb {
-    background: ${components.scrollbar};
+    background: ${theme.components.scrollbar};
   }
 `;
 
@@ -107,7 +107,7 @@ const Option = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   &:hover {
-    background-color: ${interactions.hover};
+    background-color: ${theme.interactions.hover};
   }
 `;
 

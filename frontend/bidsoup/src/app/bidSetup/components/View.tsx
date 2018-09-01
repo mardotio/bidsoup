@@ -4,6 +4,7 @@ import BidOverview from './BidOverview';
 import BidSelector from '../containers/BidSelector';
 import { Bid } from '../../types/types';
 import { Actions } from '../actions/bidActions';
+import { theme } from '../../utils/color';
 
 const Container = styled.div`
   display: flex;
@@ -13,7 +14,7 @@ const Container = styled.div`
 
 const OverviewContainer = styled.div`
   flex-grow: 1;
-  background-color: white;
+  background-color: ${theme.background};
   padding: 1em 3em;
 `;
 

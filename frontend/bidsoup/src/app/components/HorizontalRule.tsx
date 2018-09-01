@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+import { theme } from '../utils/color';
 
 const HorizontalRule = styled.div`
   height: 1px;
-  background-color: #e0e6e8;
+  background-color: ${theme.components.border};
   margin: 10px 0;
 `;
 

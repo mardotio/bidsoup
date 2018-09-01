@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { textColor } from '../../utils/color';
+import { theme } from '../../utils/color';
 import Card from '../../components/Card';
 import DonutGraph from '../../components/DonutGraph';
 
@@ -10,7 +10,7 @@ const Title = styled.div`
 `;
 
 const Date = styled.div`
-  color: ${textColor.disabled};
+  color: ${theme.text.light};
 `;
 
 const Dashboard = Card.extend`
@@ -20,7 +20,7 @@ const Dashboard = Card.extend`
 `;
 
 const DashboardTitle = styled.div`
-  color: ${textColor.inactive};
+  color: ${theme.text.medium};
   padding: .5em 0;
 `;
 
@@ -46,7 +46,7 @@ const generateDash = ({ categoriesWithItems }: { categoriesWithItems: Object}) =
           stroke={3}
           color={`#${categoriesWithItems[category].color}`}
           percent={Math.round(categoriesWithItems[category].items.length / itemCount * 100)}
-          altColor={'#d9d9d9'}
+          altColor={theme.components.border}
           offsetStroke={1}
         />
         <ItemLabel>

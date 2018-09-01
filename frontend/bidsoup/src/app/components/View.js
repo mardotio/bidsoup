@@ -1,20 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import SideNav from './SideNav';
 import BidSetup from '../bidSetup/containers/BidSetup';
 import BidSelector from '../bidSetup/containers/BidSelector';
 import TaskItem from '../taskItem/containers/TaskItem';
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { theme } from '../utils/color';
 
 const Container = styled.div`
   display: flex;
   height: 100%;
   overflow: hidden;
+  background-color: ${theme.fill};
 `
 
 const BodyContainer = styled.div`
   flex-grow: 1;
-  //background-color: white;
 `
 
 const View = props => {

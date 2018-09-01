@@ -1,8 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { beautifyNumber } from '../../utils/styling';
-
-const offColor = '#eaeaea';
+import { theme } from '../../utils/color';
 
 interface TaskProps {
   clickable: boolean;
@@ -14,10 +13,9 @@ const Task = styled.div<TaskProps>`
   padding: 10px;
   width: 100%;
   position: relative;
-  background-color: white;
   box-sizing: border-box;
   &:hover {
-    background-color: ${offColor};
+    background-color: ${theme.interactions.hover};
   }
   cursor: ${props => props.clickable ? 'pointer' : 'default'};
 `;

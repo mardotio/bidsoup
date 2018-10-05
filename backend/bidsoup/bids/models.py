@@ -1,4 +1,4 @@
-from django.db import models, transaction
+from django.db import models
 from django.core.exceptions import ValidationError
 import uuid
 
@@ -104,19 +104,10 @@ class BidTask(models.Model):
     def __str__(self):
         return '{self.title} - {self.bid.name}'.format(self=self)
 
-def get_and_increment_bid_key(account_id):
-    account = Account.objects.get(id=account_id)
-    new_bid_key = account.next_bid_number
-    account.next_bid_number += 1
-    account.save()
-    return new_bid_key
-
 class Bid(models.Model):
-    # account = models.ForeignKey(Account, on_delete=models.CASCADE)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    # key = models.IntegerField()
     bid_date = models.DateField()
     created_on = models.DateTimeField(auto_now_add=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True, related_name='bids')
@@ -124,12 +115,3 @@ class Bid(models.Model):
 
     def __str__(self):
         return self.name
-
-    @transaction.atomic
-    def save(self, *args, **kwargs):
-        print(vars(self))
-        # Get a key for the new bid
-        if not self.pk:
-            self.key = get_and_increment_bid_key(self.account_id)
-
-        super().save(*args, **kwargs)

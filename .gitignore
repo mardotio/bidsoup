@@ -2,6 +2,8 @@
 *.py[co]
 __pycache__
 
+**/.venv
+
 # Dev tool artifacts
 .vscode
 .idea

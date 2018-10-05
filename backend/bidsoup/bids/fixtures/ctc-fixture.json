@@ -1,1979 +1,1979 @@
 [
-    {
-        "fields": {
-            "address": "",
-            "email": "noreply@kindermorgan.com",
-            "name": "Kinder Morgan",
-            "phone": "1234567891"
-        },
-        "model": "bids.customer",
-        "pk": 1
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "color": "516077",
-            "description": "All man hours go here",
-            "markup_percent": null,
-            "name": "Labor"
-        },
-        "model": "bids.category",
-        "pk": 1
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "color": "b2135d",
-            "description": "All meterials",
-            "markup_percent": null,
-            "name": "Materials"
-        },
-        "model": "bids.category",
-        "pk": 2
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "color": "704bc6",
-            "description": "Category for all equipment",
-            "markup_percent": null,
-            "name": "Equipment"
-        },
-        "model": "bids.category",
-        "pk": 3
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "color": "24af63",
-            "description": "Company vehicles",
-            "markup_percent": null,
-            "name": "Vehicles"
-        },
-        "model": "bids.category",
-        "pk": 4
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "color": "ce5056",
-            "description": "All labor from subcontractors",
-            "markup_percent": null,
-            "name": "Subcontractors"
-        },
-        "model": "bids.category",
-        "pk": 5
-    },
-    {
-        "fields": {
-            "description": "Average hourly price for one crew member",
-            "name": "Worker Average",
-            "unit": "HR",
-            "unit_price": "300.00"
-        },
-        "model": "bids.unittype",
-        "pk": 1
-    },
-    {
-        "fields": {
-            "description": "Daily rate for skid steer",
-            "name": "Skid Steer - Daily",
-            "unit": "EA",
-            "unit_price": "350.00"
-        },
-        "model": "bids.unittype",
-        "pk": 2
-    },
-    {
-        "fields": {
-            "description": "Weekly rate for skid steer",
-            "name": "Skid Steer - Weekly",
-            "unit": "WK",
-            "unit_price": "1050.00"
-        },
-        "model": "bids.unittype",
-        "pk": 3
-    },
-    {
-        "fields": {
-            "description": "Price per mile for crew vehicles",
-            "name": "Crew Vehicle",
-            "unit": "EA",
-            "unit_price": "0.80"
-        },
-        "model": "bids.unittype",
-        "pk": 4
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 24,
-            "price": null,
-            "quantity": "48.75",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 1
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 25,
-            "price": null,
-            "quantity": "2.93",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 2
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 26,
-            "price": null,
-            "quantity": "1.50",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 3
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 27,
-            "price": null,
-            "quantity": "1.25",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 4
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 28,
-            "price": null,
-            "quantity": "2.81",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 5
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 29,
-            "price": null,
-            "quantity": "1.80",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 6
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 30,
-            "price": null,
-            "quantity": "1.50",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 7
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 31,
-            "price": null,
-            "quantity": "10.35",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 8
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 32,
-            "price": null,
-            "quantity": "1.20",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 9
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 33,
-            "price": null,
-            "quantity": "5.22",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 10
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 34,
-            "price": null,
-            "quantity": "2.25",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 11
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 35,
-            "price": null,
-            "quantity": "1.07",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 12
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 36,
-            "price": null,
-            "quantity": "2.31",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 13
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 37,
-            "price": null,
-            "quantity": "1.62",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 14
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 38,
-            "price": null,
-            "quantity": "1.38",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 15
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 39,
-            "price": null,
-            "quantity": "1.00",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 16
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 40,
-            "price": null,
-            "quantity": "4.50",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 17
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 41,
-            "price": null,
-            "quantity": "1.50",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 18
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 42,
-            "price": null,
-            "quantity": "6.38",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 19
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 43,
-            "price": null,
-            "quantity": "10.00",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 20
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 44,
-            "price": null,
-            "quantity": "37.50",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 21
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 45,
-            "price": null,
-            "quantity": "16.00",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 22
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "Install chains",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 3,
-            "price": null,
-            "quantity": "12.00",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 23
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "Replace Teflon Fabric Seal on Gauge Pole Float",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 4,
-            "price": null,
-            "quantity": "1.25",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 24
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "Install Float",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 5,
-            "price": null,
-            "quantity": "1.50",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 25
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "Raise Varec Hanger Support 6\"",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 10,
-            "price": null,
-            "quantity": "7.50",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 26
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "Pressure-Test (7) Nozzle Repads and Install Tell Tale 90s",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 17,
-            "price": null,
-            "quantity": "2.50",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 27
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "Remove Skillets/Blinds",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 21,
-            "price": null,
-            "quantity": "27.50",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 28
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "Monitor First Fill",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 23,
-            "price": null,
-            "quantity": "8.00",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 29
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 46,
-            "price": null,
-            "quantity": "24.00",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 30
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 47,
-            "price": null,
-            "quantity": "24.00",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 31
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 49,
-            "price": null,
-            "quantity": "75.00",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 32
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 50,
-            "price": null,
-            "quantity": "8.00",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 33
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 51,
-            "price": null,
-            "quantity": "125.00",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 34
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 52,
-            "price": null,
-            "quantity": "2.25",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 35
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 53,
-            "price": null,
-            "quantity": "3.75",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 36
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 54,
-            "price": null,
-            "quantity": "9.00",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 37
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 55,
-            "price": null,
-            "quantity": "4.50",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 38
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 56,
-            "price": null,
-            "quantity": "5.00",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 39
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 57,
-            "price": null,
-            "quantity": "4.00",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 40
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 58,
-            "price": null,
-            "quantity": "13.75",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 41
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 59,
-            "price": null,
-            "quantity": "1.00",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 42
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 60,
-            "price": null,
-            "quantity": "1.50",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 43
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 61,
-            "price": null,
-            "quantity": "1.50",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 44
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 62,
-            "price": null,
-            "quantity": "2.25",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 45
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 63,
-            "price": null,
-            "quantity": "1.50",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 46
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 64,
-            "price": null,
-            "quantity": "4.00",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 47
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 65,
-            "price": null,
-            "quantity": "1.00",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 48
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 66,
-            "price": null,
-            "quantity": "6.00",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 49
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 1,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 67,
-            "price": null,
-            "quantity": "9.00",
-            "unit_type": 1
-        },
-        "model": "bids.biditem",
-        "pk": 50
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "S.S Chain",
-            "markup_percent": null,
-            "notes": "Specialty",
-            "parent": 3,
-            "price": "3.75",
-            "quantity": "60.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 51
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "Miscellaneous parts",
-            "markup_percent": null,
-            "notes": "Specialty",
-            "parent": 3,
-            "price": "150.00",
-            "quantity": "1.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 52
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "Freight",
-            "markup_percent": null,
-            "notes": "Freight",
-            "parent": 3,
-            "price": "80.00",
-            "quantity": "1.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 53
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "Teflon Fabric",
-            "markup_percent": null,
-            "notes": "Specialty",
-            "parent": 4,
-            "price": "100.00",
-            "quantity": "1.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 54
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "8\" Gauge Pole Float",
-            "markup_percent": null,
-            "notes": "Specialty",
-            "parent": 5,
-            "price": "648.97",
-            "quantity": "1.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 55
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "Freight",
-            "markup_percent": null,
-            "notes": "Freight",
-            "parent": 5,
-            "price": "50.00",
-            "quantity": "1.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 56
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "Hardware",
-            "markup_percent": null,
-            "notes": "Misc",
-            "parent": 8,
-            "price": "150.00",
-            "quantity": "1.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 57
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "Column Well Lid",
-            "markup_percent": null,
-            "notes": "Specialty",
-            "parent": 9,
-            "price": "850.00",
-            "quantity": "1.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 58
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "Freight",
-            "markup_percent": null,
-            "notes": "Freight",
-            "parent": 9,
-            "price": "100.00",
-            "quantity": "1.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 59
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "Weld Consumables",
-            "markup_percent": null,
-            "notes": "Weld Consumables",
-            "parent": 10,
-            "price": "80.00",
-            "quantity": "1.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 60
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "Column Well Seals",
-            "markup_percent": null,
-            "notes": "Specialty",
-            "parent": 11,
-            "price": "110.00",
-            "quantity": "8.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 61
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "Gauge Pole Well Seals",
-            "markup_percent": null,
-            "notes": "Specialty",
-            "parent": 11,
-            "price": "120.00",
-            "quantity": "2.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 62
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "Freight",
-            "markup_percent": null,
-            "notes": "Freight",
-            "parent": 11,
-            "price": "80.00",
-            "quantity": "1.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 63
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "1/4\" A36 Mod Steel",
-            "markup_percent": null,
-            "notes": "Steel",
-            "parent": 13,
-            "price": "2453.10",
-            "quantity": "1.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 64
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "Weld Consumables",
-            "markup_percent": null,
-            "notes": "Weld Consumables",
-            "parent": 13,
-            "price": "850.00",
-            "quantity": "1.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 65
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "185 Air Comp",
-            "markup_percent": null,
-            "notes": "Equipment",
-            "parent": 14,
-            "price": "850.00",
-            "quantity": "1.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 66
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "1/4\" A36 Mod Steel",
-            "markup_percent": null,
-            "notes": "Steel",
-            "parent": 14,
-            "price": "175.00",
-            "quantity": "1.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 67
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "Weld Consumables",
-            "markup_percent": null,
-            "notes": "Weld Consumables",
-            "parent": 14,
-            "price": "180.00",
-            "quantity": "1.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 68
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "Weld Consumables",
-            "markup_percent": null,
-            "notes": "Weld Consumables",
-            "parent": 15,
-            "price": "80.00",
-            "quantity": "1.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 69
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "SS Tell Tales",
-            "markup_percent": null,
-            "notes": "Pipe",
-            "parent": 17,
-            "price": "5.00",
-            "quantity": "7.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 70
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "Varec Parts",
-            "markup_percent": null,
-            "notes": "Specialty",
-            "parent": 18,
-            "price": "20.00",
-            "quantity": "1.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 71
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "MW Gaskets",
-            "markup_percent": null,
-            "notes": "Bolts & Gaskets",
-            "parent": 20,
-            "price": "195.00",
-            "quantity": "2.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 72
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "Line/MW Bolts and Gaskets",
-            "markup_percent": null,
-            "notes": "Bolts & Gaskets",
-            "parent": 20,
-            "price": "300.00",
-            "quantity": "1.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 73
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "Freight",
-            "markup_percent": null,
-            "notes": "Freight",
-            "parent": 20,
-            "price": "60.00",
-            "quantity": "1.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 74
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 2,
-            "description": "Pipe",
-            "markup_percent": null,
-            "notes": "Pipe",
-            "parent": 22,
-            "price": "250.00",
-            "quantity": "1.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 75
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 3,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 13,
-            "price": null,
-            "quantity": "1.00",
-            "unit_type": 3
-        },
-        "model": "bids.biditem",
-        "pk": 76
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 3,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 14,
-            "price": null,
-            "quantity": "2.00",
-            "unit_type": 2
-        },
-        "model": "bids.biditem",
-        "pk": 77
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 4,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 46,
-            "price": null,
-            "quantity": "550.00",
-            "unit_type": 4
-        },
-        "model": "bids.biditem",
-        "pk": 78
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 4,
-            "description": "",
-            "markup_percent": null,
-            "notes": "",
-            "parent": 47,
-            "price": null,
-            "quantity": "550.00",
-            "unit_type": 4
-        },
-        "model": "bids.biditem",
-        "pk": 79
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "category": 5,
-            "description": "NDE (MT)",
-            "markup_percent": null,
-            "notes": "Testing",
-            "parent": 14,
-            "price": "3250.00",
-            "quantity": "1.00",
-            "unit_type": null
-        },
-        "model": "bids.biditem",
-        "pk": 80
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Mobilization",
-            "parent": null,
-            "title": "Mobilization"
-        },
-        "model": "bids.bidtask",
-        "pk": 1
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Fixed Cone Roof & Appurtance Repairs",
-            "parent": null,
-            "title": "Fixed Cone Roof & Appurtance Repairs"
-        },
-        "model": "bids.bidtask",
-        "pk": 2
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install Removable S.S. Chains Above (12) Perimeter Roof Vents",
-            "parent": null,
-            "title": "Install Removable S.S. Chains Above (12) Perimeter Roof Vents"
-        },
-        "model": "bids.bidtask",
-        "pk": 3
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Replace Teflon Fabric Seal on Gauge Pole Float",
-            "parent": null,
-            "title": "Replace Teflon Fabric Seal on Gauge Pole Float"
-        },
-        "model": "bids.bidtask",
-        "pk": 4
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Provide and Install New 8\" Gauge Pole Float for Second Gauge Pole",
-            "parent": null,
-            "title": "Provide and Install New 8\" Gauge Pole Float for Second Gauge Pole"
-        },
-        "model": "bids.bidtask",
-        "pk": 5
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Provide and Install Safety Net for Inspection Hatch",
-            "parent": null,
-            "title": "Provide and Install Safety Net for Inspection Hatch"
-        },
-        "model": "bids.bidtask",
-        "pk": 6
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Floating Roof Repairs",
-            "parent": null,
-            "title": "Floating Roof Repairs"
-        },
-        "model": "bids.bidtask",
-        "pk": 7
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Replace ALL Aluminum Pontoons (Furnished by KM)",
-            "parent": null,
-            "title": "Replace ALL Aluminum Pontoons (Furnished by KM)"
-        },
-        "model": "bids.bidtask",
-        "pk": 8
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Repair (1) Column Well Lid that is Bent",
-            "parent": null,
-            "title": "Repair (1) Column Well Lid that is Bent"
-        },
-        "model": "bids.bidtask",
-        "pk": 9
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Raise Varec Hanger Support 6\"",
-            "parent": null,
-            "title": "Raise Varec Hanger Support 6\""
-        },
-        "model": "bids.bidtask",
-        "pk": 10
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Replace All Negotiator Seals",
-            "parent": null,
-            "title": "Replace All Negotiator Seals"
-        },
-        "model": "bids.bidtask",
-        "pk": 11
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Tank Bottom Repairs",
-            "parent": null,
-            "title": "Tank Bottom Repairs"
-        },
-        "model": "bids.bidtask",
-        "pk": 12
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install (92) Lap Patches",
-            "parent": null,
-            "title": "Install (92) Lap Patches"
-        },
-        "model": "bids.bidtask",
-        "pk": 13
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Replace (1) Bottom Sheet",
-            "parent": null,
-            "title": "Replace (1) Bottom Sheet"
-        },
-        "model": "bids.bidtask",
-        "pk": 14
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Repair (4) Lap Weld Pin Holes (Vac Box Test Before Repairing)",
-            "parent": null,
-            "title": "Repair (4) Lap Weld Pin Holes (Vac Box Test Before Repairing)"
-        },
-        "model": "bids.bidtask",
-        "pk": 15
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Nozzle and Appurtenance Repairs",
-            "parent": null,
-            "title": "Nozzle and Appurtenance Repairs"
-        },
-        "model": "bids.bidtask",
-        "pk": 16
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Pressure-Test (7) Nozzle Repads and Install Tell Tale 90s",
-            "parent": null,
-            "title": "Pressure-Test (7) Nozzle Repads and Install Tell Tale 90s"
-        },
-        "model": "bids.bidtask",
-        "pk": 17
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Varec Gauge Repairs",
-            "parent": null,
-            "title": "Varec Gauge Repairs"
-        },
-        "model": "bids.bidtask",
-        "pk": 18
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Tank Button Up",
-            "parent": null,
-            "title": "Tank Button Up"
-        },
-        "model": "bids.bidtask",
-        "pk": 19
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Provide All Nuts, Bolts, an Gaskets Needed",
-            "parent": null,
-            "title": "Provide All Nuts, Bolts, an Gaskets Needed"
-        },
-        "model": "bids.bidtask",
-        "pk": 20
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Remove Skillets/Blinds",
-            "parent": null,
-            "title": "Remove Skillets/Blinds"
-        },
-        "model": "bids.bidtask",
-        "pk": 21
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Re-Align (2) Pressure Relief Lines",
-            "parent": null,
-            "title": "Re-Align (2) Pressure Relief Lines"
-        },
-        "model": "bids.bidtask",
-        "pk": 22
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Monitor First Fill",
-            "parent": null,
-            "title": "Monitor First Fill"
-        },
-        "model": "bids.bidtask",
-        "pk": 23
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install (65) 12\" x 12\"",
-            "parent": 13,
-            "title": "Install (65) 12\" x 12\""
-        },
-        "model": "bids.bidtask",
-        "pk": 24
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install (1) 32\" x 32\" (Split)",
-            "parent": 13,
-            "title": "Install (1) 32\" x 32\" (Split)"
-        },
-        "model": "bids.bidtask",
-        "pk": 25
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install (1) 24\" x 28\"",
-            "parent": 13,
-            "title": "Install (1) 24\" x 28\""
-        },
-        "model": "bids.bidtask",
-        "pk": 26
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install (1) 20\" x 20\"",
-            "parent": 13,
-            "title": "Install (1) 20\" x 20\""
-        },
-        "model": "bids.bidtask",
-        "pk": 27
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install (3) 18\" x 12\"",
-            "parent": 13,
-            "title": "Install (3) 18\" x 12\""
-        },
-        "model": "bids.bidtask",
-        "pk": 28
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install (1) 40\" x 16\"",
-            "parent": 13,
-            "title": "Install (1) 40\" x 16\""
-        },
-        "model": "bids.bidtask",
-        "pk": 29
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install (1) 18\" x 34\"",
-            "parent": 13,
-            "title": "Install (1) 18\" x 34\""
-        },
-        "model": "bids.bidtask",
-        "pk": 30
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install (2) 42\" x 68\" (Split)",
-            "parent": 13,
-            "title": "Install (2) 42\" x 68\" (Split)"
-        },
-        "model": "bids.bidtask",
-        "pk": 31
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install (1) 18\" x 20\"",
-            "parent": 13,
-            "title": "Install (1) 18\" x 20\""
-        },
-        "model": "bids.bidtask",
-        "pk": 32
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install (6) 12\" x 16\"",
-            "parent": 13,
-            "title": "Install (6) 12\" x 16\""
-        },
-        "model": "bids.bidtask",
-        "pk": 33
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install (2) 20\" x 16\"",
-            "parent": 13,
-            "title": "Install (2) 20\" x 16\""
-        },
-        "model": "bids.bidtask",
-        "pk": 34
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install (1) 12\" x 22\"",
-            "parent": 13,
-            "title": "Install (1) 12\" x 22\""
-        },
-        "model": "bids.bidtask",
-        "pk": 35
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install (1) 26\" x 48\"",
-            "parent": 13,
-            "title": "Install (1) 26\" x 48\""
-        },
-        "model": "bids.bidtask",
-        "pk": 36
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install (2) 12\" x 14\"",
-            "parent": 13,
-            "title": "Install (2) 12\" x 14\""
-        },
-        "model": "bids.bidtask",
-        "pk": 37
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install (1) 20\" x 24\"",
-            "parent": 13,
-            "title": "Install (1) 20\" x 24\""
-        },
-        "model": "bids.bidtask",
-        "pk": 38
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install (1) 16\" x 16\"",
-            "parent": 13,
-            "title": "Install (1) 16\" x 16\""
-        },
-        "model": "bids.bidtask",
-        "pk": 39
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install (1) 60\" x 40\" (Split)",
-            "parent": 13,
-            "title": "Install (1) 60\" x 40\" (Split)"
-        },
-        "model": "bids.bidtask",
-        "pk": 40
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install (1) 30\" x 18\"",
-            "parent": 13,
-            "title": "Install (1) 30\" x 18\""
-        },
-        "model": "bids.bidtask",
-        "pk": 41
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install (2) 30\" x 72\"",
-            "parent": 13,
-            "title": "Install (2) 30\" x 72\""
-        },
-        "model": "bids.bidtask",
-        "pk": 42
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Time to Set Up",
-            "parent": 13,
-            "title": "Time to Set Up"
-        },
-        "model": "bids.bidtask",
-        "pk": 43
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Time to Fab up Patches",
-            "parent": 13,
-            "title": "Time to Fab up Patches"
-        },
-        "model": "bids.bidtask",
-        "pk": 44
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Vac Box Testing",
-            "parent": 13,
-            "title": "Vac Box Testing"
-        },
-        "model": "bids.bidtask",
-        "pk": 45
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Mobilize to Orlando",
-            "parent": 1,
-            "title": "Mobilize to Orlando"
-        },
-        "model": "bids.bidtask",
-        "pk": 46
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Demobilize to Concord",
-            "parent": 1,
-            "title": "Demobilize to Concord"
-        },
-        "model": "bids.bidtask",
-        "pk": 47
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Remove Exististing pontoons",
-            "parent": 8,
-            "title": "Remove Exististing pontoons"
-        },
-        "model": "bids.bidtask",
-        "pk": 49
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Inventory New Pontoons",
-            "parent": 8,
-            "title": "Inventory New Pontoons"
-        },
-        "model": "bids.bidtask",
-        "pk": 50
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install New Pontoons",
-            "parent": 8,
-            "title": "Install New Pontoons"
-        },
-        "model": "bids.bidtask",
-        "pk": 51
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Remove existing lid",
-            "parent": 9,
-            "title": "Remove existing lid"
-        },
-        "model": "bids.bidtask",
-        "pk": 52
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "install new lid",
-            "parent": 9,
-            "title": "install new lid"
-        },
-        "model": "bids.bidtask",
-        "pk": 53
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Replace (8) Column Seals",
-            "parent": 11,
-            "title": "Replace (8) Column Seals"
-        },
-        "model": "bids.bidtask",
-        "pk": 54
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Replace (2) Gauge well seals",
-            "parent": 11,
-            "title": "Replace (2) Gauge well seals"
-        },
-        "model": "bids.bidtask",
-        "pk": 55
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Gouge out existing sheet & remove",
-            "parent": 14,
-            "title": "Gouge out existing sheet & remove"
-        },
-        "model": "bids.bidtask",
-        "pk": 56
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Fab new split sheet",
-            "parent": 14,
-            "title": "Fab new split sheet"
-        },
-        "model": "bids.bidtask",
-        "pk": 57
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Install new sheet",
-            "parent": 14,
-            "title": "Install new sheet"
-        },
-        "model": "bids.bidtask",
-        "pk": 58
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Vac Box",
-            "parent": 14,
-            "title": "Vac Box"
-        },
-        "model": "bids.bidtask",
-        "pk": 59
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "MT Test",
-            "parent": 14,
-            "title": "MT Test"
-        },
-        "model": "bids.bidtask",
-        "pk": 60
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Vac Box and Locate Pin Holes",
-            "parent": 15,
-            "title": "Vac Box and Locate Pin Holes"
-        },
-        "model": "bids.bidtask",
-        "pk": 61
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Repair",
-            "parent": 15,
-            "title": "Repair"
-        },
-        "model": "bids.bidtask",
-        "pk": 62
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Vac Box Again",
-            "parent": 15,
-            "title": "Vac Box Again"
-        },
-        "model": "bids.bidtask",
-        "pk": 63
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Open Gauge and Dry Out",
-            "parent": 18,
-            "title": "Open Gauge and Dry Out"
-        },
-        "model": "bids.bidtask",
-        "pk": 64
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Replace Plug",
-            "parent": 18,
-            "title": "Replace Plug"
-        },
-        "model": "bids.bidtask",
-        "pk": 65
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Time to re-install pressure reliefs",
-            "parent": 22,
-            "title": "Time to re-install pressure reliefs"
-        },
-        "model": "bids.bidtask",
-        "pk": 66
-    },
-    {
-        "fields": {
-            "bid": 1,
-            "description": "Minor Mods",
-            "parent": 22,
-            "title": "Minor Mods"
-        },
-        "model": "bids.bidtask",
-        "pk": 67
-    },
-    {
-        "fields": {
-            "bid_date": "2018-05-31",
-            "created_on": "2018-06-09T01:07:00.777Z",
-            "customer": 1,
-            "description": "Central Florida Pipeline\r\nOrlando, Fl",
-            "name": "Tank 100-1 Repairs",
-            "tax_percent": null
-        },
-        "model": "bids.bid",
-        "pk": 1
-    }
+{
+  "model": "bids.customer",
+  "pk": "c7e8c722-1b8a-4bf3-9284-b8b755c4f194",
+  "fields": {
+    "name": "Kinder Morgan",
+    "address": "",
+    "phone": "1234567891",
+    "email": "noreply@kindermorgan.com"
+  }
+},
+{
+  "model": "bids.category",
+  "pk": "03a301da-e460-4556-8647-55bf09cfd646",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "name": "Vehicles",
+    "description": "Company vehicles",
+    "markup_percent": null,
+    "color": "24af63"
+  }
+},
+{
+  "model": "bids.category",
+  "pk": "22ea776c-9bf5-449f-8d94-6b1e3d39c663",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "name": "Equipment",
+    "description": "Category for all equipment",
+    "markup_percent": null,
+    "color": "704bc6"
+  }
+},
+{
+  "model": "bids.category",
+  "pk": "35655cbf-5836-4662-a1cd-de94475d9de7",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "name": "Labor",
+    "description": "All man hours go here",
+    "markup_percent": null,
+    "color": "516077"
+  }
+},
+{
+  "model": "bids.category",
+  "pk": "56b1c2b2-b6d7-4a22-b2b3-c2e62e65c09f",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "name": "Subcontractors",
+    "description": "All labor from subcontractors",
+    "markup_percent": null,
+    "color": "ce5056"
+  }
+},
+{
+  "model": "bids.category",
+  "pk": "8c7a286a-9365-41d1-bada-abcf0869d946",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "name": "Materials",
+    "description": "All meterials",
+    "markup_percent": null,
+    "color": "b2135d"
+  }
+},
+{
+  "model": "bids.unittype",
+  "pk": "50fe3d9e-c610-4752-9258-0b1c27693cf0",
+  "fields": {
+    "name": "Crew Vehicle",
+    "description": "Price per mile for crew vehicles",
+    "unit": "EA",
+    "unit_price": "0.80"
+  }
+},
+{
+  "model": "bids.unittype",
+  "pk": "a6e9561b-660e-44f5-bae4-b22ee3ad9d3f",
+  "fields": {
+    "name": "Skid Steer - Weekly",
+    "description": "Weekly rate for skid steer",
+    "unit": "WK",
+    "unit_price": "1050.00"
+  }
+},
+{
+  "model": "bids.unittype",
+  "pk": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+  "fields": {
+    "name": "Worker Average",
+    "description": "Average hourly price for one crew member",
+    "unit": "HR",
+    "unit_price": "300.00"
+  }
+},
+{
+  "model": "bids.unittype",
+  "pk": "e29974b8-c999-4147-8df4-224bb80c1d34",
+  "fields": {
+    "name": "Skid Steer - Daily",
+    "description": "Daily rate for skid steer",
+    "unit": "EA",
+    "unit_price": "350.00"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "026e3ac3-5a7c-45cc-81da-6e0b78baf46c",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "1.80",
+    "parent": "4d4107c8-a4bc-459c-90dc-c47951437b23"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "035ecb6d-644e-4817-85c1-b8ec7682618a",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "60.00",
+    "description": "Freight",
+    "notes": "Freight",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "c825a122-ed1d-4198-8366-240fd7aa97c7"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "06e875f5-d20f-4ac7-9f7c-3588a1a39f9f",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "e29974b8-c999-4147-8df4-224bb80c1d34",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "22ea776c-9bf5-449f-8d94-6b1e3d39c663",
+    "markup_percent": null,
+    "quantity": "2.00",
+    "parent": "0c204987-e888-453b-ab0f-023884502b40"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "07967d6b-565c-4b59-a086-774117a0fc6a",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "Remove Skillets/Blinds",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "27.50",
+    "parent": "2247b823-4fcd-4bc0-8f55-e9172befc145"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "0c6ddfb7-c4ff-4736-a938-10ddbb6e9f04",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "850.00",
+    "description": "185 Air Comp",
+    "notes": "Equipment",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "0c204987-e888-453b-ab0f-023884502b40"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "0ff774d1-c698-4737-a05e-7d23d6d60ed5",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "13.75",
+    "parent": "467c0072-7dc6-4f93-aeb4-aa6ee1a33dd2"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "1122a3c3-5263-4b04-85ac-16f2ea7a8fcd",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "4.00",
+    "parent": "251b27db-efd1-442c-a75c-88e0ca778f89"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "13250a6d-ae53-4293-a6cb-9bdac4abd145",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "5.22",
+    "parent": "bfcf2585-6133-4085-a469-1d4602e56d9e"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "1401b4c9-9566-4597-bd03-1d23c0c8554c",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "5.00",
+    "description": "SS Tell Tales",
+    "notes": "Pipe",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "7.00",
+    "parent": "02bb81c8-5207-4b15-8711-a663f5029d85"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "16c78a7b-e32b-4335-8c4a-fc56238a6189",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "850.00",
+    "description": "Column Well Lid",
+    "notes": "Specialty",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "e4a79606-f247-466e-9822-3e8ee78d4840"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "172be676-994e-4217-89c5-ee9f5b8e2b10",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "6.38",
+    "parent": "beb7f6d0-2e1a-46dc-ad78-4f8f9fa86760"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "1d1b762f-7daf-4fce-9e96-c6065b71cce9",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "1.50",
+    "parent": "90adb0f8-352c-4073-8b2d-a3cd075ff089"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "20021427-1e29-4fea-9f58-37febd8d033a",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "1.38",
+    "parent": "a6475186-fa16-4257-9424-49708a87e903"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "23d70714-8181-4d80-a48e-62ed1d34ab7e",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "7a820093-c4c2-47ed-9a07-764bfc792321"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "26898924-375d-4d88-b361-c4baee564b97",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "Replace Teflon Fabric Seal on Gauge Pole Float",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "1.25",
+    "parent": "166a3030-79fc-459c-a9b3-54114aba31d7"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "35a5bb30-40dc-4062-a45e-a1a957e60bbc",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "20.00",
+    "description": "Varec Parts",
+    "notes": "Specialty",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "e072d110-e0c0-4ae6-97a8-1b0bacf4bc9b"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "364260f8-d61d-43de-ab1d-2550221217ac",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "48.75",
+    "parent": "8b85d5e5-a690-4b51-952a-ba027c0943d0"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "3b1b478f-4b15-4618-a7a4-47143e7f7f68",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "2453.10",
+    "description": "1/4\" A36 Mod Steel",
+    "notes": "Steel",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "407bfd67-5673-44ec-abee-c6bef7a79352",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "850.00",
+    "description": "Weld Consumables",
+    "notes": "Weld Consumables",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "44ecd3c7-a70b-4270-8639-de0f6ef2a86a",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "300.00",
+    "description": "Line/MW Bolts and Gaskets",
+    "notes": "Bolts & Gaskets",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "c825a122-ed1d-4198-8366-240fd7aa97c7"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "4894a71d-23f6-4ce5-b3c1-6cd613400e6b",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "2.31",
+    "parent": "b65e1f6b-ced0-491a-a3b7-7d3be8bbcfa9"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "48a1839d-6b87-4e1d-b584-699c1b7743a1",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "50fe3d9e-c610-4752-9258-0b1c27693cf0",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "03a301da-e460-4556-8647-55bf09cfd646",
+    "markup_percent": null,
+    "quantity": "550.00",
+    "parent": "b95ff507-5f0d-4b38-bed9-94aca2e5c414"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "51e9cdf7-932a-4e22-9295-277a58c271ed",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "10.35",
+    "parent": "d1ab4175-220e-4e03-a0ba-6938bd10a8dd"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "51f0dbc0-e3b5-459c-a6b6-9b3574440d60",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "100.00",
+    "description": "Teflon Fabric",
+    "notes": "Specialty",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "166a3030-79fc-459c-a9b3-54114aba31d7"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "5212dd4b-3f45-4dce-a07b-c495daa99c7f",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "4.00",
+    "parent": "8420d2d8-a4bd-4b89-a7fb-91a84214dcfc"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "53d11d07-9849-4265-b72a-c8ca49c4a6a9",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "150.00",
+    "description": "Hardware",
+    "notes": "Misc",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "580de99c-23e6-4991-842e-f3fd7e9a5953"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "5ad22a9c-d839-4a09-8503-bfcc0172edac",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "648.97",
+    "description": "8\" Gauge Pole Float",
+    "notes": "Specialty",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "acf9afb1-40ee-492e-b01b-d2736f9f3b98"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "5c592bf1-2e90-4ccb-b2d1-812305a2703e",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "100.00",
+    "description": "Freight",
+    "notes": "Freight",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "e4a79606-f247-466e-9822-3e8ee78d4840"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "5e247fb7-8751-4ea2-a16b-e359c0909ad8",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "496aa0e4-99c2-4a90-a6b3-d3ccb114c220"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "64be4b5c-900e-4186-96ac-2559fd95278b",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "180.00",
+    "description": "Weld Consumables",
+    "notes": "Weld Consumables",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "0c204987-e888-453b-ab0f-023884502b40"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "68e2824b-7e43-4558-8831-cfea34b8f30e",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "1.50",
+    "parent": "9345e4c9-e37c-4b43-879e-949c7c95c09a"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "735da10c-9228-4f2c-815b-5c2edab16f51",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "Pressure-Test (7) Nozzle Repads and Install Tell Tale 90s",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "2.50",
+    "parent": "02bb81c8-5207-4b15-8711-a663f5029d85"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "73784dac-5f1e-403e-8bcd-8086530fb017",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "4.50",
+    "parent": "53c147e1-a767-4c14-9362-060a562d97cc"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "7411b356-49b8-4891-8dae-d2fb9a6b758f",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "Install Float",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "1.50",
+    "parent": "acf9afb1-40ee-492e-b01b-d2736f9f3b98"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "74c9efc9-8afe-47ac-884a-3d7855321b6a",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "2.25",
+    "parent": "ed93c0cc-aef6-4dc4-ab1f-5769804780d2"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "7b3d5727-fd6a-4b95-a6fd-beb9b294512f",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "16.00",
+    "parent": "f39bd90b-6c8d-4c36-8010-b865a0ceffae"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "7b8bfd0f-8fc3-4d94-82d0-97e4656396cc",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "1.25",
+    "parent": "ea3c9524-b65d-4c29-a0da-0c4522c65d3b"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "7dadbdb4-b3a7-42de-ab84-760d919053bd",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "4.50",
+    "parent": "c99cdbef-c7a2-4161-84d2-1da243cc5253"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "81157798-6d2d-4e9d-bc5e-d22bb1753553",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "250.00",
+    "description": "Pipe",
+    "notes": "Pipe",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "906578bd-37a9-4f65-8b7f-b7d66de88443"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "81bcf6df-abd6-4c11-9b36-a28e416b3408",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "6.00",
+    "parent": "2b3ad74c-a62f-4127-8a49-91365926d949"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "81c84f27-3c2a-4b75-a504-eeb5c3ad6c40",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "9.00",
+    "parent": "1b1962e8-dca6-41cb-9d19-86a4f5cad653"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "82d074f3-efeb-425a-a14e-1cc60937f872",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "10.00",
+    "parent": "3808c2ae-0653-46ac-9199-294a0efa0d11"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "84540ede-9250-4b7f-bd45-d88e88bb6e2a",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "80.00",
+    "description": "Freight",
+    "notes": "Freight",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "04f4de14-9a3f-489d-babb-3e380b3f4b1e"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "8796530b-b707-49d8-b19b-255fc863dec1",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "2.25",
+    "parent": "fd868ddf-ceed-43dd-b654-23ea96ca11b7"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "8a6176f9-1066-4870-973b-eabb429d1026",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "37.50",
+    "parent": "b2b1182b-df80-44f2-b559-38934eda0c49"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "8fb26571-7e33-4e52-8e4d-4983513c73ea",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "Raise Varec Hanger Support 6\"",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "7.50",
+    "parent": "3fe1e079-0ab7-4256-9f14-18cb5316935d"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "90c032b4-6cae-407d-9243-0e5701ade4bf",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "110.00",
+    "description": "Column Well Seals",
+    "notes": "Specialty",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "8.00",
+    "parent": "04f4de14-9a3f-489d-babb-3e380b3f4b1e"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "91cf2a30-3b4a-47d9-a6cd-a4e9cd872e2d",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "a6e9561b-660e-44f5-bae4-b22ee3ad9d3f",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "22ea776c-9bf5-449f-8d94-6b1e3d39c663",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "9588e169-d9e7-4fb3-b9a4-e7e4534466dc",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "1.50",
+    "parent": "fbffad58-9fe6-40ac-ba33-eefc26f8dcae"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "981dc747-880b-4409-bcb8-017343e8abf4",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "9.00",
+    "parent": "f8f3b0ba-1de3-4cb0-8a57-64974b39b901"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "984246e7-cfbe-479b-b9c3-aaf109c99b6d",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "Monitor First Fill",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "8.00",
+    "parent": "4518c58b-ad6e-4acd-b3ef-a014321c4c1a"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "99213e16-bcc0-407d-af84-6af841f7e72d",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "150.00",
+    "description": "Miscellaneous parts",
+    "notes": "Specialty",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "f7aef9ba-eaba-4642-8364-3e205f875bb4"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "99e5943f-46e1-4edc-8814-1d292b5204c8",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "2.93",
+    "parent": "2178d10c-a814-49e4-b24b-a09a6a7485a7"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "9c35997e-bdc5-488d-ba2c-f796f91a7e85",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "1.62",
+    "parent": "53f8fc87-ca19-4b28-8709-d7398bcec307"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "9d59da77-466c-4b72-829d-94b08f0e7b45",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "80.00",
+    "description": "Freight",
+    "notes": "Freight",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "f7aef9ba-eaba-4642-8364-3e205f875bb4"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "9daaf5ac-6a29-4a34-87ba-7761720aa5ba",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "1.20",
+    "parent": "6c330ee1-f92b-41a8-9514-9e4bacbee8b8"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "9ecd5a75-1e9a-4286-939f-f8397671ca77",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "1.50",
+    "parent": "13122862-9091-4086-a469-9680fdaf91db"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "a5c2546a-39ce-4cde-ac57-578efc5c34af",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "1.07",
+    "parent": "55d84026-ffce-4d0d-afce-b90b4fdb07a0"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "a9791178-a027-468b-9a8d-8a34d9189b85",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "120.00",
+    "description": "Gauge Pole Well Seals",
+    "notes": "Specialty",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "2.00",
+    "parent": "04f4de14-9a3f-489d-babb-3e380b3f4b1e"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "b0b96689-5d7b-49a4-8da6-164ebba1545a",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "195.00",
+    "description": "MW Gaskets",
+    "notes": "Bolts & Gaskets",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "2.00",
+    "parent": "c825a122-ed1d-4198-8366-240fd7aa97c7"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "b2a4bbd7-2358-4f55-8f2b-945b57499677",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "Install chains",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "12.00",
+    "parent": "f7aef9ba-eaba-4642-8364-3e205f875bb4"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "b338b90e-7e8f-4b08-b9f0-dc6f877d52ab",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "175.00",
+    "description": "1/4\" A36 Mod Steel",
+    "notes": "Steel",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "0c204987-e888-453b-ab0f-023884502b40"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "b7db438e-48a8-4c67-adf9-7ccd32cb075e",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "125.00",
+    "parent": "b36e19a7-cbd5-4e74-9acf-8834d72effe9"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "befc8747-2e88-427a-9d7d-aad8980293ec",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "50fe3d9e-c610-4752-9258-0b1c27693cf0",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "03a301da-e460-4556-8647-55bf09cfd646",
+    "markup_percent": null,
+    "quantity": "550.00",
+    "parent": "639a9a7e-be2a-4a66-9229-bf8370861d69"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "c0ae779e-ca6c-4184-bc4d-bc57b4963a68",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "2.81",
+    "parent": "f5d9e7cc-35a2-4fc9-b020-82294a47f32b"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "c18d8445-74df-4fbc-ba2a-5cc65243a782",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "3.75",
+    "description": "S.S Chain",
+    "notes": "Specialty",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "60.00",
+    "parent": "f7aef9ba-eaba-4642-8364-3e205f875bb4"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "c2840778-bd0a-463f-a2cb-b64ff70db2f0",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "50.00",
+    "description": "Freight",
+    "notes": "Freight",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "acf9afb1-40ee-492e-b01b-d2736f9f3b98"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "c5edfcf9-67d0-46a5-b43c-9b831744fff3",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "8.00",
+    "parent": "10162827-bee3-43a5-ac34-86cdb6b583f7"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "c90a8772-82bb-4052-9b02-ff45694a9ed6",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "1.50",
+    "parent": "38d95a38-6c52-4333-929a-57343012f194"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "d615e0b2-174a-45db-a8c2-0a3fb07a633f",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "24.00",
+    "parent": "b95ff507-5f0d-4b38-bed9-94aca2e5c414"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "dab878ae-c989-40a5-9a56-d71e69541ac3",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "2.25",
+    "parent": "5b2cb118-6a1c-4fdf-8069-d549658fadf7"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "df9d35d1-cc77-4ead-9d9f-f8aada0841bc",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "1.50",
+    "parent": "89e1a1e8-d7b3-46a5-8db1-4c41054ac11a"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "dfba554e-bfa7-457c-8240-896b078762aa",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "3.75",
+    "parent": "57137acc-f125-4fff-b55e-638a05db5988"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "e1a34390-c5ef-4e4e-bdf2-40077ebd93c1",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "24.00",
+    "parent": "639a9a7e-be2a-4a66-9229-bf8370861d69"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "e6c60c56-2e09-46ab-b392-37ade3d75963",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "75.00",
+    "parent": "088a74b5-a720-47e7-81e0-6d0f83ec5814"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "e9880312-dc83-4518-8fd2-d421a2ec4e14",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "80.00",
+    "description": "Weld Consumables",
+    "notes": "Weld Consumables",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "3fe1e079-0ab7-4256-9f14-18cb5316935d"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "f00cd364-cce9-4ddb-ab5e-3d91a90af2b4",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "172d2d9a-3675-4df1-be11-750315c423b1"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "f527c2f0-ead3-49bc-857f-dbf39c07b64d",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "3250.00",
+    "description": "NDE (MT)",
+    "notes": "Testing",
+    "category": "56b1c2b2-b6d7-4a22-b2b3-c2e62e65c09f",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "0c204987-e888-453b-ab0f-023884502b40"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "f993cf06-791e-491a-ba64-0859f5dbdbfd",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": "b9831d2e-5295-43ad-b1c3-b579725d3631",
+    "price": null,
+    "description": "",
+    "notes": "",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
+    "markup_percent": null,
+    "quantity": "5.00",
+    "parent": "caa0ec2d-4edc-4199-8dac-0c199f087031"
+  }
+},
+{
+  "model": "bids.biditem",
+  "pk": "fd23aa39-aba0-416f-b8c7-5b1af41540f9",
+  "fields": {
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "unit_type": null,
+    "price": "80.00",
+    "description": "Weld Consumables",
+    "notes": "Weld Consumables",
+    "category": "8c7a286a-9365-41d1-bada-abcf0869d946",
+    "markup_percent": null,
+    "quantity": "1.00",
+    "parent": "ca03dbad-7f3b-4451-9939-94bcffec0881"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "02bb81c8-5207-4b15-8711-a663f5029d85",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Pressure-Test (7) Nozzle Repads and Install Tell Tale 90s",
+    "description": "Pressure-Test (7) Nozzle Repads and Install Tell Tale 90s"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "04f4de14-9a3f-489d-babb-3e380b3f4b1e",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Replace All Negotiator Seals",
+    "description": "Replace All Negotiator Seals"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "088a74b5-a720-47e7-81e0-6d0f83ec5814",
+  "fields": {
+    "parent": "580de99c-23e6-4991-842e-f3fd7e9a5953",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Remove Exististing pontoons",
+    "description": "Remove Exististing pontoons"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "0c204987-e888-453b-ab0f-023884502b40",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Replace (1) Bottom Sheet",
+    "description": "Replace (1) Bottom Sheet"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "0c5aafa3-2d01-4a6d-9623-c427e0608d50",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Nozzle and Appurtenance Repairs",
+    "description": "Nozzle and Appurtenance Repairs"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "10162827-bee3-43a5-ac34-86cdb6b583f7",
+  "fields": {
+    "parent": "580de99c-23e6-4991-842e-f3fd7e9a5953",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Inventory New Pontoons",
+    "description": "Inventory New Pontoons"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "13122862-9091-4086-a469-9680fdaf91db",
+  "fields": {
+    "parent": "0c204987-e888-453b-ab0f-023884502b40",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "MT Test",
+    "description": "MT Test"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "166a3030-79fc-459c-a9b3-54114aba31d7",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Replace Teflon Fabric Seal on Gauge Pole Float",
+    "description": "Replace Teflon Fabric Seal on Gauge Pole Float"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "172d2d9a-3675-4df1-be11-750315c423b1",
+  "fields": {
+    "parent": "e072d110-e0c0-4ae6-97a8-1b0bacf4bc9b",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Replace Plug",
+    "description": "Replace Plug"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "1a1dc5f5-a154-4635-904c-8c7458097c1d",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Floating Roof Repairs",
+    "description": "Floating Roof Repairs"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "1b1962e8-dca6-41cb-9d19-86a4f5cad653",
+  "fields": {
+    "parent": "906578bd-37a9-4f65-8b7f-b7d66de88443",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Minor Mods",
+    "description": "Minor Mods"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "2178d10c-a814-49e4-b24b-a09a6a7485a7",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install (1) 32\" x 32\" (Split)",
+    "description": "Install (1) 32\" x 32\" (Split)"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "2247b823-4fcd-4bc0-8f55-e9172befc145",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Remove Skillets/Blinds",
+    "description": "Remove Skillets/Blinds"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "251b27db-efd1-442c-a75c-88e0ca778f89",
+  "fields": {
+    "parent": "e072d110-e0c0-4ae6-97a8-1b0bacf4bc9b",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Open Gauge and Dry Out",
+    "description": "Open Gauge and Dry Out"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "2b3ad74c-a62f-4127-8a49-91365926d949",
+  "fields": {
+    "parent": "906578bd-37a9-4f65-8b7f-b7d66de88443",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Time to re-install pressure reliefs",
+    "description": "Time to re-install pressure reliefs"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "3808c2ae-0653-46ac-9199-294a0efa0d11",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Time to Set Up",
+    "description": "Time to Set Up"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "38d95a38-6c52-4333-929a-57343012f194",
+  "fields": {
+    "parent": "ca03dbad-7f3b-4451-9939-94bcffec0881",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Vac Box and Locate Pin Holes",
+    "description": "Vac Box and Locate Pin Holes"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "3e44c408-9bbf-4c17-aff6-d86aabbcfb5e",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Provide and Install Safety Net for Inspection Hatch",
+    "description": "Provide and Install Safety Net for Inspection Hatch"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "3fe1e079-0ab7-4256-9f14-18cb5316935d",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Raise Varec Hanger Support 6\"",
+    "description": "Raise Varec Hanger Support 6\""
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "4518c58b-ad6e-4acd-b3ef-a014321c4c1a",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Monitor First Fill",
+    "description": "Monitor First Fill"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "467c0072-7dc6-4f93-aeb4-aa6ee1a33dd2",
+  "fields": {
+    "parent": "0c204987-e888-453b-ab0f-023884502b40",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install new sheet",
+    "description": "Install new sheet"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "496aa0e4-99c2-4a90-a6b3-d3ccb114c220",
+  "fields": {
+    "parent": "0c204987-e888-453b-ab0f-023884502b40",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Vac Box",
+    "description": "Vac Box"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "4d4107c8-a4bc-459c-90dc-c47951437b23",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install (1) 40\" x 16\"",
+    "description": "Install (1) 40\" x 16\""
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "53c147e1-a767-4c14-9362-060a562d97cc",
+  "fields": {
+    "parent": "04f4de14-9a3f-489d-babb-3e380b3f4b1e",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Replace (2) Gauge well seals",
+    "description": "Replace (2) Gauge well seals"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "53f8fc87-ca19-4b28-8709-d7398bcec307",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install (2) 12\" x 14\"",
+    "description": "Install (2) 12\" x 14\""
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "55d84026-ffce-4d0d-afce-b90b4fdb07a0",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install (1) 12\" x 22\"",
+    "description": "Install (1) 12\" x 22\""
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "57137acc-f125-4fff-b55e-638a05db5988",
+  "fields": {
+    "parent": "e4a79606-f247-466e-9822-3e8ee78d4840",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "install new lid",
+    "description": "install new lid"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "580de99c-23e6-4991-842e-f3fd7e9a5953",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Replace ALL Aluminum Pontoons (Furnished by KM)",
+    "description": "Replace ALL Aluminum Pontoons (Furnished by KM)"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "5b2cb118-6a1c-4fdf-8069-d549658fadf7",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install (2) 20\" x 16\"",
+    "description": "Install (2) 20\" x 16\""
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "639a9a7e-be2a-4a66-9229-bf8370861d69",
+  "fields": {
+    "parent": "f594a313-cb7c-4bf6-b7b5-36181c1cfcd0",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Mobilize to Orlando",
+    "description": "Mobilize to Orlando"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "6c330ee1-f92b-41a8-9514-9e4bacbee8b8",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install (1) 18\" x 20\"",
+    "description": "Install (1) 18\" x 20\""
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "6cac433c-4db7-43cb-b978-098babae77c0",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Fixed Cone Roof & Appurtance Repairs",
+    "description": "Fixed Cone Roof & Appurtance Repairs"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "7a820093-c4c2-47ed-9a07-764bfc792321",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install (1) 16\" x 16\"",
+    "description": "Install (1) 16\" x 16\""
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "8420d2d8-a4bd-4b89-a7fb-91a84214dcfc",
+  "fields": {
+    "parent": "0c204987-e888-453b-ab0f-023884502b40",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Fab new split sheet",
+    "description": "Fab new split sheet"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "89e1a1e8-d7b3-46a5-8db1-4c41054ac11a",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install (1) 24\" x 28\"",
+    "description": "Install (1) 24\" x 28\""
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "8b85d5e5-a690-4b51-952a-ba027c0943d0",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install (65) 12\" x 12\"",
+    "description": "Install (65) 12\" x 12\""
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "906578bd-37a9-4f65-8b7f-b7d66de88443",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Re-Align (2) Pressure Relief Lines",
+    "description": "Re-Align (2) Pressure Relief Lines"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "90adb0f8-352c-4073-8b2d-a3cd075ff089",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install (1) 30\" x 18\"",
+    "description": "Install (1) 30\" x 18\""
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "9345e4c9-e37c-4b43-879e-949c7c95c09a",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install (1) 18\" x 34\"",
+    "description": "Install (1) 18\" x 34\""
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install (92) Lap Patches",
+    "description": "Install (92) Lap Patches"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "a6475186-fa16-4257-9424-49708a87e903",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install (1) 20\" x 24\"",
+    "description": "Install (1) 20\" x 24\""
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "acf9afb1-40ee-492e-b01b-d2736f9f3b98",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Provide and Install New 8\" Gauge Pole Float for Second Gauge Pole",
+    "description": "Provide and Install New 8\" Gauge Pole Float for Second Gauge Pole"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "b2b1182b-df80-44f2-b559-38934eda0c49",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Time to Fab up Patches",
+    "description": "Time to Fab up Patches"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "b36e19a7-cbd5-4e74-9acf-8834d72effe9",
+  "fields": {
+    "parent": "580de99c-23e6-4991-842e-f3fd7e9a5953",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install New Pontoons",
+    "description": "Install New Pontoons"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "b65e1f6b-ced0-491a-a3b7-7d3be8bbcfa9",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install (1) 26\" x 48\"",
+    "description": "Install (1) 26\" x 48\""
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "b95ff507-5f0d-4b38-bed9-94aca2e5c414",
+  "fields": {
+    "parent": "f594a313-cb7c-4bf6-b7b5-36181c1cfcd0",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Demobilize to Concord",
+    "description": "Demobilize to Concord"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "beb7f6d0-2e1a-46dc-ad78-4f8f9fa86760",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install (2) 30\" x 72\"",
+    "description": "Install (2) 30\" x 72\""
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "bfcf2585-6133-4085-a469-1d4602e56d9e",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install (6) 12\" x 16\"",
+    "description": "Install (6) 12\" x 16\""
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "c825a122-ed1d-4198-8366-240fd7aa97c7",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Provide All Nuts, Bolts, an Gaskets Needed",
+    "description": "Provide All Nuts, Bolts, an Gaskets Needed"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "c99cdbef-c7a2-4161-84d2-1da243cc5253",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install (1) 60\" x 40\" (Split)",
+    "description": "Install (1) 60\" x 40\" (Split)"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "ca03dbad-7f3b-4451-9939-94bcffec0881",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Repair (4) Lap Weld Pin Holes (Vac Box Test Before Repairing)",
+    "description": "Repair (4) Lap Weld Pin Holes (Vac Box Test Before Repairing)"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "caa0ec2d-4edc-4199-8dac-0c199f087031",
+  "fields": {
+    "parent": "0c204987-e888-453b-ab0f-023884502b40",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Gouge out existing sheet & remove",
+    "description": "Gouge out existing sheet & remove"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "d1ab4175-220e-4e03-a0ba-6938bd10a8dd",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install (2) 42\" x 68\" (Split)",
+    "description": "Install (2) 42\" x 68\" (Split)"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "d1aefa54-7734-41e6-8dca-2b55f5f3a41f",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Tank Bottom Repairs",
+    "description": "Tank Bottom Repairs"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "e072d110-e0c0-4ae6-97a8-1b0bacf4bc9b",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Varec Gauge Repairs",
+    "description": "Varec Gauge Repairs"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "e12bc16c-877d-4996-adf7-127263b1c94e",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Tank Button Up",
+    "description": "Tank Button Up"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "e4a79606-f247-466e-9822-3e8ee78d4840",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Repair (1) Column Well Lid that is Bent",
+    "description": "Repair (1) Column Well Lid that is Bent"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "ea3c9524-b65d-4c29-a0da-0c4522c65d3b",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install (1) 20\" x 20\"",
+    "description": "Install (1) 20\" x 20\""
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "ed93c0cc-aef6-4dc4-ab1f-5769804780d2",
+  "fields": {
+    "parent": "ca03dbad-7f3b-4451-9939-94bcffec0881",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Repair",
+    "description": "Repair"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "f39bd90b-6c8d-4c36-8010-b865a0ceffae",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Vac Box Testing",
+    "description": "Vac Box Testing"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "f594a313-cb7c-4bf6-b7b5-36181c1cfcd0",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Mobilization",
+    "description": "Mobilization"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "f5d9e7cc-35a2-4fc9-b020-82294a47f32b",
+  "fields": {
+    "parent": "98d86f5b-97e4-4b16-8566-0ae3fbaa372d",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install (3) 18\" x 12\"",
+    "description": "Install (3) 18\" x 12\""
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "f7aef9ba-eaba-4642-8364-3e205f875bb4",
+  "fields": {
+    "parent": null,
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Install Removable S.S. Chains Above (12) Perimeter Roof Vents",
+    "description": "Install Removable S.S. Chains Above (12) Perimeter Roof Vents"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "f8f3b0ba-1de3-4cb0-8a57-64974b39b901",
+  "fields": {
+    "parent": "04f4de14-9a3f-489d-babb-3e380b3f4b1e",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Replace (8) Column Seals",
+    "description": "Replace (8) Column Seals"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "fbffad58-9fe6-40ac-ba33-eefc26f8dcae",
+  "fields": {
+    "parent": "ca03dbad-7f3b-4451-9939-94bcffec0881",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Vac Box Again",
+    "description": "Vac Box Again"
+  }
+},
+{
+  "model": "bids.bidtask",
+  "pk": "fd868ddf-ceed-43dd-b654-23ea96ca11b7",
+  "fields": {
+    "parent": "e4a79606-f247-466e-9822-3e8ee78d4840",
+    "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+    "title": "Remove existing lid",
+    "description": "Remove existing lid"
+  }
+},
+{
+  "model": "bids.bid",
+  "pk": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
+  "fields": {
+    "name": "Tank 100-1 Repairs",
+    "description": "Central Florida Pipeline\r\nOrlando, Fl",
+    "bid_date": "2018-05-31",
+    "created_on": "2018-06-09T01:07:00.777Z",
+    "customer": "c7e8c722-1b8a-4bf3-9284-b8b755c4f194",
+    "tax_percent": null
+  }
+}
 ]

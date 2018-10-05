@@ -39,7 +39,7 @@ class Command(BaseCommand):
             else:
                 self.stdout.write('Performing migrations only.')
 
-            call_command('migrate')
+            #call_command('migrate')
         else:
             self.stdout.write('DEBUG is False!')
             self.stdout.write('Database cannot be reset in production!')

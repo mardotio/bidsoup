@@ -2,11 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { capitalizeAll } from '../utils/styling';
 import { isEmpty } from '../utils/utils';
-
-const errorColor = '#ff1744';
-const bottomLineColor = '#949494';
-const textColor = '#212121';
-const labelColor = '#757575';
+import { theme } from '../utils/color';
 
 // TODO: Change to using em instead of px
 
@@ -24,17 +20,17 @@ const StyledInput = styled.input<StyledInputProps>`
   border: none;
   border-bottom: 2px solid;
   border-color: ${({hasError}) => (hasError
-    ? errorColor
-    : bottomLineColor
+    ? theme.error
+    : theme.components.darkBorder 
   )};
-  color: ${textColor};
+  color: ${theme.text.dark};
   font-size: 16px;
   padding: 20px 0 8px 0;
   transition: .28s ease;
   width: 100%;
   &:focus {
     border-color: ${({focusColor, hasError}) => (hasError
-      ? errorColor
+      ? theme.error
       : focusColor
     )};
     outline: none;
@@ -51,11 +47,11 @@ interface LabelProps {
 const Label = styled.label<LabelProps>`
   color: ${({isFocused, focusColor, hasError, labelOnTop}) => {
     if (labelOnTop && hasError) {
-      return errorColor;
+      return theme.error;
     } else {
       return isFocused
         ? focusColor
-        : labelColor;
+        : theme.text.light;
     }
   }};
   cursor: ${({labelOnTop}) => (labelOnTop
@@ -76,13 +72,13 @@ const Label = styled.label<LabelProps>`
 `;
 
 const HelperMessage = styled.div`
-  color: ${errorColor};
+  color: ${theme.error};
   font-size: 12px;
   margin-top: 8px;
 `;
 
 const OptionsContainer = styled.div`
-  background-color: white;
+  background-color: ${theme.background};
   box-shadow:
     0 8px 10px 1px rgba(0,0,0,0.14),
     0 3px 14px 2px rgba(0,0,0,0.12),
@@ -98,7 +94,7 @@ const OptionsContainer = styled.div`
     width: 5px;
   }
   ::-webkit-scrollbar-thumb {
-    background: #ddd;
+    background: ${theme.components.scrollbar};
   }
 `;
 
@@ -111,7 +107,7 @@ const Option = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   &:hover {
-    background-color: #eee;
+    background-color: ${theme.interactions.hover};
   }
 `;
 

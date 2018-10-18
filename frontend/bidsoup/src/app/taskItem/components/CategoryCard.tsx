@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { determineFontColor, beautifyNumber, capitalize } from '../../utils/styling';
 import { getInitials } from '../../utils/utils';
+import { theme } from '../../utils/color';
 
 const CardContent = styled.div`
   padding: .1em 1em;
@@ -35,11 +36,11 @@ const Card = styled.div<CardProps>`
   margin-right: 1em;
   transition: background .28s ease;
   background-color: ${props => (props.selected
-    ? '#eaeaea'
+    ? theme.interactions.hover
     : 'inherit'
   )};
   &:hover {
-    background-color: #eaeaea;
+    background-color: ${theme.interactions.hover};
   }
 `;
 

@@ -2,12 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import Cell from './Cell';
 import { determineFontColor } from '../../utils/styling'
-
-const offColor = '#eaeaea';
+import { theme } from '../../utils/color';
 
 const TableRow = styled.div`
   display: flex;
-  background-color: ${props => props.background || 'white'};
+  background-color: ${props => props.background || 'inherit'};
   color: ${props => props.background
     ? determineFontColor(props.background)
     : 'inherit'
@@ -22,14 +21,14 @@ const TableRow = styled.div`
   };
   border-bottom: ${props => (props.background || props.isHeader)
     ? '0'
-    : `1px solid ${offColor}`
+    : `1px solid ${theme.interactions.hover}`
   };
   &:hover {
     background-color: ${props => {
       if (props.isHeader) {
-        return props.background || 'white';
+        return props.background || 'inherit';
       } else {
-        return props.background || offColor;
+        return props.background || theme.interactions.hover;
       }
     }};
   }

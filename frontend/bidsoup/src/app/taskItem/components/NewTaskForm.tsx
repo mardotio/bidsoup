@@ -5,6 +5,7 @@ import { DropDownOptions, DropDownItem } from '../../components/InputField';
 import { isEmpty, flatmap } from '../../utils/utils';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
+import { theme } from '../../utils/color';
 
 const FormContainer = styled.div`
   margin-left: 20px;
@@ -159,7 +160,7 @@ class NewTaskForm extends React.Component<Props, State> {
         <MyInputField
           key={key}
           name={key}
-          focusColor={'blue'}
+          focusColor={theme.accent}
           isFocused={field.isFocused}
           errorState={{
             hasError: !isEmpty(error),

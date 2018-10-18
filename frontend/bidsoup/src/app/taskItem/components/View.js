@@ -6,6 +6,7 @@ import Card from '../../components/Card';
 import NewTaskForm from './NewTaskForm';
 import Fab from '../../components/Fab';
 import Item from './Item';
+import { theme } from '../../utils/color';
 
 const ViewConatiner = styled.div`
   display: flex;
@@ -23,7 +24,7 @@ const TaskContent = Card.extend`
     width: 5px;
   }
   ::-webkit-scrollbar-thumb {
-    background: #ddd;
+    background: ${theme.components.scrollbar};
   }
 `;
 
@@ -70,7 +71,7 @@ const addElements = props => {
         <FabContainer>
           <Fab
             onClick={props.showModal}
-            color={'#b71c2d'}
+            color={theme.accent}
             icon={'add'}
           />
         </FabContainer>
@@ -91,7 +92,7 @@ const addElements = props => {
       <FabContainer>
         <Fab
           onClick={props.showModal}
-          color={'#b71c2d'}
+          color={theme.accent}
           icon={'add'}
         />
       </FabContainer>
@@ -103,18 +104,9 @@ const View = props => {
   let {categoriesAreFetching, itemsAreFetching} = props;
   if (props.tasks.length <= 0) {
     return (
-      <React.Fragment>
-        <button
-          onClick={() => {
-            props.fetchAllAndSelectFirst();
-//            props.fetchBidList();
-//            props.setCurrentBid();
-//            props.refreshItems();
-          }}
-        >
-          Click to load
-        </button>
-      </React.Fragment>
+      <div>
+        Load something first
+      </div>
     );
   }
   return (

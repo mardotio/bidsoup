@@ -24,7 +24,7 @@ const Truncate = styled.div`
 `;
 
 interface Props {
-  bidNumber: string;
+  bidNumber: number;
   name: string;
   customer: string | null;
   url: string;

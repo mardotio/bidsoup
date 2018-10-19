@@ -6,6 +6,7 @@ import { UnitState } from '../taskItem/reducers/unitTypeReducer';
 
 export interface Bid {
   url: string;
+  key: number;
   name: string;
   description: string;
   bid_date: string;

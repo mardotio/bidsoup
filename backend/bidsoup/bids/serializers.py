@@ -1,7 +1,23 @@
-from .models import Bid, BidTask, BidItem, Category, Customer, UnitType
+from .models import Account, Bid, BidTask, BidItem, Category, Customer, UnitType
 from rest_framework import serializers
 from rest_framework_recursive.fields import RecursiveField
-from rest_framework_nested.relations import NestedHyperlinkedRelatedField
+from rest_framework_nested.relations import NestedHyperlinkedRelatedField, NestedHyperlinkedIdentityField
+
+class AccountSerializer(serializers.HyperlinkedModelSerializer):
+
+    bids = NestedHyperlinkedIdentityField(
+        view_name='account-bid-list',
+        lookup_url_kwarg='account_slug',
+        lookup_field='slug',
+        parent_lookup_kwargs={}
+    )
+
+    class Meta:
+        model = Account
+        fields = ('url', 'name', 'bids', 'slug')
+        extra_kwargs = {
+            'url': {'view_name': 'account-detail', 'lookup_field': 'slug'}
+        }
 
 
 class BidSerializer(serializers.HyperlinkedModelSerializer):
@@ -32,7 +48,8 @@ class BidSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Bid
-        fields = ('url', 'name', 'description', 'bid_date', 'customer', 'tax_percent', 'biditems', 'bidtasks', 'categories')
+        fields = ('url', 'name', 'description', 'bid_date', 'customer', 'tax_percent',
+            'biditems', 'bidtasks', 'categories', 'key')
 
 
 class BidItemSerializer(serializers.HyperlinkedModelSerializer):

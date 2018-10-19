@@ -1,12 +1,12 @@
-from .models import Bid, BidItem, BidTask, Category, Customer, UnitType
+from .models import Account, Bid, BidItem, BidTask, Category, Customer, UnitType
 from django.db.models import Q
 from rest_framework import viewsets
 from rest_framework.decorators import detail_route
 from django.core.exceptions import ValidationError as DjangoValidationError
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
-from .serializers import BidSerializer, BidItemSerializer, BidTaskSerializer, \
-                         CustomerSerializer, CategorySerializer, \
+from .serializers import AccountSerializer, BidSerializer, BidItemSerializer, \
+                         BidTaskSerializer, CustomerSerializer, CategorySerializer, \
                          UnitTypeSerializer
 
 
@@ -31,16 +31,29 @@ class TrapDjangoValidationErrorMixin(object):
             raise ValidationError(detail.message_dict)
 
 
+class AccountViewSet(viewsets.ModelViewSet):
+    queryset = Account.objects.all()
+    serializer_class = AccountSerializer
+    lookup_field = 'slug'
+
+
 class BidViewSet(viewsets.ModelViewSet):
     queryset = Bid.objects.all().order_by('-created_on')
     serializer_class = BidSerializer
 
-    def list(self, request):
+    def list(self, request, *args, **kwargs):
         # Don't provide the subresource links in list view
         queryset = self.get_queryset()
         to_exclude = ('biditems', 'bidtasks', 'categories')
         serializer = BidSerializer(queryset, exclude_fields=to_exclude, many=True, context={'request': request})
         return Response(serializer.data)
+
+    def get_queryset(self):
+        q = Bid.objects.all()
+        if 'account_slug' in self.kwargs:
+            q = q.filter(account__slug=self.kwargs['account_slug'])
+
+        return q
 
 
 class BidItemViewSet(TrapDjangoValidationErrorMixin, viewsets.ModelViewSet):

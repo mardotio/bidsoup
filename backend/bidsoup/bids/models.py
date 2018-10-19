@@ -1,7 +1,9 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+import uuid
 
 class Customer(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=100, blank=True)
     phone = models.CharField(max_length=15, blank=True)
@@ -11,6 +13,7 @@ class Customer(models.Model):
         return self.name
 
 class Category(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
     bid = models.ForeignKey('Bid', on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
@@ -24,6 +27,7 @@ class Category(models.Model):
         verbose_name_plural = "categories"
 
 class UnitType(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     UNIT_CHOICES = (
@@ -48,7 +52,8 @@ class BidItem(models.Model):
     A BidItem has either a unit_type OR a price. The unit_type or the price
     times the quantity make up the total price. This value should be derived.
     """
-    bid = models.ForeignKey('Bid', on_delete=models.CASCADE, db_index=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
+    bid = models.ForeignKey('Bid', on_delete=models.CASCADE)
     unit_type = models.ForeignKey(UnitType, on_delete=models.PROTECT, null=True, blank=True)
     price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     description = models.CharField(max_length=100, blank=True)
@@ -90,6 +95,7 @@ class BidItem(models.Model):
         super().save(*args, **kwargs)
 
 class BidTask(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
     parent = models.ForeignKey('BidTask', on_delete=models.SET_NULL, null=True, blank=True, related_name='children')
     bid = models.ForeignKey('Bid', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
@@ -99,6 +105,7 @@ class BidTask(models.Model):
         return '{self.title} - {self.bid.name}'.format(self=self)
 
 class Bid(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     bid_date = models.DateField()

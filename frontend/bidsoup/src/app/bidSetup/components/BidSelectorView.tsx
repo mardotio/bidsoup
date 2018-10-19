@@ -23,12 +23,12 @@ interface Props {
 
 const generateBidCards = ({bids}: Props) => {
   return bids.map(bid => (
-    <BidCard 
+    <BidCard
       key={bid.url}
       name={bid.name}
       customer={bid.customer}
       url={bid.url}
-      bidNumber={bid.url.match(/bids\/\d+/)![0].split('/')[1]}
+      bidNumber={bid.url.match(/bids\/([\d|a-f|-]+)/)![1]}
     />
   ));
 };

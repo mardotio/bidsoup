@@ -50,6 +50,9 @@ class BidSerializer(serializers.HyperlinkedModelSerializer):
         model = Bid
         fields = ('url', 'name', 'description', 'bid_date', 'customer', 'tax_percent',
             'biditems', 'bidtasks', 'categories', 'key')
+        extra_kwargs = {
+            'key': {'allow_null': 'true'}
+        }
 
 
 class BidItemSerializer(serializers.HyperlinkedModelSerializer):

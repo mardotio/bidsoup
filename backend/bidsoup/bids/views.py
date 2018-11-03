@@ -55,6 +55,15 @@ class BidViewSet(viewsets.ModelViewSet):
 
         return q
 
+    def perform_create(self, serializer):
+        if 'account_slug' in self.kwargs:
+            slug = self.kwargs['account_slug']
+            account_id = Account.objects.get(slug=slug).id
+            serializer.save(account_id=account_id)
+        else:
+            serializer.save()
+
+
 
 class BidItemViewSet(TrapDjangoValidationErrorMixin, viewsets.ModelViewSet):
     serializer_class = BidItemSerializer

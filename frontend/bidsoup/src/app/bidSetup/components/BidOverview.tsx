@@ -59,7 +59,7 @@ const generateDash = ({ categoriesWithItems }: { categoriesWithItems: Object}) =
 
 interface OverviewProps {
   bid: {
-    bid_date: string;
+    bidDate: string;
     name: string;
     description: string;
   };
@@ -69,7 +69,7 @@ interface OverviewProps {
 const BidOverview = (props: OverviewProps) => {
   return (
     <React.Fragment>
-      <Date>{props.bid.bid_date}</Date>
+      <Date>{props.bid.bidDate}</Date>
       <Title>{props.bid.name}</Title>
       <div>{props.bid.description}</div>
       <Dashboard>

@@ -9,7 +9,7 @@ interface Unit {
   name: string;
   description: string;
   unit: string;
-  unit_price: string;
+  unitPrice: string;
 }
 
 interface UnitDict {
@@ -21,7 +21,7 @@ const unitTypeDecoder: Decoder<Unit> = object({
   name: string(),
   description: string(),
   unit: string(),
-  unit_price: string()
+  unitPrice: string()
 });
 
 export const REQUEST_UNIT_TYPES = 'REQUEST_UNIT_TYPES';

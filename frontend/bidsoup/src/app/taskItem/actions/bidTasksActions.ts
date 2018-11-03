@@ -21,7 +21,7 @@ export type Actions = ActionsUnion<typeof Actions>;
 export const fetchBidTasks = (): ThunkAction<Promise<Actions>, AppState, never, Actions> => {
   return (dispatch, getState) => {
     dispatch(Actions.requestBidTasks());
-    return fetch(getState().bids.selectedBid.bidtasks)
+    return fetch(getState().bids.selectedBid.bidtasks!)
       .then(
         response => response.json(),
       )

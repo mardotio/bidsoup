@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import SideNav from './SideNav';
 import BidSetup from '../bidSetup/containers/BidSetup';
-import BidSelector from '../bidSetup/containers/BidSelector';
 import TaskItem from '../taskItem/containers/TaskItem';
 import { theme } from '../utils/color';
 

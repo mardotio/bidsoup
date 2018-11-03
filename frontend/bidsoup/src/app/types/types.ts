@@ -9,9 +9,9 @@ export interface Bid {
   key: number;
   name: string;
   description: string;
-  bid_date: string;
+  bidDate: string;
   customer: string | null;
-  tax_percent: string | null;
+  taxPercent: string | null;
   biditems?: string;
   bidtasks?: string;
   categories?: string;
@@ -46,7 +46,7 @@ export interface BidCategoryState {
     bid: string;
     name: string;
     description: string;
-    markup_percent: string;
+    markupPercent: string;
     color: string;
   };
   lastFetch: number | null;
@@ -57,12 +57,12 @@ export interface BidItemState {
   list: {
     url: string;
     bid: string;
-    unit_type: string | null;
+    unitType: string | null;
     price: string | null;
     description: string;
     notes: string;
     category: string;
-    markup_percent: string;
+    markupPercent: string;
     quantity: string;
     parent: string;
   };

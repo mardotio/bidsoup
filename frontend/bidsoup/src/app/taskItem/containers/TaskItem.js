@@ -32,11 +32,11 @@ const getItemsByTask = (task, items) => (
 );
 
 const formatItemForTable = (item, unitList) => {
-  let {description, price, quantity, url, unit_type} = item;
-  if (unit_type) {
-    let unit = unitList[unit_type];
+  let {description, price, quantity, url, unitType} = item;
+  if (unitType) {
+    let unit = unitList[unitType];
     description = unit.name;
-    price = unit.unit_price;
+    price = unit.unitPrice;
   }
   return {
     ...item,

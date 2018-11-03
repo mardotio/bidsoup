@@ -10,9 +10,9 @@ const bidListDecoder: Decoder<Bid[]> = array(object({
   key: number(),
   name: string(),
   description: string(),
-  bid_date: string(),
+  bidDate: string(),
   customer: union(string(), constant(null)),
-  tax_percent: union(string(), constant(null))
+  taxPercent: union(string(), constant(null))
 }));
 
 const customerListDecoder: Decoder<Customer[]> = array(object({
@@ -27,9 +27,9 @@ const bidDetailDecoder: Decoder<Bid> = object({
   key: number(),
   name: string(),
   description: string(),
-  bid_date: string(),
+  bidDate: string(),
   customer: union(string(), constant(null)),
-  tax_percent: union(string(), constant(null)),
+  taxPercent: union(string(), constant(null)),
   biditems: string(),
   bidtasks: string(),
   categories: string(),

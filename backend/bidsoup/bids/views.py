@@ -26,7 +26,7 @@ class TrapDjangoValidationErrorMixin(object):
 
     def perform_update(self, serializer):
         try:
-            super().perform_create(serializer)
+            super().perform_update(serializer)
         except DjangoValidationError as detail:
             raise ValidationError(detail.message_dict)
 

@@ -2,11 +2,12 @@ import { createAction, ActionsUnion } from '../../utils/reduxUtils';
 import { Bid, Customer, AppState } from '../../types/types';
 import componentsActions from '../../taskItem/actions/bidComponentsActions';
 import { ThunkAction } from 'redux-thunk';
-import { Decoder, constant, union, object, string, array } from '@mojotech/json-type-validation';
+import { Decoder, constant, union, object, string, array, number } from '@mojotech/json-type-validation';
 // import { fetchApi } from '../../taskItem/actions/apiActions';
 
 const bidListDecoder: Decoder<Bid[]> = array(object({
   url: string(),
+  key: number(),
   name: string(),
   description: string(),
   bid_date: string(),
@@ -23,6 +24,7 @@ const customerListDecoder: Decoder<Customer[]> = array(object({
 
 const bidDetailDecoder: Decoder<Bid> = object({
   url: string(),
+  key: number(),
   name: string(),
   description: string(),
   bid_date: string(),
@@ -108,9 +110,13 @@ export const fetchCustomerList = (): ThunkAction<Promise<Actions>, AppState, nev
 };
 
 // tslint:disable-next-line:no-any
-export const setAndFetchBid = (bid: string): ThunkAction<Promise<any>, AppState, never, Actions> => {
-  return (dispatch) => {
-    dispatch(Actions.setCurrentBid(bid));
+export const setAndFetchBidByKey = (key: number): ThunkAction<Promise<any>, AppState, never, Actions> => {
+  return (dispatch, getState) => {
+    const bid = getState().bids.list.find(b => b.key === key);
+    if (bid === undefined) {
+      return Promise.reject('Key not found in bid list.');
+    }
+    dispatch(Actions.setCurrentBid(bid.url));
     return dispatch(fetchCurrentBid())
       .then(() => dispatch(componentsActions.fetchBidComponents()));
   };

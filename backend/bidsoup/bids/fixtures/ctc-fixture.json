@@ -1,5 +1,14 @@
 [
 {
+  "model": "bids.account",
+  "pk": "a68d3bef-48e0-420f-9a8c-3a368b230d02",
+  "fields": {
+    "name": "Test Account",
+    "slug": "test-account0",
+    "next_bid_number": 2
+  }
+},
+{
   "model": "bids.customer",
   "pk": "c7e8c722-1b8a-4bf3-9284-b8b755c4f194",
   "fields": {
@@ -1968,8 +1977,10 @@
   "model": "bids.bid",
   "pk": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
   "fields": {
+    "account": "a68d3bef-48e0-420f-9a8c-3a368b230d02",
     "name": "Tank 100-1 Repairs",
     "description": "Central Florida Pipeline\r\nOrlando, Fl",
+    "key": 1,
     "bid_date": "2018-05-31",
     "created_on": "2018-06-09T01:07:00.777Z",
     "customer": "c7e8c722-1b8a-4bf3-9284-b8b755c4f194",

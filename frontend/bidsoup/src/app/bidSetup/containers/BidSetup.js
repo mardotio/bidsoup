@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import View from '../components/View';
-import { fetchBidList, fetchCustomerList, setAndFetchBid } from '../actions/bidActions';
+import { fetchBidList, fetchCustomerList, setAndFetchBidByKey } from '../actions/bidActions';
 import { array2HashByKey } from '../../utils/sorting';
 import { fetchApi } from '../../taskItem/actions/apiActions';
 
@@ -33,8 +33,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       .then(() => dispatch(fetchBidList()))
   ),
   selectBid: () => dispatch((_, getState) => {
-      const bidApi = getState().api.endpoints.bids;
-      dispatch(setAndFetchBid(`${bidApi}/${ownProps.match.params.bid}`));
+      dispatch(setAndFetchBidByKey(Number.parseInt(ownProps.match.params.bid)));
   })
 });
 

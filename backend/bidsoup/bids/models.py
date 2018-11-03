@@ -122,7 +122,7 @@ class Bid(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    key = models.IntegerField()
+    key = models.IntegerField(blank=True, null=True)
     bid_date = models.DateField()
     created_on = models.DateTimeField(auto_now_add=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True, related_name='bids')
@@ -135,7 +135,7 @@ class Bid(models.Model):
     def save(self, *args, **kwargs):
         print(vars(self))
         # Get a key for the new bid or if invalid key
-        if not self.pk or self.key < 0:
+        if not self.pk or not self.key:
             self.key = get_and_increment_bid_key(self.account_id)
 
         super().save(*args, **kwargs)

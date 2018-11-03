@@ -26,7 +26,7 @@ class TrapDjangoValidationErrorMixin(object):
 
     def perform_update(self, serializer):
         try:
-            super().perform_create(serializer)
+            super().perform_update(serializer)
         except DjangoValidationError as detail:
             raise ValidationError(detail.message_dict)
 
@@ -54,6 +54,15 @@ class BidViewSet(viewsets.ModelViewSet):
             q = q.filter(account__slug=self.kwargs['account_slug'])
 
         return q
+
+    def perform_create(self, serializer):
+        kwargs = {}
+        if 'account_slug' in self.kwargs:
+            slug = self.kwargs['account_slug']
+            kwargs['account_id'] = Account.objects.get(slug=slug).id
+
+        serializer.save(**kwargs)
+
 
 
 class BidItemViewSet(TrapDjangoValidationErrorMixin, viewsets.ModelViewSet):

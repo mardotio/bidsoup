@@ -21,7 +21,7 @@ const StyledInput = styled.input<StyledInputProps>`
   border-bottom: 2px solid;
   border-color: ${({hasError}) => (hasError
     ? theme.error
-    : theme.components.darkBorder 
+    : theme.components.darkBorder
   )};
   color: ${theme.text.dark};
   font-size: 16px;

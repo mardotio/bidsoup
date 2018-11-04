@@ -1,6 +1,6 @@
 import { ApiState } from '../taskItem/reducers/apiReducer';
 import { UiState } from '../reducers/uiReducer';
-import { BidState } from '../bidSetup/reducers/bidReducer';
+import { BidState } from '../dashboard/reducers/bidReducer';
 import { BidTaskState } from '../taskItem/reducers/bidTasksReducer';
 import { UnitState } from '../taskItem/reducers/unitTypeReducer';
 

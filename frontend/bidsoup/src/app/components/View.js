@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import SideNav from './SideNav';
-import BidSetup from '../bidSetup/containers/BidSetup';
-import TaskItem from '../taskItem/containers/TaskItem';
+import DashboardContainer from '../dashboard/containers/DashboardContainer';
+import TaskItemContainer from '../taskItem/containers/TaskItemContainer';
 import { theme } from '../utils/color';
 
 const Container = styled.div`
@@ -37,9 +37,9 @@ const View = props => {
         />
         <BodyContainer>
           <Route exact path="/" render={() => <Redirect to="/dashboard"/>}/>
-          <Route path="/dashboard/:bid" component={BidSetup}/>
-          <Route exact path="/dashboard" component={BidSetup}/>
-          <Route path="/tasks" component={TaskItem}/>
+          <Route path="/dashboard/:bid" component={DashboardContainer}/>
+          <Route exact path="/dashboard" component={DashboardContainer}/>
+          <Route path="/tasks" component={TaskItemContainer}/>
         </BodyContainer>
       </Container>
     </Router>

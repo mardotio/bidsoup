@@ -33,7 +33,7 @@ const generateBidCards = ({bids}: Props) => {
   ));
 };
 
-const BidSelectorView = (props: Props) => {
+const BidSelector = (props: Props) => {
   let cards = props.bids.length < 1
     ? 'Nothing to see here'
     : generateBidCards(props);
@@ -45,4 +45,4 @@ const BidSelectorView = (props: Props) => {
   );
 };
 
-export default BidSelectorView;
+export default BidSelector;

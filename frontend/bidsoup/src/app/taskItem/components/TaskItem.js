@@ -100,7 +100,7 @@ const addElements = props => {
   }
 }
 
-const View = props => {
+const TaskItem = props => {
   let {categoriesAreFetching, itemsAreFetching} = props;
   if (props.tasks.length <= 0) {
     return (
@@ -129,4 +129,4 @@ const View = props => {
   );
 };
 
-export default View;
+export default TaskItem;

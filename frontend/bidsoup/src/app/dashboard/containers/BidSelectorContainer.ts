@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import BidSelectorView from '../components/BidSelectorView';
+import BidSelector from '../components/BidSelector';
 import { AppState, Bid, Customer } from '../../types/types';
 
 const bidsWithCustomer = (bids: Bid[], customers: Customer[]) => (
@@ -16,6 +16,6 @@ const mapStateToProps = (state: AppState) => ({
   bids: bidsWithCustomer( state.bids.list, state.customers.list)
 });
 
-const BidSelector = connect(mapStateToProps)(BidSelectorView);
+const BidSelectorContainer = connect(mapStateToProps)(BidSelector);
 
-export default BidSelector;
+export default BidSelectorContainer;

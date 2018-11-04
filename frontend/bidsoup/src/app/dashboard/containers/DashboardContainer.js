@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import View from '../components/View';
+import Dashboard from '../components/Dashboard';
 import { fetchBidList, fetchCustomerList, setAndFetchBidByKey } from '../actions/bidActions';
 import { array2HashByKey } from '../../utils/sorting';
 import { fetchApi } from '../../taskItem/actions/apiActions';
@@ -37,6 +37,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   })
 });
 
-const BidSetup = connect(mapStateToProps, mapDispatchToProps)(View);
+const DashboardContainer = connect(mapStateToProps, mapDispatchToProps)(Dashboard);
 
-export default BidSetup;
+export default DashboardContainer;

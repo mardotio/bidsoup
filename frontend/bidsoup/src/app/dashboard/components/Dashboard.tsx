@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import BidOverview from './BidOverview';
-import BidSelector from '../containers/BidSelector';
+import BidSelectorContainer from '../containers/BidSelectorContainer';
 import { Bid } from '../../types/types';
 import { Actions } from '../actions/bidActions';
 import { theme } from '../../utils/color';
@@ -27,7 +27,7 @@ interface Props {
   selectBid: () => Promise<Actions>;
 }
 
-class View extends React.Component<Props> {
+class Dashboard extends React.Component<Props> {
   componentDidMount() {
     this.props.loadPage()
       .then(() => {
@@ -58,7 +58,7 @@ class View extends React.Component<Props> {
   render() {
     return (
       <Container>
-        <BidSelector/>
+        <BidSelectorContainer/>
         <OverviewContainer>
           {this.generateBody()}
         </OverviewContainer>
@@ -67,4 +67,4 @@ class View extends React.Component<Props> {
   }
 }
 
-export default View;
+export default Dashboard;

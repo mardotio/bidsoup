@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import View from '../components/View';
+import TaskItem from '../components/TaskItem';
 import { fetchApi } from '../actions/apiActions';
 import { Actions as tasksActions, createBidTask } from '../actions/bidTasksActions';
 import { Actions as uiActions } from '../../actions/uiActions';
-import { Actions as bidActions, fetchBidList } from '../../bidSetup/actions/bidActions'
+import { Actions as bidActions, fetchBidList } from '../../dashboard/actions/bidActions'
 import componentsActions from '../actions/bidComponentsActions';
 import { isEmpty, nestedFind } from '../../utils/utils';
 import { array2HashByKey } from '../../utils/sorting';
@@ -131,6 +131,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const TaskItem = connect(mapStateToProps, mapDispatchToProps)(View);
+const TaskItemContainer = connect(mapStateToProps, mapDispatchToProps)(TaskItem);
 
-export default TaskItem;
+export default TaskItemContainer;

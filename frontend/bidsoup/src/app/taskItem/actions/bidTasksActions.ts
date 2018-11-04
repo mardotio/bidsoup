@@ -2,6 +2,7 @@ import fetch from 'cross-fetch';
 import { createAction, ActionsUnion } from '../../utils/reduxUtils';
 import { ThunkAction } from 'redux-thunk';
 import { BidTask, AppState } from '../../types/types';
+import { handleHttpErrors } from 'src/app/utils/utils';
 
 export const REQUEST_BID_TASKS = 'REQUEST_BID_TASKS';
 export const RECEIVE_BID_TASKS = 'RECEIVE_BID_TASKS';
@@ -46,6 +47,7 @@ export const createBidTask = (task: Partial<BidTask>):
         body: JSON.stringify(newTask)
       })
       // TODO: instead of re-fetching we could merge the response.
+      .then(handleHttpErrors)
       .then(json => dispatch(fetchBidTasks()))
       .catch(error => console.log(error));
   };

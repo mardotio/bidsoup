@@ -12,7 +12,6 @@ const bidsWithCustomer = (bids: Bid[], customers: Customer[]) => (
 );
 
 const mapStateToProps = (state: AppState) => ({
-  state,
   bids: bidsWithCustomer( state.bids.list, state.customers.list)
 });
 

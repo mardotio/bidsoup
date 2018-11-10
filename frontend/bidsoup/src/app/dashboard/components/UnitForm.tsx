@@ -103,6 +103,70 @@ interface Props {
 }
 
 export default class UnitForm extends React.Component<Props, State> {
+  static isNumber = (value: string) => ( /^\d+\.?\d*$/.test(value) );
+
+  static idInDropdownOptions = (options: DropDownItem[], value: string) => (
+    options.some(o => o.id === value)
+  )
+
+  static renderUnit = (value: string) => {
+    let unit = unitOptions.find(u => u.id === value);
+    return unit
+      ? unit.name
+      : value;
+  }
+
+  static validateName = (name: string) => {
+    if (name === '') {
+      return {
+        hasError: true,
+        message: 'Field cannot be empty'
+      };
+    }
+    return defaultErrorState;
+  }
+
+  static validateUnitPrice = (unitPrice: string) => {
+    if (unitPrice === '') {
+      return {
+        hasError: true,
+        message: 'Field cannot be empty'
+      };
+    } else if (!UnitForm.isNumber(unitPrice)) {
+      return {
+        hasError: true,
+        message: 'Price must be a number'
+      };
+    }
+    return defaultErrorState;
+  }
+
+  static validateUnit = (unit: string) => {
+    if (unit === '') {
+      return {
+        hasError: true,
+        message: 'Field cannot be empty'
+      };
+    } else if (!UnitForm.idInDropdownOptions(unitOptions, unit)) {
+      return {
+        hasError: true,
+        message: 'Please select a valid option'
+      };
+    }
+    return defaultErrorState;
+  }
+
+  static valueCouldBeOption = (value: string, options: DropDownItem[]) => {
+    let searchResults = options.reduce(
+      (result, o) => ({
+        partial: result.partial || o.name.toLowerCase().includes(value.toLowerCase()),
+        full: result.full || o.name.toLowerCase() === value.toLowerCase()
+      }),
+      {partial: false, full: false}
+    );
+    return !searchResults.full && searchResults.partial;
+  }
+
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -123,12 +187,9 @@ export default class UnitForm extends React.Component<Props, State> {
       unitPrice: '',
       unit: ''
     };
-    this.validateAllAndSubmit = this.validateAllAndSubmit.bind(this);
-    this.selectUnit = this.selectUnit.bind(this);
-    this.clearAllFields = this.clearAllFields.bind(this);
   }
 
-  setFocusState(key: string) {
+  setFocusState = (key: string) => {
     this.setState({
       isFocused: {
         name: key === 'name',
@@ -139,125 +200,56 @@ export default class UnitForm extends React.Component<Props, State> {
     });
   }
 
-  isNumber(value: string) {
-    return /^\d+\.?\d*$/.test(value);
-  }
-
-  idInDropdownOptions(options: DropDownItem[], value: string) {
-    return options.some(o => o.id === value);
-  }
-
-  renderUnitPrice(value: string) {
+  renderUnitPrice = (value: string) => {
     if (this.state.isFocused.unitPrice) {
       return value;
     }
-    if (this.isNumber(value)) {
+    if (UnitForm.isNumber(value)) {
       return `$${beautifyNumber(Number(value), 2)}`;
     }
     return value;
   }
 
-  renderUnit(value: string) {
-    let unit = unitOptions.find(u => u.id === value);
-    if (unit) {
-      return unit.name;
-    }
-    return value;
+  setName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let name = e.target.value;
+    this.setState(prevState => ({
+      name,
+      errorState: {
+        ...prevState.errorState,
+        name: UnitForm.validateName(name)
+      }
+    }));
   }
 
-  validateNameField(name: string) {
-    if (name === '') {
-      return {
-        hasError: true,
-        message: 'Field cannot be empty'
-      };
-    }
-    return defaultErrorState;
+  setDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      description: e.target.value
+    });
   }
 
-  validateUnitPriceField(unitPrice: string) {
-    if (unitPrice === '') {
-      return {
-        hasError: true,
-        message: 'Field cannot be empty'
-      };
-    } else if (!this.isNumber(unitPrice)) {
-      return {
-        hasError: true,
-        message: 'Price must be a number'
-      };
-    }
-    return defaultErrorState;
+  setUnitPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let unitPrice = e.target.value;
+    this.setState(prevState => ({
+      unitPrice,
+      errorState: {
+        ...prevState.errorState,
+        unitPrice: UnitForm.validateUnitPrice(unitPrice)
+      }
+    }));
   }
 
-  validateUnitField(unit: string) {
-    if (unit === '') {
-      return {
-        hasError: true,
-        message: 'Field cannot be empty'
-      };
-    } else if (!this.idInDropdownOptions(unitOptions, unit)) {
-      return {
-        hasError: true,
-        message: 'Please select a valid option'
-      };
-    }
-    return defaultErrorState;
+  setUnit = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let unit = e.target.value;
+    this.setState(prevState => ({
+      unit,
+      errorState: {
+        ...prevState.errorState,
+        unit: UnitForm.validateUnit(unit)
+      }
+    }));
   }
 
-  validate(field: string, value: string) {
-    switch (field) {
-      case 'name':
-        this.setState({
-          name: value,
-          errorState: {
-            ...this.state.errorState,
-            name: this.validateNameField(value)
-          }
-        });
-        break;
-      case 'unitPrice':
-        this.setState({
-          unitPrice: value,
-          errorState: {
-            ...this.state.errorState,
-            unitPrice: this.validateUnitPriceField(value)
-          }
-        });
-        break;
-      case 'unit':
-        this.setState({
-          unit: value,
-          errorState: {
-            ...this.state.errorState,
-            unit: this.validateUnitField(value)
-          }
-        });
-        break;
-      default:
-        throw Error('Provide a field to check');
-    }
-  }
-
-  setInputFieldValues(field: string, e: React.ChangeEvent<HTMLInputElement>) {
-    switch (field) {
-      case 'name':
-        this.validate('name', e.target.value);
-        break;
-      case 'description':
-        this.setState({description: e.target.value});
-        break;
-      case 'unitPrice':
-        this.validate('unitPrice', e.target.value);
-        break;
-      case 'unit':
-        this.validate('unit', e.target.value);
-        break;
-      default:
-    }
-  }
-
-  selectUnit(item: DropDownItem) {
+  selectUnit = (item: DropDownItem) => {
     this.setState((prevState) => ({
       unit: item.id,
       errorState: {
@@ -267,22 +259,11 @@ export default class UnitForm extends React.Component<Props, State> {
     }));
   }
 
-  valueCouldBeOption(value: string, options: DropDownItem[]) {
-    let searchResults = options.reduce(
-      (result, o) => ({
-        partial: result.partial || o.name.toLowerCase().includes(value.toLowerCase()),
-        full: result.full || o.name.toLowerCase() === value.toLowerCase()
-      }),
-      {partial: false, full: false}
-    );
-    return !searchResults.full && searchResults.partial;
-  }
-
-  validateAllAndSubmit() {
+  validateAllAndSubmit = () => {
     let errorState = {
-      name: this.validateNameField(this.state.name),
-      unitPrice: this.validateUnitPriceField(this.state.unitPrice),
-      unit: this.validateUnitField(this.state.unit),
+      name: UnitForm.validateName(this.state.name),
+      unitPrice: UnitForm.validateUnitPrice(this.state.unitPrice),
+      unit: UnitForm.validateUnit(this.state.unit),
       description: defaultErrorState
     };
     let hasError = Object.keys(errorState).some(field => errorState[field].hasError);
@@ -300,7 +281,7 @@ export default class UnitForm extends React.Component<Props, State> {
     }
   }
 
-  clearAllFields() {
+  clearAllFields = () => {
     this.setState(
       {
         isFocused: {
@@ -324,7 +305,7 @@ export default class UnitForm extends React.Component<Props, State> {
     );
   }
 
-  render() {
+  render = () => {
     return (
       <Container>
         <InputFildsContainer>
@@ -337,7 +318,7 @@ export default class UnitForm extends React.Component<Props, State> {
               errorState={this.state.errorState.name}
               onFocus={() => this.setFocusState('name')}
               onBlur={() => this.setFocusState('none')}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setInputFieldValues('name', e)}
+              onChange={this.setName}
             />
           </InputWrapper>
           <InputWrapper>
@@ -349,7 +330,7 @@ export default class UnitForm extends React.Component<Props, State> {
               value={this.state.description}
               onFocus={() => this.setFocusState('description')}
               onBlur={() => this.setFocusState('none')}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setInputFieldValues('description', e)}
+              onChange={this.setDescription}
             />
           </InputWrapper>
           <InputWrapper>
@@ -361,7 +342,7 @@ export default class UnitForm extends React.Component<Props, State> {
               errorState={this.state.errorState.unitPrice}
               onFocus={() => this.setFocusState('unitPrice')}
               onBlur={() => this.setFocusState('none')}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setInputFieldValues('unitPrice', e)}
+              onChange={this.setUnitPrice}
             />
           </InputWrapper>
           <InputWrapper position="right">
@@ -369,16 +350,16 @@ export default class UnitForm extends React.Component<Props, State> {
               label="Unit"
               focusColor={theme.accent}
               isFocused={this.state.isFocused.unit}
-              value={this.renderUnit(this.state.unit)}
+              value={UnitForm.renderUnit(this.state.unit)}
               errorState={this.state.errorState.unit}
               options={{
                 list: unitOptions,
                 select: this.selectUnit,
-                filter: this.valueCouldBeOption(this.renderUnit(this.state.unit), unitOptions)
+                filter: UnitForm.valueCouldBeOption(UnitForm.renderUnit(this.state.unit), unitOptions)
               }}
               onFocus={() => this.setFocusState('unit')}
               onBlur={() => this.setFocusState('none')}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setInputFieldValues('unit', e)}
+              onChange={this.setUnit}
             />
           </InputWrapper>
         </InputFildsContainer>

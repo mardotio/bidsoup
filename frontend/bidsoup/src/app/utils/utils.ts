@@ -55,7 +55,7 @@ export const flatmap = <K extends keyof T, T extends Nested<T, K>, R>(arr: T[], 
 // If number is smaller than min, min is returned,
 // if number is larger than max, max is returned,
 // otherwise the given nuber is returned.
-export const numberWithBounds = (n: number, min: number, max: number) => (
+export const limitNumberToRange = (n: number, min: number, max: number) => (
   Math.max(Math.min(n, max), min)
 );
 

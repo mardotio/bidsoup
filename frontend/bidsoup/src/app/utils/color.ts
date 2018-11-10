@@ -1,4 +1,4 @@
-import { numberWithBounds } from './utils';
+import { limitNumberToRange } from './utils';
 
 // Returns hex color code based on concentration of black
 // Expects a number from 0-100 (percent of black)
@@ -13,7 +13,7 @@ export const color = (target: string) => {
   const hexWithPadding = (hex: string) => ( hex.length < 2 ? `0${hex}` : hex);
   const modifyColor = (percent: number) => {
     let newRGB = rgb.map(c => {
-      let newHex = numberWithBounds(Math.round(255 * percent) + c, 0, 255).toString(16);
+      let newHex = limitNumberToRange(Math.round(255 * percent) + c, 0, 255).toString(16);
       return hexWithPadding(newHex);
     });
     return newRGB.reduce((built, c) => `${built}${c}`, '#');

@@ -4,6 +4,7 @@ import InputField, { DropDownItem } from '../../components/InputField';
 import GhostButton from '../../components/GhostButton';
 import { theme } from '../../utils/color';
 import { beautifyNumber } from '../../utils/styling';
+import { isNumber } from 'src/app/utils/utils';
 import { Unit } from '../../types/types';
 import { Actions } from '../../taskItem/actions/unitTypeActions';
 
@@ -103,8 +104,6 @@ interface Props {
 }
 
 export default class UnitForm extends React.Component<Props, State> {
-  static isNumber = (value: string) => ( /^\d+\.?\d*$/.test(value) );
-
   static idInDropdownOptions = (options: DropDownItem[], value: string) => (
     options.some(o => o.id === value)
   )
@@ -132,7 +131,7 @@ export default class UnitForm extends React.Component<Props, State> {
         hasError: true,
         message: 'Field cannot be empty'
       };
-    } else if (!UnitForm.isNumber(unitPrice)) {
+    } else if (!isNumber(unitPrice)) {
       return {
         hasError: true,
         message: 'Price must be a number'
@@ -204,7 +203,7 @@ export default class UnitForm extends React.Component<Props, State> {
     if (this.state.isFocused.unitPrice) {
       return value;
     }
-    if (UnitForm.isNumber(value)) {
+    if (isNumber(value)) {
       return `$${beautifyNumber(Number(value), 2)}`;
     }
     return value;

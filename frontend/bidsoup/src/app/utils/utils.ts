@@ -65,3 +65,5 @@ export const handleHttpErrors = (response: Response) => {
   }
   return response;
 };
+
+export const isNumber = (value: string) => ( /^\d+\.?\d*$/.test(value) );

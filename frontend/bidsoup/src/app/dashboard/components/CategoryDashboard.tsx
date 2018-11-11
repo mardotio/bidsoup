@@ -108,10 +108,7 @@ export default class CategoryDashboard extends React.Component<Props, State> {
           {
             ...catTotals,
             [category]: this.props.categoriesWithItems[category].items.reduce(
-              (total, item) => (
-                total + item.total
-              ),
-              0
+              (total, item) => total + item.total, 0
             )
           }
         ),

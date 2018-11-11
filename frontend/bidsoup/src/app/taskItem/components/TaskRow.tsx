@@ -15,7 +15,7 @@ const Task = styled.div<TaskProps>`
   position: relative;
   box-sizing: border-box;
   &:hover {
-    background-color: ${theme.interactions.hover};
+    background-color: ${theme.interactions.hover.hex};
   }
   cursor: ${props => props.clickable ? 'pointer' : 'default'};
 `;

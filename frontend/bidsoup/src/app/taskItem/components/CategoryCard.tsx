@@ -36,11 +36,11 @@ const Card = styled.div<CardProps>`
   margin-right: 1em;
   transition: background .28s ease;
   background-color: ${props => (props.selected
-    ? theme.interactions.hover
+    ? theme.interactions.hover.hex
     : 'inherit'
   )};
   &:hover {
-    background-color: ${theme.interactions.hover};
+    background-color: ${theme.interactions.hover.hex};
   }
 `;
 

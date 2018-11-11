@@ -6,44 +6,60 @@ export const shade = (percent: number) => (
   `#${Math.round((100 - percent) * 255 / 100).toString(16).repeat(3)}`
 );
 
-export const color = (target: string) => {
-  let rgb = (target.match(/[a-f0-9]{2}/gi) || []).map(c => (
-    Number(parseInt(c, 16).toString(10))
-  ));
-  const hexWithPadding = (hex: string) => ( hex.length < 2 ? `0${hex}` : hex);
-  const modifyColor = (percent: number) => {
-    let newRGB = rgb.map(c => {
+export class Color {
+  hex: string;
+  decimal: number[];
+
+  static hexToDecimal = (hex: string) => (
+    (hex.match(/[a-f0-9]{2}/gi) || []).map(c => (
+      Number(parseInt(c, 16).toString(10))
+    ))
+  )
+
+  static shade = (percent: number) => (
+    new Color(`#${Math.round((100 - percent) * 255 / 100).toString(16).repeat(3)}`)
+  )
+
+  constructor(c: string) {
+    this.hex = c;
+    this.decimal = Color.hexToDecimal(this.hex);
+  }
+
+  lighten = (percent: number) => (this.adjustColor(percent));
+
+  darken = (percent: number) => (this.adjustColor(-1 * percent));
+
+  private hexWithPadding = (hex: string) => ( hex.length < 2 ? `0${hex}` : hex);
+
+  private adjustColor = (percent: number) => {
+    let newRGB = this.decimal.map(c => {
       let newHex = limitNumberToRange(Math.round(255 * percent) + c, 0, 255).toString(16);
-      return hexWithPadding(newHex);
+      return this.hexWithPadding(newHex);
     });
     return newRGB.reduce((built, c) => `${built}${c}`, '#');
-  };
-  return {
-    lighten: (amount: number) => modifyColor(amount),
-    darken: (amount: number) => modifyColor(-1 * amount)
-  };
-};
+  }
+}
 
 export const theme = {
-  fill: '#f3f6f9',
-  background: shade(0),
-  primary: '#4a2aea',
-  secondary: '#842aea',
-  accent: '#1180f7',
-  error: '#ff1744',
+  fill: new Color('#f3f6f9'),
+  background: Color.shade(0),
+  primary: new Color('#4a2aea'),
+  secondary: new Color('#842aea'),
+  accent: new Color('#1180f7'),
+  error: new Color('#ff1744'),
   success: '',
   text: {
-    dark: shade(87),
-    medium: shade(60),
-    light: shade(38)
+    dark: Color.shade(87),
+    medium: Color.shade(60),
+    light: Color.shade(38)
   },
   components: {
-    border: shade(8),
-    scrollbar: shade(13),
-    darkBorder: shade(42)
+    border: Color.shade(8),
+    scrollbar: Color.shade(13),
+    darkBorder: Color.shade(42)
   },
   interactions: {
-    hover: shade(8)
+    hover: Color.shade(8)
   }
 };
 

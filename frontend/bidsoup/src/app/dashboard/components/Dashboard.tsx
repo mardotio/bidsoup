@@ -14,14 +14,14 @@ const Container = styled.div`
 
 const OverviewContainer = styled.div`
   flex-grow: 1;
-  background-color: ${theme.background};
+  background-color: ${theme.background.hex};
   padding: 1em 3em;
   overflow: scroll;
   ::-webkit-scrollbar {
     width: 5px;
   }
   ::-webkit-scrollbar-thumb {
-    background: ${theme.components.scrollbar};
+    background: ${theme.components.scrollbar.hex};
   }
 `;
 

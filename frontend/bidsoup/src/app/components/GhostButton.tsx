@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { theme, shade } from '../utils/color';
+import { theme, Color } from '../utils/color';
 
 interface Props {
   color?: string;
@@ -20,7 +20,7 @@ const Container = styled.div<ButtonProps>`
   transition: .2s ease;
   &:hover {
     background-color: ${props => props.color};
-    color: ${shade(0)};
+    color: ${Color.shade(0).hex};
     cursor: pointer;
   };
 `;
@@ -37,7 +37,7 @@ const GhostButton: React.SFC<Props> = props => {
 };
 
 GhostButton.defaultProps = {
-  color: theme.accent
+  color: theme.accent.hex
 };
 
 export default GhostButton;

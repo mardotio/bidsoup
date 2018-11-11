@@ -35,7 +35,7 @@ const Container = Card.extend`
 `;
 
 const Title = styled.div`
-  color: ${theme.text.medium};
+  color: ${theme.text.medium.hex};
   font-size: 1.1em;
   padding: 1em 0;
 `;
@@ -52,7 +52,7 @@ const ItemLabel = styled.div`
     font-weight: 600;
   }
   div:last-child {
-    color: ${theme.text.light}
+    color: ${theme.text.light.hex}
     font-size: .9em;
   }
 `;
@@ -60,13 +60,13 @@ const ItemLabel = styled.div`
 const PillButton = styled.div<ButtonProps>`
   background-color: ${props => (
     props.selected
-    ? theme.primary
+    ? theme.primary.hex
     : 'inherit'
   )};
   color: ${props => (
     props.selected
     ? 'white'
-    : theme.primary
+    : theme.primary.hex
   )};
   transition: .1s ease;
   transition-delay: ${props => (
@@ -74,7 +74,7 @@ const PillButton = styled.div<ButtonProps>`
       ? '.1s'
       : '0'
   )};
-  border: 1px solid ${theme.primary}
+  border: 1px solid ${theme.primary.hex}
   padding: .25em 1em;
   border-radius: 1.5em;
   display: inline-block;
@@ -158,7 +158,7 @@ export default class CategoryDashboard extends React.Component<Props, State> {
             stroke={4}
             color={`#${this.props.categoriesWithItems[category].color}`}
             percent={Math.round(this.state.categoryTotals[category] / bidTotal * 100)}
-            altColor={theme.components.border}
+            altColor={theme.components.border.hex}
             offsetStroke={1}
           />
           <ItemLabel>
@@ -188,7 +188,7 @@ export default class CategoryDashboard extends React.Component<Props, State> {
             stroke={4}
             color={`#${this.props.categoriesWithItems[category].color}`}
             percent={Math.round(this.state.categoryItemCounts[category] / itemTotal * 100)}
-            altColor={theme.components.border}
+            altColor={theme.components.border.hex}
             offsetStroke={1}
           />
           <ItemLabel>

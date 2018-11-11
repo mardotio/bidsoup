@@ -311,7 +311,7 @@ export default class UnitForm extends React.Component<Props, State> {
           <InputWrapper position="left">
             <InputField
               label="Name"
-              focusColor={theme.accent}
+              focusColor={theme.accent.hex}
               isFocused={this.state.isFocused.name}
               value={this.state.name}
               errorState={this.state.errorState.name}
@@ -324,7 +324,7 @@ export default class UnitForm extends React.Component<Props, State> {
             <InputField
               label="Description"
               optional={true}
-              focusColor={theme.accent}
+              focusColor={theme.accent.hex}
               isFocused={this.state.isFocused.description}
               value={this.state.description}
               onFocus={() => this.setFocusState('description')}
@@ -335,7 +335,7 @@ export default class UnitForm extends React.Component<Props, State> {
           <InputWrapper>
             <InputField
               label="Unit Price"
-              focusColor={theme.accent}
+              focusColor={theme.accent.hex}
               isFocused={this.state.isFocused.unitPrice}
               value={this.renderUnitPrice(this.state.unitPrice)}
               errorState={this.state.errorState.unitPrice}
@@ -347,7 +347,7 @@ export default class UnitForm extends React.Component<Props, State> {
           <InputWrapper position="right">
             <InputField
               label="Unit"
-              focusColor={theme.accent}
+              focusColor={theme.accent.hex}
               isFocused={this.state.isFocused.unit}
               value={UnitForm.renderUnit(this.state.unit)}
               errorState={this.state.errorState.unit}
@@ -370,7 +370,7 @@ export default class UnitForm extends React.Component<Props, State> {
           </GhostButton>
           <GhostButton
             onClick={this.clearAllFields}
-            color={theme.error}
+            color={theme.error.hex}
           >
             Cancel
           </GhostButton>

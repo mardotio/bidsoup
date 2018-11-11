@@ -16,7 +16,7 @@ const Column = styled.div`
   min-width: 15em;
   padding-top: 2em;
   div:first-child {
-    color: ${theme.primary};
+    color: ${theme.primary.hex};
   };
   div:last-child {
     font-size: 150%;

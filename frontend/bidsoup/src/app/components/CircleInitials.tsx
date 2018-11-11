@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { color } from '../utils/color';
+import { Color } from '../utils/color';
 
 interface Props {
   color: string;
@@ -10,7 +10,7 @@ interface Props {
 }
 
 interface CircleProps {
-  color: string;
+  fill: Color;
   size: number;
   clickable: boolean;
 }
@@ -20,21 +20,21 @@ const Container = styled.div<CircleProps>`
   height: ${props => `${props.size}em`};
   width: ${props => `${props.size}em`};
   font-size: ${props => `${props.size * .75}em`};
-  background-color: ${props => props.color};
-  color: ${props => color(props.color).darken(.4)};
+  background-color: ${props => props.fill.hex};
+  color: ${props => props.fill.darken(.4)};
   display: flex;
   justify-content: center;
   align-items: center;
   transition: background-color .2s ease-out;
   cursor: ${props => props.clickable ? 'pointer' : 'inherit'};
   &:hover {
-    background-color: ${props => color(props.color).darken(.1)};
+    background-color: ${props => props.fill.darken(.1)};
   }
 `;
 
 const CircleInitials = (props: Props) => (
   <Container
-    color={props.color}
+    fill={new Color(props.color)}
     size={props.size}
     clickable={props.clickable || false}
   >

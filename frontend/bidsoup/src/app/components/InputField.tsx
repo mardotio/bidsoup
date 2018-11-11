@@ -20,17 +20,17 @@ const StyledInput = styled.input<StyledInputProps>`
   border: none;
   border-bottom: 2px solid;
   border-color: ${({hasError}) => (hasError
-    ? theme.error
-    : theme.components.darkBorder
+    ? theme.error.hex
+    : theme.components.darkBorder.hex
   )};
-  color: ${theme.text.dark};
+  color: ${theme.text.dark.hex};
   font-size: 16px;
   padding: 20px 0 8px 0;
   transition: .28s ease;
   width: 100%;
   &:focus {
     border-color: ${({focusColor, hasError}) => (hasError
-      ? theme.error
+      ? theme.error.hex
       : focusColor
     )};
     outline: none;
@@ -47,11 +47,11 @@ interface LabelProps {
 const Label = styled.label<LabelProps>`
   color: ${({isFocused, focusColor, hasError, labelOnTop}) => {
     if (labelOnTop && hasError) {
-      return theme.error;
+      return theme.error.hex;
     } else {
       return isFocused
         ? focusColor
-        : theme.text.light;
+        : theme.text.light.hex;
     }
   }};
   cursor: ${({labelOnTop}) => (labelOnTop
@@ -72,13 +72,13 @@ const Label = styled.label<LabelProps>`
 `;
 
 const HelperMessage = styled.div`
-  color: ${theme.error};
+  color: ${theme.error.hex};
   font-size: 12px;
   margin-top: 8px;
 `;
 
 const OptionsContainer = styled.div`
-  background-color: ${theme.background};
+  background-color: ${theme.background.hex};
   box-shadow:
     0 8px 10px 1px rgba(0,0,0,0.14),
     0 3px 14px 2px rgba(0,0,0,0.12),
@@ -94,7 +94,7 @@ const OptionsContainer = styled.div`
     width: 5px;
   }
   ::-webkit-scrollbar-thumb {
-    background: ${theme.components.scrollbar};
+    background: ${theme.components.scrollbar.hex};
   }
 `;
 
@@ -107,7 +107,7 @@ const Option = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   &:hover {
-    background-color: ${theme.interactions.hover};
+    background-color: ${theme.interactions.hover.hex};
   }
 `;
 

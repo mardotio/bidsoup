@@ -18,7 +18,7 @@ const Header = styled.div`
   align-items: center;
   div:first-child {
     font-size: 1.25em;
-    color: ${theme.text.medium};
+    color: ${theme.text.medium.hex};
   };
 `;
 
@@ -39,7 +39,7 @@ const Item = styled.div`
 const Details = styled.div`
   padding-left: 1em;
   div:last-child {
-    color: ${theme.text.light};
+    color: ${theme.text.light.hex};
     padding-top: .5em;
     font-size: .8em;
   };

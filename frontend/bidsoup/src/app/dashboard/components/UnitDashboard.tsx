@@ -48,7 +48,7 @@ const Header = styled.div`
   align-items: center;
   div:first-child {
     font-size: 1.25em;
-    color: ${theme.text.medium};
+    color: ${theme.text.medium.hex};
     padding: .3em 0;
   };
 `;
@@ -66,7 +66,7 @@ const Unit = styled.div`
   div:last-child {
     font-size: .8em;
     padding-top: .5em;
-    color: ${theme.text.light};
+    color: ${theme.text.light.hex};
   };
 `;
 

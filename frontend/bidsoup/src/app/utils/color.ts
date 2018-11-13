@@ -1,42 +1,92 @@
 import { limitNumberToRange } from './utils';
 
-// Returns hex color code based on concentration of black
-// Expects a number from 0-100 (percent of black)
-export const shade = (percent: number) => (
-  `#${Math.round((100 - percent) * 255 / 100).toString(16).repeat(3)}`
-);
+export interface RgbColor {
+  r: number;
+  g: number;
+  b: number;
+}
 
 export class Color {
-  hex: string;
-  decimal: number[];
-
-  static hexToDecimal = (hex: string) => (
-    (hex.match(/[a-f0-9]{2}/gi) || []).map(c => (
-      Number(parseInt(c, 16).toString(10))
-    ))
-  )
+  private color: string[];
 
   static shade = (percent: number) => (
     new Color(`#${Math.round((100 - percent) * 255 / 100).toString(16).repeat(3)}`)
   )
 
+  static stripPound = (hex: string) => hex.replace('#', '');
+
+  static isValidShorthandHex = (hex: string) => {
+    let stripped = Color.stripPound(hex);
+    let split = stripped.match(/[a-f0-9]/gi) || [];
+    return stripped.length === 3 && split.length === 3;
+  }
+
+  static isValidHex = (hex: string) => {
+    let stripped = Color.stripPound(hex);
+    let split = Color.stripPound(hex).match(/[a-f0-9]/gi) || [];
+    return stripped.length === 6 && split.length === 6;
+  }
+
+  static validateHexColor = (hex: string) => (Color.isValidHex(hex) || Color.isValidShorthandHex(hex));
+
   constructor(c: string) {
     this.hex = c;
-    this.decimal = Color.hexToDecimal(this.hex);
+  }
+
+  get hex() {
+    if (this.color.every(c => c[0] === c[1])) {
+      return this.color.reduce((color, c) => (color + c[0]), '#');
+    }
+    return this.color.reduce((color, c) => (color + c), '#');
+  }
+
+  set hex(c: string) {
+    if (Color.isValidShorthandHex(c)) {
+      this.color = this.splitByColor(this.expandHex(Color.stripPound(c)));
+    } else if (Color.isValidHex(c)) {
+      this.color = this.splitByColor(Color.stripPound(c));
+    } else {
+      throw Error(`${c} is not a valid color`);
+    }
+  }
+
+  get rgb(): RgbColor {
+    let [r, g, b] = this.color;
+    return {
+      r: this.hex2Dec(r),
+      g: this.hex2Dec(g),
+      b: this.hex2Dec(b)
+    };
   }
 
   lighten = (percent: number) => (this.adjustColor(percent));
 
   darken = (percent: number) => (this.adjustColor(-1 * percent));
 
-  private hexWithPadding = (hex: string) => ( hex.length < 2 ? `0${hex}` : hex);
+  private hex2Dec = (hex: string) => (Number(parseInt(hex, 16).toString(10)));
+
+  private dec2Hex = (dec: number, length = 0) => {
+    let hex = dec.toString(16);
+    if (hex.length < length) {
+      return '0'.repeat(length - hex.length) + dec.toString(16);
+    }
+    return hex;
+  }
+
+  private expandHex = (hex: string) => (
+    hex.split('').reduce((e, c) => (e + c + c), '')
+  )
+
+  private splitByColor = (hex: string) => (
+    this.color = hex.match(/[a-f0-9]{2}/gi) || []
+  )
 
   private adjustColor = (percent: number) => {
-    let newRGB = this.decimal.map(c => {
-      let newHex = limitNumberToRange(Math.round(255 * percent) + c, 0, 255).toString(16);
-      return this.hexWithPadding(newHex);
+    let rgb = this.rgb;
+    let newRgb = ['r', 'g', 'b'].map(c => {
+      return this.dec2Hex(limitNumberToRange(Math.round(255 * percent) + rgb[c], 0, 255), 2);
     });
-    return newRGB.reduce((built, c) => `${built}${c}`, '#');
+    return newRgb.reduce((color, c) => (color + c), '#');
   }
 }
 

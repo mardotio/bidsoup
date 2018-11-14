@@ -27,7 +27,7 @@ const Inner = styled.div<InnerProps>`
   height: ${props => props.height || '80%'};
   padding-left: 15px;
   padding-right: 15px;
-  background-color: ${theme.background};
+  background-color: ${theme.background.hex};
   box-shadow: 0px 10px 8px 0px rgba(0, 0, 0, 0.14);
   border-radius: 2px;
 `;

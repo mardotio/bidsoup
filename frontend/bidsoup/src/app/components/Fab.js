@@ -21,7 +21,7 @@ const ButtonContainer = styled.div`
     0 1px 5px 0 rgba(0, 0, 0, 0.12),
     0 3px 1px -2px rgba(0, 0, 0, 0.2);
   color: ${({buttonColor, overrideFont}) => determineFontColor(
-    buttonColor, overrideFont, theme.text.medium
+    buttonColor, overrideFont, theme.text.medium.hex
   )};
   cursor: pointer;
   display: flex;

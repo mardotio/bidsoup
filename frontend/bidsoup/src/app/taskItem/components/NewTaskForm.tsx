@@ -160,7 +160,7 @@ class NewTaskForm extends React.Component<Props, State> {
         <MyInputField
           key={key}
           name={key}
-          focusColor={theme.accent}
+          focusColor={theme.accent.hex}
           isFocused={field.isFocused}
           errorState={{
             hasError: !isEmpty(error),

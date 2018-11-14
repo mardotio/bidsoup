@@ -1,4 +1,4 @@
-import { shade } from './color';
+import { Color } from './color';
 
 export const hex2Rgb = (hex: string) => {
   let colorSections = /([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -12,18 +12,22 @@ export const hex2Rgb = (hex: string) => {
   return { red, green, blue };
 };
 
-export const determineFontColor = (color: string, override = false, darkColor = shade(100), lightColor = shade(0)) => {
-  let {red, green, blue} = hex2Rgb(color);
-  let check = 1 - (0.299 * red + 0.587 * green + 0.114 * blue) / 255;
-  if (override) {
-    return (check < 0.5)
-      ? lightColor
-      : darkColor;
-  } else {
-    return (check < 0.5)
-      ? darkColor
-      : lightColor;
-  }
+export const determineFontColor = (
+  color: string,
+  override = false,
+  darkColor = Color.shade(100).hex,
+  lightColor = Color.shade(0).hex) => {
+    let {red, green, blue} = hex2Rgb(color);
+    let check = 1 - (0.299 * red + 0.587 * green + 0.114 * blue) / 255;
+    if (override) {
+      return (check < 0.5)
+        ? lightColor
+        : darkColor;
+    } else {
+      return (check < 0.5)
+        ? darkColor
+        : lightColor;
+    }
 };
 
 export const capitalize = (word: string) => (word[0].toUpperCase() + word.slice(1));

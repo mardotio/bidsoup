@@ -20,7 +20,7 @@ const Truncate = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: ${theme.text.medium};
+  color: ${theme.text.medium.hex};
 `;
 
 interface Props {

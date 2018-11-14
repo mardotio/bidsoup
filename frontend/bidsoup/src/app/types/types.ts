@@ -17,6 +17,22 @@ export interface Bid {
   categories?: string;
 }
 
+export interface CrewMember {
+  first: string;
+  last: string;
+  position: string;
+  rate: number;
+  color: string;
+}
+
+export interface Unit {
+  url: string;
+  name: string;
+  description: string;
+  unit: string;
+  unitPrice: number;
+}
+
 export interface Customer {
   url: string;
   name: string;
@@ -50,6 +66,18 @@ export interface BidCategoryState {
     color: string;
   };
   lastFetch: number | null;
+}
+export interface BidItem {
+  url: string;
+  bid: string;
+  unitType: string | null;
+  price: string | null;
+  description: string;
+  notes: string;
+  category: string;
+  markupPercent: string;
+  quantity: string;
+  parent: string;
 }
 
 export interface BidItemState {

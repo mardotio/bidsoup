@@ -10,7 +10,7 @@ const Container = styled.div`
   display: flex;
   height: 100%;
   overflow: hidden;
-  background-color: ${theme.fill};
+  background-color: ${theme.fill.hex};
 `
 
 const BodyContainer = styled.div`

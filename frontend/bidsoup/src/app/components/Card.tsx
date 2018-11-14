@@ -3,7 +3,7 @@ import { theme } from '../utils/color';
 
 const Card = styled.div`
   box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);
-  background-color: ${theme.background};
+  background-color: ${theme.background.hex};
 `;
 
 export default Card;

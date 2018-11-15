@@ -21,14 +21,14 @@ const TableRow = styled.div`
   };
   border-bottom: ${props => (props.background || props.isHeader)
     ? '0'
-    : `1px solid ${theme.interactions.hover}`
+    : `1px solid ${theme.interactions.hover.hex}`
   };
   &:hover {
     background-color: ${props => {
       if (props.isHeader) {
         return props.background || 'inherit';
       } else {
-        return props.background || theme.interactions.hover;
+        return props.background || theme.interactions.hover.hex;
       }
     }};
   }

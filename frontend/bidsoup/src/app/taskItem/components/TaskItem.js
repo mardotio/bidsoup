@@ -24,7 +24,7 @@ const TaskContent = Card.extend`
     width: 5px;
   }
   ::-webkit-scrollbar-thumb {
-    background: ${theme.components.scrollbar};
+    background: ${theme.components.scrollbar.hex};
   }
 `;
 
@@ -71,7 +71,7 @@ const addElements = props => {
         <FabContainer>
           <Fab
             onClick={props.showModal}
-            color={theme.accent}
+            color={theme.accent.hex}
             icon={'add'}
           />
         </FabContainer>
@@ -92,7 +92,7 @@ const addElements = props => {
       <FabContainer>
         <Fab
           onClick={props.showModal}
-          color={theme.accent}
+          color={theme.accent.hex}
           icon={'add'}
         />
       </FabContainer>

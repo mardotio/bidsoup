@@ -7,7 +7,7 @@ import { theme } from '../utils/color';
 const NavContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: ${theme.background};
+  background-color: ${theme.background.hex};
   text-align: center;
   padding: 1em 0;
   width: 100px;
@@ -20,7 +20,7 @@ const NavIcon = styled.i`
   padding: 1em;
   cursor: pointer;
   &:hover {
-  color: ${theme.primary};
+  color: ${theme.primary.hex};
   }
 `
 

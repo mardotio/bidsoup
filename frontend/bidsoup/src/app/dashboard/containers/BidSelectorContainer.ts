@@ -12,7 +12,7 @@ const bidsWithCustomer = (bids: Bid[], customers: Customer[]) => (
 );
 
 const mapStateToProps = (state: AppState) => ({
-  bids: bidsWithCustomer( state.bids.list, state.customers.list)
+  bids: bidsWithCustomer(state.bids.list, state.customers.list)
 });
 
 const BidSelectorContainer = connect(mapStateToProps)(BidSelector);

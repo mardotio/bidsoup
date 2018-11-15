@@ -13,7 +13,7 @@ const Container = styled.div`
     width: 5px;
   }
   ::-webkit-scrollbar-thumb {
-    background: ${theme.components.scrollbar};
+    background: ${theme.components.scrollbar.hex};
   }
 `;
 

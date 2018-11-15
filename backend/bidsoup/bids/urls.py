@@ -25,7 +25,7 @@ category_router = routers.NestedSimpleRouter(router, r'categories', lookup='cate
 category_router.register(r'biditems', views.BidItemViewSet, base_name='category-biditem')
 
 urlpatterns = [
-    path('api-token/', obtain_jwt_token),
+    path('auth-token/', obtain_jwt_token),
     path('', include(router.urls)),
     path('', include(accounts_router.urls)),
     path('', include(bids_router.urls)),

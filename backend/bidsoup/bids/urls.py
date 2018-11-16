@@ -1,4 +1,5 @@
 from django.urls import path, include
+from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework_nested import routers
 from . import views
 
@@ -10,6 +11,7 @@ router.register(r'bidtasks', views.BidTaskViewSet, base_name='bidtask')
 router.register(r'customers', views.CustomerViewSet)
 router.register(r'categories', views.CategoryViewSet, base_name='category')
 router.register(r'unittypes', views.UnitTypeViewSet)
+router.register(r'users', views.UserViewSet)
 
 accounts_router = routers.NestedSimpleRouter(router, r'accounts', lookup='account')
 accounts_router.register(r'bids', views.BidViewSet, base_name='account-bid')
@@ -23,6 +25,7 @@ category_router = routers.NestedSimpleRouter(router, r'categories', lookup='cate
 category_router.register(r'biditems', views.BidItemViewSet, base_name='category-biditem')
 
 urlpatterns = [
+    path('auth-token/', obtain_jwt_token),
     path('', include(router.urls)),
     path('', include(accounts_router.urls)),
     path('', include(bids_router.urls)),

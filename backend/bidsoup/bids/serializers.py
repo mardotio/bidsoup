@@ -1,4 +1,5 @@
 from .models import Account, Bid, BidTask, BidItem, Category, Customer, UnitType
+from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework_recursive.fields import RecursiveField
 from rest_framework_nested.relations import NestedHyperlinkedRelatedField, NestedHyperlinkedIdentityField
@@ -51,7 +52,7 @@ class BidSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'name', 'description', 'bid_date', 'customer', 'tax_percent',
             'biditems', 'bidtasks', 'categories', 'key')
         extra_kwargs = {
-            'key': {'allow_null': 'true'}
+            'key': {'read_only': 'true'}
         }
 
 
@@ -81,3 +82,8 @@ class UnitTypeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = UnitType
         fields = ('url', 'name', 'description', 'unit', 'unit_price')
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email')

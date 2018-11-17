@@ -1,6 +1,6 @@
 from django.urls import path, include
-from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework_nested import routers
+from django.contrib.auth.views import LoginView
 from . import views
 
 router = routers.DefaultRouter()
@@ -25,7 +25,7 @@ category_router = routers.NestedSimpleRouter(router, r'categories', lookup='cate
 category_router.register(r'biditems', views.BidItemViewSet, base_name='category-biditem')
 
 urlpatterns = [
-    path('auth-token/', obtain_jwt_token),
+    path('login/', views.SessionLoginView.as_view()),
     path('', include(router.urls)),
     path('', include(accounts_router.urls)),
     path('', include(bids_router.urls)),

@@ -28,10 +28,16 @@
         "@dashboard/*": ["src/app/dashboard/*"],
         "@taskItem/*": ["src/app/taskItem/*"],
         "@utils/*": ["src/app/utils/*"],
-    }
+    },
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin"
+      }
+    ]
   },
   "exclude": [
     "node_modules",
+    "public",
     "build",
     "scripts",
     "acceptance-tests",

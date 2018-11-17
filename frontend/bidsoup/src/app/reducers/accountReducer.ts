@@ -1,16 +1,17 @@
 import { Reducer } from 'redux';
 import * as fromActions from '@app/actions/accountActions';
 import { Account } from '@app/types/types';
+import { Option, none, fromNullable } from 'fp-ts/lib/Option';
 
 export interface AccountState {
   isFetching: boolean;
-  data: Account | null;
+  data: Option<Account>;
   lastFetch: number | null;
 }
 
 const defaultState: AccountState = {
   isFetching: false,
-  data: null,
+  data: none,
   lastFetch: null
 };
 
@@ -23,9 +24,14 @@ export const accountReducer: Reducer<AccountState> = (state = defaultState, acti
       };
     case fromActions.RECEIVE_ACCOUNT:
       return {
-        data: action.payload.account,
+        data: fromNullable(action.payload.account),
         isFetching: false,
         lastFetch: Date.now()
+      };
+    case fromActions.RECEIVE_ACCOUNT_FAILURE:
+      return {
+        ...state,
+        isFetching: false
       };
     default:
       return state;

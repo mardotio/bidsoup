@@ -1991,5 +1991,59 @@
     "customer": "c7e8c722-1b8a-4bf3-9284-b8b755c4f194",
     "tax_percent": null
   }
+},
+{
+  "model": "auth.group",
+  "pk": 1,
+  "fields": {
+    "name": "Full Bid Access",
+    "permissions": [
+      19,
+      20,
+      21,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      22,
+      23,
+      24
+    ]
+  }
+},
+{
+  "model": "bids.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$100000$oNaDaEPXGQDE$u7lq6UlhTM7gcYgBcE4aMFcFOZlHqR+b8Er9NZV1tfA=",
+    "last_login": "2019-02-02T03:23:51.503Z",
+    "is_superuser": false,
+    "username": "bidsoup-test",
+    "first_name": "Ettore",
+    "last_name": "Boiardi",
+    "email": "thechef@bidsoup.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-02-02T03:00:54Z",
+    "account": "a68d3bef-48e0-420f-9a8c-3a368b230d02",
+    "groups": [
+      1
+    ],
+    "user_permissions": []
+  }
 }
 ]

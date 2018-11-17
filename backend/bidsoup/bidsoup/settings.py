@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.messages',
+    'django.contrib.sessions',
     'django.contrib.staticfiles',
     'django_extensions',
     'rest_framework',
@@ -55,14 +56,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'bidsoup.middleware.fake_session',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-if DEBUG:
-    MIDDLEWARE += ['bidsoup.middleware.jwt_auth_middleware']
 
 ROOT_URLCONF = 'bidsoup.urls'
 
@@ -105,7 +105,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
@@ -116,15 +115,11 @@ REST_FRAMEWORK = {
     'DEFAULT_PARSER_CLASSES': (
         'djangorestframework_camel_case.parser.CamelCaseJSONParser',
         'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser'
     ),
 }
 
-JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': timedelta(days=1),
-}
-if DEBUG:
-    # Use cookies in debug mode for the Admin
-    JWT_AUTH['JWT_AUTH_COOKIE'] = 'JWT'
+AUTH_USER_MODEL = 'bids.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators

@@ -2,7 +2,7 @@ import fetch from 'cross-fetch';
 import { createAction, ActionsUnion } from '../../utils/reduxUtils';
 import { ThunkAction } from 'redux-thunk';
 import { BidTask, AppState } from '../../types/types';
-import { handleHttpErrors } from 'src/app/utils/utils';
+import { handleHttpErrors, nestedFind } from 'src/app/utils/utils';
 
 export const REQUEST_BID_TASKS = 'REQUEST_BID_TASKS';
 export const RECEIVE_BID_TASKS = 'RECEIVE_BID_TASKS';
@@ -50,5 +50,18 @@ export const createBidTask = (task: Partial<BidTask>):
       .then(handleHttpErrors)
       .then(json => dispatch(fetchBidTasks()))
       .catch(error => console.log(error));
+  };
+};
+
+// tslint:disable-next-line:no-any
+export const selectBidTaskByUuid = (uuid: string): ThunkAction<void, AppState, never, Actions> => {
+  return (dispatch, getState) => {
+    const { api, bidData } = getState();
+    const targetUrl = `${api.endpoints.bidtasks}${uuid}/`;
+    const task =  nestedFind(bidData.tasks.list, 'url', targetUrl, 'children');
+    if (task === null) {
+      return Promise.reject('UUID not found in task list.');
+    }
+    return dispatch(Actions.selectBidTask(task));
   };
 };

@@ -103,11 +103,12 @@ class TaskRow extends React.Component<Props> {
   }
 
   render() {
+    let uuid = this.props.url.match(/(?<=bidtasks\/)[0-9a-z-]+/i)![0];
     return (
       <Task
         onMouseEnter={this.mouseEnter}
         onMouseLeave={this.mouseLeave}
-        onClick={e => this.props.onTaskClick(this.props.url)}
+        onClick={e => this.props.onTaskClick(uuid)}
         clickable={this.props.cost > 0}
       >
         <Title>

@@ -22,11 +22,11 @@ const View = props => {
     {
       icon: 'dashboard',
       title: 'dashboard',
-      route: '/dashboard'
+      route: props.bid ? `/bids/${props.bid}` : '/bids'
     },{
       icon: 'view_list',
       title: 'bid',
-      route: '/tasks'
+      route: props.bid ? `/bids/${props.bid}/tasks` : '/tasks'
     }
   ];
   return (
@@ -36,10 +36,11 @@ const View = props => {
           icons={navigation}
         />
         <BodyContainer>
-          <Route exact path="/" render={() => <Redirect to="/dashboard"/>}/>
-          <Route path="/dashboard/:bid" component={DashboardContainer}/>
-          <Route exact path="/dashboard" component={DashboardContainer}/>
-          <Route path="/tasks" component={TaskItemContainer}/>
+          <Route exact path="/" render={() => <Redirect to="/bids"/>}/>
+          <Route exact path="/bids" component={DashboardContainer}/>
+          <Route exact path="/bids/:bid" component={DashboardContainer}/>
+          <Route exact path="/bids/:bid/tasks" component={TaskItemContainer}/>
+          <Route path="/bids/:bid/tasks/:task" component={TaskItemContainer}/>
         </BodyContainer>
       </Container>
     </Router>

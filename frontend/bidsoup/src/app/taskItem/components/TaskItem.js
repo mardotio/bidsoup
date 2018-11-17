@@ -100,33 +100,47 @@ const addElements = props => {
   }
 }
 
-const TaskItem = props => {
-  let {categoriesAreFetching, itemsAreFetching} = props;
-  if (props.tasks.length <= 0) {
+class TaskItem extends React.Component {
+  componentDidMount() {
+    if (this.props.task) {
+      this.props.selectTask(this.props.task);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.task !== this.props.task) {
+      this.props.selectTask(this.props.task);
+    }
+  }
+
+  render() {
+    let {categoriesAreFetching, itemsAreFetching} = this.props;
+    if (this.props.tasks.length <= 0) {
+      return (
+        <div>
+          Load something first
+        </div>
+      );
+    }
     return (
-      <div>
-        Load something first
-      </div>
+      <React.Fragment>
+        <ViewConatiner>
+          <TaskContent>
+            <TaskTree
+              tasks={this.props.tasks}
+              onTaskSelect={t => this.props.history.push(`/bids/${this.props.selectedBid}/tasks/${t}`)}
+            />
+          </TaskContent>
+          <ItemContent
+            shouldDisplay={this.props.tableData.length > 0}
+          >
+            {displayTaskItems(this.props)}
+          </ItemContent>
+        </ViewConatiner>
+        {addElements(this.props)}
+      </React.Fragment>
     );
   }
-  return (
-    <React.Fragment>
-      <ViewConatiner>
-        <TaskContent>
-          <TaskTree
-            tasks={props.tasks}
-            onTaskSelect={t => props.selectTask(t)}
-          />
-        </TaskContent>
-        <ItemContent
-          shouldDisplay={props.tableData.length > 0}
-        >
-          {displayTaskItems(props)}
-        </ItemContent>
-      </ViewConatiner>
-      {addElements(props)}
-    </React.Fragment>
-  );
-};
+}
 
 export default TaskItem;

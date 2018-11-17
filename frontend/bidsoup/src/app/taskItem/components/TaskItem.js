@@ -102,8 +102,18 @@ const addElements = props => {
 
 class TaskItem extends React.Component {
   componentDidMount() {
-    if (this.props.task) {
-      this.props.selectTask(this.props.task);
+    if (this.props.bids.length <= 0 && this.props.selectedBid) {
+      this.props.fetchApi()
+        .then(() => this.props.fetchBidList())
+        .then(() => this.props.setCurrentBid(this.props.selectedBid))
+        .then(() => {
+          if (this.props.task) {
+            this.props.selectTask(this.props.task);
+          }
+        });
+    } else if (this.props.selectedTask){
+      let uuid = this.props.selectedTask.url.match(/(?<=bidtasks\/)[0-9a-z-]+/i)[0];
+      this.props.history.push(`/bids/${this.props.selectedBid}/tasks/${uuid}`);
     }
   }
 
@@ -117,9 +127,7 @@ class TaskItem extends React.Component {
     let {categoriesAreFetching, itemsAreFetching} = this.props;
     if (this.props.tasks.length <= 0) {
       return (
-        <div>
-          Load something first
-        </div>
+        <div>loading...</div>
       );
     }
     return (

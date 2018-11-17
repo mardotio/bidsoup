@@ -101,6 +101,15 @@ export default class CategoryDashboard extends React.Component<Props, State> {
     });
   }
 
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.categoriesWithItems !== this.props.categoriesWithItems) {
+      this.setState({
+        categoryTotals: this.calculateTotals(),
+        categoryItemCounts: this.countItems()
+      });
+    }
+  }
+
   calculateTotals() {
     return (
       Object.keys(this.props.categoriesWithItems).reduce(

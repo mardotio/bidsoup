@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import Dashboard from '../components/Dashboard';
-import { fetchBidList, fetchCustomerList, setAndFetchBidByKey } from '../actions/bidActions';
+import { Actions as BidActions, fetchBidList, fetchCustomerList, setAndFetchBidByKey } from '../actions/bidActions';
 import { createUnitType } from '../actions/unitActions';
 import { array2HashByKey } from '../../utils/sorting';
-import { fetchApi } from '../../taskItem/actions/apiActions';
+import { fetchApi, Actions } from '../../taskItem/actions/apiActions';
 
 const itemsByCategory = (items, categories) => {
   let sortedItems = array2HashByKey(items, 'category');
@@ -24,7 +24,7 @@ const bidWithCustomer = (bid, customers) => {
   let customer = customers.find(c => bid.customer === c.url);
   return {
     ...bid,
-    customer: customer ? customer.name : bid.customer
+    customer: customer ? customer.name : '--'
   };
 };
 
@@ -63,8 +63,8 @@ const mapStateToProps = (state, ownProps) => ({
     itemsWithTotal(state.bidData.items.list, state.bidData.units.units),
     state.bidData.categories.list
   ),
+  customers: state.customers.list,
   bid: ownProps.match.params.bid,
-  loading: anythingFetching(state),
   units: unitsArray(state.bidData.units.units)
 });
 
@@ -74,9 +74,11 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       .then(() => dispatch(fetchCustomerList()))
       .then(() => dispatch(fetchBidList()))
   ),
+  fetchCustomers: () => dispatch(fetchCustomerList()),
   selectBid: () => dispatch((_, getState) => {
       dispatch(setAndFetchBidByKey(Number.parseInt(ownProps.match.params.bid)));
   }),
+  clearSelectedBid: () => dispatch(BidActions.clearSelectedBid()),
   createUnitType: unit => dispatch(createUnitType(unit))
 });
 

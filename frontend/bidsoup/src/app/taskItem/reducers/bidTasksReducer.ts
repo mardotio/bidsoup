@@ -23,6 +23,11 @@ const bidTaskReducer: Reducer<BidTaskState> = (state = defaultState, action: fro
         ...state,
         isFetching: true
       };
+    case fromActions.CLEAR_SELECTED_TASK:
+      return {
+        ...state,
+        selectedTask: null
+      };
     case fromActions.RECEIVE_BID_TASKS:
       return {
         ...state,

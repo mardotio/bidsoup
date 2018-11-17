@@ -4,11 +4,14 @@ import { ThunkAction } from 'redux-thunk';
 import { BidTask, AppState } from '../../types/types';
 import { handleHttpErrors, nestedFind } from 'src/app/utils/utils';
 
+export const CLEAR_SELECTED_TASK = 'CLEAR_SELECTED_TASK';
 export const REQUEST_BID_TASKS = 'REQUEST_BID_TASKS';
 export const RECEIVE_BID_TASKS = 'RECEIVE_BID_TASKS';
 export const CREATE_BID_TASK = 'CREATE_BID_TASK';
 export const SELECT_BID_TASK = 'SELECT_BID_TASK';
 export const Actions = {
+  clearSelectedBidTask: () =>
+    createAction(CLEAR_SELECTED_TASK),
   requestBidTasks: () =>
     createAction(REQUEST_BID_TASKS),
   receiveBidTasks: (tasks: BidTask[], fetchTime: number) =>

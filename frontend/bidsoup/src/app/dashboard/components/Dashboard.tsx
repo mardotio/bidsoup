@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import BidOverview from './BidOverview';
 import BidSelectorContainer from '../containers/BidSelectorContainer';
-import { Bid, BidItem, Unit } from '../../types/types';
+import { Bid, BidItem, Unit, Customer } from '../../types/types';
 import { Actions } from '../actions/bidActions';
 import { Actions as UnitActions } from '../../taskItem/actions/unitTypeActions';
 import { theme } from '../../utils/color';
@@ -43,6 +43,7 @@ interface Props {
   bid: number | null;
   bids: Bid[];
   units: Unit[];
+  customers: Customer[];
   selectedBid: Bid;
   categoriesWithItems: {
     [s: string]: CategoryWithItems;
@@ -51,16 +52,24 @@ interface Props {
   loadPage: () => Promise<Actions>;
   selectBid: () => Promise<Actions>;
   createUnitType: (u: Partial<Unit>) => Promise<UnitActions>;
+  clearSelectedBid: () => Promise<Actions>;
+  fetchCustomers: () => Promise<Actions>;
 }
 
 class Dashboard extends React.Component<Props> {
   componentDidMount() {
-    this.props.loadPage()
+    if (this.props.bids.length <= 0) {
+      this.props.loadPage()
       .then(() => {
         if (this.props.bid) {
           this.props.selectBid();
+        } else {
+          this.props.clearSelectedBid();
         }
       });
+    } else if (this.props.customers.length <= 0) {
+       this.props.fetchCustomers();
+    }
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -70,9 +79,6 @@ class Dashboard extends React.Component<Props> {
   }
 
   generateBody() {
-    if (this.props.loading) {
-      return 'loading...';
-    }
     if (this.props.selectedBid.url) {
       return (
         <BidOverview

@@ -33,7 +33,7 @@ interface Props {
 const BidCard = (props: Props) => {
   return(
     <Link to={`/bids/${props.bidNumber}`}>
-      <CardContainer>
+      <CardContainer >
         <Title>{props.name}</Title>
         <Truncate>{props.customer}</Truncate>
       </CardContainer>

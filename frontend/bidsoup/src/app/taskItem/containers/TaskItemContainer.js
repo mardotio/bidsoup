@@ -3,7 +3,7 @@ import TaskItem from '../components/TaskItem';
 import { fetchApi } from '../actions/apiActions';
 import { Actions as tasksActions, createBidTask, selectBidTaskByUuid } from '../actions/bidTasksActions';
 import { Actions as uiActions } from '../../actions/uiActions';
-import { Actions as bidActions, fetchBidList } from '../../dashboard/actions/bidActions'
+import { Actions as bidActions, fetchBidList, setAndFetchBidByKey } from '../../dashboard/actions/bidActions'
 import componentsActions from '../actions/bidComponentsActions';
 import { isEmpty, nestedFind } from '../../utils/utils';
 import { array2HashByKey } from '../../utils/sorting';
@@ -104,12 +104,12 @@ const getTasks = ({tasks, items, units}) => {
   return tasks.list.map(t => buildTask(t, formattedItems));
 };
 
-const mapStateToProps = ({api, ui, bidData}, ownProps) => ({
+const mapStateToProps = ({api, ui, bidData, bids}, ownProps) => ({
   endpoints: api.endpoints,
   ui: ui,
   selectedBid: ownProps.match.params.bid,
   task: ownProps.match.params.task,
-  bids: bidData.bids,
+  bids: bids.list,
   tableData: generateTableData(bidData),
   selectedTask: bidData.tasks.selectedTask,
   categories: bidData.categories,
@@ -124,13 +124,15 @@ const mapDispatchToProps = dispatch => {
     fetchBidList: () =>
       dispatch(fetchBidList()),
     setCurrentBid: (bid) =>
-      dispatch(bidActions.setCurrentBid(bid)),
+      dispatch(setAndFetchBidByKey(Number(bid))),
     refreshItems: () =>
       dispatch(componentsActions.fetchBidComponents()),
     selectTask: (task) =>
       dispatch(selectBidTaskByUuid(task)),
     addTask: (bid, task) =>
       dispatch(createBidTask(task)),
+    clearSelectedTask: () =>
+      dispatch(tasksActions.clearSelectedBidTask()),
     showModal: () => dispatch(uiActions.showModal()),
     hideModal: () => dispatch(uiActions.hideModal())
   };

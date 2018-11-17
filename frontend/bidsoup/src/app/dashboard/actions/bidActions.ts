@@ -35,6 +35,7 @@ const bidDetailDecoder: Decoder<Bid> = object({
   categories: string(),
 });
 
+export const CLEAR_SELECTED_BID = 'CLEAR_SELECTED_BID';
 export const SET_CURRENT_BID = 'SET_CURRENT_BID';
 export const REQUEST_BID_LIST = 'REQUEST_BID_LIST';
 export const RECEIVE_BID_LIST = 'RECEIVE_BID_LIST';
@@ -43,6 +44,8 @@ export const RECEIVE_CURRENT_BID = 'RECEIVE_CURRENT_BID';
 export const REQUEST_CUSTOMER_LIST = 'REQUEST_CUSTOMER_LIST';
 export const RECEIVE_CUSTOMER_LIST = 'RECEIVE_CUSTOMER_LIST';
 export const Actions = {
+  clearSelectedBid: () =>
+    createAction(CLEAR_SELECTED_BID),
   requestBidList: () =>
     createAction(REQUEST_BID_LIST),
   receiveBidList: (list: Bid[], fetchTime: number) =>

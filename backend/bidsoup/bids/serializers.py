@@ -42,14 +42,14 @@ class BidSerializer(serializers.HyperlinkedModelSerializer):
             for field_name in exclude_fields:
                 self.fields.pop(field_name)
 
-
+    account = serializers.HyperlinkedRelatedField(view_name='account-detail', lookup_field='slug', read_only=True)
     biditems = serializers.HyperlinkedIdentityField(view_name='bid-biditem-list', lookup_url_kwarg='bid_pk', many=False)
     bidtasks = serializers.HyperlinkedIdentityField(view_name='bid-bidtask-list', lookup_url_kwarg='bid_pk', many=False)
     categories = serializers.HyperlinkedIdentityField(view_name='bid-category-list', lookup_url_kwarg='bid_pk', many=False)
 
     class Meta:
         model = Bid
-        fields = ('url', 'name', 'description', 'bid_date', 'customer', 'tax_percent',
+        fields = ('url', 'name', 'description', 'bid_date', 'account', 'customer', 'tax_percent',
             'biditems', 'bidtasks', 'categories', 'key')
         extra_kwargs = {
             'key': {'read_only': 'true'}

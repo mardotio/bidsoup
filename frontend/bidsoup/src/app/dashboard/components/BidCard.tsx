@@ -28,11 +28,12 @@ interface Props {
   name: string;
   customer: string | null;
   url: string;
+  route: string;
 }
 
 const BidCard = (props: Props) => {
   return(
-    <Link to={`/bids/${props.bidNumber}`}>
+    <Link to={props.route}>
       <CardContainer >
         <Title>{props.name}</Title>
         <Truncate>{props.customer}</Truncate>

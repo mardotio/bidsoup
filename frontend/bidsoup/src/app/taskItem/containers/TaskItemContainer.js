@@ -2,8 +2,9 @@ import { connect } from 'react-redux';
 import TaskItem from '../components/TaskItem';
 import { fetchApi } from '../actions/apiActions';
 import { Actions as tasksActions, createBidTask, selectBidTaskByUuid } from '../actions/bidTasksActions';
+import { Actions as accountActions } from '../../actions/accountActions';
 import { Actions as uiActions } from '../../actions/uiActions';
-import { Actions as bidActions, fetchBidList, setAndFetchBidByKey } from '../../dashboard/actions/bidActions'
+import { Actions as bidActions, setAndFetchBidByKey, fetchBidListByAccount } from '../../dashboard/actions/bidActions'
 import componentsActions from '../actions/bidComponentsActions';
 import { isEmpty, nestedFind } from '../../utils/utils';
 import { array2HashByKey } from '../../utils/sorting';
@@ -104,12 +105,13 @@ const getTasks = ({tasks, items, units}) => {
   return tasks.list.map(t => buildTask(t, formattedItems));
 };
 
-const mapStateToProps = ({api, ui, bidData, bids}, ownProps) => ({
+const mapStateToProps = ({api, account, ui, bidData, bids}, ownProps) => ({
   endpoints: api.endpoints,
   ui: ui,
   selectedBid: ownProps.match.params.bid,
   task: ownProps.match.params.task,
   bids: bids.list,
+  account,
   tableData: generateTableData(bidData),
   selectedTask: bidData.tasks.selectedTask,
   categories: bidData.categories,
@@ -117,12 +119,14 @@ const mapStateToProps = ({api, ui, bidData, bids}, ownProps) => ({
   units: bidData.units
 });
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    setAccount: () =>
+      dispatch(accountActions.setAccount(ownProps.match.params.account)),
     fetchApi: () =>
       dispatch(fetchApi()),
     fetchBidList: () =>
-      dispatch(fetchBidList()),
+      dispatch(fetchBidListByAccount(ownProps.match.params.account)),
     setCurrentBid: (bid) =>
       dispatch(setAndFetchBidByKey(Number(bid))),
     refreshItems: () =>

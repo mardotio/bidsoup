@@ -4,6 +4,7 @@
 
  const mapStateToProps = (state: AppState) => ({
    bid: state.bids.selectedBid.key,
+   account: state.account
  });
 
  const ViewContainer = connect(mapStateToProps)(View);

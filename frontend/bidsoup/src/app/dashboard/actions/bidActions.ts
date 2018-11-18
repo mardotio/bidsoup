@@ -64,10 +64,28 @@ export const Actions = {
 
 export type Actions = ActionsUnion<typeof Actions>;
 
+// Left this for now, but we can probably delete it
 export const fetchBidList = (): ThunkAction<Promise<Actions>, AppState, never, Actions> => {
   return (dispatch, getState) => {
     dispatch(Actions.requestBidList());
     return fetch(getState().api.endpoints.bids)
+      .then(response => response.json())
+      .then(json => {
+        let bids: Bid[] = [];
+        let res = bidListDecoder.run(json);
+        if (res.ok) {
+          bids = res.result;
+        }
+        return dispatch(Actions.receiveBidList(bids, Date.now()));
+      });
+  };
+};
+
+export const fetchBidListByAccount = (act: string): ThunkAction<Promise<Actions>, AppState, never, Actions> => {
+  return (dispatch, getState) => {
+    dispatch(Actions.requestBidList());
+    const { api, account } = getState();
+    return fetch(`${api.endpoints.accounts}/${account}/bids/`)
       .then(response => response.json())
       .then(json => {
         let bids: Bid[] = [];

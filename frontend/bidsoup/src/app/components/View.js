@@ -22,11 +22,11 @@ const View = props => {
     {
       icon: 'dashboard',
       title: 'dashboard',
-      route: props.bid ? `/bids/${props.bid}` : '/bids'
+      route: props.bid ? `/${props.account}/bids/${props.bid}` : '/bids'
     },{
       icon: 'view_list',
       title: 'bid',
-      route: props.bid ? `/bids/${props.bid}/tasks` : '/tasks'
+      route: props.bid ? `/${props.account}/bids/${props.bid}/tasks` : '/tasks'
     }
   ];
   return (
@@ -37,11 +37,11 @@ const View = props => {
         />
         <BodyContainer>
           <Switch>
-            <Route path="/bids/:bid/tasks/:task" component={TaskItemContainer}/>
-            <Route path="/bids/:bid/tasks" component={TaskItemContainer}/>
-            <Route path="/bids/:bid" component={DashboardContainer}/>
-            <Route path="/bids" component={DashboardContainer}/>
-            <Route path="/" render={() => <Redirect to="/bids"/>}/>
+            <Route path="/:account/bids/:bid/tasks/:task" component={TaskItemContainer}/>
+            <Route path="/:account/bids/:bid/tasks" component={TaskItemContainer}/>
+            <Route path="/:account/bids/:bid" component={DashboardContainer}/>
+            <Route path="/:account/bids" component={DashboardContainer}/>
+            <Route path="/" render={() => <Redirect to={`/${props.account}/bids`}/>}/>
           </Switch>
         </BodyContainer>
       </Container>

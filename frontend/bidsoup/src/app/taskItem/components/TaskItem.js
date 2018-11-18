@@ -102,6 +102,9 @@ const addElements = props => {
 
 class TaskItem extends React.Component {
   componentDidMount() {
+    if (!this.props.account) {
+      this.props.setAccount();
+    }
     if (this.props.bids.length <= 0 && this.props.selectedBid) {
       this.props.fetchApi()
         .then(() => this.props.fetchBidList())
@@ -113,7 +116,7 @@ class TaskItem extends React.Component {
         });
     } else if (this.props.selectedTask){
       let uuid = this.props.selectedTask.url.match(/(?<=bidtasks\/)[0-9a-z-]+/i)[0];
-      this.props.history.push(`/bids/${this.props.selectedBid}/tasks/${uuid}`);
+      this.props.history.push(`/${this.props.account}/bids/${this.props.selectedBid}/tasks/${uuid}`);
     }
   }
 
@@ -136,7 +139,7 @@ class TaskItem extends React.Component {
           <TaskContent>
             <TaskTree
               tasks={this.props.tasks}
-              onTaskSelect={t => this.props.history.push(`/bids/${this.props.selectedBid}/tasks/${t}`)}
+              onTaskSelect={t => this.props.history.push(`/${this.props.account}/bids/${this.props.selectedBid}/tasks/${t}`)}
             />
           </TaskContent>
           <ItemContent

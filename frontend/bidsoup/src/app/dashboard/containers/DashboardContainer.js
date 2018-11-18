@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import Dashboard from '../components/Dashboard';
-import { Actions as BidActions, fetchBidList, fetchCustomerList, setAndFetchBidByKey } from '../actions/bidActions';
+import { Actions as BidActions, fetchCustomerList, setAndFetchBidByKey, fetchBidListByAccount } from '../actions/bidActions';
+import { Actions as AccountActions } from '../../actions/accountActions';
 import { createUnitType } from '../actions/unitActions';
 import { array2HashByKey } from '../../utils/sorting';
 import { fetchApi, Actions } from '../../taskItem/actions/apiActions';
@@ -69,11 +70,12 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  loadPage: () => (
-    dispatch(fetchApi())
+  loadPage: () => {
+    dispatch(AccountActions.setAccount(ownProps.match.params.account));
+    return dispatch(fetchApi())
       .then(() => dispatch(fetchCustomerList()))
-      .then(() => dispatch(fetchBidList()))
-  ),
+      .then(() => dispatch(fetchBidListByAccount()))
+  },
   fetchCustomers: () => dispatch(fetchCustomerList()),
   selectBid: () => dispatch((_, getState) => {
       dispatch(setAndFetchBidByKey(Number.parseInt(ownProps.match.params.bid)));

@@ -112,4 +112,5 @@ export interface AppState {
   bids: BidState;
   customers: CustomerState;
   ui: UiState;
+  account: string | null;
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import SideNav from './SideNav';
 import DashboardContainer from '../dashboard/containers/DashboardContainer';
 import TaskItemContainer from '../taskItem/containers/TaskItemContainer';
@@ -22,11 +22,11 @@ const View = props => {
     {
       icon: 'dashboard',
       title: 'dashboard',
-      route: '/dashboard'
+      route: props.bid ? `/${props.account}/bids/${props.bid}` : '/bids'
     },{
       icon: 'view_list',
       title: 'bid',
-      route: '/tasks'
+      route: props.bid ? `/${props.account}/bids/${props.bid}/tasks` : '/tasks'
     }
   ];
   return (
@@ -36,10 +36,13 @@ const View = props => {
           icons={navigation}
         />
         <BodyContainer>
-          <Route exact path="/" render={() => <Redirect to="/dashboard"/>}/>
-          <Route path="/dashboard/:bid" component={DashboardContainer}/>
-          <Route exact path="/dashboard" component={DashboardContainer}/>
-          <Route path="/tasks" component={TaskItemContainer}/>
+          <Switch>
+            <Route path="/:account/bids/:bid/tasks/:task" component={TaskItemContainer}/>
+            <Route path="/:account/bids/:bid/tasks" component={TaskItemContainer}/>
+            <Route path="/:account/bids/:bid" component={DashboardContainer}/>
+            <Route path="/:account/bids" component={DashboardContainer}/>
+            <Route path="/" render={() => <Redirect to={`/${props.account}/bids`}/>}/>
+          </Switch>
         </BodyContainer>
       </Container>
     </Router>

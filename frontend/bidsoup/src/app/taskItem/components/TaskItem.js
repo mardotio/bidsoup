@@ -100,33 +100,58 @@ const addElements = props => {
   }
 }
 
-const TaskItem = props => {
-  let {categoriesAreFetching, itemsAreFetching} = props;
-  if (props.tasks.length <= 0) {
+class TaskItem extends React.Component {
+  componentDidMount() {
+    if (!this.props.account) {
+      this.props.setAccount();
+    }
+    if (this.props.bids.length <= 0 && this.props.selectedBid) {
+      this.props.fetchApi()
+        .then(() => this.props.fetchBidList())
+        .then(() => this.props.setCurrentBid(this.props.selectedBid))
+        .then(() => {
+          if (this.props.task) {
+            this.props.selectTask(this.props.task);
+          }
+        });
+    } else if (this.props.selectedTask){
+      let uuid = this.props.selectedTask.url.match(/(?<=bidtasks\/)[0-9a-z-]+/i)[0];
+      this.props.history.push(`/${this.props.account}/bids/${this.props.selectedBid}/tasks/${uuid}`);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.task !== this.props.task) {
+      this.props.selectTask(this.props.task);
+    }
+  }
+
+  render() {
+    let {categoriesAreFetching, itemsAreFetching} = this.props;
+    if (this.props.tasks.length <= 0) {
+      return (
+        <div>loading...</div>
+      );
+    }
     return (
-      <div>
-        Load something first
-      </div>
+      <React.Fragment>
+        <ViewConatiner>
+          <TaskContent>
+            <TaskTree
+              tasks={this.props.tasks}
+              onTaskSelect={t => this.props.history.push(`/${this.props.account}/bids/${this.props.selectedBid}/tasks/${t}`)}
+            />
+          </TaskContent>
+          <ItemContent
+            shouldDisplay={this.props.tableData.length > 0}
+          >
+            {displayTaskItems(this.props)}
+          </ItemContent>
+        </ViewConatiner>
+        {addElements(this.props)}
+      </React.Fragment>
     );
   }
-  return (
-    <React.Fragment>
-      <ViewConatiner>
-        <TaskContent>
-          <TaskTree
-            tasks={props.tasks}
-            onTaskSelect={t => props.selectTask(t)}
-          />
-        </TaskContent>
-        <ItemContent
-          shouldDisplay={props.tableData.length > 0}
-        >
-          {displayTaskItems(props)}
-        </ItemContent>
-      </ViewConatiner>
-      {addElements(props)}
-    </React.Fragment>
-  );
-};
+}
 
 export default TaskItem;

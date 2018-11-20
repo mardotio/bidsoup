@@ -3,7 +3,6 @@ import { Bid, Customer, AppState } from '../../types/types';
 import componentsActions from '../../taskItem/actions/bidComponentsActions';
 import { ThunkAction } from 'redux-thunk';
 import { Decoder, constant, union, object, string, array, number } from '@mojotech/json-type-validation';
-// import { fetchApi } from '../../taskItem/actions/apiActions';
 
 const bidListDecoder: Decoder<Bid[]> = array(object({
   url: string(),
@@ -35,6 +34,7 @@ const bidDetailDecoder: Decoder<Bid> = object({
   categories: string(),
 });
 
+export const CLEAR_SELECTED_BID = 'CLEAR_SELECTED_BID';
 export const SET_CURRENT_BID = 'SET_CURRENT_BID';
 export const REQUEST_BID_LIST = 'REQUEST_BID_LIST';
 export const RECEIVE_BID_LIST = 'RECEIVE_BID_LIST';
@@ -43,6 +43,8 @@ export const RECEIVE_CURRENT_BID = 'RECEIVE_CURRENT_BID';
 export const REQUEST_CUSTOMER_LIST = 'REQUEST_CUSTOMER_LIST';
 export const RECEIVE_CUSTOMER_LIST = 'RECEIVE_CUSTOMER_LIST';
 export const Actions = {
+  clearSelectedBid: () =>
+    createAction(CLEAR_SELECTED_BID),
   requestBidList: () =>
     createAction(REQUEST_BID_LIST),
   receiveBidList: (list: Bid[], fetchTime: number) =>
@@ -61,10 +63,11 @@ export const Actions = {
 
 export type Actions = ActionsUnion<typeof Actions>;
 
-export const fetchBidList = (): ThunkAction<Promise<Actions>, AppState, never, Actions> => {
+export const fetchBidListByAccount = (act: string): ThunkAction<Promise<Actions>, AppState, never, Actions> => {
   return (dispatch, getState) => {
     dispatch(Actions.requestBidList());
-    return fetch(getState().api.endpoints.bids)
+    const { api, account } = getState();
+    return fetch(`${api.endpoints.accounts}/${account}/bids/`)
       .then(response => response.json())
       .then(json => {
         let bids: Bid[] = [];

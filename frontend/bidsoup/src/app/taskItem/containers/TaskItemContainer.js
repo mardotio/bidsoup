@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
 import TaskItem from '../components/TaskItem';
 import { fetchApi } from '../actions/apiActions';
-import { Actions as tasksActions, createBidTask } from '../actions/bidTasksActions';
+import { Actions as tasksActions, createBidTask, selectBidTaskByUuid } from '../actions/bidTasksActions';
+import { Actions as accountActions } from '../../actions/accountActions';
 import { Actions as uiActions } from '../../actions/uiActions';
-import { Actions as bidActions, fetchBidList } from '../../dashboard/actions/bidActions'
+import { Actions as bidActions, setAndFetchBidByKey, fetchBidListByAccount } from '../../dashboard/actions/bidActions'
 import componentsActions from '../actions/bidComponentsActions';
 import { isEmpty, nestedFind } from '../../utils/utils';
 import { array2HashByKey } from '../../utils/sorting';
@@ -49,7 +50,10 @@ const formatItemForTable = (item, unitList) => {
 };
 
 const generateTableData = ({categories, items, units, tasks: { selectedTask }}) => {
-  const itemList = getItemsByTask(selectedTask, items.list);
+  if (!selectedTask) {
+    return [];
+  }
+  const itemList = getItemsByTask(selectedTask.url, items.list);
   const itemsByCategory = array2HashByKey(itemList, 'category');
 
   const categoriesWithItems = categories.list.filter(category => (
@@ -101,31 +105,38 @@ const getTasks = ({tasks, items, units}) => {
   return tasks.list.map(t => buildTask(t, formattedItems));
 };
 
-const mapStateToProps = ({api, ui, bidData}) => ({
+const mapStateToProps = ({api, account, ui, bidData, bids}, ownProps) => ({
   endpoints: api.endpoints,
   ui: ui,
-  bids: bidData.bids,
+  selectedBid: ownProps.match.params.bid,
+  task: ownProps.match.params.task,
+  bids: bids.list,
+  account,
   tableData: generateTableData(bidData),
-  selectedTask: nestedFind(bidData.tasks.list, 'url', bidData.tasks.selectedTask, 'children'),
+  selectedTask: bidData.tasks.selectedTask,
   categories: bidData.categories,
   tasks: getTasks(bidData),
   units: bidData.units
 });
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    setAccount: () =>
+      dispatch(accountActions.setAccount(ownProps.match.params.account)),
     fetchApi: () =>
       dispatch(fetchApi()),
     fetchBidList: () =>
-      dispatch(fetchBidList()),
+      dispatch(fetchBidListByAccount(ownProps.match.params.account)),
     setCurrentBid: (bid) =>
-      dispatch(bidActions.setCurrentBid(bid)),
+      dispatch(setAndFetchBidByKey(Number(bid))),
     refreshItems: () =>
       dispatch(componentsActions.fetchBidComponents()),
     selectTask: (task) =>
-      dispatch(tasksActions.selectBidTask(task)),
+      dispatch(selectBidTaskByUuid(task)),
     addTask: (bid, task) =>
       dispatch(createBidTask(task)),
+    clearSelectedTask: () =>
+      dispatch(tasksActions.clearSelectedBidTask()),
     showModal: () => dispatch(uiActions.showModal()),
     hideModal: () => dispatch(uiActions.hideModal())
   };

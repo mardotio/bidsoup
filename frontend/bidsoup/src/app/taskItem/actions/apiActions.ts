@@ -10,9 +10,11 @@ const biditems = 'biditems';
 const bidtasks = 'bidtasks';
 const categories = 'categories';
 const customers = 'customers';
+const accounts = 'accounts';
+const users = 'users';
 
 type Keys = typeof bids | typeof unittypes | typeof biditems | typeof bidtasks |
-  typeof categories | typeof customers;
+  typeof categories | typeof customers | typeof accounts | typeof users;
 
 export type Endpoints = {
   [key in Keys]: string

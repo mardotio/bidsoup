@@ -39,6 +39,12 @@ const bidReducer: Reducer<BidState> = (state = defaultState, action: fromActions
         }
       };
 
+    case fromActions.CLEAR_SELECTED_BID:
+      return {
+        ...state,
+        selectedBid: {} as Bid
+      };
+
     case fromActions.REQUEST_BID_LIST:
       return {
         ...state,

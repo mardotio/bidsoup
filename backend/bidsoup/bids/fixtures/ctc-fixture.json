@@ -3,8 +3,8 @@
   "model": "bids.account",
   "pk": "a68d3bef-48e0-420f-9a8c-3a368b230d02",
   "fields": {
-    "name": "Test Account",
-    "slug": "test-account0",
+    "name": "Concord Tank Corporation",
+    "slug": "ctc",
     "next_bid_number": 2
   }
 },

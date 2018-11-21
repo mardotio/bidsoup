@@ -111,6 +111,11 @@ export default class UnitDashboard extends React.Component<Props, State> {
     });
   }
 
+  submitForm = (u: Partial<Unit>) => {
+    this.props.createUnitType(u);
+    this.closeForm();
+  }
+
   render = () => {
     return (
       <Container>
@@ -124,7 +129,7 @@ export default class UnitDashboard extends React.Component<Props, State> {
           shouldDisplay={this.state.isBeingEdited}
         >
           <UnitForm
-            submitAction={this.props.createUnitType}
+            submitAction={this.submitForm}
             cancelAction={this.closeForm}
           />
           <HorizontalRule/>

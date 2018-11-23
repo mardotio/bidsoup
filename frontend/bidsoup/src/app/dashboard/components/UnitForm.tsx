@@ -6,7 +6,6 @@ import { theme } from '../../utils/color';
 import { beautifyNumber } from '../../utils/styling';
 import { isNumber } from 'src/app/utils/utils';
 import { Unit } from '../../types/types';
-import { Actions } from '../../taskItem/actions/unitTypeActions';
 
 interface WrapperProps {
   position?: string;
@@ -100,7 +99,7 @@ interface State {
 
 interface Props {
   cancelAction: () => void;
-  submitAction: (u: Partial<Unit>) => Promise<Actions>;
+  submitAction: (u: Partial<Unit>) => void;
 }
 
 export default class UnitForm extends React.Component<Props, State> {
@@ -277,6 +276,7 @@ export default class UnitForm extends React.Component<Props, State> {
         unitPrice: Number(this.state.unitPrice),
         unit: this.state.unit
       });
+      this.clearAllFields();
     }
   }
 

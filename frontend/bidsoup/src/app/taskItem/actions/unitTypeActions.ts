@@ -4,7 +4,7 @@ import { ThunkAction } from 'redux-thunk';
 import { Decoder, object, string } from '@mojotech/json-type-validation';
 import { AppState } from '../../types/types';
 
-interface Unit {
+export interface Unit {
   url: string;
   name: string;
   description: string;
@@ -12,7 +12,7 @@ interface Unit {
   unitPrice: string;
 }
 
-interface UnitDict {
+export interface UnitDict {
   [url: string]: Unit;
 }
 

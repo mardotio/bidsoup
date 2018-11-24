@@ -63,7 +63,7 @@ export const Actions = {
 
 export type Actions = ActionsUnion<typeof Actions>;
 
-export const fetchBidListByAccount = (act: string): ThunkAction<Promise<Actions>, AppState, never, Actions> => {
+export const fetchBidListByAccount = (): ThunkAction<Promise<Actions>, AppState, never, Actions> => {
   return (dispatch, getState) => {
     dispatch(Actions.requestBidList());
     const { api, account } = getState();

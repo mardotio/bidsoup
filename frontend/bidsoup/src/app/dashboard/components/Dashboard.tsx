@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import BidOverview from './BidOverview';
 import BidSelectorContainer from '../containers/BidSelectorContainer';
 import { Bid, BidItem, Unit, Customer } from '../../types/types';
-import { Actions } from '../actions/bidActions';
-import { Actions as UnitActions } from '../../taskItem/actions/unitTypeActions';
 import { theme } from '../../utils/color';
 
 const Container = styled.div`
@@ -48,12 +46,11 @@ interface Props {
   categoriesWithItems: {
     [s: string]: CategoryWithItems;
   };
-  loading: boolean;
-  loadPage: () => Promise<Actions>;
-  selectBid: () => Promise<Actions>;
-  createUnitType: (u: Partial<Unit>) => Promise<UnitActions>;
-  clearSelectedBid: () => Promise<Actions>;
-  fetchCustomers: () => Promise<Actions>;
+  loadPage: () => any;
+  selectBid: () => any;
+  createUnitType: (u: Partial<Unit>) => any;
+  clearSelectedBid: () => any;
+  fetchCustomers: () => any;
 }
 
 class Dashboard extends React.Component<Props> {

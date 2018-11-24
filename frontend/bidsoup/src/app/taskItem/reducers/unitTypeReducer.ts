@@ -3,13 +3,13 @@ import * as fromActions from '../actions/unitTypeActions';
 
 export interface UnitState {
   isFetching: boolean;
-  units: object;
+  units: fromActions.UnitDict;
   lastFetch: number | null;
 }
 
 const defaultState: UnitState = {
   isFetching: false,
-  units: {},
+  units: {} as fromActions.UnitDict,
   lastFetch: null
 };
 

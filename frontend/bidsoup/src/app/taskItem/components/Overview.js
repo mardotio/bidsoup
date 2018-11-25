@@ -9,7 +9,17 @@ const Overview = props => {
       data: {
         description: category
       }
-    },{
+    }, {
+      data: {
+        description: 'tax',
+        total: props.value.tax
+      }
+    }, {
+      data: {
+        description: 'markup',
+        total: props.value.markup
+      }
+    }, {
       data: {
         description: 'total',
         total: total

@@ -32,24 +32,34 @@ const getItemsByTask = (task, items) => (
   items.filter(item => item.parent === task)
 );
 
-const formatItemForTable = (item, unitList) => {
-  let {description, price, quantity, url, unitType} = item;
-  if (unitType) {
-    let unit = unitList[unitType];
-    description = unit.name;
-    price = unit.unitPrice;
-  }
+const formatItemForTable = (item, unitList, categoryMarkup, tax) => {
+  let {quantity, url, unitType} = item;
+  let price = unitType
+    ? Number(unitList[unitType].unitPrice)
+    : Number(item.price);
+  let total = price * Number(quantity);
+  let markup = item.markupPercent
+    ? zeroOrPercent(item.markupPercent)
+    : categoryMarkup;
   return {
     ...item,
-    description,
+    description: unitType
+      ? unitList[unitType].name
+      : item.description,
     quantity: Number(quantity),
-    price: Number(price),
-    total: Number(price * quantity),
+    price,
+    total: price * Number(quantity),
+    tax: total * tax,
+    markup: (total * (tax + 1)) * markup,
     url,
   };
 };
 
-const generateTableData = ({categories, items, units, tasks: { selectedTask }}) => {
+const zeroOrPercent = value => (
+  value ? Number(value / 100) : 0
+);
+
+const generateTableData = ({categories, items, units, tasks: { selectedTask }}, tax) => {
   if (!selectedTask) {
     return [];
   }
@@ -62,7 +72,7 @@ const generateTableData = ({categories, items, units, tasks: { selectedTask }}) 
 
   return categoriesWithItems.map(category => {
     const rows = itemsByCategory[category.url].map(item => (
-      formatItemForTable(item, units.units)
+      formatItemForTable(item, units.units, zeroOrPercent(category.markupPercent), zeroOrPercent(tax))
     ));
     return {
       category: category.name,
@@ -112,7 +122,7 @@ const mapStateToProps = ({api, account, ui, bidData, bids}, ownProps) => ({
   task: ownProps.match.params.task,
   bids: bids.list,
   account,
-  tableData: generateTableData(bidData),
+  tableData: generateTableData(bidData, bids.selectedBid.taxPercent),
   selectedTask: bidData.tasks.selectedTask,
   categories: bidData.categories,
   tasks: getTasks(bidData),

@@ -1,6 +1,19 @@
-// tslint:disable-next-line:no-any
-export const isEmpty = (value: string | any[]) => (
+interface ValueWithLength {
+  length: number;
+}
+
+export const isEmpty = <T extends ValueWithLength>(value: T) => (
   value.length === 0
+);
+
+type Maybe<T> = T | void;
+
+export const isDefined = <T>(value: Maybe<T>): value is T => (
+  value !== undefined && value !== null
+);
+
+export const isUndefined = <T>(value: Maybe<T>): value is void => (
+  value === undefined || value === null
 );
 
 type Nested<T, P extends keyof T> = {

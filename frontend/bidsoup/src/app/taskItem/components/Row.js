@@ -47,7 +47,7 @@ const getCells = ({row, isHeader, keys, sortBy, filter, reverseOrder}) => {
         cellStyle={cellStyle}
         highlight={key.name === filter}
         reverseOrder={reverseOrder}
-        sortBy={sortBy ? () => sortBy(cellValue) : null}
+        sortBy={sortBy ? () => sortBy(row[key.name]) : null}
       />
     );
   });

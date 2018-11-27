@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Table from './Table';
-import CategoryCard from './CategoryCard';
-import HorizontalRule from '../../components/HorizontalRule';
+import CategoryCard from 'src/app/taskItem/components/CategoryCard';
+import HorizontalRule from 'src/app/components/HorizontalRule';
 
 const ItemWrapper = styled.div`
   margin-top: 1em;
@@ -60,7 +60,7 @@ export default class Item extends Component {
     let {tableData} = this.props;
     let categoryCards = tableData.map(item => {
       let total = item.rows.reduce((currentTotal, next) => (
-        currentTotal + next.total
+        currentTotal + next.total + next.tax + next.markup
       ), 0);
       return (
         <CategoryCard

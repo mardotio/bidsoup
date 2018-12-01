@@ -4,6 +4,15 @@ from rest_framework import serializers
 from rest_framework_recursive.fields import RecursiveField
 from rest_framework_nested.relations import NestedHyperlinkedRelatedField, NestedHyperlinkedIdentityField
 
+def get_max_digit_field_value(digit_field):
+    """
+    Helper to retrieve the max value (useful for OPTIONS) from the max_digits
+    and decimal_places attributes of a DigitField
+    """
+    upper_bound = 1 * 10 ** (digit_field.max_digits - digit_field.decimal_places)
+    smallest_value = 1 * 10 ** -digit_field.decimal_places
+    return upper_bound - smallest_value
+
 class AccountSerializer(serializers.HyperlinkedModelSerializer):
 
     bids = NestedHyperlinkedIdentityField(
@@ -82,6 +91,9 @@ class UnitTypeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = UnitType
         fields = ('url', 'name', 'description', 'unit', 'unit_price')
+        extra_kwargs = {
+            'unit_price': {'max_value': get_max_digit_field_value(model._meta.get_field('unit_price'))}
+        }
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

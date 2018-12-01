@@ -52,7 +52,7 @@ const ItemLabel = styled.div`
     font-weight: 600;
   }
   div:last-child {
-    color: ${theme.text.light.hex}
+    color: ${theme.text.light.hex};
     font-size: .9em;
   }
 `;
@@ -74,7 +74,7 @@ const PillButton = styled.div<ButtonProps>`
       ? '.1s'
       : '0'
   )};
-  border: 1px solid ${theme.primary.hex}
+  border: 1px solid ${theme.primary.hex};
   padding: .25em 1em;
   border-radius: 1.5em;
   display: inline-block;

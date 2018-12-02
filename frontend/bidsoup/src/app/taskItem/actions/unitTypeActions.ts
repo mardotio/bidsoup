@@ -12,7 +12,7 @@ interface Unit {
   unitPrice: string;
 }
 
-interface UnitDict {
+export interface UnitDict {
   [url: string]: Unit;
 }
 

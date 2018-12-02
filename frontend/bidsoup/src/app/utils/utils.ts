@@ -6,13 +6,11 @@ export const isEmpty = <T extends ValueWithLength>(value: T) => (
   value.length === 0
 );
 
-type Maybe<T> = T | void;
-
-export const isDefined = <T>(value: Maybe<T>): value is T => (
+export const isDefined = <T>(value: T): value is NonNullable<T> => (
   value !== undefined && value !== null
 );
 
-export const isUndefined = <T>(value: Maybe<T>): value is void => (
+export const isUndefined = <T>(value: T | void): value is void => (
   value === undefined || value === null
 );
 

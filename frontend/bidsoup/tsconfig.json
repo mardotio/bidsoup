@@ -23,8 +23,11 @@
     ],
     "paths": {
         "react": ["node_modules/@types/react"],
-        "redux-thunk": ["src/definitions/redux-thunk"]
-
+        "redux-thunk": ["src/definitions/redux-thunk"],
+        "@app/*":  ["src/app/*"],
+        "@dashboard/*": ["src/app/dashboard/*"],
+        "@taskItem/*": ["src/app/taskItem/*"],
+        "@utils/*": ["src/app/utils/*"],
     }
   },
   "exclude": [

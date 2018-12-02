@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { theme } from '../utils/color';
+import { theme } from '@utils/color';
 
 const HorizontalRule = styled.div`
   height: 1px;

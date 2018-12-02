@@ -1,11 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import Card from '../../components/Card';
-import { CategoryWithItems } from './Dashboard';
-import DonutGraph from '../../components/DonutGraph';
-import { theme } from '../../utils/color';
-import { beautifyNumber } from '../../utils/styling';
-import HorizontalRule from '../../components/HorizontalRule';
+import Card from '@app/components/Card';
+import { CategoryWithItems } from '@dashboard/components/Dashboard';
+import DonutGraph from '@app/components/DonutGraph';
+import { theme } from '@utils/color';
+import { beautifyNumber } from '@utils/styling';
+import HorizontalRule from '@app/components/HorizontalRule';
 
 interface Props {
   categoriesWithItems: {

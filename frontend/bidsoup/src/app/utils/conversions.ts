@@ -1,6 +1,6 @@
-import { BidItem } from '../types/types';
-import { isDefined } from './utils';
-import { UnitDict } from '../taskItem/actions/unitTypeActions';
+import { BidItem } from '@app/types/types';
+import { isDefined } from '@utils/utils';
+import { UnitDict } from '@taskItem/actions/unitTypeActions';
 
 /*
   Mutates the given item to include the following:

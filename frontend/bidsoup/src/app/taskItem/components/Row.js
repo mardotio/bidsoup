@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import Cell from './Cell';
-import { determineFontColor } from '../../utils/styling'
-import { theme } from '../../utils/color';
+import { determineFontColor } from '@utils/styling'
+import { theme } from '@utils/color';
 
 const TableRow = styled.div`
   display: flex;

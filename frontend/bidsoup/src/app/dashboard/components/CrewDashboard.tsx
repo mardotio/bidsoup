@@ -1,11 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { CrewMember } from '../../types/types';
-import { getInitials } from '../../utils/utils';
-import HorizontalRule from '../../components/HorizontalRule';
-import { theme } from '../../utils/color';
-import CircleInitials from '../../components/CircleInitials';
-import GhostButton from '../../components/GhostButton';
+import { CrewMember } from '@app/types/types';
+import { getInitials } from '@utils/utils';
+import HorizontalRule from '@app/components/HorizontalRule';
+import { theme } from '@utils/color';
+import CircleInitials from '@app/components/CircleInitials';
+import GhostButton from '@app/components/GhostButton';
 
 const Container = styled.div`
   padding: 2em 0;

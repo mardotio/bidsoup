@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { beautifyNumber } from '../../utils/styling';
-import { theme } from '../../utils/color';
+import { beautifyNumber } from '@utils/styling';
+import { theme } from '@utils/color';
 
 interface TaskProps {
   clickable: boolean;

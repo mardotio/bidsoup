@@ -1,8 +1,8 @@
-import { ApiState } from '../taskItem/reducers/apiReducer';
-import { UiState } from '../reducers/uiReducer';
-import { BidState } from '../dashboard/reducers/bidReducer';
-import { BidTaskState } from '../taskItem/reducers/bidTasksReducer';
-import { UnitState } from '../taskItem/reducers/unitTypeReducer';
+import { ApiState } from '@taskItem/reducers/apiReducer';
+import { UiState } from '@app/reducers/uiReducer';
+import { BidState } from '@dashboard/reducers/bidReducer';
+import { BidTaskState } from '@taskItem/reducers/bidTasksReducer';
+import { UnitState } from '@taskItem/reducers/unitTypeReducer';
 
 export interface Bid {
   url: string;

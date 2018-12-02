@@ -1,7 +1,7 @@
-import * as tasksActions from './bidTasksActions';
+import * as tasksActions from '@taskItem/actions/bidTasksActions';
 import categoriesActions from './bidCategoriesActions';
 import itemsActions from './bidItemsActions';
-import * as unitActions from './unitTypeActions';
+import * as unitActions from '@taskItem/actions/unitTypeActions';
 
 const fetchBidComponents = () => {
   return (dispatch, getState) => {

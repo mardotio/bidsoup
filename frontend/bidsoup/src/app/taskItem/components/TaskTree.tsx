@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import TaskRow, { ArrowStyle } from '../components/TaskRow';
-import { isEmpty } from '../../utils/utils';
+import TaskRow, { ArrowStyle } from '@taskItem/components/TaskRow';
+import { isEmpty } from '@utils/utils';
 
 /* Sizing constants */
 const INDENT_PX = 20;

@@ -1,4 +1,4 @@
-import { createAction, ActionsUnion } from '../utils/reduxUtils';
+import { createAction, ActionsUnion } from '@utils/reduxUtils';
 
 export const SET_ACCOUNT = 'SET_ACCOUNT';
 export const Actions = {

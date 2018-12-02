@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { BidTask } from '../../types/types';
-import InputField from '../../components/InputField';
-import { DropDownOptions, DropDownItem } from '../../components/InputField';
-import { isEmpty, flatmap } from '../../utils/utils';
-import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
-import { theme } from '../../utils/color';
+import Button from '@material-ui/core/Button';
+import { BidTask } from '@app/types/types';
+import InputField from '@app/components/InputField';
+import { DropDownOptions, DropDownItem } from '@app/components/InputField';
+import { isEmpty, flatmap } from '@utils/utils';
+import { theme } from '@utils/color';
 
 const FormContainer = styled.div`
   margin-left: 20px;

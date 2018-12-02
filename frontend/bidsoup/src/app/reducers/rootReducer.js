@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 import bidComponentsReducer from '../taskItem/reducers/bidComponentsReducer'
 import apiReducer from '../taskItem/reducers/apiReducer';
-import uiReducer from './uiReducer';
-import bidReducer, { customersReducer } from '../dashboard/reducers/bidReducer';
-import { accountReducer } from './accountRedcuer';
+import uiReducer from '@app/reducers/uiReducer';
+import bidReducer, { customersReducer } from '@dashboard/reducers/bidReducer';
+import { accountReducer } from '@app/reducers/accountRedcuer';
 
 const rootReducer = combineReducers({
   api: apiReducer,

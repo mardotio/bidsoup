@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import * as fromActions from '../actions/unitTypeActions';
+import * as fromActions from '@taskItem/actions/unitTypeActions';
 
 export interface UnitState {
   isFetching: boolean;

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { capitalizeAll } from '../utils/styling';
-import { isEmpty } from '../utils/utils';
-import { theme } from '../utils/color';
+import { capitalizeAll } from '@utils/styling';
+import { isEmpty } from '@utils/utils';
+import { theme } from '@utils/color';
 
 // TODO: Change to using em instead of px
 

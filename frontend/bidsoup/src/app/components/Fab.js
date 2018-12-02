@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import { determineFontColor } from '../utils/styling'
-import { theme } from '../utils/color';
+import { determineFontColor } from '@utils/styling'
+import { theme } from '@utils/color';
 
 const defaultSize = '56px';
 const miniSize = '40px';

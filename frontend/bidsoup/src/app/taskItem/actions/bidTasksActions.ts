@@ -1,8 +1,8 @@
 import fetch from 'cross-fetch';
-import { createAction, ActionsUnion } from '../../utils/reduxUtils';
 import { ThunkAction } from 'redux-thunk';
-import { BidTask, AppState } from '../../types/types';
-import { handleHttpErrors, nestedFind } from 'src/app/utils/utils';
+import { createAction, ActionsUnion } from '@utils/reduxUtils';
+import { BidTask, AppState } from '@app/types/types';
+import { handleHttpErrors, nestedFind } from '@utils/utils';
 
 export const CLEAR_SELECTED_TASK = 'CLEAR_SELECTED_TASK';
 export const REQUEST_BID_TASKS = 'REQUEST_BID_TASKS';

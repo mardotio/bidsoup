@@ -1,7 +1,7 @@
 import fetch from 'cross-fetch';
-import { createAction, ActionsUnion } from '../../utils/reduxUtils';
 import { ThunkAction } from 'redux-thunk';
-import { AppState } from '../../types/types';
+import { createAction, ActionsUnion } from '@utils/reduxUtils';
+import { AppState } from '@app/types/types';
 
 // Set up all the types we expect from the API.
 const unittypes = 'unittypes';

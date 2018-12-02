@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import BidCard from './BidCard';
-import { Bid } from '../../types/types';
-import { theme } from '../../utils/color';
+import BidCard from '@dashboard/components/BidCard';
+import { Bid } from '@app/types/types';
+import { theme } from '@utils/color';
 
 const Container = styled.div`
   width: 15%;

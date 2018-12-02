@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
-import * as fromActions from '../actions/bidTasksActions';
-import { BidTask } from '../../types/types';
+import * as fromActions from '@taskItem/actions/bidTasksActions';
+import { BidTask } from '@app/types/types';
 
 export interface BidTaskState {
   isFetching: boolean;

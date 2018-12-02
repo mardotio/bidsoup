@@ -1,8 +1,8 @@
 import fetch from 'cross-fetch';
-import { createAction, ActionsUnion } from '../../utils/reduxUtils';
 import { ThunkAction } from 'redux-thunk';
 import { Decoder, object, string } from '@mojotech/json-type-validation';
-import { AppState } from '../../types/types';
+import { createAction, ActionsUnion } from '@utils/reduxUtils';
+import { AppState } from '@app/types/types';
 
 interface Unit {
   url: string;

@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import Modal from '../../components/Modal';
-import TaskTree from '../components/TaskTree';
-import Card from '../../components/Card';
-import NewTaskForm from './NewTaskForm';
+import Modal from '@app/components/Modal';
+import TaskTree from '@taskItem/components/TaskTree';
+import Card from '@app/components/Card';
+import NewTaskForm from '@taskItem/components/NewTaskForm';
 import Fab from '../../components/Fab';
 import Item from './Item';
-import { theme } from '../../utils/color';
+import { theme } from '@utils/color';
 
 const ViewConatiner = styled.div`
   display: flex;

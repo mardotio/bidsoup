@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
-import * as fromActions from '../actions/bidActions';
-import { Bid, Customer } from '../../types/types';
+import * as fromActions from '@dashboard/actions/bidActions';
+import { Bid, Customer } from '@app/types/types';
 
 export interface BidState {
   list: Bid[];

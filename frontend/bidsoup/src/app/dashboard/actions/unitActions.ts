@@ -1,7 +1,7 @@
-import { Unit, AppState } from '../../types/types';
 import { ThunkAction } from 'redux-thunk';
-import { Actions, fetchUnitTypes } from '../../taskItem/actions/unitTypeActions';
-import { handleHttpErrors } from 'src/app/utils/utils';
+import { Unit, AppState } from '@app/types/types';
+import { Actions, fetchUnitTypes } from '@taskItem/actions/unitTypeActions';
+import { handleHttpErrors } from '@utils/utils';
 
 export const createUnitType = (unit: Partial<Unit>):
   ThunkAction<Promise<void>, AppState, never, Actions> => {

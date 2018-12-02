@@ -1,7 +1,7 @@
-import { createAction, ActionsUnion } from '../../utils/reduxUtils';
-import { Bid, Customer, AppState } from '../../types/types';
-import componentsActions from '../../taskItem/actions/bidComponentsActions';
 import { ThunkAction } from 'redux-thunk';
+import { createAction, ActionsUnion } from '@utils/reduxUtils';
+import { Bid, Customer, AppState } from '@app/types/types';
+import componentsActions from '../../taskItem/actions/bidComponentsActions';
 import { Decoder, constant, union, object, string, array, number } from '@mojotech/json-type-validation';
 
 const bidListDecoder: Decoder<Bid[]> = array(object({

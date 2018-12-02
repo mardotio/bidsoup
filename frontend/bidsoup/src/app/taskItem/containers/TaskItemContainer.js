@@ -8,6 +8,7 @@ import { Actions as bidActions, setAndFetchBidByKey, fetchBidListByAccount } fro
 import componentsActions from '../actions/bidComponentsActions';
 import { isEmpty, nestedFind, isDefined, isUndefined } from '../../utils/utils';
 import { array2HashByKey } from '../../utils/sorting';
+import { normalizeItem } from 'src/app/utils/conversions';
 
 const columns = [
   {
@@ -85,9 +86,9 @@ const getTasks = (tasks, itemsByTask) => (
 );
 
 const standardizeItems = (items, categories, units, tax) => {
-  if (isEmpty(items.length) || isEmpty(categories.length)) {
+  if (isEmpty(items) || isEmpty(categories)) {
     return items;
-  }
+  };
   const itemsByCategory = array2HashByKey(items, 'category');
   const taxPercent = zeroOrPercent(tax);
   return categories.reduce((allItems, category) => {
@@ -95,27 +96,9 @@ const standardizeItems = (items, categories, units, tax) => {
     if (isUndefined(itemsByCategory[category.url])) {
       return allItems;
     }
-    let catItems = itemsByCategory[category.url].map(item => {
-      let price = isDefined(item.unitType)
-        ? Number(units[item.unitType].unitPrice)
-        : Number(item.price);
-      let markup = isDefined(item.markupPercent)
-        ? zeroOrPercent(item.markupPercent)
-        : categoryMarkup;
-      let quantity = Number(item.quantity);
-      let total = price * quantity;
-      return {
-        ...item,
-        quantity,
-        price,
-        total,
-        tax: total * taxPercent,
-        markup: (total * (taxPercent + 1)) * markup,
-        description: item.unitType
-          ? units[item.unitType].name
-          : item.description
-      }
-    });
+    let catItems = itemsByCategory[category.url].map(item =>
+      normalizeItem(item, units, categoryMarkup, taxPercent
+    ));
     return [...allItems, ...catItems];
   }, [])
 }

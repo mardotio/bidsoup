@@ -5,26 +5,16 @@ import { Actions as AccountActions } from '../../actions/accountActions';
 import { createUnitType } from '../actions/unitActions';
 import { array2HashByKey } from '../../utils/sorting';
 import { fetchApi, Actions } from '../../taskItem/actions/apiActions';
+import { normalizeItem } from 'src/app/utils/conversions';
 
 const zeroOrPercent = value => (
   value ? Number(value / 100) : 0
 );
 
 const itemsWithTotal = (items, units, categoryMarkup, tax) => (
-  items.map(item => {
-    let markup = item.markupPercent
-      ? zeroOrPercent(item.markupPercent)
-      : zeroOrPercent(categoryMarkup);
-    let taxPercent = zeroOrPercent(tax);
-    let price = item.unitType
-      ? Number(units[item.unitType].unitPrice)
-      : Number(item.price);
-    let total = price * Number(item.quantity);
-    return {
-      ...item,
-      total: (total * (1 + taxPercent)) * (1 + markup)
-    };
-  })
+  items.map(item => (
+    normalizeItem(item, units, zeroOrPercent(categoryMarkup), zeroOrPercent(tax))
+  ))
 );
 
 const itemsByCategory = (items, categories, units, tax) => {

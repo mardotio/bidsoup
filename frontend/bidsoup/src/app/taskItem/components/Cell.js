@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { capitalize, beautifyNumber } from '../../utils/styling'
+import { isDefined } from '../../utils/utils';
 
 const TableCell = styled.div`
   box-sizing: border-box;
@@ -39,10 +40,9 @@ const ArrowIcon= styled.i`
 `
 
 const styleCell = ({value, cellStyle, highlight, reverseOrder}) => {
-  let contents;
   switch (cellStyle) {
     case 'header':
-      contents = highlight
+      return highlight
         ? (
           <React.Fragment>
             {value.toUpperCase()}
@@ -55,33 +55,25 @@ const styleCell = ({value, cellStyle, highlight, reverseOrder}) => {
           </React.Fragment>
         )
         : value.toUpperCase();
-      break;
     case 'currency':
-      contents = (
+      return (
         <React.Fragment>
           $<CurrencySpan>{beautifyNumber(value, 2)}</CurrencySpan>
         </React.Fragment>
       );
-      break;
     case 'number':
-      contents = beautifyNumber(value, 2);
-      break;
+      return beautifyNumber(value, 2);
     case 'text':
-      contents = capitalize(value);
-      break;
+      return capitalize(value);
     default:
-      contents = value;
+      return value;
   }
-  return contents;
 };
 
 const Cell = props => {
-  let contents = props.value;
-
-  if (contents) {
-    contents = styleCell(props);
-  }
-
+  let contents = isDefined(props.value)
+    ? styleCell(props)
+    : props.value;
   return (
     <TableCell
       category={props.category}

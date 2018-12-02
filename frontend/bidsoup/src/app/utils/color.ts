@@ -7,7 +7,6 @@ export interface RgbColor {
 }
 
 export class Color {
-  private color: string[];
 
   static shade = (percent: number) => (
     new Color(`#${Math.round((100 - percent) * 255 / 100).toString(16).repeat(3)}`)
@@ -62,6 +61,8 @@ export class Color {
   lighten = (percent: number) => (this.adjustColor(percent));
 
   darken = (percent: number) => (this.adjustColor(-1 * percent));
+
+  private color: string[];
 
   private hex2Dec = (hex: string) => (Number(parseInt(hex, 16).toString(10)));
 

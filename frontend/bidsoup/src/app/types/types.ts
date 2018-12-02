@@ -71,12 +71,12 @@ export interface BidItem {
   url: string;
   bid: string;
   unitType: string | null;
-  price: string | null;
+  price: string | number | null;
   description: string;
   notes: string;
   category: string;
   markupPercent: string;
-  quantity: string;
+  quantity: string | number;
   parent: string;
 }
 

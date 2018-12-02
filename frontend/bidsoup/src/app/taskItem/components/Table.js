@@ -71,9 +71,13 @@ export default class Table extends Component {
 
   render() {
     let categoryTotal = 0;
+    let categoryTax = 0;
+    let categoryMarkup = 0;
     let sortedRows = this.dataSort();
     let rows = sortedRows.map(row => {
-      categoryTotal += row.total;
+      categoryTotal += row.total + row.tax + row.markup;
+      categoryTax += row.tax;
+      categoryMarkup += row.markup;
       return (
         <Row
           key={this.props.rows.indexOf(row)}
@@ -83,7 +87,9 @@ export default class Table extends Component {
     });
     let categoryData = {
       category: this.props.category,
-      total: categoryTotal
+      total: categoryTotal,
+      tax: categoryTax,
+      markup: categoryMarkup
     }
 
     return (

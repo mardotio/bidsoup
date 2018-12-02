@@ -6,8 +6,9 @@ import { Actions as accountActions } from '../../actions/accountActions';
 import { Actions as uiActions } from '../../actions/uiActions';
 import { Actions as bidActions, setAndFetchBidByKey, fetchBidListByAccount } from '../../dashboard/actions/bidActions'
 import componentsActions from '../actions/bidComponentsActions';
-import { isEmpty, nestedFind } from '../../utils/utils';
+import { isEmpty, nestedFind, isDefined, isUndefined } from '../../utils/utils';
 import { array2HashByKey } from '../../utils/sorting';
+import { normalizeItem } from 'src/app/utils/conversions';
 
 const columns = [
   {
@@ -28,59 +29,46 @@ const columns = [
   },
 ];
 
-const getItemsByTask = (task, items) => (
-  items.filter(item => item.parent === task)
+// Returns values as percent if defined, otherwise returns 0
+const zeroOrPercent = value => (
+  isDefined(value) ? Number(value / 100) : 0
 );
 
-const formatItemForTable = (item, unitList) => {
-  let {description, price, quantity, url, unitType} = item;
-  if (unitType) {
-    let unit = unitList[unitType];
-    description = unit.name;
-    price = unit.unitPrice;
-  }
-  return {
-    ...item,
-    description,
-    quantity: Number(quantity),
-    price: Number(price),
-    total: Number(price * quantity),
-    url,
-  };
-};
-
-const generateTableData = ({categories, items, units, tasks: { selectedTask }}) => {
-  if (!selectedTask) {
+const generateTableData = (categories, selectedTask, itemsByTask) => {
+  if (isUndefined(selectedTask) || isUndefined(itemsByTask[selectedTask.url])) {
     return [];
   }
-  const itemList = getItemsByTask(selectedTask.url, items.list);
-  const itemsByCategory = array2HashByKey(itemList, 'category');
-
-  const categoriesWithItems = categories.list.filter(category => (
-    itemsByCategory[category.url]
+  const itemsByCategory = array2HashByKey(itemsByTask[selectedTask.url], 'category');
+  const categoriesWithItems = categories.filter(category => (
+    isDefined(itemsByCategory[category.url])
   ));
-
   return categoriesWithItems.map(category => {
-    const rows = itemsByCategory[category.url].map(item => (
-      formatItemForTable(item, units.units)
-    ));
     return {
       category: category.name,
       categoryUrl: category.url,
       categoryDescription: category.description,
       color: `#${category.color}`,
       columns,
-      rows,
+      rows: itemsByCategory[category.url],
     };
   });
 };
 
 const buildTask = (task, items) => {
-  const sumCost = items
-    .filter(i => i.parent == task.url)
-    .reduce((total, item) => (total += item.total), 0);
+  const sumCost = isDefined(items[task.url])
+    ? items[task.url].reduce((total, item) => (
+        total + item.total + item.tax + item.markup
+      ), 0)
+    : 0;
 
-  if (!isEmpty(task.children)) {
+  if (isEmpty(task.children)) {
+    // No children. Just return task cost.
+    return {
+      ...task,
+      containedCost: 0,
+      cost: sumCost,
+    };
+  } else {
     // Get cost from children and update object
     const children = task.children.map(t => buildTask(t, items));
     const cost = children.reduce((total, child) => total + child.cost, 0);
@@ -90,34 +78,53 @@ const buildTask = (task, items) => {
       containedCost: cost,
       cost: sumCost
     };
-  } else {
-    // No children. Just return task cost.
-    return {
-      ...task,
-      containedCost: 0,
-      cost: sumCost,
-    };
   }
 };
 
-const getTasks = ({tasks, items, units}) => {
-  const formattedItems = items.list.map(item => formatItemForTable(item, units.units));
-  return tasks.list.map(t => buildTask(t, formattedItems));
-};
+const getTasks = (tasks, itemsByTask) => (
+  tasks.list.map(t => buildTask(t, itemsByTask))
+);
 
-const mapStateToProps = ({api, account, ui, bidData, bids}, ownProps) => ({
-  endpoints: api.endpoints,
-  ui: ui,
-  selectedBid: ownProps.match.params.bid,
-  task: ownProps.match.params.task,
-  bids: bids.list,
-  account,
-  tableData: generateTableData(bidData),
-  selectedTask: bidData.tasks.selectedTask,
-  categories: bidData.categories,
-  tasks: getTasks(bidData),
-  units: bidData.units
-});
+const standardizeItems = (items, categories, units, tax) => {
+  if (isEmpty(items) || isEmpty(categories)) {
+    return items;
+  };
+  const itemsByCategory = array2HashByKey(items, 'category');
+  const taxPercent = zeroOrPercent(tax);
+  return categories.reduce((allItems, category) => {
+    let categoryMarkup = zeroOrPercent(category.markupPercent);
+    if (isUndefined(itemsByCategory[category.url])) {
+      return allItems;
+    }
+    let catItems = itemsByCategory[category.url].map(item =>
+      normalizeItem(item, units, categoryMarkup, taxPercent
+    ));
+    return [...allItems, ...catItems];
+  }, [])
+}
+
+const mapStateToProps = ({api, account, ui, bidData, bids}, ownProps) => {
+  const itemsWithTotal = standardizeItems(
+    bidData.items.list,
+    bidData.categories.list,
+    bidData.units.units,
+    bids.selectedBid.taxPercent
+  );
+  const itemsByTask = array2HashByKey(itemsWithTotal, 'parent');
+  return {
+    endpoints: api.endpoints,
+    ui: ui,
+    selectedBid: ownProps.match.params.bid,
+    task: ownProps.match.params.task,
+    bids: bids.list,
+    account,
+    tableData: generateTableData(bidData.categories.list, bidData.tasks.selectedTask, itemsByTask),
+    selectedTask: bidData.tasks.selectedTask,
+    categories: bidData.categories,
+    tasks: getTasks(bidData.tasks, itemsByTask),
+    units: bidData.units
+  }
+};
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {

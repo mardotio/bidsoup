@@ -38,22 +38,16 @@ const getCells = ({row, isHeader, keys, sortBy, filter, reverseOrder}) => {
   let contents = keys.map(key => {
     let cellStyle = isHeader
       ? 'header'
-      : key.style
-    let cellValue;
-    if (row.hasOwnProperty(key.name)) {
-      cellValue = row[key.name]
-    } else {
-      cellValue = null;
-    }
+      : key.style;
     return (
       <Cell
         key={key.name}
         category={key.name}
-        value={cellValue}
+        value={row[key.name]}
         cellStyle={cellStyle}
         highlight={key.name === filter}
         reverseOrder={reverseOrder}
-        sortBy={sortBy ? () => sortBy(cellValue) : null}
+        sortBy={sortBy ? () => sortBy(row[key.name]) : null}
       />
     );
   });

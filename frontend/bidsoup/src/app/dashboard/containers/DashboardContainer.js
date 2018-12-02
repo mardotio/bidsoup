@@ -5,18 +5,28 @@ import { Actions as AccountActions } from '../../actions/accountActions';
 import { createUnitType } from '../actions/unitActions';
 import { array2HashByKey } from '../../utils/sorting';
 import { fetchApi, Actions } from '../../taskItem/actions/apiActions';
+import { normalizeItem } from 'src/app/utils/conversions';
 
-const itemsByCategory = (items, categories) => {
+const zeroOrPercent = value => (
+  value ? Number(value / 100) : 0
+);
+
+const itemsWithTotal = (items, units, categoryMarkup, tax) => (
+  items.map(item => (
+    normalizeItem(item, units, zeroOrPercent(categoryMarkup), zeroOrPercent(tax))
+  ))
+);
+
+const itemsByCategory = (items, categories, units, tax) => {
   let sortedItems = array2HashByKey(items, 'category');
   return Object.keys(sortedItems).reduce((all, category) => {
     let cat = categories.find(el => el.url === category);
-    let catWithItems = {
-      ...cat,
-      items: sortedItems[category]
-    }
     return {
       ...all,
-      [category]: catWithItems
+      [category]: {
+        ...cat,
+        items: itemsWithTotal(sortedItems[category], units, cat.markupPercent, tax)
+      }
     }
   }, {});
 };
@@ -27,27 +37,6 @@ const bidWithCustomer = (bid, customers) => {
     ...bid,
     customer: customer ? customer.name : '--'
   };
-};
-
-const itemsWithTotal = (items, units) => (
-  items.map(item => {
-    let total = 0;
-    if (item.price) {
-      total = Number(item.price) * Number(item.quantity);
-    } else {
-      let unitPrice = Number(units[item.unitType].unitPrice);
-      total = unitPrice * Number(item.quantity);
-    }
-    return {
-      ...item,
-      total
-    };
-  })
-);
-
-const anythingFetching = state => {
-  let {tasks, categories, items, units} = state.bidData;
-  return state.bids.isFetching || tasks.isFetching || categories.isFetching || items.isFetching || units.isFetching;
 };
 
 const unitsArray = units => (
@@ -61,8 +50,10 @@ const mapStateToProps = (state, ownProps) => ({
   bids: state.bids.list,
   selectedBid: bidWithCustomer(state.bids.selectedBid, state.customers.list),
   categoriesWithItems: itemsByCategory(
-    itemsWithTotal(state.bidData.items.list, state.bidData.units.units),
-    state.bidData.categories.list
+    state.bidData.items.list,
+    state.bidData.categories.list,
+    state.bidData.units.units,
+    state.bids.selectedBid.taxPercent
   ),
   customers: state.customers.list,
   bid: ownProps.match.params.bid,

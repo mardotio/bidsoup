@@ -20,7 +20,7 @@ const MyInputField = styled(InputField)`
 const SubmitButton = styled(Button)`
   float: right;
   margin-right: 20px;
-`;
+` as typeof Button;
 
 const name = 'name';
 const desc = 'desc';

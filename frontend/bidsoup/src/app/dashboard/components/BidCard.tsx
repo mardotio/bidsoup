@@ -4,7 +4,7 @@ import Card from '@app/components/Card';
 import { theme } from '@utils/color';
 import Link from '@app/components/Link';
 
-const CardContainer = Card.extend`
+const CardContainer = styled(Card)`
   margin: 1em;
   padding: 1em;
   overflow: hidden;

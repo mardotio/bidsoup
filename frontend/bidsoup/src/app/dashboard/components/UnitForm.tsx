@@ -1,11 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import InputField, { DropDownItem } from '../../components/InputField';
-import GhostButton from '../../components/GhostButton';
-import { theme } from '../../utils/color';
-import { beautifyNumber } from '../../utils/styling';
-import { isNumber } from 'src/app/utils/utils';
-import { Unit } from '../../types/types';
+import InputField, { DropDownItem } from '@app/components/InputField';
+import GhostButton from '@app/components/GhostButton';
+import { theme } from '@utils/color';
+import { beautifyNumber } from '@utils/styling';
+import { isNumber } from '@utils/utils';
+import { Unit } from '@app/types/types';
 
 interface WrapperProps {
   position?: string;

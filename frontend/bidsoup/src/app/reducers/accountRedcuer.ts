@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import * as fromActions from '../actions/accountActions';
+import * as fromActions from '@app/actions/accountActions';
 
 export const accountReducer: Reducer<string | null> = (state = null, action: fromActions.Actions) => {
   switch (action.type) {

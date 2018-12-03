@@ -1,12 +1,12 @@
 import * as React from 'react';
 import styled, { keyframes } from 'styled-components';
-import { Unit } from '../../types/types';
-import HorizontalRule from '../../components/HorizontalRule';
-import { theme } from '../../utils/color';
-import { beautifyNumber } from '../../utils/styling';
-import UnitForm from './UnitForm';
-import GhostButton from '../../components/GhostButton';
-import { Actions } from '../../taskItem/actions/unitTypeActions';
+import { Unit } from '@app/types/types';
+import HorizontalRule from '@app/components/HorizontalRule';
+import { theme } from '@utils/color';
+import { beautifyNumber } from '@utils/styling';
+import UnitForm from '@dashboard/components/UnitForm';
+import GhostButton from '@app/components/GhostButton';
+import { Actions } from '@taskItem/actions/unitTypeActions';
 
 interface Props {
   units: Unit[];

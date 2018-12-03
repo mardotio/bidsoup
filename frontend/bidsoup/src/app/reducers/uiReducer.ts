@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import * as fromActions from '../actions/uiActions';
+import * as fromActions from '@app/actions/uiActions';
 
 export interface UiState {
   modalShowing: boolean;

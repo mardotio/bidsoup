@@ -1,4 +1,4 @@
-import { Color } from './color';
+import { Color } from '@utils/color';
 
 export const hex2Rgb = (hex: string) => {
   let colorSections = /([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);

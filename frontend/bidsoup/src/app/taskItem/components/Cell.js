@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { capitalize, beautifyNumber } from '../../utils/styling'
-import { isDefined } from '../../utils/utils';
+import { capitalize, beautifyNumber } from '@utils/styling'
+import { isDefined } from '@utils/utils';
 
 const TableCell = styled.div`
   box-sizing: border-box;

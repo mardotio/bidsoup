@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import Card from '../../components/Card';
-import { theme } from '../../utils/color';
-import Link from '../../components/Link';
+import Card from '@app/components/Card';
+import { theme } from '@utils/color';
+import Link from '@app/components/Link';
 
 const CardContainer = Card.extend`
   margin: 1em;

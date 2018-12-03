@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
 import TaskItem from '../components/TaskItem';
-import { fetchApi } from '../actions/apiActions';
-import { Actions as tasksActions, createBidTask, selectBidTaskByUuid } from '../actions/bidTasksActions';
-import { Actions as accountActions } from '../../actions/accountActions';
-import { Actions as uiActions } from '../../actions/uiActions';
-import { Actions as bidActions, setAndFetchBidByKey, fetchBidListByAccount } from '../../dashboard/actions/bidActions'
+import { fetchApi } from '@taskItem/actions/apiActions';
+import { Actions as tasksActions, createBidTask, selectBidTaskByUuid } from '@taskItem/actions/bidTasksActions';
+import { Actions as accountActions } from '@app/actions/accountActions';
+import { Actions as uiActions } from '@app/actions/uiActions';
+import { Actions as bidActions, setAndFetchBidByKey, fetchBidListByAccount } from '@dashboard/actions/bidActions'
 import componentsActions from '../actions/bidComponentsActions';
-import { isEmpty, nestedFind, isDefined, isUndefined } from '../../utils/utils';
-import { array2HashByKey } from '../../utils/sorting';
-import { normalizeItem } from 'src/app/utils/conversions';
+import { isEmpty, nestedFind, isDefined, isUndefined } from '@utils/utils';
+import { array2HashByKey } from '@utils/sorting';
+import { normalizeItem } from '@utils/conversions';
 
 const columns = [
   {

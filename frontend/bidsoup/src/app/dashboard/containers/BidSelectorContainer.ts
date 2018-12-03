@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import BidSelector from '../components/BidSelector';
-import { AppState, Bid, Customer } from '../../types/types';
+import BidSelector from '@dashboard/components/BidSelector';
+import { AppState, Bid, Customer } from '@app/types/types';
 
 const bidsWithCustomer = (bids: Bid[], customers: Customer[]) => (
   bids.map(bid => {

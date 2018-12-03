@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Table from './Table';
-import CategoryCard from 'src/app/taskItem/components/CategoryCard';
-import HorizontalRule from 'src/app/components/HorizontalRule';
+import CategoryCard from '@taskItem/components/CategoryCard';
+import HorizontalRule from '@app/components/HorizontalRule';
 
 const ItemWrapper = styled.div`
   margin-top: 1em;

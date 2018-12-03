@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { theme, Color } from '../utils/color';
+import { theme, Color } from '@utils/color';
 
 interface Props {
   color?: string;

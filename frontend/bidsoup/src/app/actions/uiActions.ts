@@ -1,4 +1,4 @@
-import { createAction, ActionsUnion } from '../utils/reduxUtils';
+import { createAction, ActionsUnion } from '@utils/reduxUtils';
 
 export const SHOW_MODAL = 'SHOW_MODAL';
 export const HIDE_MODAL = 'HIDE_MODAL';

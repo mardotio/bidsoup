@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import bidReducer from '../../dashboard/reducers/bidReducer';
+import bidReducer from '@dashboard/reducers/bidReducer';
 import bidItemsReducer from './bidItemsReducer';
 import bidCategoriesReducer from './bidCategoriesReducer';
-import bidTasksReducer from './bidTasksReducer';
-import unitTypeReducer from './unitTypeReducer';
+import bidTasksReducer from '@taskItem/reducers/bidTasksReducer';
+import unitTypeReducer from '@taskItem/reducers/unitTypeReducer';
 
 const bidComponentsReducer = combineReducers({
   tasks: bidTasksReducer,

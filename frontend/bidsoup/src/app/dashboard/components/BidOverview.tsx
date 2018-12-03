@@ -1,12 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Bid, Unit } from '../../types/types';
-import OverviewHeader from './OverviewHeader';
-import { CategoryWithItems } from './Dashboard';
-import CategoryDashboard from './CategoryDashboard';
-import CrewDashboard from './CrewDashboard';
-import UnitDashboard from './UnitDashboard';
-import { Actions } from '../../taskItem/actions/unitTypeActions';
+import { Bid, Unit } from '@app/types/types';
+import OverviewHeader from '@dashboard/components/OverviewHeader';
+import { CategoryWithItems } from '@dashboard/components/Dashboard';
+import CategoryDashboard from '@dashboard/components/CategoryDashboard';
+import CrewDashboard from '@dashboard/components/CrewDashboard';
+import UnitDashboard from '@dashboard/components/UnitDashboard';
+import { Actions } from '@taskItem/actions/unitTypeActions';
 
 const BidTitle = styled.div`
   font-size: 150%;

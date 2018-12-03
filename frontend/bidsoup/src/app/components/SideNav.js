@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Route } from "react-router-dom";
-import Link from './Link';
-import { theme } from '../utils/color';
+import { Route } from 'react-router-dom';
+import Link from '@app/components/Link';
+import { theme } from '@utils/color';
 
 const NavContainer = styled.div`
   display: flex;

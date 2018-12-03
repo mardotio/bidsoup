@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { beautifyNumber, capitalize } from 'src/app/utils/styling';
-import { theme } from 'src/app/utils/color';
-import CircleInitials from 'src/app/components/CircleInitials';
-import { getInitials } from 'src/app/utils/utils';
+import { beautifyNumber, capitalize } from '@utils/styling';
+import { theme } from '@utils/color';
+import CircleInitials from '@app/components/CircleInitials';
+import { getInitials } from '@utils/utils';
 
 const CardContent = styled.div`
   padding: .1em 1em;

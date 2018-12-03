@@ -1,11 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import BidOverview from './BidOverview';
-import BidSelectorContainer from '../containers/BidSelectorContainer';
-import { Bid, BidItem, Unit, Customer } from '../../types/types';
-import { Actions } from '../actions/bidActions';
-import { Actions as UnitActions } from '../../taskItem/actions/unitTypeActions';
-import { theme } from '../../utils/color';
+import BidOverview from '@dashboard/components/BidOverview';
+import BidSelectorContainer from '@dashboard/containers/BidSelectorContainer';
+import { Bid, BidItem, Unit, Customer } from '@app/types/types';
+import { Actions } from '@dashboard/actions/bidActions';
+import { Actions as UnitActions } from '@taskItem/actions/unitTypeActions';
+import { theme } from '@utils/color';
 
 const Container = styled.div`
   display: flex;

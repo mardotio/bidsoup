@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Bid } from '../../types/types';
-import { theme } from '../../utils/color';
-import { beautifyNumber } from '../../utils/styling';
+import { Bid } from '@app/types/types';
+import { theme } from '@utils/color';
+import { beautifyNumber } from '@utils/styling';
 
 const Container = styled.div`
   width: 100%;

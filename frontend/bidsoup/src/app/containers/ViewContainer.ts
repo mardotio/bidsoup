@@ -1,6 +1,6 @@
  import { connect } from 'react-redux';
  import View from '../components/View';
- import { AppState } from '../types/types';
+ import { AppState } from '@app/types/types';
 
  const mapStateToProps = (state: AppState) => ({
    bid: state.bids.selectedBid.key,

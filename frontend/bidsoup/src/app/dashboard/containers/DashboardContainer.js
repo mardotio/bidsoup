@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-import Dashboard from '../components/Dashboard';
-import { Actions as BidActions, fetchCustomerList, setAndFetchBidByKey, fetchBidListByAccount } from '../actions/bidActions';
-import { Actions as AccountActions } from '../../actions/accountActions';
-import { createUnitType } from '../actions/unitActions';
-import { array2HashByKey } from '../../utils/sorting';
-import { fetchApi, Actions } from '../../taskItem/actions/apiActions';
-import { normalizeItem } from 'src/app/utils/conversions';
+import Dashboard from '@dashboard/components/Dashboard';
+import { Actions as BidActions, fetchCustomerList, setAndFetchBidByKey, fetchBidListByAccount } from '@dashboard/actions/bidActions';
+import { Actions as AccountActions } from '@app/actions/accountActions';
+import { createUnitType } from '@dashboard/actions/unitActions';
+import { array2HashByKey } from '@utils/sorting';
+import { fetchApi, Actions } from '@taskItem/actions/apiActions';
+import { normalizeItem } from '@utils/conversions';
 
 const zeroOrPercent = value => (
   value ? Number(value / 100) : 0

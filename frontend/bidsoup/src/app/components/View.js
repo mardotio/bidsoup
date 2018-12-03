@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
-import SideNav from './SideNav';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
+import SideNav from '../components/SideNav';
 import DashboardContainer from '../dashboard/containers/DashboardContainer';
 import TaskItemContainer from '../taskItem/containers/TaskItemContainer';
 import { theme } from '../utils/color';

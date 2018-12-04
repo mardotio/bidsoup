@@ -1,13 +1,16 @@
 import * as React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
-const circleFillKeyframes = (percent: number) => (
-  keyframes`
+const circleAnimation = (percent: number) => {
+  const frames = keyframes`
     100% {
       stroke-dashoffset: ${percent};
     }
-  `
-);
+  `;
+  return css`
+    ${frames} 1s ease-out forwards;
+  `;
+};
 
 interface CircleProps {
   circumference: number;
@@ -18,7 +21,7 @@ const Circle = styled.circle<CircleProps>`
   stroke-dasharray: ${({circumference}) => circumference};
   stroke-dashoffset: ${({circumference}) => circumference};
   stroke-linecap: round;
-  animation: ${({percent}) => `${circleFillKeyframes(percent)} 1s ease-out forwards`};
+  animation: ${({percent}) => circleAnimation(percent)};
 `;
 
 const SvgContainer = styled.svg`

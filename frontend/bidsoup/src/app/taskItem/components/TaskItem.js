@@ -17,7 +17,7 @@ const ViewConatiner = styled.div`
   overflow: hidden;
 `;
 
-const TaskContent = Card.extend`
+const TaskContent = styled(Card)`
   min-width: 600px;
   overflow: scroll;
   ::-webkit-scrollbar {
@@ -28,7 +28,7 @@ const TaskContent = Card.extend`
   }
 `;
 
-const ItemContent = Card.extend`
+const ItemContent = styled(Card)`
   display: flex;
   justify-content: center;
   overflow: hidden;

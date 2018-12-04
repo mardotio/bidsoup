@@ -27,7 +27,7 @@ interface ButtonProps {
   selected: boolean;
 }
 
-const Container = Card.extend`
+const Container = styled(Card)`
   padding: 1em;
   margin: 1em 0;
   display: inline-block;

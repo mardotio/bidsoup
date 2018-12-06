@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Table from './Table';
 import CategoryCard from '@taskItem/components/CategoryCard';
 import HorizontalRule from '@app/components/HorizontalRule';
-import CategoryOverview from '@taskItem/components/CategoryOverview';
+import PriceBreakdown from '@app/taskItem/components/PriceBreakdown';
 import CategoryChip from './CategoryChip';
 import { theme } from '@utils/color';
 import { isEmpty, isDefined } from '@utils/utils';
@@ -168,7 +168,7 @@ export default class Item extends Component {
         </TaskDescriptionContainer>
         <HorizontalRule />
         {this.categoryFilters()}
-        <CategoryOverview
+        <PriceBreakdown
           {...this.itemPriceBreakdown()}
         />
         <TableContainer>

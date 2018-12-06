@@ -21,7 +21,7 @@ interface Props {
   total: number;
 }
 
-const CategoryOverview = (props: Props) => {
+const PriceBreakdown = (props: Props) => {
   return (
     <Container>
       <OverviewItem>
@@ -40,4 +40,4 @@ const CategoryOverview = (props: Props) => {
   );
 };
 
-export default CategoryOverview;
+export default PriceBreakdown;

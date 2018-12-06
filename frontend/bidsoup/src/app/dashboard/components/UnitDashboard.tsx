@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { Unit } from '@app/types/types';
 import HorizontalRule from '@app/components/HorizontalRule';
 import { theme } from '@utils/color';
@@ -26,20 +26,23 @@ const Container = styled.div`
   padding: 2em 0 1em 0;
 `;
 
-const OverflowKeyframes = keyframes`
-  from { overflow: hidden; }
-`;
+const overflowAnimation = () => {
+  let frames = keyframes`
+    from { overflow: hidden; }
+  `;
+  return css`
+    animation: .8s ${frames} ease;
+  `;
+};
 
 const FormContainer = styled.div<FormContainerProps>`
   max-height: ${props => props.shouldDisplay ? '9.5em' : '0'};
   transition: max-height .8s ease;
-  ${ props => {
-      if (props.shouldDisplay) {
-        return `animation: .8s ease ${OverflowKeyframes}`;
-      }
-      return 'overflow: hidden';
-    }
-  }
+  ${ props => (
+    props.shouldDisplay
+      ? overflowAnimation
+      : 'overflow: hidden'
+  )};
 `;
 
 const Header = styled.div`

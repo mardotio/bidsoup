@@ -1,19 +1,24 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { determineFontColor } from '@utils/styling'
 import { theme } from '@utils/color';
 
 const defaultSize = '56px';
 const miniSize = '40px';
 
-const expandIn = keyframes`
-  0%{transform: scale(0)}
-  100%{transform: scale(1)}
-`;
+const expandIn = () => {
+  let frames = keyframes`
+    0%{transform: scale(0)}
+    100%{transform: scale(1)}
+  `;
+  return  css`
+    .28s ${frames} ease-in;
+  `;
+}
 
 const ButtonContainer = styled.div`
   align-items: center;
-  animation: ${expandIn} .28s ease-in;
+  animation: ${expandIn};
   background-color: ${({buttonColor}) => buttonColor};
   border-radius: 50%;
   box-shadow:

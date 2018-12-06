@@ -36,8 +36,8 @@ const TaskDescription = styled.div`
 
 const ChipContainer = styled.div`
   display: flex;
+  flex: 1;
   flex-wrap: wrap;
-  padding: 1em 0;
 `;
 
 const TableContainer = styled.div`
@@ -47,8 +47,13 @@ const TableContainer = styled.div`
 const FilterTitle = styled.div`
   font-size: 1.2em;
   color: ${theme.text.dark.hex};
-  margin-top: 1em;
+  padding-right: 1em;
 `;
+
+const FilterContainer = styled.div`
+  display: flex;
+  margin-top: 1em;
+`
 
 const Icon = styled.i`
   color: ${theme.text.light.hex};
@@ -111,14 +116,14 @@ export default class Item extends Component {
       return null;
     }
     return (
-      <React.Fragment>
+      <FilterContainer>
         <FilterTitle>
           Category:
         </FilterTitle>
         <ChipContainer>
           {this.generateCategoryChips()}
         </ChipContainer>
-      </React.Fragment>
+      </FilterContainer>
     );
   }
 

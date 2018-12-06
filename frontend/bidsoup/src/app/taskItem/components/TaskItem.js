@@ -7,7 +7,7 @@ import NewTaskForm from '@taskItem/components/NewTaskForm';
 import Fab from '../../components/Fab';
 import Item from './Item';
 import { theme } from '@utils/color';
-import { isEmpty, isUndefined } from '@utils/utils';
+import { isEmpty, isUndefined, isDefined } from '@utils/utils';
 
 const ViewConatiner = styled.div`
   display: flex;
@@ -144,7 +144,7 @@ class TaskItem extends React.Component {
             />
           </TaskContent>
           <ItemContent
-            shouldDisplay={true}
+            shouldDisplay={isDefined(this.props.selectedTask)}
           >
             {displayTaskItems(this.props)}
           </ItemContent>

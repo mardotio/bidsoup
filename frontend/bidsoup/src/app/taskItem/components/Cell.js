@@ -31,30 +31,32 @@ const CurrencySpan = styled.span`
 
 const ArrowIcon= styled.i`
   font-size: 16px;
-  transition: transform 0.5s ease;
+  transition: transform 0.3s ease, opacity .1s ease;
   transform: ${props => (
     props.reverseOrder
       ? 'rotate(180deg)'
       : 'rotate(0)'
+  )};
+  opacity: ${props => (
+    props.highlight ? 1 : 0
   )};
 `
 
 const styleCell = ({value, cellStyle, highlight, reverseOrder}) => {
   switch (cellStyle) {
     case 'header':
-      return highlight
-        ? (
-          <React.Fragment>
-            {value.toUpperCase()}
-            <ArrowIcon
-              reverseOrder={reverseOrder}
-              className="material-icons"
-            >
-              arrow_upward
-            </ArrowIcon>
-          </React.Fragment>
-        )
-        : value.toUpperCase();
+      return (
+        <React.Fragment>
+          {value.toUpperCase()}
+          <ArrowIcon
+            reverseOrder={reverseOrder}
+            className="material-icons"
+            highlight={highlight}
+          >
+            arrow_upward
+          </ArrowIcon>
+        </React.Fragment>
+      );
     case 'currency':
       return (
         <React.Fragment>

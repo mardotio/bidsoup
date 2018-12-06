@@ -7,6 +7,7 @@ import NewTaskForm from '@taskItem/components/NewTaskForm';
 import Fab from '../../components/Fab';
 import Item from './Item';
 import { theme } from '@utils/color';
+import { isEmpty, isUndefined } from '@utils/utils';
 
 const ViewConatiner = styled.div`
   display: flex;
@@ -50,18 +51,18 @@ const FabContainer = styled.div`
   z-index: 500;
 `;
 
-const displayTaskItems = ({tableData, selectedTask}) => {
-  if (tableData.length <= 0) {
+const displayTaskItems = ({taskItems, categories, selectedTask}) => {
+  if (isUndefined(selectedTask)) {
     return null;
-  } else {
-    return (
-      <Item
-        tableData={tableData}
-        selectedTask={selectedTask}
-        key={selectedTask.url}
-      />
-    );
   }
+  return (
+    <Item
+      items={taskItems}
+      categories={categories}
+      selectedTask={selectedTask}
+      key={selectedTask.url}
+    />
+  );
 }
 
 const addElements = props => {
@@ -143,7 +144,7 @@ class TaskItem extends React.Component {
             />
           </TaskContent>
           <ItemContent
-            shouldDisplay={this.props.tableData.length > 0}
+            shouldDisplay={true}
           >
             {displayTaskItems(this.props)}
           </ItemContent>

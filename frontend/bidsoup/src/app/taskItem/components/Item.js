@@ -3,78 +3,152 @@ import styled from 'styled-components';
 import Table from './Table';
 import CategoryCard from '@taskItem/components/CategoryCard';
 import HorizontalRule from '@app/components/HorizontalRule';
+import CategoryOverview from '@taskItem/components/CategoryOverview';
+import CategoryChip from './CategoryChip';
+import { theme } from '@utils/color';
+import { isEmpty, isDefined } from '@utils/utils';
 
 const ItemWrapper = styled.div`
   margin-top: 1em;
   width: 95%;
-`
+`;
 
 const JobItemHeader = styled.div`
   font-size: 1.5em;
-`
+`;
+
+const TaskDescriptionContainer = styled.div`
+  display: flex;
+`;
 
 const TaskDescription = styled.div`
-`
+  margin-left: .5em;
+  border: 1px solid transparent;
+  flex: 1;
+  padding: .5em;
+  min-height: 2em;
+  color: ${props => props.isEmpty ? theme.text.light.hex : 'inherit' };
+  &:hover {
+    border: 1px solid ${theme.components.border.hex}
+    border-radius: 5px;
+  }
+`;
 
-const CardContainer = styled.div`
+const ChipContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 1em 0;
-`
+`;
 
 const TableContainer = styled.div`
   width: 100%;
-`
+`;
+
+const FilterTitle = styled.div`
+  font-size: 1.2em;
+  color: ${theme.text.dark.hex};
+  margin-top: 1em;
+`;
+
+const Icon = styled.i`
+  color: ${theme.text.light.hex};
+  margin-top: .3em;
+`;
+
+const columns = [
+  {
+    name: 'description',
+    style: 'text',
+  },
+  {
+    name: 'quantity',
+    style: 'number',
+  },
+  {
+    name: 'price',
+    style: 'currency',
+  },
+  {
+    name: 'total',
+    style: 'currency',
+  },
+];
 
 export default class Item extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedCategory: this.props.tableData[0].category,
+      selectedCategories: this.props.categories.map(cat => cat.url),
+      items: this.props.items
     };
-    this.selectCategory = this.selectCategory.bind(this);
   }
 
-  selectCategory(cat) {
-    if (this.state.selectedCategory !== cat) {
-      this.setState({
-        selectedCategory: cat,
-      });
+  selectCategory = (catUrl) => {
+    let selectedCategories = this.state.selectedCategories.includes(catUrl)
+      ? this.state.selectedCategories.filter(cat => cat !== catUrl)
+      : [...this.state.selectedCategories, catUrl];
+    let items = this.props.items.filter(item => selectedCategories.includes(item.category));
+    this.setState({
+      items: this.props.items.filter(item => selectedCategories.includes(item.category)),
+      selectedCategories
+    });
+  }
+
+  createTable() {
+    if (isEmpty(this.props.items)) {
+      return null;
     }
-  }
-
-  createCategoryTables() {
-    let {tableData} = this.props;
-    let selectedCategory = tableData.find(item => (
-      item.category === this.state.selectedCategory
-    ));
     return (
       <Table
-        key={selectedCategory.category}
-        {...selectedCategory}
+        columns={columns}
+        rows={this.state.items}
       />
     );
   }
 
-  createCategoryCards() {
-    let {tableData} = this.props;
-    let categoryCards = tableData.map(item => {
-      let total = item.rows.reduce((currentTotal, next) => (
-        currentTotal + next.total + next.tax + next.markup
-      ), 0);
-      return (
-        <CategoryCard
-          key={item.category}
-          category={item.category}
-          categoryDescription={item.categoryDescription}
-          selected={this.state.selectedCategory === item.category}
-          total={total}
-          background={item.color}
-          onClick={this.selectCategory}
-        />
-      );
+  categoryFilters() {
+    if (isEmpty(this.props.items)) {
+      return null;
+    }
+    return (
+      <React.Fragment>
+        <FilterTitle>
+          Category:
+        </FilterTitle>
+        <ChipContainer>
+          {this.generateCategoryChips()}
+        </ChipContainer>
+      </React.Fragment>
+    );
+  }
+
+  itemPriceBreakdown() {
+    return this.state.items.reduce((breakdown, row) => (
+      {
+        tax: breakdown.tax + row.tax,
+        total: breakdown.total + row.total + row.tax + row.markup,
+        markup: breakdown.markup + row.markup
+      }
+    ), {
+      tax: 0,
+      total: 0,
+      markup: 0
     });
-    return categoryCards;
+  }
+
+  generateCategoryChips() {
+    let categoriesWithItems = this.props.categories.filter(category => (
+      this.props.items.some(item => item.category === category.url)
+    ));
+    return categoriesWithItems.map(cat => (
+      <CategoryChip
+        key={cat.url}
+        value={cat.name}
+        color={cat.color}
+        selected={this.state.selectedCategories.includes(cat.url)}
+        onClick={() => this.selectCategory(cat.url)}
+      />
+    ))
   }
 
   render() {
@@ -84,14 +158,21 @@ export default class Item extends Component {
           {this.props.selectedTask.title}
         </JobItemHeader>
         <HorizontalRule />
-        <TaskDescription>
-          {this.props.selectedTask.description}
-        </TaskDescription>
-        <CardContainer>
-          {this.createCategoryCards()}
-        </CardContainer>
+        <TaskDescriptionContainer>
+          <Icon className="material-icons">notes</Icon>
+          <TaskDescription
+            isEmpty={isEmpty(this.props.selectedTask.description)}
+          >
+            {this.props.selectedTask.description || 'Description'}
+          </TaskDescription>
+        </TaskDescriptionContainer>
+        <HorizontalRule />
+        {this.categoryFilters()}
+        <CategoryOverview
+          {...this.itemPriceBreakdown()}
+        />
         <TableContainer>
-          {this.createCategoryTables()}
+          {this.createTable()}
         </TableContainer>
       </ItemWrapper>
     );

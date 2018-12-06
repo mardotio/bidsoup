@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Row from './Row';
-import Overview from './Overview';
 
 const TableWrapper = styled.div`
   display: flex;
@@ -103,11 +102,6 @@ export default class Table extends Component {
           filter={this.state.sortBy}
         />
         {rows}
-        <Overview
-          background={this.props.color}
-          value={categoryData}
-          keys={this.props.columns}
-        />
       </TableWrapper>
     );
   }

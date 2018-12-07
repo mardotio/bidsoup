@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Row from './Row';
+import TableHeader from './TableHeader';
 
 const TableWrapper = styled.div`
   display: flex;
@@ -25,11 +26,8 @@ export default class Table extends Component {
   columns2Headers() {
     let {columns} = this.props;
     let convertedColumns = columns.reduce((row, column) => (
-      {
-        ...row,
-        [column.name]: column.name
-      }
-    ), {});
+      [...row, column.name]
+    ), []);
     return convertedColumns;
   }
 
@@ -93,13 +91,11 @@ export default class Table extends Component {
 
     return (
       <TableWrapper>
-        <Row
-          keys={this.props.columns}
-          row={this.columns2Headers()}
-          sortBy={this.sortBy}
+        <TableHeader
+          headers={this.columns2Headers()}
           reverseOrder={this.state.reverse}
-          isHeader={true}
           filter={this.state.sortBy}
+          sortBy={this.sortBy}
         />
         {rows}
       </TableWrapper>

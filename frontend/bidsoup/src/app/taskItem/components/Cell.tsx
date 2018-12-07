@@ -7,9 +7,9 @@ interface Props {
   category: string;
   value: string | number;
   cellStyle: 'header' | 'currency' | 'number' | 'text' | 'default';
-  highlight: boolean;
-  reverseOrder: boolean;
-  sortBy: () => void;
+  highlight?: boolean;
+  reverseOrder?: boolean;
+  sortBy?: () => void;
 }
 
 interface CellProps {
@@ -40,7 +40,7 @@ const TableCell = styled.div<CellProps>`
   }};
   cursor: pointer;
   flex-shrink: ${props => props.category === 'description' ? '2' : '1'};
-  display: ${props => props.style === 'header' ? 'flex' : 'initial'};
+  display: ${props => props.cellStyle === 'header' ? 'flex' : 'initial'};
   align-items: center;
 `;
 
@@ -68,9 +68,9 @@ const styleCell = ({value, cellStyle, highlight, reverseOrder}: Props) => {
         <React.Fragment>
           {(value as string).toUpperCase()}
           <ArrowIcon
-            reverse={reverseOrder}
+            reverse={reverseOrder!}
             className="material-icons"
-            highlight={highlight}
+            highlight={highlight!}
           >
             arrow_upward
           </ArrowIcon>
@@ -91,7 +91,7 @@ const styleCell = ({value, cellStyle, highlight, reverseOrder}: Props) => {
   }
 };
 
-const Cell = (props: Props) => {
+const Cell: React.SFC<Props> = (props) => {
   let contents = isDefined(props.value)
     ? styleCell(props)
     : props.value;
@@ -104,6 +104,11 @@ const Cell = (props: Props) => {
       {contents}
     </TableCell>
   );
+};
+
+Cell.defaultProps = {
+  reverseOrder: false,
+  highlight: false
 };
 
 export default Cell;

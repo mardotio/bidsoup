@@ -1,9 +1,28 @@
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
-import { capitalize, beautifyNumber } from '@utils/styling'
+import { capitalize, beautifyNumber } from '@utils/styling';
 import { isDefined } from '@utils/utils';
 
-const TableCell = styled.div`
+interface Props {
+  category: string;
+  value: string | number;
+  cellStyle: 'header' | 'currency' | 'number' | 'text' | 'default';
+  highlight: boolean;
+  reverseOrder: boolean;
+  sortBy: () => void;
+}
+
+interface CellProps {
+  category: string;
+  cellStyle: Props['cellStyle'];
+}
+
+interface ArrowProps {
+  reverse: boolean;
+  highlight: boolean;
+}
+
+const TableCell = styled.div<CellProps>`
   box-sizing: border-box;
   padding: .8em 1em;
   flex-basis: 0;
@@ -21,35 +40,35 @@ const TableCell = styled.div`
   }};
   cursor: pointer;
   flex-shrink: ${props => props.category === 'description' ? '2' : '1'};
-  display: ${props => props.cellStyle === 'header' ? 'flex' : 'initial'};
+  display: ${props => props.style === 'header' ? 'flex' : 'initial'};
   align-items: center;
-`
+`;
 
 const CurrencySpan = styled.span`
   float: right;
-`
+`;
 
-const ArrowIcon= styled.i`
+const ArrowIcon = styled.i<ArrowProps>`
   font-size: 16px;
   transition: transform 0.3s ease, opacity .1s ease;
   transform: ${props => (
-    props.reverseOrder
+    props.reverse
       ? 'rotate(180deg)'
       : 'rotate(0)'
   )};
   opacity: ${props => (
     props.highlight ? 1 : 0
   )};
-`
+`;
 
-const styleCell = ({value, cellStyle, highlight, reverseOrder}) => {
+const styleCell = ({value, cellStyle, highlight, reverseOrder}: Props) => {
   switch (cellStyle) {
     case 'header':
       return (
         <React.Fragment>
-          {value.toUpperCase()}
+          {(value as string).toUpperCase()}
           <ArrowIcon
-            reverseOrder={reverseOrder}
+            reverse={reverseOrder}
             className="material-icons"
             highlight={highlight}
           >
@@ -60,26 +79,25 @@ const styleCell = ({value, cellStyle, highlight, reverseOrder}) => {
     case 'currency':
       return (
         <React.Fragment>
-          $<CurrencySpan>{beautifyNumber(value, 2)}</CurrencySpan>
+          $<CurrencySpan>{beautifyNumber(value as number, 2)}</CurrencySpan>
         </React.Fragment>
       );
     case 'number':
-      return beautifyNumber(value, 2);
+      return beautifyNumber(value as number, 2);
     case 'text':
-      return capitalize(value);
+      return capitalize(value as string);
     default:
       return value;
   }
 };
 
-const Cell = props => {
+const Cell = (props: Props) => {
   let contents = isDefined(props.value)
     ? styleCell(props)
     : props.value;
   return (
     <TableCell
       category={props.category}
-      highlight={props.highlight}
       onClick={props.sortBy}
       cellStyle={props.cellStyle}
     >

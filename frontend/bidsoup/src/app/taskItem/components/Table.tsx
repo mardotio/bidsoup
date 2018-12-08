@@ -2,13 +2,14 @@ import * as React from 'react';
 import styled from 'styled-components';
 import Row from './Row';
 import TableHeader from './TableHeader';
+import { StandardizedItem } from '@utils/conversions';
 
 interface Props {
   columns: {
     name: string;
-    style: 'text' | 'text' | 'default';
+    style: 'currency' | 'text' | 'number' | 'default';
   }[];
-  rows: Object[];
+  rows: StandardizedItem[];
 }
 
 interface State {

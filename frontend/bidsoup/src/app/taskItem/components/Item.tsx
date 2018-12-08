@@ -1,12 +1,28 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
-import Table from './Table';
-import CategoryCard from '@taskItem/components/CategoryCard';
 import HorizontalRule from '@app/components/HorizontalRule';
-import PriceBreakdown from '@app/taskItem/components/PriceBreakdown';
-import CategoryChip from './CategoryChip';
+import Table from '@taskItem/components/Table';
+import PriceBreakdown from '@taskItem/components/PriceBreakdown';
+import CategoryChip from '@taskItem/components/CategoryChip';
 import { theme } from '@utils/color';
-import { isEmpty, isDefined } from '@utils/utils';
+import { isEmpty, isUndefined } from '@utils/utils';
+import { StandardizedItem } from '@utils/conversions';
+import { Category, BidTask } from '@app/types/types';
+
+interface Props {
+  items: StandardizedItem[];
+  categories: Category[];
+  selectedTask: BidTask;
+}
+
+interface State {
+  selectedCategories: string[];
+  items: StandardizedItem[];
+}
+
+interface TaskDescriptionProps {
+  isEmpty: boolean;
+}
 
 const ItemWrapper = styled.div`
   margin-top: 1em;
@@ -21,7 +37,7 @@ const TaskDescriptionContainer = styled.div`
   display: flex;
 `;
 
-const TaskDescription = styled.div`
+const TaskDescription = styled.div<TaskDescriptionProps>`
   margin-left: .5em;
   border: 1px solid transparent;
   flex: 1;
@@ -53,34 +69,37 @@ const FilterTitle = styled.div`
 const FilterContainer = styled.div`
   display: flex;
   margin-top: 1em;
-`
+`;
 
 const Icon = styled.i`
   color: ${theme.text.light.hex};
   margin-top: .3em;
 `;
 
-const columns = [
+const columns: {
+  name: keyof StandardizedItem;
+  style: 'text' | 'number' | 'currency' | 'default';
+}[] = [
   {
     name: 'description',
-    style: 'text',
+    style: 'text'
   },
   {
     name: 'quantity',
-    style: 'number',
+    style: 'number'
   },
   {
     name: 'price',
-    style: 'currency',
+    style: 'currency'
   },
   {
     name: 'total',
-    style: 'currency',
+    style: 'currency'
   },
 ];
 
-export default class Item extends Component {
-  constructor(props) {
+export default class Item extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       selectedCategories: this.props.categories.map(cat => cat.url),
@@ -88,13 +107,12 @@ export default class Item extends Component {
     };
   }
 
-  selectCategory = (catUrl) => {
-    let selectedCategories = this.state.selectedCategories.includes(catUrl)
+  selectCategory = (catUrl: string) => {
+    let selectedCategories = this.state.selectedCategories.some(e => e === catUrl)
       ? this.state.selectedCategories.filter(cat => cat !== catUrl)
       : [...this.state.selectedCategories, catUrl];
-    let items = this.props.items.filter(item => selectedCategories.includes(item.category));
     this.setState({
-      items: this.props.items.filter(item => selectedCategories.includes(item.category)),
+      items: this.props.items.filter(item => selectedCategories.some(e => e === item.category)),
       selectedCategories
     });
   }
@@ -128,17 +146,20 @@ export default class Item extends Component {
   }
 
   itemPriceBreakdown() {
-    return this.state.items.reduce((breakdown, row) => (
+    return this.state.items.reduce(
+      (breakdown, row) => (
+        {
+          tax: breakdown.tax + row.tax,
+          total: breakdown.total + row.total + row.tax + row.markup,
+          markup: breakdown.markup + row.markup
+        }
+      ),
       {
-        tax: breakdown.tax + row.tax,
-        total: breakdown.total + row.total + row.tax + row.markup,
-        markup: breakdown.markup + row.markup
+        tax: 0,
+        total: 0,
+        markup: 0
       }
-    ), {
-      tax: 0,
-      total: 0,
-      markup: 0
-    });
+    );
   }
 
   generateCategoryChips() {
@@ -150,10 +171,10 @@ export default class Item extends Component {
         key={cat.url}
         value={cat.name}
         color={cat.color}
-        selected={this.state.selectedCategories.includes(cat.url)}
+        selected={this.state.selectedCategories.some(e => e === cat.url)}
         onClick={() => this.selectCategory(cat.url)}
       />
-    ))
+    ));
   }
 
   render() {
@@ -166,7 +187,9 @@ export default class Item extends Component {
         <TaskDescriptionContainer>
           <Icon className="material-icons">notes</Icon>
           <TaskDescription
-            isEmpty={isEmpty(this.props.selectedTask.description)}
+            isEmpty={
+              isUndefined(this.props.selectedTask.description) || isEmpty(this.props.selectedTask.description)
+            }
           >
             {this.props.selectedTask.description || 'Description'}
           </TaskDescription>

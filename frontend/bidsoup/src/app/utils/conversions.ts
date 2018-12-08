@@ -12,7 +12,7 @@ import { UnitDict } from '@taskItem/actions/unitTypeActions';
     - Converts number fields to numbers
 */
 
-interface StandardizedItem  extends BidItem {
+export interface StandardizedItem  extends BidItem {
   quantity: number;
   price: number;
   total: number;

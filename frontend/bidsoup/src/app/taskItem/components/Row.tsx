@@ -2,13 +2,14 @@ import * as React from 'react';
 import styled from 'styled-components';
 import Cell from './Cell';
 import { theme } from '@utils/color';
+import { StandardizedItem } from '@utils/conversions';
 
 interface Props {
   keys: {
     name: string;
-    style: 'number' | 'text' | 'default';
+    style: 'currency' | 'number' | 'text' | 'default';
   }[];
-  row: Object;
+  row: StandardizedItem;
 }
 
 const TableRow = styled.div`

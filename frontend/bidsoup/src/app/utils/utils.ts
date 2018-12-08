@@ -6,6 +6,10 @@ export const isEmpty = <T extends ValueWithLength>(value: T) => (
   value.length === 0
 );
 
+export const includes = <T>(arr: T[], value: T) => (
+  arr.indexOf(value) >= 0
+);
+
 export const isDefined = <T>(value: T): value is NonNullable<T> => (
   value !== undefined && value !== null
 );

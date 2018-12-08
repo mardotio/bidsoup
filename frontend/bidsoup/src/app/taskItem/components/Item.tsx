@@ -5,7 +5,7 @@ import Table from '@taskItem/components/Table';
 import PriceBreakdown from '@taskItem/components/PriceBreakdown';
 import CategoryChip from '@taskItem/components/CategoryChip';
 import { theme } from '@utils/color';
-import { isEmpty, isUndefined } from '@utils/utils';
+import { isEmpty, isUndefined, includes } from '@utils/utils';
 import { StandardizedItem } from '@utils/conversions';
 import { Category, BidTask } from '@app/types/types';
 
@@ -108,11 +108,11 @@ export default class Item extends React.Component<Props, State> {
   }
 
   selectCategory = (catUrl: string) => {
-    let selectedCategories = this.state.selectedCategories.some(e => e === catUrl)
+    let selectedCategories = includes(this.state.selectedCategories, catUrl)
       ? this.state.selectedCategories.filter(cat => cat !== catUrl)
       : [...this.state.selectedCategories, catUrl];
     this.setState({
-      items: this.props.items.filter(item => selectedCategories.some(e => e === item.category)),
+      items: this.props.items.filter(item => includes(selectedCategories, item.category)),
       selectedCategories
     });
   }
@@ -171,7 +171,7 @@ export default class Item extends React.Component<Props, State> {
         key={cat.url}
         value={cat.name}
         color={cat.color}
-        selected={this.state.selectedCategories.some(e => e === cat.url)}
+        selected={includes(this.state.selectedCategories, cat.url)}
         onClick={() => this.selectCategory(cat.url)}
       />
     ));

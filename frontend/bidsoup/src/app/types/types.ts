@@ -69,6 +69,7 @@ export interface BidCategoryState {
   list: Category[];
   lastFetch: number | null;
 }
+
 export interface BidItem {
   url: string;
   bid: string;

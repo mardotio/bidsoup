@@ -85,7 +85,6 @@ const mapStateToProps = ({api, account, ui, bidData, bids}, ownProps) => {
   const itemsByTask = array2HashByKey(itemsWithTotal, 'parent');
   const taskItems = getTaskItems(itemsByTask, bidData.tasks.selectedTask);
   return {
-    endpoints: api.endpoints,
     ui: ui,
     selectedBid: ownProps.match.params.bid,
     task: ownProps.match.params.task,
@@ -108,11 +107,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(fetchBidListByAccount(ownProps.match.params.account)),
     setCurrentBid: (bid) =>
       dispatch(setAndFetchBidByKey(Number(bid))),
-    refreshItems: () =>
-      dispatch(componentsActions.fetchBidComponents()),
     selectTask: (task) =>
       dispatch(selectBidTaskByUuid(task)),
-    addTask: (bid, task) =>
+    addTask: (task) =>
       dispatch(createBidTask(task)),
     clearSelectedTask: () =>
       dispatch(tasksActions.clearSelectedBidTask()),

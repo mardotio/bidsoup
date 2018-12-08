@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import Cell from '@taskItem/components/Cell';
+import TableCell from '@taskItem/components/TableCell';
 
 interface Props {
   headers: string[];
@@ -18,7 +18,7 @@ const TableRow = styled.div`
 const getCells = ({ headers, sortBy, filter, reverseOrder}: Props) => {
   let contents = headers.map(header => {
     return (
-      <Cell
+      <TableCell
         key={header}
         category={header}
         value={header}

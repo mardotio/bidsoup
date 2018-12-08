@@ -22,7 +22,7 @@ interface ArrowProps {
   highlight: boolean;
 }
 
-const TableCell = styled.div<CellProps>`
+const Cell = styled.div<CellProps>`
   box-sizing: border-box;
   padding: .8em 1em;
   flex-basis: 0;
@@ -91,24 +91,24 @@ const styleCell = ({value, cellStyle, highlight, reverseOrder}: Props) => {
   }
 };
 
-const Cell: React.SFC<Props> = (props) => {
+const TableCell: React.SFC<Props> = (props) => {
   let contents = isDefined(props.value)
     ? styleCell(props)
     : props.value;
   return (
-    <TableCell
+    <Cell
       category={props.category}
       onClick={props.sortBy}
       cellStyle={props.cellStyle}
     >
       {contents}
-    </TableCell>
+    </Cell>
   );
 };
 
-Cell.defaultProps = {
+TableCell.defaultProps = {
   reverseOrder: false,
   highlight: false
 };
 
-export default Cell;
+export default TableCell;

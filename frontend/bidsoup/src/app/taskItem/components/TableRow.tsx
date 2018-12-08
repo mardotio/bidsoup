@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import Cell from './Cell';
+import TableCell from '@taskItem/components/TableCell';
 import { theme } from '@utils/color';
 import { StandardizedItem } from '@utils/conversions';
 
@@ -12,7 +12,7 @@ interface Props {
   row: StandardizedItem;
 }
 
-const TableRow = styled.div`
+const Row = styled.div`
   display: flex;
   font-size: 1em;
   border-bottom: 1px solid ${theme.interactions.hover.hex};
@@ -24,7 +24,7 @@ const TableRow = styled.div`
 const getCells = ({row, keys}: Props) => {
   let contents = keys.map(key => {
     return (
-      <Cell
+      <TableCell
         key={key.name}
         category={key.name}
         value={row[key.name]}
@@ -35,12 +35,12 @@ const getCells = ({row, keys}: Props) => {
   return contents;
 };
 
-const Row = (props: Props) => {
+const TableRow = (props: Props) => {
   return (
-    <TableRow>
+    <Row>
       {getCells(props)}
-    </TableRow>
+    </Row>
   );
 };
 
-export default Row;
+export default TableRow;

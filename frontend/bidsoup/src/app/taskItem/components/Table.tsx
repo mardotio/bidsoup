@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import Row from './Row';
-import TableHeader from './TableHeader';
+import TableRow from '@taskItem/components/TableRow';
+import TableHeader from '@taskItem/components/TableHeader';
 import { StandardizedItem } from '@utils/conversions';
 
 interface Props {
@@ -88,7 +88,7 @@ export default class Table extends React.Component<Props, State> {
     let sortedRows = this.dataSort();
     let rows = sortedRows.map(row => {
       return (
-        <Row
+        <TableRow
           key={this.props.rows.indexOf(row)}
           keys={this.props.columns}
           row={row}

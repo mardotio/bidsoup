@@ -62,7 +62,7 @@ export default class Table extends React.Component<Props, State> {
 
   dataSort() {
     let {sortBy, reverse} = this.state;
-    let rows = this.props.rows.slice();
+    let rows = [...this.props.rows];
     if (sortBy) {
       let style = this.props.columns.reduce(
         (colStyle, col) => (

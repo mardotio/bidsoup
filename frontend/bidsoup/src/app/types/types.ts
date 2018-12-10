@@ -76,9 +76,9 @@ export interface BidItem {
   unitType: string | null;
   price: string | number | null;
   description: string;
-  notes: string;
+  notes: string | null;
   category: string;
-  markupPercent: string;
+  markupPercent: string | null;
   quantity: string | number;
   parent: string;
 }

@@ -5,6 +5,7 @@ import { Actions as tasksActions, createBidTask, selectBidTaskByUuid } from '@ta
 import { Actions as accountActions } from '@app/actions/accountActions';
 import { Actions as uiActions } from '@app/actions/uiActions';
 import { Actions as bidActions, setAndFetchBidByKey, fetchBidListByAccount } from '@dashboard/actions/bidActions'
+import { createTaskItem } from '@taskItem/actions/bidItemsActions';
 import componentsActions from '../actions/bidComponentsActions';
 import { isEmpty, nestedFind, isDefined, isUndefined } from '@utils/utils';
 import { array2HashByKey } from '@utils/sorting';
@@ -92,6 +93,7 @@ const mapStateToProps = ({api, account, ui, bidData, bids}, ownProps) => {
     taskItems,
     categories: bidData.categories.list,
     account,
+    units: Object.keys(bidData.units.units).map(u => bidData.units.units[u]),
     selectedTask: bidData.tasks.selectedTask,
     tasks: getTasks(bidData.tasks, itemsByTask),
   }
@@ -113,6 +115,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(createBidTask(task)),
     clearSelectedTask: () =>
       dispatch(tasksActions.clearSelectedBidTask()),
+    createBidItem: (bidUrl, taskUrl, item) => {
+      dispatch(createTaskItem(bidUrl, taskUrl, item));
+    },
     showModal: () => dispatch(uiActions.showModal()),
     hideModal: () => dispatch(uiActions.hideModal())
   };

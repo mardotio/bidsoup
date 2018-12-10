@@ -128,7 +128,6 @@ export default class UnitDashboard extends React.Component<Props, State> {
         </Header>
         <HorizontalRule/>
         <FormContainer
-          className="Testing"
           shouldDisplay={this.state.isBeingEdited}
         >
           <UnitForm

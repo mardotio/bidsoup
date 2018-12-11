@@ -93,7 +93,6 @@ const mapStateToProps = ({api, account, ui, bidData, bids}, ownProps) => {
     taskItems,
     categories: bidData.categories.list,
     account,
-    units: Object.keys(bidData.units.units).map(u => bidData.units.units[u]),
     selectedTask: bidData.tasks.selectedTask,
     tasks: getTasks(bidData.tasks, itemsByTask),
   }
@@ -115,9 +114,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(createBidTask(task)),
     clearSelectedTask: () =>
       dispatch(tasksActions.clearSelectedBidTask()),
-    createBidItem: (bidUrl, taskUrl, item) => {
-      dispatch(createTaskItem(bidUrl, taskUrl, item));
-    },
     showModal: () => dispatch(uiActions.showModal()),
     hideModal: () => dispatch(uiActions.hideModal())
   };

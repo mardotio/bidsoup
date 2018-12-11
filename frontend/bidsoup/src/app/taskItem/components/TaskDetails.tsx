@@ -8,14 +8,12 @@ import Items from '@taskItem/components/Items';
 import { theme } from '@utils/color';
 import { isEmpty, isUndefined, includes } from '@utils/utils';
 import { StandardizedItem } from '@utils/conversions';
-import { Category, BidTask, BidItem, Unit } from '@app/types/types';
+import { Category, BidTask } from '@app/types/types';
 
 interface Props {
   items: StandardizedItem[];
   categories: Category[];
   selectedTask: BidTask;
-  units: Unit[];
-  createItem: (taskUrl: string, item: Partial<BidItem>) => void;
 }
 
 interface State {
@@ -188,10 +186,6 @@ export default class TaskDetails extends React.Component<Props, State> {
     ));
   }
 
-  createItem = (item: Partial<BidItem>) => {
-    this.props.createItem(this.props.selectedTask.url, item);
-  }
-
   render() {
     return (
       <ItemWrapper>
@@ -217,9 +211,7 @@ export default class TaskDetails extends React.Component<Props, State> {
         <Items
           columns={columns}
           items={this.state.items}
-          units={this.props.units}
           categories={this.props.categories}
-          createItem={this.createItem}
         />
       </ItemWrapper>
     );

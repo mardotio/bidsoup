@@ -9,12 +9,11 @@ import TaskDetails from '@taskItem/components/TaskDetails';
 import { theme } from '@utils/color';
 import { isUndefined, isDefined } from '@utils/utils';
 import { UiState } from '@app/reducers/uiReducer';
-import { Bid, Category, BidTask, BidItem, Unit } from '@app/types/types';
+import { Bid, Category, BidTask } from '@app/types/types';
 import { StandardizedItem } from '@app/utils/conversions';
 import { Actions as ApiActions } from '@taskItem/actions/apiActions';
 import { Actions as BidActions } from '@dashboard/actions/bidActions';
 import { Actions as BidTaskActions } from '@taskItem/actions/bidTasksActions';
-import { Actions as BidItemActions } from '@taskItem/actions/bidItemsActions';
 
 interface StandardizedTask extends BidTask {
   containedCost: number;
@@ -32,14 +31,12 @@ interface Props {
   account: string;
   selectedTask: BidTask;
   tasks: StandardizedTask[];
-  units: Unit[];
   history: {
     push: (url: string) => void;
   };
   fetchApi: () => Promise<ApiActions>;
   fetchBidList: () => Promise<BidActions>;
   addTask: (task: Partial<BidTask>) => Promise<BidTaskActions>;
-  createBidItem: (bidUrl: string, taskUrl: string, item: Partial<BidItem>) => Promise<BidItemActions>;
   setAccount: () => void;
   setCurrentBid: (bid: string) => void;
   selectTask: (task: string) => void;
@@ -160,10 +157,6 @@ class TaskItem extends React.Component<Props> {
     return this.props.bids.find(bid => bid.key === Number(this.props.selectedBid))!.url;
   }
 
-  createBidItem = (taskUrl: string, item: Partial<BidItem>) => {
-    this.props.createBidItem(this.getBidUrl(), taskUrl, item);
-  }
-
   displayTaskItems() {
     if (isUndefined(this.props.selectedTask)) {
       return null;
@@ -173,8 +166,6 @@ class TaskItem extends React.Component<Props> {
         items={this.props.taskItems}
         categories={this.props.categories}
         selectedTask={this.props.selectedTask}
-        createItem={this.createBidItem}
-        units={this.props.units}
         key={this.props.selectedTask.url}
       />
     );

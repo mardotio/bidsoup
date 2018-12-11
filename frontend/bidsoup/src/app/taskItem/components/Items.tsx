@@ -4,19 +4,17 @@ import GhostButton from '@app/components/GhostButton';
 import Table from '@taskItem/components/Table';
 import HorizontalRule from '@app/components/HorizontalRule';
 import { StandardizedItem } from '@app/utils/conversions';
-import { Category, BidItem, Unit } from '@app/types/types';
+import { Category } from '@app/types/types';
 import { theme } from '@utils/color';
-import NewItemForm from './NewItemForm';
+import NewItemFormContainer from '../containers/NewItemFormContainer';
 
 interface Props {
   items: StandardizedItem[];
   categories: Category[];
-  units: Unit[];
   columns: {
     name: keyof StandardizedItem;
     style: 'text' | 'number' | 'currency' | 'default';
   }[];
-  createItem: (item: Partial<BidItem>) => void;
 }
 
 interface State {
@@ -92,10 +90,8 @@ class Items extends React.Component<Props, State> {
         <FormContainer
           shouldDisplay={this.state.isBeingEdited}
         >
-          <NewItemForm
-            units={this.props.units}
-            categories={this.props.categories}
-            submitAction={this.props.createItem}
+          <NewItemFormContainer
+            submitAction={this.hideForm}
             cancelAction={this.hideForm}
           />
           <HorizontalRule/>

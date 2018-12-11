@@ -30,8 +30,9 @@ interface DropDownOptions {
 interface Props {
   categories: Category[];
   units: Unit[];
-  submitAction: (item: Partial<BidItem>) => void;
+  createItem: (item: Partial<BidItem>) => Promise<void>;
   cancelAction: () => void;
+  submitAction?: () => void;
 }
 
 interface State {
@@ -367,10 +368,13 @@ class NewItemForm extends React.Component<Props, State> {
     if (this.focusedFormHasError(errorState)) {
       this.setState({...errorState});
     } else {
-      this.props.submitAction({
+      this.props.createItem({
         ...this.getItemData()
       });
       this.clearAll();
+      if (isDefined(this.props.submitAction)) {
+        this.props.submitAction();
+      }
     }
   }
 
@@ -405,7 +409,7 @@ class NewItemForm extends React.Component<Props, State> {
             select: this.selectUnitType,
             filter: true
           },
-          this.removeCategoryFocus,
+          this.removeUnitTypeFocus,
           'unit'
         )}
         {this.createDropDownField(

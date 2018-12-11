@@ -10,49 +10,21 @@ import { isEmpty, nestedFind, isDefined, isUndefined } from '@utils/utils';
 import { array2HashByKey } from '@utils/sorting';
 import { normalizeItem } from '@utils/conversions';
 
-const columns = [
-  {
-    name: 'description',
-    style: 'text',
-  },
-  {
-    name: 'quantity',
-    style: 'number',
-  },
-  {
-    name: 'price',
-    style: 'currency',
-  },
-  {
-    name: 'total',
-    style: 'currency',
-  },
-];
-
 // Returns values as percent if defined, otherwise returns 0
 const zeroOrPercent = value => (
   isDefined(value) ? Number(value / 100) : 0
 );
 
-const generateTableData = (categories, selectedTask, itemsByTask) => {
-  if (isUndefined(selectedTask) || isUndefined(itemsByTask[selectedTask.url])) {
+const getTaskItems = (items, task) => {
+  if (isUndefined(task) || isUndefined(items[task.url])) {
     return [];
   }
-  const itemsByCategory = array2HashByKey(itemsByTask[selectedTask.url], 'category');
-  const categoriesWithItems = categories.filter(category => (
-    isDefined(itemsByCategory[category.url])
-  ));
-  return categoriesWithItems.map(category => {
-    return {
-      category: category.name,
-      categoryUrl: category.url,
-      categoryDescription: category.description,
-      color: `#${category.color}`,
-      columns,
-      rows: itemsByCategory[category.url],
-    };
-  });
+  return items[task.url];
 };
+
+const categoriesWithItems = (items, categories) => (
+  categories.filter(category => items.some(item => item.category === category.url))
+)
 
 const buildTask = (task, items) => {
   const sumCost = isDefined(items[task.url])
@@ -111,18 +83,17 @@ const mapStateToProps = ({api, account, ui, bidData, bids}, ownProps) => {
     bids.selectedBid.taxPercent
   );
   const itemsByTask = array2HashByKey(itemsWithTotal, 'parent');
+  const taskItems = getTaskItems(itemsByTask, bidData.tasks.selectedTask);
   return {
-    endpoints: api.endpoints,
     ui: ui,
     selectedBid: ownProps.match.params.bid,
     task: ownProps.match.params.task,
     bids: bids.list,
+    taskItems,
+    categories: bidData.categories.list,
     account,
-    tableData: generateTableData(bidData.categories.list, bidData.tasks.selectedTask, itemsByTask),
     selectedTask: bidData.tasks.selectedTask,
-    categories: bidData.categories,
     tasks: getTasks(bidData.tasks, itemsByTask),
-    units: bidData.units
   }
 };
 
@@ -136,11 +107,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(fetchBidListByAccount(ownProps.match.params.account)),
     setCurrentBid: (bid) =>
       dispatch(setAndFetchBidByKey(Number(bid))),
-    refreshItems: () =>
-      dispatch(componentsActions.fetchBidComponents()),
     selectTask: (task) =>
       dispatch(selectBidTaskByUuid(task)),
-    addTask: (bid, task) =>
+    addTask: (task) =>
       dispatch(createBidTask(task)),
     clearSelectedTask: () =>
       dispatch(tasksActions.clearSelectedBidTask()),

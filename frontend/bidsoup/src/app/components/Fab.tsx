@@ -1,7 +1,21 @@
-import React from 'react';
+import * as React from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import { determineFontColor } from '@utils/styling'
+import { determineFontColor } from '@utils/styling';
 import { theme } from '@utils/color';
+
+interface Props {
+  color: string;
+  icon: string;
+  mini?: boolean;
+  overrideColor?: boolean;
+  onClick: () => void;
+}
+
+interface ButtonContainerProps {
+  buttonColor: string;
+  overrideFont: boolean;
+  isMini: boolean;
+}
 
 const defaultSize = '56px';
 const miniSize = '40px';
@@ -14,9 +28,9 @@ const expandIn = () => {
   return  css`
     .28s ${frames} ease-in;
   `;
-}
+};
 
-const ButtonContainer = styled.div`
+const ButtonContainer = styled.div<ButtonContainerProps>`
   align-items: center;
   animation: ${expandIn};
   background-color: ${({buttonColor}) => buttonColor};
@@ -49,7 +63,7 @@ const ButtonIcon = styled.i`
   width: 24px;
 `;
 
-const Fab = props => {
+const Fab = (props: Props) => {
   return (
     <ButtonContainer
       buttonColor={props.color}

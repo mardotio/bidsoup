@@ -55,27 +55,30 @@ export interface BidTask {
   children: BidTask[];
 }
 
+export interface Category {
+  url: string;
+  bid: string;
+  name: string;
+  description: string;
+  markupPercent: string;
+  color: string;
+}
+
 export interface BidCategoryState {
   isFetching: boolean;
-  list: {
-    url: string;
-    bid: string;
-    name: string;
-    description: string;
-    markupPercent: string;
-    color: string;
-  };
+  list: Category[];
   lastFetch: number | null;
 }
+
 export interface BidItem {
   url: string;
   bid: string;
   unitType: string | null;
   price: string | number | null;
   description: string;
-  notes: string;
+  notes: string | null;
   category: string;
-  markupPercent: string;
+  markupPercent: string | null;
   quantity: string | number;
   parent: string;
 }

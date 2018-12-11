@@ -24,8 +24,7 @@ interface Task {
 
 interface Props {
   tasks: Task[];
-  onArrowClick(url: string): string;
-  onTaskSelect(url: string): string;
+  onTaskSelect(url: string): void;
 }
 
 interface State {

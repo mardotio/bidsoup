@@ -3,11 +3,7 @@ import styled from 'styled-components';
 import { beautifyNumber } from '@utils/styling';
 import { theme } from '@utils/color';
 
-interface TaskProps {
-  clickable: boolean;
-}
-
-const Task = styled.div<TaskProps>`
+const Task = styled.div`
   display: flex;
   align-items: center;
   padding: 10px;
@@ -17,7 +13,7 @@ const Task = styled.div<TaskProps>`
   &:hover {
     background-color: ${theme.interactions.hover.hex};
   }
-  cursor: ${props => props.clickable ? 'pointer' : 'default'};
+  cursor: pointer;
 `;
 
 export enum ArrowStyle {
@@ -109,7 +105,6 @@ class TaskRow extends React.Component<Props> {
         onMouseEnter={this.mouseEnter}
         onMouseLeave={this.mouseLeave}
         onClick={e => this.props.onTaskClick(uuid)}
-        clickable={this.props.cost > 0}
       >
         <Title>
           <Triangle

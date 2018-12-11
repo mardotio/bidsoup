@@ -1,7 +1,21 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
-import Row from './Row';
-import Overview from './Overview';
+import TableRow from '@taskItem/components/TableRow';
+import TableHeader from '@taskItem/components/TableHeader';
+import { StandardizedItem } from '@utils/conversions';
+
+interface Props {
+  columns: {
+    name: string;
+    style: 'currency' | 'text' | 'number' | 'default';
+  }[];
+  rows: StandardizedItem[];
+}
+
+interface State {
+  sortBy: string;
+  reverse: boolean;
+}
 
 const TableWrapper = styled.div`
   display: flex;
@@ -11,10 +25,10 @@ const TableWrapper = styled.div`
   padding: 1em 0;
   height: min-content;
   box-sizing: border-box;
-`
+`;
 
-export default class Table extends Component {
-  constructor(props) {
+export default class Table extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       sortBy: this.props.columns[0].name,
@@ -25,16 +39,16 @@ export default class Table extends Component {
 
   columns2Headers() {
     let {columns} = this.props;
-    let convertedColumns = columns.reduce((row, column) => (
-      {
-        ...row,
-        [column.name]: column.name
-      }
-    ), {});
+    let convertedColumns = columns.reduce(
+      (row, column) => (
+        [...row, column.name]
+      ),
+      []
+    );
     return convertedColumns;
   }
 
-  sortBy(column) {
+  sortBy(column: string) {
     let sortBy = this.state.sortBy;
     let newStateReverse = true;
     if (column === sortBy) {
@@ -48,15 +62,16 @@ export default class Table extends Component {
 
   dataSort() {
     let {sortBy, reverse} = this.state;
-    let rows = this.props.rows.slice();
+    let rows = [...this.props.rows];
     if (sortBy) {
-      let style = this.props.columns.reduce((colStyle, col) => {
-        if (col.name === sortBy) {
-          return col.style;
-        } else {
-          return colStyle;
-        }
-      }, '');
+      let style = this.props.columns.reduce(
+        (colStyle, col) => (
+          col.name === sortBy
+            ? col.style
+            : colStyle
+        ),
+        ''
+      );
       if (style === 'text') {
         rows.sort((a, b) => b[sortBy].localeCompare(a[sortBy]));
       } else {
@@ -70,44 +85,24 @@ export default class Table extends Component {
   }
 
   render() {
-    let categoryTotal = 0;
-    let categoryTax = 0;
-    let categoryMarkup = 0;
     let sortedRows = this.dataSort();
     let rows = sortedRows.map(row => {
-      categoryTotal += row.total + row.tax + row.markup;
-      categoryTax += row.tax;
-      categoryMarkup += row.markup;
       return (
-        <Row
+        <TableRow
           key={this.props.rows.indexOf(row)}
           keys={this.props.columns}
           row={row}
         />);
     });
-    let categoryData = {
-      category: this.props.category,
-      total: categoryTotal,
-      tax: categoryTax,
-      markup: categoryMarkup
-    }
-
     return (
       <TableWrapper>
-        <Row
-          keys={this.props.columns}
-          row={this.columns2Headers()}
-          sortBy={this.sortBy}
+        <TableHeader
+          headers={this.columns2Headers()}
           reverseOrder={this.state.reverse}
-          isHeader={true}
           filter={this.state.sortBy}
+          sortBy={this.sortBy}
         />
         {rows}
-        <Overview
-          background={this.props.color}
-          value={categoryData}
-          keys={this.props.columns}
-        />
       </TableWrapper>
     );
   }

@@ -4,18 +4,29 @@ import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import InputField, { DropDownItem } from '@app/components/InputField';
 import GhostButton from '@app/components/GhostButton';
+import dropdownValidation from '@utils/validation/dropdown';
+import textValidation from '@utils/validation/text';
+import numberValidation from '@utils/validation/number';
 import { theme } from '@utils/color';
 import { BidItem, Category, Unit } from '@app/types/types';
-import { validateNumber, validateText, validateOption } from '@utils/validation';
 import { isEmpty, isDefined } from '@utils/utils';
 import { capitalize } from '@utils/styling';
 
+interface ErrorState {
+  hasError: boolean;
+  message: string;
+}
+
 interface FieldState {
   value: string;
-  errorState: {
-    hasError: boolean;
-    message: string;
-  };
+  errorState: ErrorState;
+  validation: (v: string) => ErrorState;
+}
+
+interface DropdownFieldState {
+  value: string;
+  errorState: ErrorState;
+  validation: (v: string, partial?: boolean) => ErrorState;
 }
 
 interface DropDownOptions {
@@ -38,12 +49,12 @@ interface Props {
 interface State {
   focused: string | null;
   description: FieldState;
-  category: FieldState;
+  category: DropdownFieldState;
   price: FieldState;
   quantity: FieldState;
   markupPercent: FieldState;
   notes: FieldState;
-  unitType: FieldState;
+  unitType: DropdownFieldState;
   isUnit: boolean;
 }
 
@@ -89,32 +100,42 @@ const defaultFieldState = {
 };
 const unitItemFields = ['unitType', 'category', 'quantity', 'markupPercent', 'notes'];
 const itemFields = ['description', 'category', 'price', 'quantity', 'markupPercent', 'notes'];
+const allFields = ['description', 'price', 'quantity', 'markupPercent', 'notes', 'category', 'unitType'];
 
-class NewItemForm extends React.Component<Props, State> {
+export default class NewItemForm extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
       focused: null,
       isUnit: false,
-      description: defaultFieldState,
-      category: defaultFieldState,
-      price: defaultFieldState,
-      quantity: defaultFieldState,
-      markupPercent: defaultFieldState,
-      unitType: defaultFieldState,
-      notes: defaultFieldState
+      description: {...defaultFieldState, validation: textValidation({maxLength: 100})},
+      category: {...defaultFieldState, validation: dropdownValidation(this.dropdownOptions('categories'))},
+      price: {...defaultFieldState, validation: numberValidation()},
+      quantity: {...defaultFieldState, validation: numberValidation()},
+      markupPercent: {...defaultFieldState, validation: numberValidation({isRequired: false})},
+      unitType: {...defaultFieldState, validation: dropdownValidation(this.dropdownOptions('units'))},
+      notes: {...defaultFieldState, validation: textValidation({isRequired: false})}
     };
   }
 
-  fieldValidations = () => ({
-    description: {func: validateText, options: {maxLength: 100}},
-    category: {func: validateOption, options: {list: this.categoryOptions()}},
-    price: {func: validateNumber},
-    quantity: {func: validateNumber},
-    markupPercent: {func: validateNumber, options: {isRequired: false}},
-    unitType: {func: validateOption, options: {list: this.unitTypeOptions()}},
-    notes: {func: validateText, options: {isRequired: false}},
-  })
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.categories.length !== this.props.categories.length) {
+      this.setState(prevState => ({
+        category: {
+          ...prevState.category,
+          validation: dropdownValidation(this.dropdownOptions('categories'))
+        }
+      }));
+    }
+    if (prevProps.units.length !== this.props.units.length) {
+      this.setState(prevState => ({
+        unitType: {
+          ...prevState.unitType,
+          validation: dropdownValidation(this.dropdownOptions('units'))
+        }
+      }));
+    }
+  }
 
   toggleFormType = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({isUnit: e.target.checked});
@@ -125,201 +146,112 @@ class NewItemForm extends React.Component<Props, State> {
       <InputWrapper>
         <InputField
           isFocused={this.state.focused === name}
+          name={name}
           label={isDefined(label) ? capitalize(label) : capitalize(name)}
           focusColor={theme.accent.hex}
           value={this.state[name].value}
           errorState={this.state[name].errorState}
-          onFocus={() => this.setFieldFocus(name)}
-          onBlur={() => this.removeFieldFocus(name)}
-          onChange={this.selectUpdateFunction(name)}
+          onFocus={this.setFieldFocus}
+          onBlur={this.removeFieldFocus}
+          onChange={this.updateFieldValue}
         />
       </InputWrapper>
     );
   }
 
-  createDropDownField = (name: string, options: DropDownOptions, blur: () => void, label?: string) => {
+  createDropDownField = (name: string, options: DropDownOptions, label?: string) => {
     return (
       <InputWrapper>
         <InputField
           isFocused={this.state.focused === name}
+          name={name}
           label={isDefined(label) ? capitalize(label) : capitalize(name)}
           focusColor={theme.accent.hex}
           value={this.state[name].value}
           errorState={this.state[name].errorState}
           options={options}
-          onFocus={() => this.setFieldFocus(name)}
-          onBlur={blur}
-          onChange={this.selectUpdateFunction(name)}
+          onFocus={this.setFieldFocus}
+          onBlur={this.removeDropdownFocus}
+          onChange={this.updateFieldValue}
         />
       </InputWrapper>
     );
   }
 
-  selectUpdateFunction = (name: string) => {
-    switch (name) {
-      case 'description': return this.setDescription;
-      case 'category': return this.setCategory;
-      case 'unitType': return this.setUnitType;
-      case 'price': return this.setPrice;
-      case 'quantity': return this.setQuantity;
-      case 'markupPercent': return this.setMarkup;
-      case 'notes': return this.setNotes;
-      default:
-        throw (`${name} is not a field`);
-    }
+  setFieldFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({focused: e.target.name});
   }
 
-  setFieldFocus = (field: string) => {
-    this.setState({focused: field});
-  }
-
-  removeFieldFocus = (field: string) => {
-    if (this.state.focused === field) {
+  removeFieldFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (this.state.focused === e.target.name) {
       this.setState({focused: null});
     }
   }
 
-  removeCategoryFocus = () => {
-    let validation = this.fieldValidations().category;
-    let errorState = validation.func(this.state.category.value, validation.options);
-    this.setState({
+  updateFieldValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let {name, value} = e.target;
+    let validationArgs = name === 'category' || name === 'unitType'
+      ? [value, true]
+      : [value];
+    this.setState(prevState => ({
+      [name]: {
+        ...prevState[name],
+        errorState: prevState[name].validation(...validationArgs),
+        value: value
+      }
+    } as State));
+  }
+
+  removeDropdownFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let target = e.target.name;
+    let error = this.state[target].validation(this.state[target].value);
+    this.setState(prevState => ({
       focused: null,
-      category: {
-        value: errorState.hasError
+      [target]: {
+        ...prevState[target],
+        value: error.hasError
           ? ''
-          : validation.options.list.find(
-              opt => opt.name.toLowerCase() === this.state.category.value.toLowerCase()
-            )!.name,
-        errorState
+          : prevState[target].value,
+        errorState: error,
       }
-    });
+    } as State));
   }
 
-  removeUnitTypeFocus = () => {
-    let validation = this.fieldValidations().unitType;
-    let errorState = validation.func(this.state.unitType.value, validation.options);
-    this.setState({
-      focused: null,
-      unitType: {
-        value: errorState.hasError
-          ? ''
-          : validation.options.list.find(
-              opt => opt.name.toLowerCase() === this.state.unitType.value.toLowerCase()
-            )!.name,
-        errorState
-      }
-    });
-  }
-
-  setDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      description: {
-        value: e.target.value,
-        errorState: validateText(e.target.value, {maxLength: 100})
-      }
-    });
-  }
-
-  setCategory = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      category: {
-        value: e.target.value,
-        errorState: validateOption(e.target.value, {list: this.categoryOptions(), allowPartial: true})
-      }
-    });
-  }
-
-  setUnitType = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      unitType: {
-        value: e.target.value,
-        errorState: validateOption(e.target.value, {list: this.unitTypeOptions(), allowPartial: true})
-      }
-    });
-  }
-
-  setPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      price: {
-        value: e.target.value,
-        errorState: validateNumber(e.target.value)
-      }
-    });
-  }
-
-  setQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      quantity: {
-        value: e.target.value,
-        errorState: validateNumber(e.target.value)
-      }
-    });
-  }
-
-  setMarkup = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      markupPercent: {
-        value: e.target.value,
-        errorState: validateNumber(e.target.value, {isRequired: false})
-      }
-    });
-  }
-
-  setNotes = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      notes: {
-        value: e.target.value,
-        errorState: validateText(e.target.value, {isRequired: false})
-      }
-    });
-  }
-
-  categoryOptions = () => (
-    this.props.categories.map(category => ({id: category.url, name: category.name}))
-  )
-
-  unitTypeOptions = () => (
-    this.props.units.map(unit => ({id: unit.url, name: unit.name}))
+  dropdownOptions = (field: string) => (
+    this.props[field].map((f: {url: string, name: string}) => ({id: f.url, name: f.name}))
   )
 
   selectCategory = (category: DropDownItem) => {
-    this.setState({
+    this.setState(prevState => ({
       category: {
+        ...prevState.category,
         value: category.name,
         errorState: defaultFieldState.errorState
       }
-    });
+    }));
   }
 
   selectUnitType = (unit: DropDownItem) => {
-    this.setState({
+    this.setState(prevState => ({
       unitType: {
+        ...prevState.unitType,
         value: unit.name,
         errorState: defaultFieldState.errorState
       }
-    });
+    }));
   }
 
-  getCategoryUrl = () => {
-    return this.props.categories.find(category => category.name === this.state.category.value)!.url;
-  }
-
-  getUnitTypeUrl = () => {
-    return this.props.units.find(unit => unit.name === this.state.unitType.value)!.url;
+  getFieldUrl = (list: string, field: string) => {
+    return this.props[list].find((e: {name: string, url: string}) => e.name === this.state[field].value)!.url;
   }
 
   clearAll = () => {
+    let clearedState = allFields.reduce(
+      (state, field) => ({...state, [field]: {...this.state[field], ...defaultFieldState}}),
+      {}
+    );
     this.setState(
-      {
-        description: defaultFieldState,
-        unitType: defaultFieldState,
-        category: defaultFieldState,
-        price: defaultFieldState,
-        quantity: defaultFieldState,
-        markupPercent: defaultFieldState,
-        notes: defaultFieldState,
-        focused: null
-      },
+      {...clearedState, focused: null},
       this.props.cancelAction
     );
   }
@@ -331,45 +263,41 @@ class NewItemForm extends React.Component<Props, State> {
     return itemFields.some(field => fieldState[field].errorState.hasError);
   }
 
-  getItemData = () => {
+  constructItem = () => {
     let fields = this.state.isUnit
       ? unitItemFields
       : itemFields;
     let partial: Partial<BidItem> = fields.reduce(
-      (data, field) => {
-        if (isEmpty(this.state[field].value)) {
-          return data;
-        }
-        return {...data, [field]: this.state[field].value};
-      },
+      (data, field) => (
+        isEmpty(this.state[field].value)
+          ? data
+          : {...data, [field]: this.state[field].value}
+      ),
       {}
     );
     if (this.state.isUnit) {
-      partial.unitType = this.getUnitTypeUrl();
+      partial.unitType = this.getFieldUrl('units', 'unitType');
     }
-    partial.category = this.getCategoryUrl();
+    partial.category = this.getFieldUrl('categories', 'category');
     return partial;
   }
 
   validateAllAndSubmit = () => {
-    let errorState = Object.keys(this.fieldValidations()).reduce(
-      (state, field) => {
-        let validation = this.fieldValidations()[field];
-        return {
-          ...state,
-          [field]: {
-            value: this.state[field].value,
-            errorState: validation.func(this.state[field].value, validation.options)
-          }
-        };
-      },
+    let fieldState = allFields.reduce(
+      (state, field) => ({
+        ...state,
+        [field]: {
+          ...this.state[field],
+          errorState: this.state[field].validation(this.state[field].value)
+        }
+      }),
       {}
-    );
-    if (this.focusedFormHasError(errorState)) {
-      this.setState({...errorState});
+    ) as State;
+    if (this.focusedFormHasError(fieldState)) {
+      this.setState({...fieldState});
     } else {
       this.props.createItem({
-        ...this.getItemData()
+        ...this.constructItem()
       });
       this.clearAll();
       if (isDefined(this.props.submitAction)) {
@@ -385,11 +313,10 @@ class NewItemForm extends React.Component<Props, State> {
         {this.createDropDownField(
           'category',
           {
-            list: this.categoryOptions(),
+            list: this.dropdownOptions('categories'),
             select: this.selectCategory,
             filter: true
           },
-          this.removeCategoryFocus,
         )}
         {this.createTextField('price')}
         {this.createTextField('quantity')}
@@ -405,21 +332,19 @@ class NewItemForm extends React.Component<Props, State> {
         {this.createDropDownField(
           'unitType',
           {
-            list: this.unitTypeOptions(),
+            list: this.dropdownOptions('units'),
             select: this.selectUnitType,
             filter: true
           },
-          this.removeUnitTypeFocus,
           'unit'
         )}
         {this.createDropDownField(
           'category',
           {
-            list: this.categoryOptions(),
+            list: this.dropdownOptions('categories'),
             select: this.selectCategory,
             filter: true
           },
-          this.removeCategoryFocus,
         )}
         {this.createTextField('quantity')}
         {this.createTextField('markupPercent', 'markup')}
@@ -468,5 +393,3 @@ class NewItemForm extends React.Component<Props, State> {
     );
   }
 }
-
-export default NewItemForm;

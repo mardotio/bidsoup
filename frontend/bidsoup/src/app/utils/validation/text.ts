@@ -12,7 +12,7 @@ const validateMaxLength = (prevState: ComposedReturn<TextValidation>) => {
   if (prevState.error.hasError || prevState.value.length <= prevState.options.maxLength!) {
     return prevState;
   }
-  return createError('Exceeded max length', prevState);
+  return createError(`Max length: ${prevState.options.maxLength}`, prevState);
 };
 
 const textValidation = (options?: Partial<TextValidation>) => {

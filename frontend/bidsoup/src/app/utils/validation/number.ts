@@ -2,6 +2,7 @@ import { compose } from 'redux';
 import { isDefined, isNumber } from '@utils/utils';
 import { ComposedReturn, createError } from '@utils/validation/shared';
 import { getAcceptedOptions, optionalOrRequired } from '@utils/validation/shared';
+import { beautifyNumber } from '../styling';
 
 interface NumberValidation {
   isRequired: boolean;
@@ -21,8 +22,10 @@ const validateMaxPrecision = (prevState: ComposedReturn<NumberValidation>) => {
     return prevState;
   }
   let decimals = prevState.value.split('.')[1];
-  if (isDefined(decimals) && decimals.length > prevState.options.maxPrecision!) {
-    return createError('Exceeded max precsion', prevState);
+  if (prevState.options.maxPrecision === 0 && prevState.value.includes('.')) {
+    return createError('Field must be an integer', prevState);
+  } else if (isDefined(decimals) && decimals.length > prevState.options.maxPrecision!) {
+    return createError(`Max precision: ${prevState.options.maxPrecision}`, prevState);
   }
   return prevState;
 };
@@ -33,10 +36,19 @@ const validateMaxDigits = (prevState: ComposedReturn<NumberValidation>) => {
   }
   let [digits] = prevState.value.split('.');
   if (isDefined(digits) && digits.length > prevState.options.maxDigits!) {
-    return createError('Exceeded max digits', prevState);
+    return createError(
+      `Max: ${getLargestNumber(prevState.options.maxDigits!, prevState.options.maxPrecision)}`,
+      prevState
+    );
   }
   return prevState;
 };
+
+const getLargestNumber = (digits: number, decimals: number | null) => (
+  isDefined(decimals) && decimals > 0
+   ? beautifyNumber(Number(`${'9'.repeat(digits)}.${'9'.repeat(decimals)}`), decimals)
+   : beautifyNumber(Number(`${'9'.repeat(digits)}`), 0)
+);
 
 const numberValidation = (options?: Partial<NumberValidation>) => {
   const defaults: NumberValidation = {

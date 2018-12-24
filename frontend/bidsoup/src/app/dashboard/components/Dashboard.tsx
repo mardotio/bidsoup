@@ -40,6 +40,7 @@ interface ItemWithTotal extends BidItem {
 }
 
 interface Props {
+  account: string;
   bid: number | null;
   bids: Bid[];
   units: Unit[];
@@ -49,6 +50,9 @@ interface Props {
     [s: string]: CategoryWithItems;
   };
   loading: boolean;
+  history: {
+    push: (url: string) => void;
+  };
   loadPage: () => Promise<Actions>;
   selectBid: () => Promise<Actions>;
   createUnitType: (u: Partial<Unit>) => Promise<UnitActions>;
@@ -95,7 +99,9 @@ class Dashboard extends React.Component<Props> {
   render() {
     return (
       <Container>
-        <BidSelectorContainer/>
+        <BidSelectorContainer
+          onSelect={(bid: number) => this.props.history.push(`/${this.props.account}/bids/${bid}`)}
+        />
         <OverviewContainer>
           {this.generateBody()}
         </OverviewContainer>

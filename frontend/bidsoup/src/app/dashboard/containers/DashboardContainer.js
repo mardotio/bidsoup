@@ -47,8 +47,9 @@ const unitsArray = units => (
 );
 
 const mapStateToProps = (state, ownProps) => ({
+  account: state.account,
   bids: state.bids.list,
-  selectedBid: bidWithCustomer(state.bids.selectedBid, state.customers.list),
+  bid: ownProps.match.params.bid,
   categoriesWithItems: itemsByCategory(
     state.bidData.items.list,
     state.bidData.categories.list,
@@ -56,7 +57,7 @@ const mapStateToProps = (state, ownProps) => ({
     state.bids.selectedBid.taxPercent
   ),
   customers: state.customers.list,
-  bid: ownProps.match.params.bid,
+  selectedBid: bidWithCustomer(state.bids.selectedBid, state.customers.list),
   units: unitsArray(state.bidData.units.units)
 });
 

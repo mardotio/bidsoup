@@ -2,7 +2,6 @@ import * as React from 'react';
 import styled from 'styled-components';
 import Card from '@app/components/Card';
 import { theme } from '@utils/color';
-import Link from '@app/components/Link';
 
 const CardContainer = styled(Card)`
   margin: 1em;
@@ -28,17 +27,17 @@ interface Props {
   name: string;
   customer: string | null;
   url: string;
-  route: string;
+  onSelect: () => void;
 }
 
 const BidCard = (props: Props) => {
   return(
-    <Link to={props.route}>
-      <CardContainer >
-        <Title>{props.name}</Title>
-        <Truncate>{props.customer}</Truncate>
-      </CardContainer>
-    </Link>
+    <CardContainer
+      onClick={props.onSelect}
+    >
+      <Title>{props.name}</Title>
+      <Truncate>{props.customer}</Truncate>
+    </CardContainer>
   );
 };
 

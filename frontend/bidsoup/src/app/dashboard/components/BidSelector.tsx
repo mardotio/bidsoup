@@ -20,9 +20,10 @@ const Container = styled.div`
 interface Props {
   bids: Bid[];
   account: string | null;
+  onSelect: (bidId: number) => void;
 }
 
-const generateBidCards = ({bids, account}: Props) => {
+const generateBidCards = ({bids, account, onSelect}: Props) => {
   return bids.map(bid => (
     <BidCard
       key={bid.url}
@@ -30,7 +31,7 @@ const generateBidCards = ({bids, account}: Props) => {
       customer={bid.customer}
       url={bid.url}
       bidNumber={bid.key}
-      route={`/${account}/bids/${bid.key}`}
+      onSelect={() => onSelect(bid.key)}
     />
   ));
 };

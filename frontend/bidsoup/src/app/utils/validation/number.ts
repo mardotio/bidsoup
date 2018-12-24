@@ -2,13 +2,19 @@ import { compose } from 'redux';
 import { isDefined, isNumber } from '@utils/utils';
 import { ComposedReturn, createError } from '@utils/validation/shared';
 import { getAcceptedOptions, optionalOrRequired } from '@utils/validation/shared';
-import { beautifyNumber } from '../styling';
+import { beautifyNumber } from '@utils/styling';
 
 interface NumberValidation {
   isRequired: boolean;
   maxDigits: number | null;
   maxPrecision: number | null;
 }
+
+const getLargestNumber = (digits: number, decimals: number | null) => (
+  isDefined(decimals) && decimals > 0
+   ? beautifyNumber(Number(`${'9'.repeat(digits)}.${'9'.repeat(decimals)}`), decimals)
+   : beautifyNumber(Number(`${'9'.repeat(digits)}`), 0)
+);
 
 const validateNumber = (prevState: ComposedReturn<NumberValidation>) => {
   if (prevState.error.hasError || isNumber(prevState.value)) {
@@ -43,12 +49,6 @@ const validateMaxDigits = (prevState: ComposedReturn<NumberValidation>) => {
   }
   return prevState;
 };
-
-const getLargestNumber = (digits: number, decimals: number | null) => (
-  isDefined(decimals) && decimals > 0
-   ? beautifyNumber(Number(`${'9'.repeat(digits)}.${'9'.repeat(decimals)}`), decimals)
-   : beautifyNumber(Number(`${'9'.repeat(digits)}`), 0)
-);
 
 const numberValidation = (options?: Partial<NumberValidation>) => {
   const defaults: NumberValidation = {

@@ -5,7 +5,7 @@ import TaskTree from '@taskItem/components/TaskTree';
 import Card from '@app/components/Card';
 import NewTaskForm from '@taskItem/components/NewTaskForm';
 import Fab from '@app/components/Fab';
-import Item from '@taskItem/components/Item';
+import TaskDetails from '@taskItem/components/TaskDetails';
 import { theme } from '@utils/color';
 import { isUndefined, isDefined } from '@utils/utils';
 import { UiState } from '@app/reducers/uiReducer';
@@ -91,20 +91,6 @@ const FabContainer = styled.div`
   z-index: 500;
 `;
 
-const displayTaskItems = ({taskItems, categories, selectedTask}: Props) => {
-  if (isUndefined(selectedTask)) {
-    return null;
-  }
-  return (
-    <Item
-      items={taskItems}
-      categories={categories}
-      selectedTask={selectedTask}
-      key={selectedTask.url}
-    />
-  );
-};
-
 const addElements = (props: Props) => {
   if (props.ui.modalShowing) {
     return (
@@ -167,6 +153,24 @@ class TaskItem extends React.Component<Props> {
     }
   }
 
+  getBidUrl() {
+    return this.props.bids.find(bid => bid.key === Number(this.props.selectedBid))!.url;
+  }
+
+  displayTaskItems() {
+    if (isUndefined(this.props.selectedTask)) {
+      return null;
+    }
+    return (
+      <TaskDetails
+        items={this.props.taskItems}
+        categories={this.props.categories}
+        selectedTask={this.props.selectedTask}
+        key={this.props.selectedTask.url}
+      />
+    );
+  }
+
   render() {
     if (this.props.tasks.length <= 0) {
       return (
@@ -187,7 +191,7 @@ class TaskItem extends React.Component<Props> {
           <ItemContent
             shouldDisplay={isDefined(this.props.selectedTask)}
           >
-            {displayTaskItems(this.props)}
+            {this.displayTaskItems()}
           </ItemContent>
         </ViewConatiner>
         {addElements(this.props)}

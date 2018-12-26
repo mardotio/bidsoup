@@ -4,6 +4,7 @@ import HorizontalRule from '@app/components/HorizontalRule';
 import Table from '@taskItem/components/Table';
 import PriceBreakdown from '@taskItem/components/PriceBreakdown';
 import CategoryChip from '@taskItem/components/CategoryChip';
+import Items from '@taskItem/components/Items';
 import { theme } from '@utils/color';
 import { isEmpty, isUndefined, includes } from '@utils/utils';
 import { StandardizedItem } from '@utils/conversions';
@@ -56,10 +57,6 @@ const ChipContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-const TableContainer = styled.div`
-  width: 100%;
-`;
-
 const FilterTitle = styled.div`
   font-size: 1.2em;
   color: ${theme.text.dark.hex};
@@ -98,7 +95,7 @@ const columns: {
   },
 ];
 
-export default class Item extends React.Component<Props, State> {
+export default class TaskDetails extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -107,12 +104,24 @@ export default class Item extends React.Component<Props, State> {
     };
   }
 
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.items.length !== prevProps.items.length) {
+      this.setState(prevState => ({
+        items: this.filterItems(prevState.selectedCategories)
+      }));
+    }
+  }
+
+  filterItems(selectedCategories: string[]) {
+    return this.props.items.filter(item => includes(selectedCategories, item.category));
+  }
+
   selectCategory = (catUrl: string) => {
     let selectedCategories = includes(this.state.selectedCategories, catUrl)
       ? this.state.selectedCategories.filter(cat => cat !== catUrl)
       : [...this.state.selectedCategories, catUrl];
     this.setState({
-      items: this.props.items.filter(item => includes(selectedCategories, item.category)),
+      items: this.filterItems(selectedCategories),
       selectedCategories
     });
   }
@@ -199,9 +208,11 @@ export default class Item extends React.Component<Props, State> {
         <PriceBreakdown
           {...this.itemPriceBreakdown()}
         />
-        <TableContainer>
-          {this.createTable()}
-        </TableContainer>
+        <Items
+          columns={columns}
+          items={this.state.items}
+          categories={this.props.categories}
+        />
       </ItemWrapper>
     );
   }

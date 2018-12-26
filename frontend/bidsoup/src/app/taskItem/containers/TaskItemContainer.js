@@ -5,6 +5,7 @@ import { Actions as tasksActions, createBidTask, selectBidTaskByUuid } from '@ta
 import { Actions as accountActions } from '@app/actions/accountActions';
 import { Actions as uiActions } from '@app/actions/uiActions';
 import { Actions as bidActions, setAndFetchBidByKey, fetchBidListByAccount } from '@dashboard/actions/bidActions'
+import { createTaskItem } from '@taskItem/actions/bidItemsActions';
 import componentsActions from '../actions/bidComponentsActions';
 import { isEmpty, nestedFind, isDefined, isUndefined } from '@utils/utils';
 import { array2HashByKey } from '@utils/sorting';

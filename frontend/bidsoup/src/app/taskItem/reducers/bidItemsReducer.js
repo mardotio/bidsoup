@@ -1,4 +1,4 @@
-import itemActions from '../actions/bidItemsActions';
+import { REQUEST_BID_ITEMS, RECEIVE_BID_ITEMS } from '../actions/bidItemsActions';
 
 const defaultState = {
   isFetching: false,
@@ -8,13 +8,13 @@ const defaultState = {
 
 const bidItemsReducer = (state = defaultState, action) => {
   switch(action.type) {
-    case itemActions.REQUEST_BID_ITEMS:
+    case REQUEST_BID_ITEMS:
       console.log('requesting items');
       return {
         ...state,
         isFetching: true,
       };
-    case itemActions.RECEIVE_BID_ITEMS:
+    case RECEIVE_BID_ITEMS:
       console.log('receiving items');
       return {
         isFetching: false,

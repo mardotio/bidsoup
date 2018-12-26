@@ -41,7 +41,7 @@ interface Props {
   fetchCustomers: () => Promise<Actions>;
 }
 
-const OverviewContainer = styled.div`
+const BidContainer = styled.div`
   flex-grow: 1;
   background-color: ${theme.background.hex};
   overflow: scroll;
@@ -52,10 +52,6 @@ const OverviewContainer = styled.div`
   ::-webkit-scrollbar-thumb {
     background: ${theme.components.scrollbar.hex};
   }
-`;
-
-const DetailsContainer = styled.div`
-  padding: 0 3em;
 `;
 
 class Dashboard extends React.Component<Props> {
@@ -83,20 +79,18 @@ class Dashboard extends React.Component<Props> {
   generateBody() {
     if (this.props.selectedBid.url) {
       return (
-        <OverviewContainer>
+        <BidContainer>
           <ActionsHeader
             close={this.props.clearSelectedBid}
             account={this.props.account}
           />
-          <DetailsContainer>
-            <BidOverview
-              bid={this.props.selectedBid}
-              categoriesWithItems={this.props.categoriesWithItems}
-              units={this.props.units}
-              createUnitType={this.props.createUnitType}
-            />
-          </DetailsContainer>
-        </OverviewContainer>
+          <BidOverview
+            bid={this.props.selectedBid}
+            categoriesWithItems={this.props.categoriesWithItems}
+            units={this.props.units}
+            createUnitType={this.props.createUnitType}
+          />
+        </BidContainer>
       );
     }
     return <BidSelectorContainer/>;

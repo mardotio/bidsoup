@@ -7,16 +7,12 @@ import { Actions } from '@dashboard/actions/bidActions';
 import { Actions as UnitActions } from '@taskItem/actions/unitTypeActions';
 import { theme } from '@utils/color';
 
-const Container = styled.div`
-  display: flex;
-  height: 100%;
-`;
-
 const OverviewContainer = styled.div`
   flex-grow: 1;
   background-color: ${theme.background.hex};
   padding: 1em 3em;
   overflow: scroll;
+  height: 100%;
   ::-webkit-scrollbar {
     width: 5px;
   }
@@ -81,25 +77,22 @@ class Dashboard extends React.Component<Props> {
   generateBody() {
     if (this.props.selectedBid.url) {
       return (
-        <BidOverview
-          bid={this.props.selectedBid}
-          categoriesWithItems={this.props.categoriesWithItems}
-          units={this.props.units}
-          createUnitType={this.props.createUnitType}
-        />
+        <OverviewContainer>
+          <BidOverview
+            bid={this.props.selectedBid}
+            categoriesWithItems={this.props.categoriesWithItems}
+            units={this.props.units}
+            createUnitType={this.props.createUnitType}
+          />
+        </OverviewContainer>
       );
     }
-    return 'Select a Bid to learn more';
+    return <BidSelectorContainer/>;
   }
 
   render() {
     return (
-      <Container>
-        <BidSelectorContainer/>
-        <OverviewContainer>
-          {this.generateBody()}
-        </OverviewContainer>
-      </Container>
+        this.generateBody()
     );
   }
 }

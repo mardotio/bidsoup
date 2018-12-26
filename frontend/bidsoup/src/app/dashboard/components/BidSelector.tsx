@@ -1,49 +1,61 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import BidCard from '@dashboard/components/BidCard';
+import Grid from '@app/components/Grid';
+import { Link } from 'react-router-dom';
 import { Bid } from '@app/types/types';
 import { theme } from '@utils/color';
-
-const Container = styled.div`
-  width: 15%;
-  max-width: 600px;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  ::-webkit-scrollbar {
-    width: 5px;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: ${theme.components.scrollbar.hex};
-  }
-`;
 
 interface Props {
   bids: Bid[];
   account: string | null;
 }
 
+const BidLink = styled(Link)`
+  display: block;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);
+  background-color: ${theme.background.hex};
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  padding: 1em;
+  border-radius: .2em;
+  &:focus, &:hover, &:visited, &:link, &:active {
+      text-decoration: none;
+  }
+`;
+
+const Title = styled.div`
+  font-size: 1.25em;
+  margin-bottom: .5em;
+`;
+
+const Truncate = styled.div`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: ${theme.text.medium.hex};
+`;
+
 const generateBidCards = ({bids, account}: Props) => {
-  return bids.map(bid => (
-    <BidCard
-      key={bid.url}
-      name={bid.name}
-      customer={bid.customer}
-      url={bid.url}
-      bidNumber={bid.key}
-      route={`/${account}/bids/${bid.key}`}
-    />
+  return bids.map((bid) => (
+    <BidLink to={`/${account}/bids/${bid.key}`}>
+      <Title>{bid.name}</Title>
+      <Truncate>{bid.customer}</Truncate>
+    </BidLink>
   ));
 };
 
 const BidSelector = (props: Props) => {
-  let cards = props.bids.length < 1
-    ? 'Nothing to see here'
+  let cards = props.bids.length === 0
+    ? [<div key={1}>Nothing to see here</div>]
     : generateBidCards(props);
 
-  return(
-    <Container>
-      {cards}
-    </Container>
+  return (
+    <Grid
+      cells={cards}
+      containerId="body-container"
+      maxColumns={7}
+    />
   );
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Switch, withRouter } from 'react-router-dom';
 import SideNav from '../components/SideNav';
 import DashboardContainer from '../dashboard/containers/DashboardContainer';
 import TaskItemContainer from '../taskItem/containers/TaskItemContainer';
@@ -17,22 +17,26 @@ const BodyContainer = styled.div`
   flex-grow: 1;
 `
 
+const ConnectedSideNav = withRouter(SideNav);
+
 const View = props => {
   const navigation = [
     {
       icon: 'dashboard',
       title: 'Bids',
-      route: props.bid ? `/${props.account}/bids/${props.bid}` : '/bids'
+      route: props.bid ? `/${props.account}/bids/${props.bid}` : '/bids',
+      matches: ['/bids', '/:account/bids', '/:account/bids/:bidId']
     },{
       icon: 'view_list',
       title: 'Tasks',
-      route: props.bid ? `/${props.account}/bids/${props.bid}/tasks` : '/tasks'
+      route: props.bid ? `/${props.account}/bids/${props.bid}/tasks` : '/tasks',
+      matches: ['/:account/bids/:bidId/tasks', '/:account/bids/:bidId/tasks/:taskId']
     }
   ];
   return (
     <Router>
       <Container>
-        <SideNav
+        <ConnectedSideNav
           icons={navigation}
         />
         <BodyContainer id="body-container">

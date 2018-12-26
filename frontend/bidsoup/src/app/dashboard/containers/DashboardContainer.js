@@ -47,6 +47,7 @@ const unitsArray = units => (
 );
 
 const mapStateToProps = (state, ownProps) => ({
+  account: state.account,
   bids: state.bids.list,
   selectedBid: bidWithCustomer(state.bids.selectedBid, state.customers.list),
   categoriesWithItems: itemsByCategory(

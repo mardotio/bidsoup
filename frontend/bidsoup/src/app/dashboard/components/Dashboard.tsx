@@ -2,24 +2,12 @@ import * as React from 'react';
 import styled from 'styled-components';
 import BidOverview from '@dashboard/components/BidOverview';
 import BidSelectorContainer from '@dashboard/containers/BidSelectorContainer';
+import ActionsHeader from './ActionsHeader';
 import { Bid, BidItem, Unit, Customer } from '@app/types/types';
 import { Actions } from '@dashboard/actions/bidActions';
 import { Actions as UnitActions } from '@taskItem/actions/unitTypeActions';
 import { theme } from '@utils/color';
-
-const OverviewContainer = styled.div`
-  flex-grow: 1;
-  background-color: ${theme.background.hex};
-  padding: 1em 3em;
-  overflow: scroll;
-  height: 100%;
-  ::-webkit-scrollbar {
-    width: 5px;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: ${theme.components.scrollbar.hex};
-  }
-`;
+import { isDefined } from '@utils/utils';
 
 export interface CategoryWithItems {
   bid: string;
@@ -36,6 +24,7 @@ interface ItemWithTotal extends BidItem {
 }
 
 interface Props {
+  account: string;
   bid: number | null;
   bids: Bid[];
   units: Unit[];
@@ -51,6 +40,23 @@ interface Props {
   clearSelectedBid: () => Promise<Actions>;
   fetchCustomers: () => Promise<Actions>;
 }
+
+const OverviewContainer = styled.div`
+  flex-grow: 1;
+  background-color: ${theme.background.hex};
+  overflow: scroll;
+  height: 100%;
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: ${theme.components.scrollbar.hex};
+  }
+`;
+
+const DetailsContainer = styled.div`
+  padding: 0 3em;
+`;
 
 class Dashboard extends React.Component<Props> {
   componentDidMount() {
@@ -69,7 +75,7 @@ class Dashboard extends React.Component<Props> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (prevProps.bid !== this.props.bid) {
+    if (isDefined(this.props.bid) && prevProps.bid !== this.props.bid) {
       this.props.selectBid();
     }
   }
@@ -78,12 +84,18 @@ class Dashboard extends React.Component<Props> {
     if (this.props.selectedBid.url) {
       return (
         <OverviewContainer>
-          <BidOverview
-            bid={this.props.selectedBid}
-            categoriesWithItems={this.props.categoriesWithItems}
-            units={this.props.units}
-            createUnitType={this.props.createUnitType}
+          <ActionsHeader
+            close={this.props.clearSelectedBid}
+            account={this.props.account}
           />
+          <DetailsContainer>
+            <BidOverview
+              bid={this.props.selectedBid}
+              categoriesWithItems={this.props.categoriesWithItems}
+              units={this.props.units}
+              createUnitType={this.props.createUnitType}
+            />
+          </DetailsContainer>
         </OverviewContainer>
       );
     }
@@ -92,7 +104,7 @@ class Dashboard extends React.Component<Props> {
 
   render() {
     return (
-        this.generateBody()
+      this.generateBody()
     );
   }
 }

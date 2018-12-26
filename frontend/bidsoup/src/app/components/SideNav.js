@@ -7,20 +7,23 @@ import { theme } from '@utils/color';
 const NavContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: ${theme.background.hex};
+  background-color: ${theme.primary.hex};
   text-align: center;
   padding: 1em 0;
-  width: 100px;
+  width: 6em;
   height: 100%;
 `;
 
 const NavIcon = styled.i`
   height: 24px;
   width: 24px;
-  padding: 1em;
+  padding: .5em;
+  margin: .5em;
+  color: ${theme.background.hex};
+  border-radius: .3em;
   cursor: pointer;
   &:hover {
-  color: ${theme.primary.hex};
+    background-color: ${theme.primary.darken(.1)};
   }
 `
 

@@ -60,6 +60,10 @@ export default class Grid extends React.Component<Props, State> {
     this.resetContainerWidth();
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.resetContainerWidth);
+  }
+
   resetContainerWidth = () => {
     let parent = document.getElementById(this.props.containerId);
     if (parent && parent.clientWidth !== this.state.gridWidth) {

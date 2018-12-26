@@ -21,11 +21,11 @@ const View = props => {
   const navigation = [
     {
       icon: 'dashboard',
-      title: 'dashboard',
+      title: 'Bids',
       route: props.bid ? `/${props.account}/bids/${props.bid}` : '/bids'
     },{
       icon: 'view_list',
-      title: 'bid',
+      title: 'Tasks',
       route: props.bid ? `/${props.account}/bids/${props.bid}/tasks` : '/tasks'
     }
   ];
@@ -35,7 +35,7 @@ const View = props => {
         <SideNav
           icons={navigation}
         />
-        <BodyContainer>
+        <BodyContainer id="body-container">
           <Switch>
             <Route path="/:account/bids/:bid/tasks/:task" component={TaskItemContainer}/>
             <Route path="/:account/bids/:bid/tasks" component={TaskItemContainer}/>

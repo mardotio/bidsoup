@@ -3,6 +3,14 @@ import { UiState } from '@app/reducers/uiReducer';
 import { BidState } from '@dashboard/reducers/bidReducer';
 import { BidTaskState } from '@taskItem/reducers/bidTasksReducer';
 import { UnitState } from '@taskItem/reducers/unitTypeReducer';
+import { AccountState } from '@app/reducers/accountReducer';
+
+export interface Account {
+  bids: string;
+  name: string;
+  slug: string;
+  url: string;
+}
 
 export interface Bid {
   url: string;
@@ -115,5 +123,5 @@ export interface AppState {
   bids: BidState;
   customers: CustomerState;
   ui: UiState;
-  account: string | null;
+  account: AccountState;
 }

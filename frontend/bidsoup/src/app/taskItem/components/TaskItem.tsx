@@ -10,8 +10,7 @@ import { theme } from '@utils/color';
 import { isUndefined, isDefined } from '@utils/utils';
 import { UiState } from '@app/reducers/uiReducer';
 import { Bid, Category, BidTask } from '@app/types/types';
-import { StandardizedItem } from '@app/utils/conversions';
-import { Actions as ApiActions } from '@taskItem/actions/apiActions';
+import { StandardizedItem } from '@utils/conversions';
 import { Actions as BidActions } from '@dashboard/actions/bidActions';
 import { Actions as BidTaskActions } from '@taskItem/actions/bidTasksActions';
 
@@ -34,10 +33,9 @@ interface Props {
   history: {
     push: (url: string) => void;
   };
-  fetchApi: () => Promise<ApiActions>;
+  loadPage: () => Promise<void>;
   fetchBidList: () => Promise<BidActions>;
   addTask: (task: Partial<BidTask>) => Promise<BidTaskActions>;
-  setAccount: () => void;
   setCurrentBid: (bid: string) => void;
   selectTask: (task: string) => void;
   clearSelectedTask: () => void;
@@ -129,19 +127,10 @@ const addElements = (props: Props) => {
 
 class TaskItem extends React.Component<Props> {
   componentDidMount() {
-    if (!this.props.account) {
-      this.props.setAccount();
+    if (isUndefined(this.props.account)) {
+      this.props.loadPage();
     }
-    if (this.props.bids.length <= 0 && this.props.selectedBid) {
-      this.props.fetchApi()
-        .then(() => this.props.fetchBidList())
-        .then(() => this.props.setCurrentBid(this.props.selectedBid))
-        .then(() => {
-          if (this.props.task) {
-            this.props.selectTask(this.props.task);
-          }
-        });
-    } else if (this.props.selectedTask) {
+    if (this.props.selectedTask) {
       let uuid = this.props.selectedTask.url.match(/(?<=bidtasks\/)[0-9a-z-]+/i)![0];
       this.props.history.push(`/${this.props.account}/bids/${this.props.selectedBid}/tasks/${uuid}`);
     }

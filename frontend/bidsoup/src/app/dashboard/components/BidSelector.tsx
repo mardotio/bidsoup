@@ -2,12 +2,13 @@ import * as React from 'react';
 import styled from 'styled-components';
 import Grid from '@app/components/Grid';
 import { Link } from 'react-router-dom';
-import { Bid } from '@app/types/types';
+import { Bid, Account } from '@app/types/types';
 import { theme } from '@utils/color';
+import { isDefined } from '@utils/utils';
 
 interface Props {
   bids: Bid[];
-  account: string | null;
+  account: Account | null;
 }
 
 const BidLink = styled(Link)`
@@ -37,12 +38,15 @@ const Truncate = styled.div`
 `;
 
 const generateBidCards = ({bids, account}: Props) => {
-  return bids.map((bid) => (
-    <BidLink to={`/${account}/bids/${bid.key}`}>
-      <Title>{bid.name}</Title>
-      <Truncate>{bid.customer}</Truncate>
-    </BidLink>
-  ));
+  if (isDefined(account)) {
+    return bids.map((bid) => (
+      <BidLink to={`/${account.slug}/bids/${bid.key}`}>
+        <Title>{bid.name}</Title>
+        <Truncate>{bid.customer}</Truncate>
+      </BidLink>
+    ));
+  }
+  return [];
 };
 
 const BidSelector = (props: Props) => {

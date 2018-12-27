@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import CircleInitials from '@app/components/CircleInitials';
 import { Color, theme } from '@utils/color';
-import { getInitials } from '@app/utils/utils';
+import { getInitials } from '@utils/utils';
 
 interface Props {
   color: string;

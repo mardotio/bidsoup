@@ -3,7 +3,7 @@ import styled, { keyframes, css } from 'styled-components';
 import GhostButton from '@app/components/GhostButton';
 import Table from '@taskItem/components/Table';
 import HorizontalRule from '@app/components/HorizontalRule';
-import { StandardizedItem } from '@app/utils/conversions';
+import { StandardizedItem } from '@utils/conversions';
 import { Category } from '@app/types/types';
 import { theme } from '@utils/color';
 import NewItemFormContainer from '../containers/NewItemFormContainer';

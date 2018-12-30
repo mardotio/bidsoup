@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
 import BidSelector from '@dashboard/components/BidSelector';
 import { AppState, Bid, Customer } from '@app/types/types';
+import { Dispatch } from 'redux';
+import { Actions as uiActions } from '@app/actions/uiActions';
 
 const bidsWithCustomer = (bids: Bid[], customers: Customer[]) => (
   bids.map(bid => {
@@ -12,11 +14,17 @@ const bidsWithCustomer = (bids: Bid[], customers: Customer[]) => (
   })
 );
 
-const mapStateToProps = ({bids, customers, account}: AppState) => ({
+const mapStateToProps = ({ui, bids, customers, account}: AppState) => ({
   bids: bidsWithCustomer(bids.list, customers.list),
-  account: account.data
+  account: account.data,
+  modalShouldDisplay: ui.modalShowing
 });
 
-const BidSelectorContainer = connect(mapStateToProps)(BidSelector);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  showModal: () => dispatch(uiActions.showModal()),
+  hideModal: () => dispatch(uiActions.hideModal())
+});
+
+const BidSelectorContainer = connect(mapStateToProps, mapDispatchToProps)(BidSelector);
 
 export default BidSelectorContainer;

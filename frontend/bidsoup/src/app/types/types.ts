@@ -16,7 +16,7 @@ export interface Bid {
   url: string;
   key: number;
   name: string;
-  description: string;
+  description: string | null;
   bidDate: string;
   customer: string | null;
   taxPercent: string | null;

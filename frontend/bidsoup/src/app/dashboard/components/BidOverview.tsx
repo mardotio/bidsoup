@@ -1,19 +1,14 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Bid, Unit } from '@app/types/types';
 import OverviewHeader from '@dashboard/components/OverviewHeader';
-import { CategoryWithItems } from '@dashboard/components/Dashboard';
 import CategoryDashboard from '@dashboard/components/CategoryDashboard';
 import CrewDashboard from '@dashboard/components/CrewDashboard';
 import UnitDashboard from '@dashboard/components/UnitDashboard';
+import { CategoryWithItems } from '@dashboard/components/Dashboard';
 import { Actions } from '@taskItem/actions/unitTypeActions';
+import { Bid, Unit } from '@app/types/types';
 
-const BidTitle = styled.div`
-  font-size: 150%;
-  padding-top: 1em;
-`;
-
-interface OverviewProps {
+interface Props {
   bid: Bid;
   categoriesWithItems: {
     [k: string]: CategoryWithItems;
@@ -22,7 +17,16 @@ interface OverviewProps {
   createUnitType: (u: Partial<Unit>) => Promise<Actions>;
 }
 
-const bidTotal = ({categoriesWithItems}: OverviewProps) => (
+const BidTitle = styled.div`
+  font-size: 150%;
+  padding-top: 1em;
+`;
+
+const Container = styled.div`
+  padding: 0 3em;
+`;
+
+const bidTotal = ({categoriesWithItems}: Props) => (
   Object.keys(categoriesWithItems).reduce(
     (total, category) => (
       total + categoriesWithItems[category].items.reduce(
@@ -36,7 +40,7 @@ const bidTotal = ({categoriesWithItems}: OverviewProps) => (
   )
 );
 
-const BidOverview = (props: OverviewProps) => {
+const BidOverview = (props: Props) => {
   const crew = [
     {
       first: 'John',
@@ -71,7 +75,7 @@ const BidOverview = (props: OverviewProps) => {
     }
   ];
   return (
-    <React.Fragment>
+    <Container>
       <BidTitle>
         {props.bid.name}
       </BidTitle>
@@ -90,7 +94,7 @@ const BidOverview = (props: OverviewProps) => {
         key={props.bid.name}
         categoriesWithItems={props.categoriesWithItems}
       />
-    </React.Fragment>
+    </Container>
   );
 };
 

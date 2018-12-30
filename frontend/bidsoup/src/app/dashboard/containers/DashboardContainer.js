@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
 import Dashboard from '@dashboard/components/Dashboard';
 import { Actions as BidActions, fetchCustomerList, setAndFetchBidByKey, fetchBidListByAccount } from '@dashboard/actions/bidActions';
-import { Actions as AccountActions } from '@app/actions/accountActions';
+import { fetchAccount } from '@app/actions/accountActions';
 import { createUnitType } from '@dashboard/actions/unitActions';
 import { array2HashByKey } from '@utils/sorting';
 import { fetchApi, Actions } from '@taskItem/actions/apiActions';
 import { normalizeItem } from '@utils/conversions';
+import { isDefined } from '@utils/utils';
 
 const zeroOrPercent = value => (
   value ? Number(value / 100) : 0
@@ -47,6 +48,7 @@ const unitsArray = units => (
 );
 
 const mapStateToProps = (state, ownProps) => ({
+  account: isDefined(state.account.data) ? state.account.data.slug : null,
   bids: state.bids.list,
   selectedBid: bidWithCustomer(state.bids.selectedBid, state.customers.list),
   categoriesWithItems: itemsByCategory(
@@ -62,8 +64,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   loadPage: () => {
-    dispatch(AccountActions.setAccount(ownProps.match.params.account));
     return dispatch(fetchApi())
+      .then(() => dispatch(fetchAccount(ownProps.match.params.account)))
       .then(() => dispatch(fetchCustomerList()))
       .then(() => dispatch(fetchBidListByAccount()))
   },

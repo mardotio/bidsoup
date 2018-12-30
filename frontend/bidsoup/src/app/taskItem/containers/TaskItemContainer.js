@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import TaskItem from '../components/TaskItem';
 import { fetchApi } from '@taskItem/actions/apiActions';
 import { Actions as tasksActions, createBidTask, selectBidTaskByUuid } from '@taskItem/actions/bidTasksActions';
-import { Actions as accountActions } from '@app/actions/accountActions';
+import { fetchAccount } from '@app/actions/accountActions';
 import { Actions as uiActions } from '@app/actions/uiActions';
 import { Actions as bidActions, setAndFetchBidByKey, fetchBidListByAccount } from '@dashboard/actions/bidActions'
 import { createTaskItem } from '@taskItem/actions/bidItemsActions';
@@ -76,7 +76,7 @@ const standardizeItems = (items, categories, units, tax) => {
   }, [])
 }
 
-const mapStateToProps = ({api, account, ui, bidData, bids}, ownProps) => {
+const mapStateToProps = ({account, ui, bidData, bids}, ownProps) => {
   const itemsWithTotal = standardizeItems(
     bidData.items.list,
     bidData.categories.list,
@@ -92,7 +92,7 @@ const mapStateToProps = ({api, account, ui, bidData, bids}, ownProps) => {
     bids: bids.list,
     taskItems,
     categories: bidData.categories.list,
-    account,
+    account: isDefined(account.data) ? account.data.slug : null,
     selectedTask: bidData.tasks.selectedTask,
     tasks: getTasks(bidData.tasks, itemsByTask),
   }
@@ -100,12 +100,19 @@ const mapStateToProps = ({api, account, ui, bidData, bids}, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    setAccount: () =>
-      dispatch(accountActions.setAccount(ownProps.match.params.account)),
-    fetchApi: () =>
-      dispatch(fetchApi()),
+    loadPage: () => (
+      dispatch(fetchApi())
+        .then(() => dispatch(fetchAccount(ownProps.match.params.account)))
+        .then(() => dispatch(fetchBidListByAccount()))
+        .then(() => dispatch(setAndFetchBidByKey(Number(ownProps.match.params.bid))))
+        .then(() => {
+          if (ownProps.match.params.task) {
+            dispatch(selectBidTaskByUuid(ownProps.match.params.task))
+          }
+        })
+    ),
     fetchBidList: () =>
-      dispatch(fetchBidListByAccount(ownProps.match.params.account)),
+      dispatch(fetchBidListByAccount()),
     setCurrentBid: (bid) =>
       dispatch(setAndFetchBidByKey(Number(bid))),
     selectTask: (task) =>

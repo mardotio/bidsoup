@@ -3,7 +3,7 @@ import bidComponentsReducer from '../taskItem/reducers/bidComponentsReducer'
 import apiReducer from '../taskItem/reducers/apiReducer';
 import uiReducer from '@app/reducers/uiReducer';
 import bidReducer, { customersReducer } from '@dashboard/reducers/bidReducer';
-import { accountReducer } from '@app/reducers/accountRedcuer';
+import { accountReducer } from '@app/reducers/accountReducer';
 
 const rootReducer = combineReducers({
   api: apiReducer,

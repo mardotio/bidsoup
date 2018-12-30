@@ -24,26 +24,36 @@ interface InnerProps {
 
 const Inner = styled.div<InnerProps>`
   width: ${props => props.width || '60%'};
-  height: ${props => props.height || '80%'};
-  padding-left: 15px;
-  padding-right: 15px;
+  height: ${props => props.height || 'auto'};
+  padding-left: 2em;
+  padding-right: 2em;
   background-color: ${theme.background.hex};
   box-shadow: 0px 10px 8px 0px rgba(0, 0, 0, 0.14);
-  border-radius: 2px;
+  border-radius: .4em;
 `;
 
 const CloseX = styled.div`
-  text-align: right;
-  margin-top: 20px;
-  margin-right: 20px;
   cursor: pointer;
+  color: ${theme.text.light.hex};
 `;
 
 interface Props {
   width?: string;
   height?: string;
+  title?: string;
   onClose(): void;
 }
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1em;
+`;
+
+const Title = styled.div`
+  font-size: 1.5em;
+`;
 
 class Modal extends React.Component<Props> {
   constructor(props: Props) {
@@ -58,9 +68,12 @@ class Modal extends React.Component<Props> {
           width={this.props.width}
           height={this.props.height}
         >
-          <CloseX onClick={this.props.onClose}>
-            <i className="material-icons">close</i>
-          </CloseX>
+          <Header>
+            <Title>{this.props.title}</Title>
+            <CloseX onClick={this.props.onClose}>
+              <i className="material-icons">close</i>
+            </CloseX>
+          </Header>
           {this.props.children}
         </Inner>
       </Overlay>,

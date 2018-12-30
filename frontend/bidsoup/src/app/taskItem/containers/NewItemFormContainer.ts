@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import NewItemForm from '@taskItem/components/NewItemForm';
 import { AppState, BidItem, Category, Unit } from '@app/types/types';
-import { createTaskItem, Actions } from '../actions/bidItemsActions';
+import { createTaskItem, Actions } from '@taskItem/actions/bidItemsActions';
 import { ThunkDispatch } from 'redux-thunk';
 
 interface OwnProps {

@@ -6,7 +6,7 @@ import { createUnitType } from '@dashboard/actions/unitActions';
 import { array2HashByKey } from '@utils/sorting';
 import { fetchApi, Actions } from '@taskItem/actions/apiActions';
 import { normalizeItem } from '@utils/conversions';
-import { isDefined } from '@utils/utils';
+import { isDefined, isUndefined } from '@utils/utils';
 
 const zeroOrPercent = value => (
   value ? Number(value / 100) : 0
@@ -22,6 +22,9 @@ const itemsByCategory = (items, categories, units, tax) => {
   let sortedItems = array2HashByKey(items, 'category');
   return Object.keys(sortedItems).reduce((all, category) => {
     let cat = categories.find(el => el.url === category);
+    if (isUndefined(cat)) {
+      return all
+    }
     return {
       ...all,
       [category]: {

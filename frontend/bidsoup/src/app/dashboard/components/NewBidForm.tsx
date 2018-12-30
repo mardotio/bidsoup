@@ -162,9 +162,9 @@ export default class NewBidForm extends React.Component<Props, State> {
     </FieldWrapper>
   )
 
-  validateAllAndSubmit = () => {
-    let currentState = Object.keys(this.validation).reduce(
-      (e, field) => {
+  formIsValid = () => (
+    !Object.keys(this.validation).reduce(
+      (error, field) => {
         let value = this.state[field].value;
         if (includes(Object.keys(this.dropdownOptions), field)) {
           let match = this.dropdownOptions[field].find((o: DropDownItem) => o.id === this.state[field].value);
@@ -172,20 +172,12 @@ export default class NewBidForm extends React.Component<Props, State> {
             value = match.name;
           }
         }
-        return {
-          ...e,
-          [field]: {
-            value: this.state[field].value,
-            error: this.validation[field](value)
-          }
-        };
+        return error || this.validation[field](value).hasError;
       },
-      {});
-    let error = Object.keys(this.validation).some(field => currentState[field].error.hasError);
-    if (error) {
-      this.setState({...currentState});
-      return;
-    }
+      false)
+  )
+
+  submitForm = () => {
     this.props.createNewBid(stateToBid(this.state))
       .then(this.props.submitAction);
   }
@@ -226,7 +218,8 @@ export default class NewBidForm extends React.Component<Props, State> {
         {this.formField('taxPercent', true, 'Tax Rate')}
         <ButtonWrapper>
           <GhostButton
-            onClick={this.validateAllAndSubmit}
+            active={this.formIsValid()}
+            onClick={this.submitForm}
           >
             Create Project
           </GhostButton>

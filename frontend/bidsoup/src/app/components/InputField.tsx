@@ -59,8 +59,8 @@ const Label = styled.label<LabelProps>`
     : 'text'
   )};
   font-size: ${({labelOnTop}) => (labelOnTop
-    ? '12px'
-    : '16px'
+    ? '.8em'
+    : '1em'
   )};
   left: 0;
   position: absolute;
@@ -73,8 +73,9 @@ const Label = styled.label<LabelProps>`
 
 const HelperMessage = styled.div`
   color: ${theme.error.hex};
-  font-size: 12px;
-  margin-top: 8px;
+  font-size: .8em;
+  margin-top: .6em;
+  margin-bottom: .5em;
 `;
 
 const OptionsContainer = styled.div`

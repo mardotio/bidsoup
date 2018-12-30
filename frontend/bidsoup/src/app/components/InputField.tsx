@@ -18,7 +18,7 @@ interface StyledInputProps {
 
 const StyledInput = styled.input<StyledInputProps>`
   border: none;
-  border-bottom: 2px solid;
+  border-bottom: 1px solid;
   border-color: ${({hasError}) => (hasError
     ? theme.error.hex
     : theme.components.darkBorder.hex

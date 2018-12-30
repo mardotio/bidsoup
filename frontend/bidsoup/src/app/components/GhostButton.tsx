@@ -13,6 +13,7 @@ interface ButtonProps {
 }
 
 const Container = styled.div<ButtonProps>`
+  display: inline-block;
   color: ${props => props.color};
   padding: .5em 1em;
   border-radius: 20em;

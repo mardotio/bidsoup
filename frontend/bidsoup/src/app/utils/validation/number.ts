@@ -67,7 +67,7 @@ const numberValidation = (options?: Partial<NumberValidation>) => {
   let partialValidationFuncs: ((o: ComposedReturn<NumberValidation>) => (ComposedReturn<NumberValidation>))[] =
     accepted.filter(opt => opt !== 'isRequired')
     .map(opt => mapping[opt]);
-  let validationFuncs = optionalOrRequired([validateNumber, ...partialValidationFuncs], finalOptions.isRequired);
+  let validationFuncs = optionalOrRequired([...partialValidationFuncs, validateNumber], finalOptions.isRequired);
   return (value: string) => {
     let state =
     compose(...validationFuncs)({

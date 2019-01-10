@@ -100,8 +100,7 @@ const addElements = (props: Props) => {
             icon={'add'}
           />
         </FabContainer>
-        <Modal onClose={props.hideModal}>
-          <p style={{fontSize: 'large'}}><b>Add a new task!</b></p>
+        <Modal onClose={props.hideModal} title="New Task">
           <NewTaskForm
             tasks={props.tasks}
             onAddTask={(task) => {

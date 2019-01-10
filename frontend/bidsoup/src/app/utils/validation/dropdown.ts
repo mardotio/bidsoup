@@ -53,11 +53,10 @@ const dropdownValidation = (dropdownOptions: DropDownItem[], options?: Partial<D
   let finalOptions = isDefined(options)
     ? {...defaults, ...options, list: dropdownOptions}
     : {...defaults, list: dropdownOptions};
-  let validationFuncs = optionalOrRequired([], finalOptions.isRequired);
   return (value: string, matchPartial = false) => {
     let funcs = matchPartial
-      ? [validatePartialOption, ...validationFuncs]
-      : [validateFullOption, ...validationFuncs];
+      ? optionalOrRequired([validatePartialOption], finalOptions.isRequired)
+      : optionalOrRequired([validateFullOption], finalOptions.isRequired);
     let state = compose(...funcs)({
       value,
       options: finalOptions,

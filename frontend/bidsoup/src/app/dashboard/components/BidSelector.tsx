@@ -1,7 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import Grid from '@app/components/Grid';
-import { Link } from 'react-router-dom';
+import Modal from '@app/components/Modal';
+import Fab from '@app/components/Fab';
+import NewBidFormContainer from '@dashboard/containers/NewBidFormContainer';
+import BidCard from '@dashboard/components/BidCard';
 import { Bid, Account } from '@app/types/types';
 import { theme } from '@utils/color';
 import { isDefined } from '@utils/utils';
@@ -9,44 +12,54 @@ import { isDefined } from '@utils/utils';
 interface Props {
   bids: Bid[];
   account: Account | null;
+  modalShouldDisplay: boolean;
+  showModal: () => void;
+  hideModal: () => void;
 }
 
-const BidLink = styled(Link)`
-  display: block;
-  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);
-  background-color: ${theme.background.hex};
-  overflow: hidden;
-  text-decoration: none;
-  color: inherit;
-  padding: 1em;
-  border-radius: .2em;
-  &:focus, &:hover, &:visited, &:link, &:active {
-      text-decoration: none;
-  }
-`;
-
-const Title = styled.div`
-  font-size: 1.25em;
-  margin-bottom: .5em;
-`;
-
-const Truncate = styled.div`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: ${theme.text.medium.hex};
+const FabContainer = styled.div`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 500;
 `;
 
 const generateBidCards = ({bids, account}: Props) => {
   if (isDefined(account)) {
     return bids.map((bid) => (
-      <BidLink to={`/${account.slug}/bids/${bid.key}`}>
-        <Title>{bid.name}</Title>
-        <Truncate>{bid.customer}</Truncate>
-      </BidLink>
+      <BidCard
+        bid={bid}
+        account={account.slug}
+      />
     ));
   }
   return [];
+};
+
+const bidForm = ({modalShouldDisplay, showModal, hideModal}: Props) => {
+  if (modalShouldDisplay) {
+    return (
+      <Modal
+        onClose={hideModal}
+        width={'40em'}
+        title={'New Project'}
+      >
+        <NewBidFormContainer
+          cancelAction={hideModal}
+          submitAction={hideModal}
+        />
+      </Modal>
+    );
+  }
+  return (
+    <FabContainer>
+      <Fab
+        onClick={showModal}
+        icon="add"
+        color={theme.accent.hex}
+      />
+    </FabContainer>
+  );
 };
 
 const BidSelector = (props: Props) => {
@@ -55,11 +68,14 @@ const BidSelector = (props: Props) => {
     : generateBidCards(props);
 
   return (
-    <Grid
-      cells={cards}
-      containerId="body-container"
-      maxColumns={7}
-    />
+    <React.Fragment>
+      <Grid
+        cells={cards}
+        containerId="body-container"
+        maxColumns={7}
+      />
+      {bidForm(props)}
+    </React.Fragment>
   );
 };
 

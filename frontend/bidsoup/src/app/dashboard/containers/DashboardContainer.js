@@ -6,7 +6,7 @@ import { createUnitType } from '@dashboard/actions/unitActions';
 import { array2HashByKey } from '@utils/sorting';
 import { fetchApi, Actions } from '@taskItem/actions/apiActions';
 import { normalizeItem } from '@utils/conversions';
-import { isDefined } from '@utils/utils';
+import { isDefined, isUndefined, isEmpty } from '@utils/utils';
 
 const zeroOrPercent = value => (
   value ? Number(value / 100) : 0
@@ -18,7 +18,14 @@ const itemsWithTotal = (items, units, categoryMarkup, tax) => (
   ))
 );
 
-const itemsByCategory = (items, categories, units, tax) => {
+const componentsMatchBid = (componentArr, bidUrl) => (
+  !isEmpty(componentArr) && componentArr[0].bid === bidUrl
+);
+
+const itemsByCategory = (bidUrl, items, categories, units, tax) => {
+  if (!componentsMatchBid(items, bidUrl) || !componentsMatchBid(categories, bidUrl)) {
+    return {};
+  }
   let sortedItems = array2HashByKey(items, 'category');
   return Object.keys(sortedItems).reduce((all, category) => {
     let cat = categories.find(el => el.url === category);
@@ -52,6 +59,7 @@ const mapStateToProps = (state, ownProps) => ({
   bids: state.bids.list,
   selectedBid: bidWithCustomer(state.bids.selectedBid, state.customers.list),
   categoriesWithItems: itemsByCategory(
+    state.bids.selectedBid.url,
     state.bidData.items.list,
     state.bidData.categories.list,
     state.bidData.units.units,

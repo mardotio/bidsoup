@@ -3,6 +3,7 @@ import { createAction, ActionsUnion } from '@utils/reduxUtils';
 import { Bid, Customer, AppState } from '@app/types/types';
 import componentsActions from '../../taskItem/actions/bidComponentsActions';
 import { Decoder, constant, union, object, string, array, number } from '@mojotech/json-type-validation';
+import { handleHttpErrors } from '@utils/utils';
 
 const bidListDecoder: Decoder<Bid[]> = array(object({
   url: string(),
@@ -63,11 +64,10 @@ export const Actions = {
 
 export type Actions = ActionsUnion<typeof Actions>;
 
-export const fetchBidListByAccount = (): ThunkAction<Promise<Actions>, AppState, never, Actions> => {
+export const fetchBidListByAccount = (): ThunkAction<Promise<void>, AppState, never, Actions> => {
   return (dispatch, getState) => {
     dispatch(Actions.requestBidList());
-    const { api, account } = getState();
-    return fetch(`${api.endpoints.accounts}/${account.data!.slug}/bids/`)
+    return fetch(getState().account.data!.bids)
       .then(response => response.json())
       .then(json => {
         let bids: Bid[] = [];
@@ -75,7 +75,7 @@ export const fetchBidListByAccount = (): ThunkAction<Promise<Actions>, AppState,
         if (res.ok) {
           bids = res.result;
         }
-        return dispatch(Actions.receiveBidList(bids, Date.now()));
+        dispatch(Actions.receiveBidList(bids, Date.now()));
       });
   };
 };
@@ -124,3 +124,18 @@ export const setAndFetchBidByKey = (key: number): ThunkAction<Promise<any>, AppS
       .then(() => dispatch(componentsActions.fetchBidComponents()));
   };
 };
+
+export const createBid = (bid: Partial<Bid>): ThunkAction<Promise<void>, AppState, never, Actions> => (
+  (dispatch, getState) => {
+    return fetch(getState().account.data!.bids, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(bid)
+    })
+    .then(handleHttpErrors)
+    .then(json => dispatch(fetchBidListByAccount()))
+    .catch(error => console.log(error));
+  }
+);

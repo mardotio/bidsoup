@@ -25,6 +25,7 @@ class Category(models.Model):
     description = models.TextField(blank=True)
     markup_percent = models.DecimalField(max_digits=6, decimal_places=3, null=True, blank=True)
     color = models.CharField(max_length=6)
+    taxable = models.BooleanField(default=False)
 
     def __str__(self):
         return '{self.name} - {self.bid.name}'.format(self=self)

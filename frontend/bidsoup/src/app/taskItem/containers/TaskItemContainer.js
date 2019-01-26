@@ -70,8 +70,8 @@ const standardizeItems = (items, categories, units, tax) => {
       return allItems;
     }
     let catItems = itemsByCategory[category.url].map(item =>
-      normalizeItem(item, units, categoryMarkup, taxPercent
-    ));
+      normalizeItem(item, units, categoryMarkup, category.taxable ? taxPercent : 0)
+    );
     return [...allItems, ...catItems];
   }, [])
 }

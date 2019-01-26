@@ -8,13 +8,9 @@ import { fetchApi, Actions } from '@taskItem/actions/apiActions';
 import { normalizeItem } from '@utils/conversions';
 import { isDefined, isUndefined, isEmpty } from '@utils/utils';
 
-const zeroOrPercent = value => (
-  value ? Number(value / 100) : 0
-);
-
-const itemsWithTotal = (items, units, categoryMarkup, tax) => (
+const itemsWithTotal = (items, units, category, tax) => (
   items.map(item => (
-    normalizeItem(item, units, zeroOrPercent(categoryMarkup), zeroOrPercent(tax))
+    normalizeItem(item, units, category, tax)
   ))
 );
 
@@ -33,7 +29,7 @@ const itemsByCategory = (bidUrl, items, categories, units, tax) => {
       ...all,
       [category]: {
         ...cat,
-        items: itemsWithTotal(sortedItems[category], units, cat.markupPercent, cat.taxable ? tax : 0)
+        items: itemsWithTotal(sortedItems[category], units, cat, tax)
       }
     }
   }, {});

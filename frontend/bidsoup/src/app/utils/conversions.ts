@@ -1,4 +1,4 @@
-import { BidItem } from '@app/types/types';
+import { BidItem, Category, Bid } from '@app/types/types';
 import { isDefined } from '@utils/utils';
 import { UnitDict } from '@taskItem/actions/unitTypeActions';
 
@@ -20,23 +20,29 @@ export interface StandardizedItem  extends BidItem {
   tax: number;
 }
 
+// Returns values as percent if defined, otherwise returns 0
+const zeroOrPercent = (value: string | null) => (
+  isDefined(value) ? (Number(value) / 100) : 0
+);
+
 export const normalizeItem =
-  (item: BidItem, units: UnitDict, categoryMarkup: number, tax: number): StandardizedItem => {
+  (item: BidItem, units: UnitDict, {markupPercent, taxable}: Category, tax: Bid['taxPercent']): StandardizedItem => {
     let price = isDefined(item.unitType)
     ? Number(units[item.unitType].unitPrice)
     : Number(item.price);
     let markup = isDefined(item.markupPercent)
       ? Number(item.markupPercent) / 100
-      : categoryMarkup;
+      : zeroOrPercent(markupPercent);
     let quantity = Number(item.quantity);
     let total = price * quantity;
+    let calculatedTax = taxable ? (total * zeroOrPercent(tax)) : 0;
     return {
       ...item,
       quantity,
       price,
       total,
-      tax: total * tax,
-      markup: (total * (tax + 1)) * markup,
+      tax: calculatedTax,
+      markup: (total + calculatedTax) * markup,
       description: item.unitType
         ? units[item.unitType].name
         : item.description

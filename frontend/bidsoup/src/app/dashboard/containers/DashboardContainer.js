@@ -33,7 +33,7 @@ const itemsByCategory = (bidUrl, items, categories, units, tax) => {
       ...all,
       [category]: {
         ...cat,
-        items: itemsWithTotal(sortedItems[category], units, cat.markupPercent, tax)
+        items: itemsWithTotal(sortedItems[category], units, cat.markupPercent, cat.taxable ? tax : 0)
       }
     }
   }, {});

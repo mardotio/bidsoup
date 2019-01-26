@@ -70,6 +70,7 @@ export interface Category {
   description: string;
   markupPercent: string;
   color: string;
+  taxable: boolean;
 }
 
 export interface BidCategoryState {

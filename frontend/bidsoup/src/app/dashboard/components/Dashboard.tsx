@@ -21,6 +21,8 @@ export interface CategoryWithItems {
 
 interface ItemWithTotal extends BidItem {
   total: number;
+  markup: number;
+  tax: number;
 }
 
 interface Props {

@@ -80,7 +80,7 @@ class BidTaskSerializer(serializers.HyperlinkedModelSerializer):
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Category
-        fields = ('url', 'bid', 'name', 'description', 'markup_percent', 'color')
+        fields = ('url', 'bid', 'name', 'description', 'markup_percent', 'color', 'taxable')
 
 class CustomerSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

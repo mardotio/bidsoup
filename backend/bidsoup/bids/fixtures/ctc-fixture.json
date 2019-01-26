@@ -26,7 +26,8 @@
     "name": "Vehicles",
     "description": "Company vehicles",
     "markup_percent": null,
-    "color": "24af63"
+    "color": "24af63",
+    "taxable": false
   }
 },
 {
@@ -37,7 +38,8 @@
     "name": "Equipment",
     "description": "Category for all equipment",
     "markup_percent": null,
-    "color": "704bc6"
+    "color": "704bc6",
+    "taxable": false
   }
 },
 {
@@ -48,7 +50,8 @@
     "name": "Labor",
     "description": "All man hours go here",
     "markup_percent": null,
-    "color": "516077"
+    "color": "516077",
+    "taxable": false
   }
 },
 {
@@ -59,7 +62,8 @@
     "name": "Subcontractors",
     "description": "All labor from subcontractors",
     "markup_percent": null,
-    "color": "ce5056"
+    "color": "ce5056",
+    "taxable": false
   }
 },
 {
@@ -70,7 +74,8 @@
     "name": "Materials",
     "description": "All meterials",
     "markup_percent": null,
-    "color": "b2135d"
+    "color": "b2135d",
+    "taxable": false
   }
 },
 {

@@ -12,10 +12,6 @@ import { array2HashByKey } from '@utils/sorting';
 import { normalizeItem } from '@utils/conversions';
 
 // Returns values as percent if defined, otherwise returns 0
-const zeroOrPercent = value => (
-  isDefined(value) ? Number(value / 100) : 0
-);
-
 const getTaskItems = (items, task) => {
   if (isUndefined(task) || isUndefined(items[task.url])) {
     return [];
@@ -63,15 +59,13 @@ const standardizeItems = (items, categories, units, tax) => {
     return items;
   };
   const itemsByCategory = array2HashByKey(items, 'category');
-  const taxPercent = zeroOrPercent(tax);
   return categories.reduce((allItems, category) => {
-    let categoryMarkup = zeroOrPercent(category.markupPercent);
     if (isUndefined(itemsByCategory[category.url])) {
       return allItems;
     }
     let catItems = itemsByCategory[category.url].map(item =>
-      normalizeItem(item, units, categoryMarkup, taxPercent
-    ));
+      normalizeItem(item, units, category, tax)
+    );
     return [...allItems, ...catItems];
   }, [])
 }

@@ -31,7 +31,7 @@ const bidTotal = ({categoriesWithItems}: Props) => (
     (total, category) => (
       total + categoriesWithItems[category].items.reduce(
         (categoryTotal, item) => (
-          categoryTotal + item.total
+          categoryTotal + item.total + item.tax + item.markup
         ),
         0
       )

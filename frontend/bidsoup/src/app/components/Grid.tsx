@@ -2,13 +2,12 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { theme } from '@utils/color';
 
-const cardWidth = 16;
-
 interface Props {
   cells: JSX.Element[];
   containerId: string;
   maxColumns: number;
   alignment?: 'left' | 'right' | 'center';
+  cardWidth?: number;
 }
 
 interface State {
@@ -60,7 +59,8 @@ const CellContainer = styled.li<CellProps>`
 
 export default class Grid extends React.Component<Props, State> {
   static defaultProps = {
-    alignment: 'center'
+    alignment: 'center',
+    cardWidth: 16
   };
 
   constructor(props: Props) {
@@ -104,7 +104,7 @@ export default class Grid extends React.Component<Props, State> {
     return (
       <CellContainer
         key={key}
-        cardWidth={cardWidth}
+        cardWidth={this.props.cardWidth!}
         alignment={this.props.alignment}
       >
         {item}
@@ -113,7 +113,7 @@ export default class Grid extends React.Component<Props, State> {
   }
 
   calculateWidth = () => {
-    const cardPxWidth = (cardWidth + 1) * this.state.em;
+    const cardPxWidth = (this.props.cardWidth! + 1) * this.state.em;
     let width = 0;
     for (let i = 0; i <= this.props.maxColumns; i++) {
       let newWidth = cardPxWidth * i;

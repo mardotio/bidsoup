@@ -8,6 +8,7 @@ interface Props {
   maxColumns: number;
   alignment?: 'left' | 'right' | 'center';
   cardWidth?: number;
+  margin: 'auto' | number;
 }
 
 interface State {
@@ -25,7 +26,10 @@ interface ContainerProps {
 
 interface CellProps {
   cardWidth: number;
-  alignment: Props['alignment'];
+  cardMargin: {
+    left: number;
+    right: number;
+  };
 }
 
 const Container = styled.ul<ContainerProps>`
@@ -47,20 +51,16 @@ const Container = styled.ul<ContainerProps>`
 const CellContainer = styled.li<CellProps>`
   width: ${props => props.cardWidth + 'em'};
   display: inline-block;
-  margin: ${props => {
-    switch (props.alignment) {
-      case 'left': return '0 1em 1em 0';
-      case 'center': return '0 .5em 1em .5em';
-      case 'right': return '0 0 1em 1em';
-      default: return '0';
-    }
-  }};
+  margin-left: ${props => props.cardMargin.left}em;
+  margin-right: ${props => props.cardMargin.right}em;
+  margin-top: 1em;
 `;
 
 export default class Grid extends React.Component<Props, State> {
   static defaultProps = {
     alignment: 'center',
-    cardWidth: 16
+    cardWidth: 16,
+    margin: 1
   };
 
   constructor(props: Props) {
@@ -101,19 +101,43 @@ export default class Grid extends React.Component<Props, State> {
   }
 
   createCell = (item: JSX.Element, key: number) => {
+    let width = this.calculateWidth();
     return (
       <CellContainer
         key={key}
         cardWidth={this.props.cardWidth!}
-        alignment={this.props.alignment}
+        cardMargin={this.calculatePadding(width.margin)}
       >
         {item}
       </CellContainer>
     );
   }
 
-  calculateWidth = () => {
-    const cardPxWidth = (this.props.cardWidth! + 1) * this.state.em;
+  calculateAutoMarginWidth = () => {
+    const minCardWidth = this.props.cardWidth! * this.state.em;
+    let cardsPerRow = 1;
+    let sizes = {
+      width: this.state.gridWidth,
+      margin: 0
+    };
+    for (let i = this.props.maxColumns; i >= 1; i--) {
+      if (cardsPerRow === 1) {
+        let newWidth = minCardWidth * i;
+        if (newWidth <= (this.state.gridWidth - 5)) {
+          cardsPerRow = i;
+          sizes = {
+            width: this.state.gridWidth,
+            margin: (((this.state.gridWidth - 5) - newWidth) / i) / this.state.em
+          };
+        }
+      }
+    }
+    console.log(sizes);
+    return sizes;
+  }
+
+  calculateStaticMarginWidth = () => {
+    const cardPxWidth = (this.props.cardWidth! + (this.props.margin as number)) * this.state.em;
     let width = 0;
     for (let i = 0; i <= this.props.maxColumns; i++) {
       let newWidth = cardPxWidth * i;
@@ -121,25 +145,33 @@ export default class Grid extends React.Component<Props, State> {
         width = newWidth;
       }
     }
-    return width + 5;
+    return {
+      width: width + 5,
+      margin: this.props.margin as number
+    };
   }
 
-  calculatePadding = () => {
-    let width = this.calculateWidth();
+  calculateWidth = () => (
+    typeof this.props.margin === 'string'
+      ? this.calculateAutoMarginWidth()
+      : this.calculateStaticMarginWidth()
+  )
+
+  calculatePadding = (emptySpace: number) => {
     switch (this.props.alignment) {
       case 'left':
         return {
           left: 0,
-          right: (this.state.gridWidth - width)
+          right: emptySpace
         };
       case 'center':
         return {
-          left: (this.state.gridWidth - width) / 2,
-          right: (this.state.gridWidth - width) / 2
+          left: emptySpace / 2,
+          right: emptySpace / 2
         };
-      case 'left':
+      case 'right':
         return {
-          left: (this.state.gridWidth - width),
+          left: emptySpace,
           right: 0
         };
       default:
@@ -151,8 +183,8 @@ export default class Grid extends React.Component<Props, State> {
     let width = this.calculateWidth();
     return (
       <Container
-        calculatedWidth={width}
-        sidePadding={this.calculatePadding()}
+        calculatedWidth={width.width}
+        sidePadding={this.calculatePadding(this.state.gridWidth - width.width)}
       >
         {this.props.cells.map(this.createCell)}
       </Container>

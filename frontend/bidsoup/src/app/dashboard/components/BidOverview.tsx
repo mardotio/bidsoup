@@ -7,6 +7,7 @@ import UnitDashboard from '@dashboard/components/UnitDashboard';
 import { CategoryWithItems } from '@dashboard/components/Dashboard';
 import { Actions } from '@taskItem/actions/unitTypeActions';
 import { Bid, Unit } from '@app/types/types';
+import Categories from './Categories';
 
 interface Props {
   bid: Bid;
@@ -82,6 +83,10 @@ const BidOverview = (props: Props) => {
       <OverviewHeader
         {...props.bid}
         total={bidTotal(props)}
+      />
+      <Categories
+        categories={props.categoriesWithItems}
+        bidTax={props.bid.taxPercent}
       />
       <UnitDashboard
         units={props.units}

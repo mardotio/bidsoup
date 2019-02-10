@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import OverviewHeader from '@dashboard/components/OverviewHeader';
 import CategoryDashboard from '@dashboard/components/CategoryDashboard';
 import UnitDashboard from '@dashboard/components/UnitDashboard';
+import Categories from '@dashboard/components/Categories';
 import { CategoryWithItems } from '@dashboard/components/Dashboard';
 import { Actions } from '@taskItem/actions/unitTypeActions';
 import { Bid, Unit } from '@app/types/types';
-import Categories from './Categories';
 
 interface Props {
   bid: Bid;

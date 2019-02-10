@@ -1,11 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import HorizontalRule from '@app/components/HorizontalRule';
-import { CategoryWithItems } from '@dashboard/components/Dashboard';
-import { theme } from '@utils/color';
-// import { isDefined } from '@app/utils/utils';
 import Grid from '@app/components/Grid';
 import CircleInitials from '@app/components/CircleInitials';
+import { CategoryWithItems } from '@dashboard/components/Dashboard';
+import { theme } from '@utils/color';
 import { getInitials } from '@app/utils/utils';
 
 interface Props {

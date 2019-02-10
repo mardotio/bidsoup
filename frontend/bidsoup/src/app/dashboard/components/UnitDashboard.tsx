@@ -1,11 +1,11 @@
 import * as React from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import { Unit } from '@app/types/types';
 import HorizontalRule from '@app/components/HorizontalRule';
-import { theme } from '@utils/color';
-import { beautifyNumber } from '@utils/styling';
 import UnitForm from '@dashboard/components/UnitForm';
 import GhostButton from '@app/components/GhostButton';
+import { Unit } from '@app/types/types';
+import { theme } from '@utils/color';
+import { beautifyNumber } from '@utils/styling';
 import { Actions } from '@taskItem/actions/unitTypeActions';
 
 interface Props {
@@ -49,21 +49,14 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 2em;
   div:first-child {
     font-size: 1.25em;
-    color: ${theme.text.medium.hex};
-    padding: .3em 0;
   };
-`;
-
-const UnitListContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
 `;
 
 const Unit = styled.div`
   flex: 1;
-  padding: 1em 0;
   min-width: 15em;
   justify-content: space-between;
   div:last-child {
@@ -73,6 +66,59 @@ const Unit = styled.div`
   };
 `;
 
+const Table = styled.div`
+  width: 100%;
+`;
+
+const Row = styled.ul`
+  display: flex;
+  align-items: center;
+  padding: .7em 0;
+  list-style: none;
+  width: 100%;
+  margin: 0;
+  border-bottom: 1px solid ${theme.components.border.hex};
+`;
+
+const TableHeader = styled(Row)`
+  color: ${theme.text.light.hex};
+  font-size: .95em;
+  border: 0;
+`;
+
+const Cell = styled.li`
+  display: inline-block;
+  width: 33%;
+`;
+
+const generateRowFromUnit = (unit: Unit) => {
+  return (
+    <Row key={unit.url}>
+      <Cell>
+        <Unit key={unit.url}>
+          <div>{unit.name}</div>
+          <div>{unit.description}</div>
+        </Unit>
+      </Cell>
+      <Cell>${beautifyNumber(unit.unitPrice, 2)}</Cell>
+      <Cell>{unit.unit}</Cell>
+    </Row>
+  );
+};
+
+const generateTableFromUnits = (units: Unit[]) => {
+  return (
+    <Table>
+      <TableHeader>
+        <Cell>Name</Cell>
+        <Cell>Price</Cell>
+        <Cell>Unit</Cell>
+      </TableHeader>
+      {units.map(generateRowFromUnit)}
+    </Table>
+  );
+};
+
 export default class UnitDashboard extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -81,15 +127,6 @@ export default class UnitDashboard extends React.Component<Props, State> {
       unit: null,
     };
   }
-
-  generateUnitList = () => (
-    this.props.units.map(unit => (
-      <Unit key={unit.url}>
-        <div>{unit.name}</div>
-        <div>${beautifyNumber(unit.unitPrice, 2)}/{unit.unit}</div>
-      </Unit>
-    ))
-  )
 
   setEditingState = (isBeingEdited: boolean) => {
     this.setState({isBeingEdited});
@@ -126,7 +163,6 @@ export default class UnitDashboard extends React.Component<Props, State> {
           <div>Units</div>
           {this.displayAddButton()}
         </Header>
-        <HorizontalRule/>
         <FormContainer
           shouldDisplay={this.state.isBeingEdited}
         >
@@ -136,9 +172,7 @@ export default class UnitDashboard extends React.Component<Props, State> {
           />
           <HorizontalRule/>
         </FormContainer>
-        <UnitListContainer>
-          {this.generateUnitList()}
-        </UnitListContainer>
+        {generateTableFromUnits(this.props.units)}
       </Container>
     );
   }

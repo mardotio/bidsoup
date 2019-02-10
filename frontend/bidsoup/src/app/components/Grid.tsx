@@ -132,7 +132,6 @@ export default class Grid extends React.Component<Props, State> {
         }
       }
     }
-    console.log(sizes);
     return sizes;
   }
 

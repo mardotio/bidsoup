@@ -8,7 +8,7 @@ const circleAnimation = (percent: number) => {
     }
   `;
   return css`
-    ${frames} 1s ease-out forwards;
+    animation: ${frames} 1s ease-out forwards;
   `;
 };
 
@@ -21,7 +21,7 @@ const Circle = styled.circle<CircleProps>`
   stroke-dasharray: ${({circumference}) => circumference};
   stroke-dashoffset: ${({circumference}) => circumference};
   stroke-linecap: round;
-  animation: ${({percent}) => circleAnimation(percent)};
+  ${({percent}) => circleAnimation(percent)};
 `;
 
 const SvgContainer = styled.svg`

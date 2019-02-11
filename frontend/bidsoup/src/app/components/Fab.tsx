@@ -26,13 +26,13 @@ const expandIn = () => {
     100%{transform: scale(1)}
   `;
   return  css`
-    .28s ${frames} ease-in;
+    animation: .28s ${frames} ease-in;
   `;
 };
 
 const ButtonContainer = styled.div<ButtonContainerProps>`
   align-items: center;
-  animation: ${expandIn};
+  ${expandIn};
   background-color: ${({buttonColor}) => buttonColor};
   border-radius: 50%;
   box-shadow:

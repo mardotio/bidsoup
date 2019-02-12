@@ -46,7 +46,7 @@ const TaskDescription = styled.div<TaskDescriptionProps>`
   min-height: 2em;
   color: ${props => props.isEmpty ? theme.text.light.hex : 'inherit' };
   &:hover {
-    border: 1px solid ${theme.components.border.hex}
+    border: 1px solid ${theme.components.border.hex};
     border-radius: 5px;
   }
 `;

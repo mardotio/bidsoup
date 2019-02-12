@@ -3,21 +3,15 @@ import styled from 'styled-components';
 import BidOverview from '@dashboard/components/BidOverview';
 import BidSelectorContainer from '@dashboard/containers/BidSelectorContainer';
 import ActionsHeader from './ActionsHeader';
-import { Bid, Unit, Customer } from '@app/types/types';
+import { Bid, Unit, Customer, Category } from '@app/types/types';
 import { Actions } from '@dashboard/actions/bidActions';
 import { Actions as UnitActions } from '@taskItem/actions/unitTypeActions';
 import { theme } from '@utils/color';
 import { isDefined } from '@utils/utils';
 import { StandardizedItem } from '@app/utils/conversions';
 
-export interface CategoryWithItems {
-  bid: string;
-  color: string;
-  description: string;
-  markup_percent: string | null;
+export interface CategoryWithItems extends Category {
   items: StandardizedItem[];
-  name: string;
-  url: string;
 }
 
 interface Props {

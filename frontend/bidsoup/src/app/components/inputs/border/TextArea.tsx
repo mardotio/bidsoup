@@ -22,6 +22,7 @@ interface State {
 
 interface ContainerProps {
   isFocused: boolean;
+  hasError: boolean;
 }
 
 interface TextAreaFieldProps {
@@ -29,19 +30,35 @@ interface TextAreaFieldProps {
   maxHeight?: number;
 }
 
+const Wrapper = styled.div``;
+
 const Container = styled.div<ContainerProps>`
-  border: 1px solid ${props => props.isFocused
-    ? theme.components.darkBorder.hex
-    : 'transparent'
-  };
+  border: 1px solid ${props => {
+    if (props.hasError) {
+      return theme.error.hex;
+    } else if (props.isFocused) {
+      return theme.components.darkBorder.hex;
+    }
+    return 'transparent';
+  }};
   border-radius: .3em;
   padding: 1em;
   &:hover {
-    border: 1px solid ${props => props.isFocused
-      ? theme.components.darkBorder.hex
-      : theme.components.border.hex
-    };
+    border: 1px solid ${props => {
+      if (props.hasError) {
+        return theme.error.hex;
+      } else if (props.isFocused) {
+        return theme.components.darkBorder.hex;
+      }
+      return theme.components.border.hex;
+    }};
   }
+`;
+
+const ErrorMessage = styled.div`
+  color: ${theme.error.hex};
+  font-size: .8em;
+  margin-top: .5em;
 `;
 
 const GhostDiv = styled.div`
@@ -117,11 +134,11 @@ export default class TextArea extends React.Component<Props, State> {
     });
   }
 
-componentDidUpdate() {
-  if (this.state.textFieldWidth !== this.textField.current!.scrollWidth) {
-    this.setState({textFieldWidth: this.textField.current!.scrollWidth});
+  componentDidUpdate() {
+    if (this.state.textFieldWidth !== this.textField.current!.scrollWidth) {
+      this.setState({textFieldWidth: this.textField.current!.scrollWidth});
+    }
   }
-}
 
   onKeyUpChange = () => {
     this.setState({
@@ -141,29 +158,38 @@ componentDidUpdate() {
       : this.setState({isFocused: true});
   }
 
+  errorMessage = () => (
+    this.props.error!.hasError
+      ? <ErrorMessage>{this.props.error!.message}</ErrorMessage>
+      : null
+  )
+
   render() {
     return (
-      <Container isFocused={this.state.isFocused}>
-        <TextAreaField
-          ref={this.textField}
-          name={TextArea.labelToName(this.props.label)}
-          placeholder={this.props.label}
-          value={this.props.value}
-          onChange={this.props.onChange}
-          style={{height: this.state.ghostHeight + 'px'}}
-          maxHeight={this.props.maxHeight}
-          shouldScroll={this.state.ghostHeight > this.props.maxHeight!}
-          onKeyUp={this.onKeyUpChange}
-          onFocus={this.onFocus}
-          onBlur={this.onBlur}
-        />
-        <GhostDiv
-          ref={this.ghostDiv}
-          style={{width: this.state.textFieldWidth + 'px'}}
-        >
-          {this.props.value}
-        </GhostDiv>
-      </Container>
+      <Wrapper>
+        <Container isFocused={this.state.isFocused} hasError={this.props.error!.hasError}>
+          <TextAreaField
+            ref={this.textField}
+            name={TextArea.labelToName(this.props.label)}
+            placeholder={this.props.label}
+            value={this.props.value}
+            onChange={this.props.onChange}
+            style={{height: this.state.ghostHeight + 'px'}}
+            maxHeight={this.props.maxHeight}
+            shouldScroll={this.state.ghostHeight > this.props.maxHeight!}
+            onKeyUp={this.onKeyUpChange}
+            onFocus={this.onFocus}
+            onBlur={this.onBlur}
+          />
+          <GhostDiv
+            ref={this.ghostDiv}
+            style={{width: this.state.textFieldWidth + 'px'}}
+          >
+            {this.props.value}
+          </GhostDiv>
+        </Container>
+        {this.errorMessage()}
+      </Wrapper>
     );
   }
 

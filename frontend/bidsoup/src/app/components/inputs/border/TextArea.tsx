@@ -6,12 +6,12 @@ import { isDefined } from '@utils/utils';
 
 interface Props {
   label: string;
+  error?: ErrorObject;
   maxHeight?: number;
   value?: string;
-  error?: ErrorObject;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  onFocus?: () => void;
   onBlur?: () => void;
+  onFocus?: () => void;
 }
 
 interface State {
@@ -21,8 +21,8 @@ interface State {
 }
 
 interface ContainerProps {
-  isFocused: boolean;
   hasError: boolean;
+  isFocused: boolean;
 }
 
 interface TextAreaFieldProps {
@@ -104,6 +104,12 @@ const TextAreaField = styled.textarea<TextAreaFieldProps>`
   }
 `;
 
+const errorMessage = (error: ErrorObject) => (
+  error.hasError
+    ? <ErrorMessage>{error.message}</ErrorMessage>
+    : null
+);
+
 export default class TextArea extends React.Component<Props, State> {
   static defaultProps = {
     error: {
@@ -158,28 +164,22 @@ export default class TextArea extends React.Component<Props, State> {
       : this.setState({isFocused: true});
   }
 
-  errorMessage = () => (
-    this.props.error!.hasError
-      ? <ErrorMessage>{this.props.error!.message}</ErrorMessage>
-      : null
-  )
-
   render() {
     return (
       <Wrapper>
         <Container isFocused={this.state.isFocused} hasError={this.props.error!.hasError}>
           <TextAreaField
-            ref={this.textField}
-            name={TextArea.labelToName(this.props.label)}
-            placeholder={this.props.label}
-            value={this.props.value}
-            onChange={this.props.onChange}
-            style={{height: this.state.ghostHeight + 'px'}}
             maxHeight={this.props.maxHeight}
-            shouldScroll={this.state.ghostHeight > this.props.maxHeight!}
-            onKeyUp={this.onKeyUpChange}
-            onFocus={this.onFocus}
+            name={TextArea.labelToName(this.props.label)}
             onBlur={this.onBlur}
+            onChange={this.props.onChange}
+            onFocus={this.onFocus}
+            onKeyUp={this.onKeyUpChange}
+            placeholder={this.props.label}
+            ref={this.textField}
+            shouldScroll={this.state.ghostHeight > this.props.maxHeight!}
+            style={{height: this.state.ghostHeight + 'px'}}
+            value={this.props.value}
           />
           <GhostDiv
             ref={this.ghostDiv}
@@ -188,7 +188,7 @@ export default class TextArea extends React.Component<Props, State> {
             {this.props.value}
           </GhostDiv>
         </Container>
-        {this.errorMessage()}
+        {errorMessage(this.props.error!)}
       </Wrapper>
     );
   }

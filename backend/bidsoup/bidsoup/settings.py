@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'rest_framework',
+    'rest_framework_rules',
 ]
 
 MIDDLEWARE = [
@@ -118,6 +119,11 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.MultiPartParser'
     ),
 }
+
+AUTHENTICATION_BACKENDS = (
+    'rules.permissions.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 AUTH_USER_MODEL = 'bids.User'
 

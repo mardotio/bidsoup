@@ -1,5 +1,4 @@
-from .models import Account, Bid, BidTask, BidItem, Category, Customer, UnitType
-from django.contrib.auth.models import User
+from .models import Account, Bid, BidTask, BidItem, Category, Customer, UnitType, User
 from rest_framework import serializers
 from rest_framework_recursive.fields import RecursiveField
 from rest_framework_nested.relations import NestedHyperlinkedRelatedField, NestedHyperlinkedIdentityField
@@ -30,7 +29,7 @@ class AccountSerializer(serializers.HyperlinkedModelSerializer):
         }
 
 
-class BidSerializer(serializers.HyperlinkedModelSerializer):
+class OptionalFieldsMixin:
     def __init__(self, *args, **kwargs):
         # Don't pass custom kwargs to super
         fields = kwargs.pop('fields', None)
@@ -51,6 +50,8 @@ class BidSerializer(serializers.HyperlinkedModelSerializer):
             for field_name in exclude_fields:
                 self.fields.pop(field_name)
 
+
+class BidSerializer(OptionalFieldsMixin, serializers.HyperlinkedModelSerializer):
     account = serializers.HyperlinkedRelatedField(view_name='account-detail', lookup_field='slug', read_only=True)
     biditems = serializers.HyperlinkedIdentityField(view_name='bid-biditem-list', lookup_url_kwarg='bid_pk', many=False)
     bidtasks = serializers.HyperlinkedIdentityField(view_name='bid-bidtask-list', lookup_url_kwarg='bid_pk', many=False)
@@ -86,6 +87,11 @@ class CustomerSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Customer
         fields = ('url', 'name', 'email', 'phone')
+
+    def create(self, validated_data):
+        # Set account from request.
+        validated_data['account_id'] = self.context['request'].user.account_id
+        return Customer.objects.create(**validated_data)
 
 class UnitTypeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

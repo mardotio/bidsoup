@@ -1,6 +1,7 @@
 import { Reducer } from 'redux';
 import * as fromActions from '@taskItem/actions/bidTasksActions';
 import { BidTask } from '@app/types/types';
+import { isDefined } from '@utils/utils';
 
 export interface BidTaskState {
   isFetching: boolean;
@@ -49,7 +50,10 @@ const bidTaskReducer: Reducer<BidTaskState> = (state = defaultState, action: fro
       });
       return {
         ...state,
-        list: mergedTasks
+        list: mergedTasks,
+        selectedTask: isDefined(state.selectedTask) && state.selectedTask.url === action.payload.task.url
+          ? action.payload.task
+          : state.selectedTask
       };
     default:
       return state;

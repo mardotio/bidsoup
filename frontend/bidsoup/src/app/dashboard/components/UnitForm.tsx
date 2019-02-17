@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import InputField, { DropDownItem } from '@app/components/InputField';
+import InputField, { DropDownItem } from '@app/components/inputs/material/InputField';
 import GhostButton from '@app/components/GhostButton';
 import { theme } from '@utils/color';
 import { beautifyNumber } from '@utils/styling';

@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import InputField, { DropDownItem } from '@app/components/InputField';
+import InputField, { DropDownItem } from '@app/components/inputs/material/InputField';
 import GhostButton from '@app/components/GhostButton';
 import dropdownValidation from '@utils/validation/dropdown';
 import textValidation from '@utils/validation/text';

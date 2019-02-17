@@ -2,8 +2,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import { BidTask } from '@app/types/types';
-import InputField from '@app/components/InputField';
-import { DropDownOptions, DropDownItem } from '@app/components/InputField';
+import InputField from '@app/components/inputs/material/InputField';
+import { DropDownOptions, DropDownItem } from '@app/components/inputs/material/InputField';
 import { isEmpty, flatmap } from '@utils/utils';
 import { theme } from '@utils/color';
 

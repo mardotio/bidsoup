@@ -5,8 +5,9 @@ import Table from '@taskItem/components/Table';
 import PriceBreakdown from '@taskItem/components/PriceBreakdown';
 import CategoryChip from '@taskItem/components/CategoryChip';
 import Items from '@taskItem/components/Items';
+import EditTaskFormContainer from '@taskItem/containers/EditTaskFormContainer';
 import { theme } from '@utils/color';
-import { isEmpty, isUndefined, includes } from '@utils/utils';
+import { isEmpty, includes } from '@utils/utils';
 import { StandardizedItem } from '@utils/conversions';
 import { Category, BidTask } from '@app/types/types';
 
@@ -21,34 +22,9 @@ interface State {
   items: StandardizedItem[];
 }
 
-interface TaskDescriptionProps {
-  isEmpty: boolean;
-}
-
 const ItemWrapper = styled.div`
   margin-top: 1em;
   width: 95%;
-`;
-
-const JobItemHeader = styled.div`
-  font-size: 1.5em;
-`;
-
-const TaskDescriptionContainer = styled.div`
-  display: flex;
-`;
-
-const TaskDescription = styled.div<TaskDescriptionProps>`
-  margin-left: .5em;
-  border: 1px solid transparent;
-  flex: 1;
-  padding: .5em;
-  min-height: 2em;
-  color: ${props => props.isEmpty ? theme.text.light.hex : 'inherit' };
-  &:hover {
-    border: 1px solid ${theme.components.border.hex};
-    border-radius: 5px;
-  }
 `;
 
 const ChipContainer = styled.div`
@@ -66,11 +42,6 @@ const FilterTitle = styled.div`
 const FilterContainer = styled.div`
   display: flex;
   margin-top: 1em;
-`;
-
-const Icon = styled.i`
-  color: ${theme.text.light.hex};
-  margin-top: .3em;
 `;
 
 const columns: {
@@ -189,20 +160,7 @@ export default class TaskDetails extends React.Component<Props, State> {
   render() {
     return (
       <ItemWrapper>
-        <JobItemHeader>
-          {this.props.selectedTask.title}
-        </JobItemHeader>
-        <HorizontalRule />
-        <TaskDescriptionContainer>
-          <Icon className="material-icons">notes</Icon>
-          <TaskDescription
-            isEmpty={
-              isUndefined(this.props.selectedTask.description) || isEmpty(this.props.selectedTask.description)
-            }
-          >
-            {this.props.selectedTask.description || 'Description'}
-          </TaskDescription>
-        </TaskDescriptionContainer>
+        <EditTaskFormContainer/>
         <HorizontalRule />
         {this.categoryFilters()}
         <PriceBreakdown

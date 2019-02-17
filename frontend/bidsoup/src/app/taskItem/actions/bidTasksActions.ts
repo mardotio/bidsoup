@@ -56,6 +56,22 @@ export const createBidTask = (task: Partial<BidTask>):
   };
 };
 
+export const updateBidTask = (task: BidTask):
+  ThunkAction<Promise<Actions | void>, AppState, never, Actions> => (
+  (dispatch) => {
+    return fetch(task.url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(task)
+    })
+    .then(handleHttpErrors)
+    .then(json => dispatch(fetchBidTasks()))
+    .catch(error => console.log(error));
+  }
+);
+
 // tslint:disable-next-line:no-any
 export const selectBidTaskByUuid = (uuid: string): ThunkAction<void, AppState, never, Actions> => {
   return (dispatch, getState) => {

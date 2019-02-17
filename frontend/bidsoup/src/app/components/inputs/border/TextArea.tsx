@@ -31,7 +31,9 @@ interface TextAreaFieldProps {
   maxHeight?: number;
 }
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  width: 100%;
+`;
 
 const Container = styled.div<ContainerProps>`
   border: 1px solid ${props => {
@@ -140,6 +142,9 @@ export default class TextArea extends React.Component<Props, State> {
   componentDidUpdate() {
     if (this.state.textFieldWidth !== this.textField.current!.scrollWidth) {
       this.setState({textFieldWidth: this.textField.current!.scrollWidth});
+    }
+    if (this.state.ghostHeight !== this.ghostDiv.current!.clientHeight) {
+      this.setState({ghostHeight: this.ghostDiv.current!.clientHeight});
     }
   }
 

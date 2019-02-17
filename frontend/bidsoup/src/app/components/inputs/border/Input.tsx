@@ -9,6 +9,8 @@ interface Props extends React.HTMLAttributes<HTMLInputElement> {
   error?: ErrorObject;
   type?: string;
   value?: string;
+  padding?: number;
+  size?: number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: () => void;
   onFocus?: () => void;
@@ -16,14 +18,16 @@ interface Props extends React.HTMLAttributes<HTMLInputElement> {
 
 interface InputFieldProps {
   hasError: boolean;
+  padding: number;
+  size: number;
 }
 
 const InputField = styled.input<InputFieldProps>`
   border: 1px solid ${props => props.hasError ? theme.error.hex : 'transparent'};
   border-radius: .3em;
-  padding: 1em;
+  padding: ${props => props.padding}em;
   font-family: inherit;
-  font-size: inherit;
+  font-size: ${props => props.size}em;
   width: 100%;
   box-sizing: border-box;
   &:hover {
@@ -51,7 +55,9 @@ const renderInputField = (props: Props) => (
     onBlur={props.onBlur}
     onChange={props.onChange}
     onFocus={props.onFocus}
+    padding={props.padding!}
     placeholder={props.label}
+    size={props.size!}
     type={props.type}
     value={props.value}
   />
@@ -75,7 +81,9 @@ Input.defaultProps = {
     message: '',
     hasError: false
   },
-  type: 'text'
+  type: 'text',
+  size: 1,
+  padding: 1
 };
 
 export default Input;

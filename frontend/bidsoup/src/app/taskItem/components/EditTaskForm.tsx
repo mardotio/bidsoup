@@ -26,10 +26,6 @@ interface FieldState {
 
 const Container = styled.div``;
 
-const JobItemHeader = styled.div`
-  font-size: 1.5em;
-`;
-
 const TaskDescriptionContainer = styled.div`
   display: flex;
 `;
@@ -96,15 +92,15 @@ export default class EditTaskForm extends React.Component<Props, State> {
   render() {
     return(
       <Container>
-        <JobItemHeader>
-          <Input
-            value={this.state.title.value}
-            label="Title"
-            onChange={this.handleFieldChange}
-            error={this.state.title.errorState}
-            onBlur={this.validateAndSubmit}
-          />
-        </JobItemHeader>
+        <Input
+          value={this.state.title.value}
+          label="Title"
+          size={1.5}
+          padding={.66}
+          onChange={this.handleFieldChange}
+          error={this.state.title.errorState}
+          onBlur={this.validateAndSubmit}
+        />
         <HorizontalRule />
         <TaskDescriptionContainer>
           <Icon className="material-icons">notes</Icon>

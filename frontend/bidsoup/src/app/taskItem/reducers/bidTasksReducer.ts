@@ -40,6 +40,17 @@ const bidTaskReducer: Reducer<BidTaskState> = (state = defaultState, action: fro
         ...state,
         selectedTask: action.payload.task
       };
+    case fromActions.RECEIVE_BID_TASK:
+      let mergedTasks = action.payload.tasks.map(task => {
+        if (task.url === action.payload.task.url) {
+          return action.payload.task;
+        }
+        return task;
+      });
+      return {
+        ...state,
+        list: mergedTasks
+      };
     default:
       return state;
   }

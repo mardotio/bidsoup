@@ -9,6 +9,7 @@ export const REQUEST_BID_TASKS = 'REQUEST_BID_TASKS';
 export const RECEIVE_BID_TASKS = 'RECEIVE_BID_TASKS';
 export const CREATE_BID_TASK = 'CREATE_BID_TASK';
 export const SELECT_BID_TASK = 'SELECT_BID_TASK';
+export const RECEIVE_BID_TASK = 'RECEIVE_BID_TASK';
 export const Actions = {
   clearSelectedBidTask: () =>
     createAction(CLEAR_SELECTED_TASK),
@@ -17,7 +18,9 @@ export const Actions = {
   receiveBidTasks: (tasks: BidTask[], fetchTime: number) =>
     createAction(RECEIVE_BID_TASKS, { tasks, fetchTime }),
   selectBidTask: (task: BidTask) =>
-    createAction(SELECT_BID_TASK, { task })
+    createAction(SELECT_BID_TASK, { task }),
+  receiveBidTask: (task: BidTask, tasks: BidTask[]) =>
+    createAction(RECEIVE_BID_TASK, {task, tasks})
 };
 
 export type Actions = ActionsUnion<typeof Actions>;
@@ -58,7 +61,7 @@ export const createBidTask = (task: Partial<BidTask>):
 
 export const updateBidTask = (task: BidTask):
   ThunkAction<Promise<Actions | void>, AppState, never, Actions> => (
-  (dispatch) => {
+  (dispatch, getState) => {
     return fetch(task.url, {
       method: 'PUT',
       headers: {
@@ -67,7 +70,8 @@ export const updateBidTask = (task: BidTask):
       body: JSON.stringify(task)
     })
     .then(handleHttpErrors)
-    .then(json => dispatch(fetchBidTasks()))
+    .then(response => response.json())
+    .then(json => dispatch(Actions.receiveBidTask(json, getState().bidData.tasks.list)))
     .catch(error => console.log(error));
   }
 );

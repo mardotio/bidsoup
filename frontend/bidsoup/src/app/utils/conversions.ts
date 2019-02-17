@@ -48,3 +48,12 @@ export const normalizeItem =
         : item.description
     };
 };
+
+/*
+  Takes the label for a form field and converts it into the name for the field.
+  It simply converts all spaces ( ) into dashes (-), and downcases all
+  charaters. For example, Tax Percent would be returned as tax-percent.
+*/
+export const labelToFieldName = (label: string) => (
+  label.replace(/ /g, '-').toLowerCase()
+);

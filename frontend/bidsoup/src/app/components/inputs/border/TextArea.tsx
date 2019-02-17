@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { theme } from '@utils/color';
 import { ErrorObject } from '@utils/validation/shared';
 import { isDefined } from '@utils/utils';
+import { labelToFieldName } from '@utils/conversions';
 
 interface Props {
   label: string;
@@ -118,10 +119,6 @@ export default class TextArea extends React.Component<Props, State> {
     },
   };
 
-  static labelToName = (label: string) => (
-    label.replace(/ /g, '-').toLowerCase()
-  )
-
   constructor(props: Props) {
     super(props);
     this.ghostDiv = React.createRef();
@@ -170,7 +167,7 @@ export default class TextArea extends React.Component<Props, State> {
         <Container isFocused={this.state.isFocused} hasError={this.props.error!.hasError}>
           <TextAreaField
             maxHeight={this.props.maxHeight}
-            name={TextArea.labelToName(this.props.label)}
+            name={labelToFieldName(this.props.label)}
             onBlur={this.onBlur}
             onChange={this.props.onChange}
             onFocus={this.onFocus}

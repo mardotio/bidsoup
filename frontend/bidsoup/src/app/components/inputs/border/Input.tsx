@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { theme } from '@utils/color';
 import { ErrorObject } from '@utils/validation/shared';
+import { labelToFieldName } from '@utils/conversions';
 
 interface Props extends React.HTMLAttributes<HTMLInputElement> {
   label: string;
@@ -46,6 +47,7 @@ const ErrorMessage = styled.div`
 const renderInputField = (props: Props) => (
   <InputField
     hasError={props.error!.hasError}
+    name={labelToFieldName(props.label)}
     onBlur={props.onBlur}
     onChange={props.onChange}
     onFocus={props.onFocus}

@@ -17,7 +17,14 @@ services:
       - ./frontend/bidsoup/public:/usr/app/public/
       - ./frontend/bidsoup/tslint.json:/usr/app/tslint.json
       - ./frontend/bidsoup/tsconfig.json:/usr/app/tsconfig.json
+      - ./frontend/bidsoup/.env.development:/usr/app/.env.development
     ports:
       - 3000:3000
     environment:
       - CHOKIDAR_USEPOLLING=true
+
+  serv:
+    ports:
+      - 80:80
+    volumes:
+      - ./bidsoup_nginx_dev.conf:/etc/nginx/nginx.conf:ro

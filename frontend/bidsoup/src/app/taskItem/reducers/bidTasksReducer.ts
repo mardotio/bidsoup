@@ -55,6 +55,14 @@ const bidTaskReducer: Reducer<BidTaskState> = (state = defaultState, action: fro
           ? action.payload.task
           : state.selectedTask
       };
+    case fromActions.DELETE_BID_TASK:
+      return {
+        ...state,
+        list: action.payload.tasks.filter(t => t.url !== action.payload.taskUrl),
+        selectedTask: isDefined(state.selectedTask) && state.selectedTask.url === action.payload.taskUrl
+          ? null
+          : state.selectedTask
+      };
     default:
       return state;
   }

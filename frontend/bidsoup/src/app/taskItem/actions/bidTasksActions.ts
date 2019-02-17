@@ -10,6 +10,7 @@ export const RECEIVE_BID_TASKS = 'RECEIVE_BID_TASKS';
 export const CREATE_BID_TASK = 'CREATE_BID_TASK';
 export const SELECT_BID_TASK = 'SELECT_BID_TASK';
 export const RECEIVE_BID_TASK = 'RECEIVE_BID_TASK';
+export const DELETE_BID_TASK = 'DELETE_BID_TASK';
 export const Actions = {
   clearSelectedBidTask: () =>
     createAction(CLEAR_SELECTED_TASK),
@@ -20,7 +21,9 @@ export const Actions = {
   selectBidTask: (task: BidTask) =>
     createAction(SELECT_BID_TASK, { task }),
   receiveBidTask: (task: BidTask, tasks: BidTask[]) =>
-    createAction(RECEIVE_BID_TASK, {task, tasks})
+    createAction(RECEIVE_BID_TASK, {task, tasks}),
+  deleteBidTask: (taskUrl: string, tasks: BidTask[]) =>
+    createAction(DELETE_BID_TASK, {taskUrl, tasks})
 };
 
 export type Actions = ActionsUnion<typeof Actions>;
@@ -72,6 +75,21 @@ export const updateBidTask = (task: BidTask):
     .then(handleHttpErrors)
     .then(response => response.json())
     .then(json => dispatch(Actions.receiveBidTask(json, getState().bidData.tasks.list)))
+    .catch(error => console.log(error));
+  }
+);
+
+export const deletedBidTask = (taskUrl: string):
+  ThunkAction<Promise<Actions | void>, AppState, never, Actions> => (
+  (dispatch, getState) => {
+    return fetch(taskUrl, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(handleHttpErrors)
+    .then(json => dispatch(Actions.deleteBidTask(taskUrl, getState().bidData.tasks.list)))
     .catch(error => console.log(error));
   }
 );

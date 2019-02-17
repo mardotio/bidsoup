@@ -74,12 +74,17 @@ export default class EditTaskForm extends React.Component<Props, State> {
     }));
   }
 
+  didFieldsChange = () => (
+    this.props.task.title !== this.state.title.value
+      || this.props.task.description !== this.state.description.value
+  )
+
   validateAndSubmit = () => {
     let hasError = ['description', 'title'].reduce(
       (error, field) => this.state[field].errorState.hasError || error,
       false
     );
-    if (!hasError) {
+    if (!hasError && this.didFieldsChange()) {
       this.props.updateTask({
         ...this.props.task,
         title: this.state.title.value,

@@ -98,6 +98,7 @@ export const theme = {
   secondary: new Color('#842aea'),
   accent: new Color('#1180f7'),
   error: new Color('#ff1744'),
+  danger: new Color('#ed4758'),
   success: '',
   text: {
     dark: Color.shade(87),

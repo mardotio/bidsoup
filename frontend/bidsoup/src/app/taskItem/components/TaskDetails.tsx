@@ -22,9 +22,10 @@ interface State {
   items: StandardizedItem[];
 }
 
+const Container = styled.div``;
+
 const ItemWrapper = styled.div`
-  margin-top: 1em;
-  width: 95%;
+  padding: 0 2em;
 `;
 
 const ChipContainer = styled.div`
@@ -159,19 +160,21 @@ export default class TaskDetails extends React.Component<Props, State> {
 
   render() {
     return (
-      <ItemWrapper>
+      <Container>
         <EditTaskFormContainer/>
-        <HorizontalRule />
-        {this.categoryFilters()}
-        <PriceBreakdown
-          {...this.itemPriceBreakdown()}
-        />
-        <Items
-          columns={columns}
-          items={this.state.items}
-          categories={this.props.categories}
-        />
-      </ItemWrapper>
+        <ItemWrapper>
+          <HorizontalRule />
+          {this.categoryFilters()}
+          <PriceBreakdown
+            {...this.itemPriceBreakdown()}
+          />
+          <Items
+            columns={columns}
+            items={this.state.items}
+            categories={this.props.categories}
+          />
+        </ItemWrapper>
+      </Container>
     );
   }
 }

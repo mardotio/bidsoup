@@ -7,6 +7,7 @@ import textValidation from '@utils/validation/text';
 import { BidTask } from '@app/types/types';
 import { theme } from '@utils/color';
 import { ErrorObject } from '@app/utils/validation/shared';
+import ActionHeader from '@app/components/ActionHeader';
 
 interface Props {
   task: BidTask;
@@ -30,14 +31,6 @@ const Container = styled.div`
   padding: 0 2em;
 `;
 
-const ActionHeader = styled.div`
-  border-bottom: 1px solid ${theme.components.border.hex};
-  display: flex;
-  flex-direction: row-reverse;
-  padding: .5em 1em;
-  margin-bottom: .5em;
-`;
-
 const TaskDescriptionContainer = styled.div`
   display: flex;
 `;
@@ -48,42 +41,9 @@ const Icon = styled.i`
   margin-right: .5em;
 `;
 
-const HeaderIcon = styled.i`
-  color: ${theme.text.light.hex};
-  margin: 0 .25em;
-  &:hover {
-    color: ${theme.text.medium.hex};
-    cursor: pointer;
-  }
-`;
-
 const defaultError: ErrorObject = {
   hasError: false,
   message: ''
-};
-
-const HiddenInput = styled.input`
-  opacity: 0;
-  position: absolute;
-  height: 0;
-  z-index: -100;
-`;
-
-const hiddenInput = () => (
-  <HiddenInput
-    value={window.location.href}
-    id="bid-url-field"
-    type="readonly"
-    readOnly={true}
-  />
-);
-
-const copyToClipboard = () => {
-  let url = document.getElementById('bid-url-field') as HTMLInputElement;
-  if (url && url.select) {
-    url.select();
-    document.execCommand('copy');
-  }
 };
 
 export default class EditTaskForm extends React.Component<Props, State> {
@@ -141,27 +101,13 @@ export default class EditTaskForm extends React.Component<Props, State> {
   render() {
     return(
       <React.Fragment>
-        <ActionHeader>
-          <HeaderIcon
-            className="material-icons"
-            onClick={this.props.unselectTask}
-          >
-            clear
-          </HeaderIcon>
-          <HeaderIcon
-            className="material-icons"
-            onClick={this.deleteTask}
-          >
-            delete
-          </HeaderIcon>
-          <HeaderIcon
-            className="material-icons"
-            onClick={copyToClipboard}
-          >
-            link
-          </HeaderIcon>
-          {hiddenInput()}
-        </ActionHeader>
+        <ActionHeader
+          options={[
+            {icon: 'clear', action: this.props.unselectTask},
+            {icon: 'delete', danger: true, action: this.deleteTask},
+            {icon: 'link'}
+          ]}
+        />
         <Container>
           <Input
             value={this.state.title.value}

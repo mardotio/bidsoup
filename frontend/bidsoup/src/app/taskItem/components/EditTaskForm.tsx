@@ -11,6 +11,8 @@ import { ErrorObject } from '@app/utils/validation/shared';
 interface Props {
   task: BidTask;
   updateTask: (t: BidTask) => Promise<void>;
+  deleteTask: (taskUrl: string) => Promise<void>;
+  unselectTask: () => void;
 }
 
 interface State {
@@ -58,6 +60,30 @@ const HeaderIcon = styled.i`
 const defaultError: ErrorObject = {
   hasError: false,
   message: ''
+};
+
+const HiddenInput = styled.input`
+  opacity: 0;
+  position: absolute;
+  height: 0;
+  z-index: -100;
+`;
+
+const hiddenInput = () => (
+  <HiddenInput
+    value={window.location.href}
+    id="bid-url-field"
+    type="readonly"
+    readOnly={true}
+  />
+);
+
+const copyToClipboard = () => {
+  let url = document.getElementById('bid-url-field') as HTMLInputElement;
+  if (url && url.select) {
+    url.select();
+    document.execCommand('copy');
+  }
 };
 
 export default class EditTaskForm extends React.Component<Props, State> {
@@ -108,13 +134,33 @@ export default class EditTaskForm extends React.Component<Props, State> {
     }
   }
 
+  deleteTask = () => {
+    this.props.deleteTask(this.props.task.url);
+  }
+
   render() {
     return(
       <React.Fragment>
         <ActionHeader>
-          <HeaderIcon className="material-icons">clear</HeaderIcon>
-          <HeaderIcon className="material-icons">delete</HeaderIcon>
-          <HeaderIcon className="material-icons">link</HeaderIcon>
+          <HeaderIcon
+            className="material-icons"
+            onClick={this.props.unselectTask}
+          >
+            clear
+          </HeaderIcon>
+          <HeaderIcon
+            className="material-icons"
+            onClick={this.deleteTask}
+          >
+            delete
+          </HeaderIcon>
+          <HeaderIcon
+            className="material-icons"
+            onClick={copyToClipboard}
+          >
+            link
+          </HeaderIcon>
+          {hiddenInput()}
         </ActionHeader>
         <Container>
           <Input

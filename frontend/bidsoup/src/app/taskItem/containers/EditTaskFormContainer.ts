@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import EditTaskForm from '@taskItem/components/EditTaskForm';
-import { BidTask, AppState } from '@app/types/types';
 import { ThunkDispatch } from 'redux-thunk';
-import { Actions, updateBidTask } from '../actions/bidTasksActions';
+import EditTaskForm from '@taskItem/components/EditTaskForm';
+import { Actions, updateBidTask, deletedBidTask } from '@taskItem/actions/bidTasksActions';
+import { BidTask, AppState } from '@app/types/types';
 
 interface StateProps {
   task: BidTask;
@@ -10,7 +10,8 @@ interface StateProps {
 
 interface DispatchProps {
   updateTask: (t: BidTask) => Promise<Actions | void>;
-  // refreshTask: (taskUrl: string) => Promise<void>;
+  deleteTask: (taskUrl: string) => Promise<Actions | void>;
+  unselectTask: () => void;
 }
 
 const mapStateToProps = (state: AppState): StateProps => ({
@@ -18,7 +19,9 @@ const mapStateToProps = (state: AppState): StateProps => ({
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, never, Actions>): DispatchProps => ({
-  updateTask: (t: BidTask) => dispatch(updateBidTask(t))
+  updateTask: (t: BidTask) => dispatch(updateBidTask(t)),
+  deleteTask: (taskUrl: string) => dispatch(deletedBidTask(taskUrl)),
+  unselectTask: () => dispatch(Actions.clearSelectedBidTask())
 });
 
 const EditTaskFromContainer = connect(mapStateToProps, mapDispatchToProps)(EditTaskForm);

@@ -79,7 +79,7 @@ export const updateBidTask = (task: BidTask):
   }
 );
 
-export const deletedBidTask = (taskUrl: string):
+export const deleteBidTask = (taskUrl: string):
   ThunkAction<Promise<Actions | void>, AppState, never, Actions> => (
   (dispatch, getState) => {
     return fetch(taskUrl, {

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import TaskItem from '../components/TaskItem';
 import { fetchApi } from '@taskItem/actions/apiActions';
-import { Actions as tasksActions, createBidTask, selectBidTaskByUuid, deletedBidTask } from '@taskItem/actions/bidTasksActions';
+import { Actions as tasksActions, createBidTask, selectBidTaskByUuid, deleteBidTask } from '@taskItem/actions/bidTasksActions';
 import { fetchAccount } from '@app/actions/accountActions';
 import { Actions as uiActions } from '@app/actions/uiActions';
 import { Actions as bidActions, setAndFetchBidByKey, fetchBidListByAccount } from '@dashboard/actions/bidActions'
@@ -117,7 +117,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(tasksActions.clearSelectedBidTask()),
     showModal: () => dispatch(uiActions.showModal()),
     hideModal: () => dispatch(uiActions.hideModal()),
-    deleteTask: (taskUrl) => dispatch(deletedBidTask(taskUrl)),
+    deleteTask: (taskUrl) => dispatch(deleteBidTask(taskUrl)),
     unselectTask: () => dispatch(tasksActions.clearSelectedBidTask())
   };
 };

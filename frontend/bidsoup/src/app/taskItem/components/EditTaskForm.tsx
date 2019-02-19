@@ -7,13 +7,10 @@ import textValidation from '@utils/validation/text';
 import { BidTask } from '@app/types/types';
 import { theme } from '@utils/color';
 import { ErrorObject } from '@app/utils/validation/shared';
-import ActionHeader from '@app/components/ActionHeader';
 
 interface Props {
   task: BidTask;
   updateTask: (t: BidTask) => Promise<void>;
-  deleteTask: (taskUrl: string) => Promise<void>;
-  unselectTask: () => void;
 }
 
 interface State {
@@ -94,43 +91,30 @@ export default class EditTaskForm extends React.Component<Props, State> {
     }
   }
 
-  deleteTask = () => {
-    this.props.deleteTask(this.props.task.url);
-  }
-
   render() {
     return(
-      <React.Fragment>
-        <ActionHeader
-          options={[
-            {icon: 'clear', action: this.props.unselectTask},
-            {icon: 'delete', danger: true, action: this.deleteTask},
-            {icon: 'link'}
-          ]}
+      <Container>
+        <Input
+          value={this.state.title.value}
+          label="Title"
+          size={1.5}
+          padding={.66}
+          onChange={this.handleFieldChange}
+          error={this.state.title.errorState}
+          onBlur={this.validateAndSubmit}
         />
-        <Container>
-          <Input
-            value={this.state.title.value}
-            label="Title"
-            size={1.5}
-            padding={.66}
+        <HorizontalRule />
+        <TaskDescriptionContainer>
+          <Icon className="material-icons">notes</Icon>
+          <TextArea
+            value={this.state.description.value}
+            label="Description"
             onChange={this.handleFieldChange}
-            error={this.state.title.errorState}
+            error={this.state.description.errorState}
             onBlur={this.validateAndSubmit}
           />
-          <HorizontalRule />
-          <TaskDescriptionContainer>
-            <Icon className="material-icons">notes</Icon>
-            <TextArea
-              value={this.state.description.value}
-              label="Description"
-              onChange={this.handleFieldChange}
-              error={this.state.description.errorState}
-              onBlur={this.validateAndSubmit}
-            />
-          </TaskDescriptionContainer>
-        </Container>
-      </React.Fragment>
+        </TaskDescriptionContainer>
+      </Container>
     );
   }
 }

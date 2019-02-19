@@ -6,6 +6,7 @@ import PriceBreakdown from '@taskItem/components/PriceBreakdown';
 import CategoryChip from '@taskItem/components/CategoryChip';
 import Items from '@taskItem/components/Items';
 import EditTaskFormContainer from '@taskItem/containers/EditTaskFormContainer';
+import ActionHeader from '@app/components/ActionHeader';
 import { theme } from '@utils/color';
 import { isEmpty, includes } from '@utils/utils';
 import { StandardizedItem } from '@utils/conversions';
@@ -15,6 +16,8 @@ interface Props {
   items: StandardizedItem[];
   categories: Category[];
   selectedTask: BidTask;
+  deleteTask: (taskUrl: string) => Promise<void>;
+  unselectTask: () => void;
 }
 
 interface State {
@@ -82,6 +85,10 @@ export default class TaskDetails extends React.Component<Props, State> {
         items: this.filterItems(prevState.selectedCategories)
       }));
     }
+  }
+
+  deleteTask = () => {
+    this.props.deleteTask(this.props.selectedTask.url);
   }
 
   filterItems(selectedCategories: string[]) {
@@ -161,6 +168,13 @@ export default class TaskDetails extends React.Component<Props, State> {
   render() {
     return (
       <Container>
+        <ActionHeader
+          options={[
+            {icon: 'clear', action: this.props.unselectTask},
+            {icon: 'delete', danger: true, action: this.deleteTask},
+            {icon: 'link'}
+          ]}
+        />
         <EditTaskFormContainer/>
         <ItemWrapper>
           <HorizontalRule />

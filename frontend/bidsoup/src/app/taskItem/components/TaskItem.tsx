@@ -41,6 +41,8 @@ interface Props {
   clearSelectedTask: () => void;
   showModal: () => void;
   hideModal: () => void;
+  deleteTask: (taskUrl: string) => Promise<void>;
+  unselectTask: () => void;
 }
 
 interface ItemContentProps {
@@ -157,6 +159,8 @@ class TaskItem extends React.Component<Props> {
         categories={this.props.categories}
         selectedTask={this.props.selectedTask}
         key={this.props.selectedTask.url}
+        deleteTask={this.props.deleteTask}
+        unselectTask={this.props.unselectTask}
       />
     );
   }

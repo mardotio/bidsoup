@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import Grid from '@app/components/Grid';
-import Modal from '@app/components/Modal';
+import ModalContainer from '@app/containers/ModalContainer';
 import Fab from '@app/components/Fab';
 import NewBidFormContainer from '@dashboard/containers/NewBidFormContainer';
 import BidCard from '@dashboard/components/BidCard';
@@ -12,9 +12,8 @@ import { isDefined } from '@utils/utils';
 interface Props {
   bids: Bid[];
   account: Account | null;
-  modalShouldDisplay: boolean;
-  showModal: () => void;
-  hideModal: () => void;
+  showModal: (modalId: string) => void;
+  hideModal: (modalId: string) => void;
 }
 
 const FabContainer = styled.div`
@@ -36,31 +35,27 @@ const generateBidCards = ({bids, account}: Props) => {
   return [];
 };
 
-const bidForm = ({modalShouldDisplay, showModal, hideModal}: Props) => {
-  if (modalShouldDisplay) {
-    return (
-      <Modal
-        onClose={hideModal}
-        width={'40em'}
-        title={'New Project'}
-      >
-        <NewBidFormContainer
-          cancelAction={hideModal}
-          submitAction={hideModal}
-        />
-      </Modal>
-    );
-  }
-  return (
+const bidForm = ({showModal, hideModal}: Props) => (
+  <React.Fragment>
+    <ModalContainer
+      showIf="newBidForm"
+      width={'40em'}
+      title={'New Project'}
+    >
+      <NewBidFormContainer
+        cancelAction={() => hideModal('newBidForm')}
+        submitAction={() => hideModal('newBidForm')}
+      />
+    </ModalContainer>
     <FabContainer>
       <Fab
-        onClick={showModal}
+        onClick={() => showModal('newBidForm')}
         icon="add"
         color={theme.accent.hex}
       />
     </FabContainer>
-  );
-};
+  </React.Fragment>
+);
 
 const BidSelector = (props: Props) => {
   let cards = props.bids.length === 0

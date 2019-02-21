@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import Modal from '@app/components/Modal';
+import ModalContainer from '@app/containers/ModalContainer';
 import TaskTree from '@taskItem/components/TaskTree';
 import Card from '@app/components/Card';
 import NewTaskForm from '@taskItem/components/NewTaskForm';
@@ -8,7 +8,6 @@ import Fab from '@app/components/Fab';
 import TaskDetails from '@taskItem/components/TaskDetails';
 import { theme } from '@utils/color';
 import { isUndefined, isDefined } from '@utils/utils';
-import { UiState } from '@app/reducers/uiReducer';
 import { Bid, Category, BidTask } from '@app/types/types';
 import { StandardizedItem } from '@utils/conversions';
 import { Actions as BidActions } from '@dashboard/actions/bidActions';
@@ -21,7 +20,6 @@ interface StandardizedTask extends BidTask {
 }
 
 interface Props {
-  ui: UiState;
   selectedBid: string;
   task: string;
   bids: Bid[];
@@ -39,8 +37,8 @@ interface Props {
   setCurrentBid: (bid: string) => void;
   selectTask: (task: string) => void;
   clearSelectedTask: () => void;
-  showModal: () => void;
-  hideModal: () => void;
+  showModal: (modalId: string) => void;
+  hideModal: (modalId: string) => void;
   deleteTask: (taskUrl: string) => Promise<void>;
   unselectTask: () => void;
 }
@@ -92,38 +90,29 @@ const FabContainer = styled.div`
 `;
 
 const addElements = (props: Props) => {
-  if (props.ui.modalShowing) {
-    return (
-      <React.Fragment>
-        <FabContainer>
-          <Fab
-            onClick={props.showModal}
-            color={theme.accent.hex}
-            icon={'add'}
-          />
-        </FabContainer>
-        <Modal onClose={props.hideModal} title="New Task">
-          <NewTaskForm
-            tasks={props.tasks}
-            onAddTask={(task) => {
-              props.hideModal();
-              props.addTask(task);
-            }}
-          />
-        </Modal>
-      </React.Fragment>
-    );
-  } else {
-    return (
+  return (
+    <React.Fragment>
       <FabContainer>
         <Fab
-          onClick={props.showModal}
+          onClick={() => props.showModal('newTaskItem')}
           color={theme.accent.hex}
           icon={'add'}
         />
       </FabContainer>
-    );
-  }
+      <ModalContainer
+        title="New Task"
+        showIf="newTaskItem"
+      >
+        <NewTaskForm
+          tasks={props.tasks}
+          onAddTask={(task) => {
+            props.hideModal('newTaskItem');
+            props.addTask(task);
+          }}
+        />
+      </ModalContainer>
+    </React.Fragment>
+  );
 };
 
 class TaskItem extends React.Component<Props> {

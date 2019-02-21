@@ -150,6 +150,8 @@ class TaskItem extends React.Component<Props> {
         key={this.props.selectedTask.url}
         deleteTask={this.props.deleteTask}
         unselectTask={this.props.unselectTask}
+        showModal={this.props.showModal}
+        hideModal={this.props.hideModal}
       />
     );
   }

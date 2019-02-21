@@ -7,6 +7,7 @@ import CategoryChip from '@taskItem/components/CategoryChip';
 import Items from '@taskItem/components/Items';
 import EditTaskFormContainer from '@taskItem/containers/EditTaskFormContainer';
 import ActionHeader from '@app/components/ActionHeader';
+import DangerActionModal from '@app/components/DangerActionModal';
 import { theme } from '@utils/color';
 import { isEmpty, includes } from '@utils/utils';
 import { StandardizedItem } from '@utils/conversions';
@@ -18,6 +19,8 @@ interface Props {
   selectedTask: BidTask;
   deleteTask: (taskUrl: string) => Promise<void>;
   unselectTask: () => void;
+  showModal: (modalId: string) => void;
+  hideModal: (modalId: string) => void;
 }
 
 interface State {
@@ -87,8 +90,17 @@ export default class TaskDetails extends React.Component<Props, State> {
     }
   }
 
+  showConfirmModal = () => {
+    this.props.showModal('confirmTaskDelete');
+  }
+
+  hideConfirmModal = () => {
+    this.props.hideModal('confirmTaskDelete');
+  }
+
   deleteTask = () => {
     this.props.deleteTask(this.props.selectedTask.url);
+    this.hideConfirmModal();
   }
 
   filterItems(selectedCategories: string[]) {
@@ -168,10 +180,19 @@ export default class TaskDetails extends React.Component<Props, State> {
   render() {
     return (
       <Container>
+        <DangerActionModal
+          showIf="confirmTaskDelete"
+          title="Delete selected task?"
+          body="This action cannot be undone. The selected task and all of it's children will be deleted."
+          confirmButtonLabel="Delete"
+          onCloseCancel={false}
+          cancelAction={this.hideConfirmModal}
+          confirmAction={this.deleteTask}
+        />
         <ActionHeader
           options={[
             {icon: 'clear', action: this.props.unselectTask},
-            {icon: 'delete', danger: true, action: this.deleteTask},
+            {icon: 'delete', danger: true, action: this.showConfirmModal},
             {icon: 'link'}
           ]}
         />

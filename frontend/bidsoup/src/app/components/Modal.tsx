@@ -38,10 +38,12 @@ const CloseX = styled.div`
 `;
 
 interface Props {
+  children: React.ReactNode;
+  shouldDisplay: boolean;
   width?: string;
   height?: string;
   title?: string;
-  onClose(): void;
+  closeModal: () => void;
 }
 
 const Header = styled.div`
@@ -55,30 +57,29 @@ const Title = styled.div`
   font-size: 1.5em;
 `;
 
-class Modal extends React.Component<Props> {
-  constructor(props: Props) {
-    super(props);
-  }
+const renderModal = (props: Props) => (
+  ReactDOM.createPortal(
+    <Overlay onClick={props.closeModal}>
+      <Inner
+        onClick={e => e.stopPropagation()}
+        width={props.width}
+        height={props.height}
+      >
+        <Header>
+          <Title>{props.title}</Title>
+          <CloseX onClick={props.closeModal}>
+            <i className="material-icons">close</i>
+          </CloseX>
+        </Header>
+        {props.children}
+      </Inner>
+    </Overlay>,
+    modalRoot!
+  )
+);
 
-  render() {
-    return ReactDOM.createPortal(
-      <Overlay onClick={this.props.onClose}>
-        <Inner
-          onClick={e => e.stopPropagation()}
-          width={this.props.width}
-          height={this.props.height}
-        >
-          <Header>
-            <Title>{this.props.title}</Title>
-            <CloseX onClick={this.props.onClose}>
-              <i className="material-icons">close</i>
-            </CloseX>
-          </Header>
-          {this.props.children}
-        </Inner>
-      </Overlay>,
-      modalRoot!);
-  }
-}
+const Modal = (props: Props) => (
+  props.shouldDisplay ? renderModal(props) : null
+);
 
 export default Modal;

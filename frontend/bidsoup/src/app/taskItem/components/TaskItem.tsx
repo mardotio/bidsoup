@@ -7,7 +7,7 @@ import NewTaskForm from '@taskItem/components/NewTaskForm';
 import Fab from '@app/components/Fab';
 import TaskDetails from '@taskItem/components/TaskDetails';
 import { theme } from '@utils/color';
-import { isUndefined, isDefined } from '@utils/utils';
+import { isUndefined, isDefined, isEmpty } from '@utils/utils';
 import { UiState } from '@app/reducers/uiReducer';
 import { Bid, Category, BidTask } from '@app/types/types';
 import { StandardizedItem } from '@utils/conversions';
@@ -126,7 +126,7 @@ const addElements = (props: Props) => {
 
 class TaskItem extends React.Component<Props> {
   componentDidMount() {
-    if (isUndefined(this.props.account)) {
+    if (isEmpty(this.props.account)) {
       this.props.loadPage();
     }
     if (this.props.selectedTask) {

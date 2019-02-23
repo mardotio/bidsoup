@@ -44,6 +44,6 @@ export function fetchApi(): ThunkAction<Promise<Actions|void>, AppState, never, 
     dispatch(Actions.requestApi());
     return (await Http.getJson('/api/', json =>
       some(dispatch(Actions.receiveApi(json, Date.now())) as Actions)))
-      .getOrElse(dispatch(Actions.receiveApiFailure()));
+      .getOrElseL(() => dispatch(Actions.receiveApiFailure()));
   };
 }

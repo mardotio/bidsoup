@@ -86,7 +86,7 @@ const mapStateToProps = ({account, ui, bidData, bids}, ownProps) => {
     bids: bids.list,
     taskItems,
     categories: bidData.categories.list,
-    account: isDefined(account.data) ? account.data.slug : null,
+    account: account.data.map(a => a.slug).getOrElse(''),
     selectedTask: bidData.tasks.selectedTask,
     tasks: getTasks(bidData.tasks, itemsByTask),
   }

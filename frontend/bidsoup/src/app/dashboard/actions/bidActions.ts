@@ -99,17 +99,19 @@ export const fetchCurrentBid = (): ThunkAction<Promise<Actions>, AppState, never
 
 export const fetchCustomerList = (): ThunkAction<Promise<Actions>, AppState, never, Actions> => {
   return (dispatch, getState) => {
-    dispatch(Actions.requestCustomerList());
-    return fetch(getState().api.endpoints.customers)
-      .then(response => response.json())
-      .then(json => {
-        let customers: Customer[] = [];
-        let res = customerListDecoder.run(json);
-        if (res.ok) {
-          customers = res.result;
-        }
-        return dispatch(Actions.receiveCustomerList(customers, Date.now()));
-      });
+    return getState().api.endpoints.map(e => {
+      dispatch(Actions.requestCustomerList());
+      return fetch(e.customers)
+        .then(response => response.json())
+        .then(json => {
+          let customers: Customer[] = [];
+          let res = customerListDecoder.run(json);
+          if (res.ok) {
+            customers = res.result;
+          }
+          return dispatch(Actions.receiveCustomerList(customers, Date.now()));
+        });
+    }).getOrElse(Promise.reject());
   };
 };
 

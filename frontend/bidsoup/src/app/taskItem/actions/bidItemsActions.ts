@@ -49,19 +49,21 @@ export const fetchBidItems = (): ThunkAction<Promise<void>, AppState, never, Act
 export const createTaskItem = (bidUrl: string, taskUrl: string, item: Partial<BidItem>):
   ThunkAction<Promise<void>, AppState, never, Actions> => (
   (dispatch, getState) => {
-    return fetch(getState().api.endpoints.biditems, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        ...item,
-        parent: taskUrl,
-        bid: bidUrl
+    return getState().api.endpoints.map(e => {
+      return fetch(e.biditems, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ...item,
+          parent: taskUrl,
+          bid: bidUrl
+        })
       })
-    })
-    .then(handleHttpErrors)
-    .then(json => dispatch(fetchBidItems()))
-    .catch(error => console.log(error));
+      .then(handleHttpErrors)
+      .then(json => dispatch(fetchBidItems()))
+      .catch(error => console.log(error));
+    }).getOrElse(Promise.reject());
   }
 );

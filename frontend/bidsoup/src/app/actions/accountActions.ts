@@ -29,15 +29,18 @@ export type Actions = ActionsUnion<typeof Actions>;
 
 export const fetchAccount = (slug: string): ThunkAction<Promise<Actions>, AppState, never, Actions> => (
   async (dispatch, getState) => {
-    dispatch(Actions.requestAccount());
-    return (await Http.getJson(`${getState().api.endpoints.accounts}${slug}/`, json => {
-      let res = accountDecoder.run(json);
-      if (res.ok) {
-        return some(res.result);
-      }
-      return none;
-    }))
-    .map<Actions>(a => dispatch(Actions.receiveAccount(a)))
-    .getOrElse(dispatch(Actions.receiveAccountFailure()));
+    return getState().api.endpoints.map(async e => {
+      dispatch(Actions.requestAccount());
+      return (await Http.getJson(`${e.accounts}${slug}/`, json => {
+        let res = accountDecoder.run(json);
+        if (res.ok) {
+          return some(res.result);
+        }
+        return none;
+      }))
+      .map<Actions>(a => dispatch(Actions.receiveAccount(a)))
+      .getOrElse(dispatch(Actions.receiveAccountFailure()));
+    })
+    .getOrElseL(() => Promise.reject());
   }
 );

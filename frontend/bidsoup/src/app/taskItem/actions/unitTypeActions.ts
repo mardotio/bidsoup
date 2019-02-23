@@ -37,24 +37,26 @@ export type Actions = ActionsUnion<typeof Actions>;
 
 export const fetchUnitTypes = (): ThunkAction<Promise<void>, AppState, never, Actions> => {
   return (dispatch, getState) => {
-    dispatch(Actions.requestUnitTypes());
-    return fetch(getState().api.endpoints.unittypes)
-      .then(
-        response => response.json()
-      )
-      .then(
-        json => {
-          let units: UnitDict = {};
-          // tslint:disable-next-line:no-any
-          json.map((u: any) => {
-            let res = unitTypeDecoder.run(u);
-            if (res.ok) {
-              let url = res.result.url;
-              units[url] = res.result;
-            }
-          });
-          dispatch(Actions.receiveUnitTypes(units, Date.now()));
-        }
-      );
+    return getState().api.endpoints.map(e => {
+      dispatch(Actions.requestUnitTypes());
+      return fetch(e.unittypes)
+        .then(
+          response => response.json()
+        )
+        .then(
+          json => {
+            let units: UnitDict = {};
+            // tslint:disable-next-line:no-any
+            json.map((u: any) => {
+              let res = unitTypeDecoder.run(u);
+              if (res.ok) {
+                let url = res.result.url;
+                units[url] = res.result;
+              }
+            });
+            dispatch(Actions.receiveUnitTypes(units, Date.now()));
+          }
+        );
+    }).getOrElseL(() => Promise.reject());
   };
 };

@@ -34,7 +34,6 @@ const View = props => {
       matches: ['/:account/bids/:bidId/tasks', '/:account/bids/:bidId/tasks/:taskId']
     }
   ];
-  console.log("props", props);
   return (
     <Fragment>
       <Container>

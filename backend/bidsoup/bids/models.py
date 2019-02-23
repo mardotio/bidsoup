@@ -9,6 +9,9 @@ class Account(models.Model):
     slug = models.SlugField(unique=True)
     next_bid_number = models.IntegerField(default=1)
 
+    def __str__(self):
+        return self.name
+
 class Customer(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
     name = models.CharField(max_length=100)
@@ -172,4 +175,4 @@ class Bid(models.Model):
         super().save(*args, **kwargs)
 
 class User(AbstractUser):
-    account = models.ForeignKey(Account, on_delete=models.PROTECT, null=True)
+    accounts = models.ManyToManyField(Account, related_name='users', blank=True)

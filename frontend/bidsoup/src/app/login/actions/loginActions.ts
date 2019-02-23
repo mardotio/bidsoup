@@ -28,9 +28,9 @@ export const redirectToLogin = (nextUrl: string) => {
   store.dispatch(Actions.needsLogin(nextUrl));
 };
 
-export function login(user: string, password: string, nextUrl: string):
-    ThunkAction<Promise<Actions>, AppState, never, Actions> {
-  return async (dispatch) => {
+export const login = (user: string, password: string, nextUrl: string):
+    ThunkAction<Promise<Actions>, AppState, never, Actions> => (
+  async (dispatch) => {
     const token = getCookie('csrftoken');
 
     if (token == null) {
@@ -53,5 +53,5 @@ export function login(user: string, password: string, nextUrl: string):
       const data = await response.json();
       return dispatch(Actions.errorLogin(data));
     }
-  };
-}
+  }
+);

@@ -82,6 +82,9 @@ export const limitNumberToRange = (n: number, min: number, max: number) => (
 );
 
 export const handleHttpErrors = (response: Response) => {
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
   return response;
 };
 

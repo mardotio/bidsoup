@@ -139,6 +139,6 @@ export const createBid = (bid: Partial<Bid>): ThunkAction<Promise<void>, AppStat
       .then(handleHttpErrors)
       .then(() => dispatch(fetchBidListByAccount())) // This is dangerous.
       .catch(error => console.log(error))
-    ).getOrElse(Promise.reject())
+    ).getOrElseL(() => Promise.reject())
   )
 );

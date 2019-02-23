@@ -100,7 +100,7 @@ class BidTaskViewSet(viewsets.ModelViewSet):
         return task
 
 
-class CategoryViewSet(viewsets.ModelViewSet):
+class CategoryViewSet(TrapDjangoValidationErrorMixin, viewsets.ModelViewSet):
     serializer_class = CategorySerializer
 
     def get_queryset(self):

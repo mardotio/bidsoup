@@ -1,15 +1,16 @@
 import { Reducer } from 'redux';
 import * as fromActions from '@taskItem/actions/apiActions';
+import { none, Option, some } from 'fp-ts/lib/Option';
 
 export interface ApiState {
   isFetching: boolean;
-  endpoints: fromActions.Endpoints;
+  endpoints: Option<fromActions.Endpoints>;
   lastFetch: number | null;
 }
 
 const defaultState: ApiState = {
   isFetching: false,
-  endpoints: {} as fromActions.Endpoints,
+  endpoints: none,
   lastFetch: null
 };
 
@@ -24,9 +25,12 @@ const apiReducer: Reducer<ApiState> = (state = defaultState, action: fromActions
     case fromActions.RECEIVE_API:
       return {
         isFetching: false,
-        endpoints: action.payload.api,
+        endpoints: some(action.payload.api),
         lastFetch: action.payload.fetchTime
       };
+
+    case fromActions.RECEIVE_API_FAILURE:
+      return defaultState;
 
     default:
       return state;

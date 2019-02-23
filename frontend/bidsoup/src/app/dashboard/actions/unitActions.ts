@@ -6,15 +6,17 @@ import { handleHttpErrors } from '@utils/utils';
 export const createUnitType = (unit: Partial<Unit>):
   ThunkAction<Promise<void>, AppState, never, Actions> => {
   return (dispatch, getState) => {
-    return fetch(getState().api.endpoints.unittypes, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(unit)
-    })
-    .then(handleHttpErrors)
-    .then(() => dispatch(fetchUnitTypes()))
-    .catch(error => console.log(error));
+    return getState().api.endpoints.map(e => {
+      return fetch(e.unittypes, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(unit)
+      })
+      .then(handleHttpErrors)
+      .then(() => dispatch(fetchUnitTypes()))
+      .catch(error => console.log(error));
+    }).getOrElse(Promise.reject());
   };
 };

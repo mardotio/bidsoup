@@ -51,7 +51,7 @@ const unitsArray = units => (
 );
 
 const mapStateToProps = (state, ownProps) => ({
-  account: isDefined(state.account.data) ? state.account.data.slug : null,
+  account: state.account.data.map(a => a.slug).getOrElse(''),
   bids: state.bids.list,
   selectedBid: bidWithCustomer(state.bids.selectedBid, state.customers.list),
   categoriesWithItems: itemsByCategory(

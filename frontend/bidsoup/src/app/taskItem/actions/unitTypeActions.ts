@@ -57,6 +57,6 @@ export const fetchUnitTypes = (): ThunkAction<Promise<void>, AppState, never, Ac
             dispatch(Actions.receiveUnitTypes(units, Date.now()));
           }
         );
-    }).getOrElse(Promise.reject());
+    }).getOrElseL(() => Promise.reject());
   };
 };

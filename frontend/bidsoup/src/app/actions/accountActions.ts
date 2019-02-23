@@ -41,6 +41,6 @@ export const fetchAccount = (slug: string): ThunkAction<Promise<Actions>, AppSta
       .map<Actions>(a => dispatch(Actions.receiveAccount(a)))
       .getOrElse(dispatch(Actions.receiveAccountFailure()));
     })
-    .getOrElse(Promise.reject());
+    .getOrElseL(() => Promise.reject());
   }
 );

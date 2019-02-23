@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
-import { BrowserRouter as Router, Route, Redirect, Switch, withRouter } from 'react-router-dom';
+import { Route, Redirect, Switch, withRouter } from 'react-router-dom';
 import SideNav from '../components/SideNav';
 import DashboardContainer from '../dashboard/containers/DashboardContainer';
 import TaskItemContainer from '../taskItem/containers/TaskItemContainer';
+import LoginContainer from '../login/containers/LoginContainer';
 import { theme } from '../utils/color';
 
 const Container = styled.div`
@@ -33,8 +34,9 @@ const View = props => {
       matches: ['/:account/bids/:bidId/tasks', '/:account/bids/:bidId/tasks/:taskId']
     }
   ];
+  console.log("props", props);
   return (
-    <Router>
+    <Fragment>
       <Container>
         <ConnectedSideNav
           icons={navigation}
@@ -49,7 +51,7 @@ const View = props => {
           </Switch>
         </BodyContainer>
       </Container>
-    </Router>
+    </Fragment>
   );
 };
 

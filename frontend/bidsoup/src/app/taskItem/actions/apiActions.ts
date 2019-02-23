@@ -1,7 +1,8 @@
-import fetch from 'cross-fetch';
 import { ThunkAction } from 'redux-thunk';
 import { createAction, ActionsUnion } from '@utils/reduxUtils';
 import { AppState } from '@app/types/types';
+import { Http } from '@app/utils/http';
+import { some } from 'fp-ts/lib/Option';
 
 // Set up all the types we expect from the API.
 const unittypes = 'unittypes';
@@ -22,25 +23,27 @@ export type Endpoints = {
 
 export const REQUEST_API = 'REQUEST_API';
 export const RECEIVE_API = 'RECEIVE_API';
+export const RECEIVE_API_FAILURE = 'RECEIVE_API_FAILURE';
 export const Actions = {
   requestApi: () =>
     createAction(REQUEST_API),
   receiveApi: (api: Endpoints, fetchTime: number) =>
-    createAction(RECEIVE_API, { api, fetchTime })
+    createAction(RECEIVE_API, { api, fetchTime }),
+  receiveApiFailure: () => createAction(RECEIVE_API_FAILURE)
 };
 
 export type Actions = ActionsUnion<typeof Actions>;
 
 export function fetchApi(): ThunkAction<Promise<Actions|void>, AppState, never, Actions> {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const apiState = getState().api;
     // API shouldn't change. Just fetch once per session.
     if (apiState.isFetching || apiState.lastFetch != null) {
       return Promise.resolve();
     }
     dispatch(Actions.requestApi());
-    return fetch(`/api/`)
-      .then(response => response.json())
-      .then(json => dispatch(Actions.receiveApi(json, Date.now())));
+    return (await Http.getJson('/api/', json =>
+      some(dispatch(Actions.receiveApi(json, Date.now())) as Actions)))
+      .getOrElse(dispatch(Actions.receiveApiFailure()));
   };
 }

@@ -1,4 +1,5 @@
 from django.db import models, transaction
+from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 import uuid
 
@@ -140,3 +141,6 @@ class Bid(models.Model):
             self.key = get_and_increment_bid_key(self.account_id)
 
         super().save(*args, **kwargs)
+
+class User(AbstractUser):
+    account = models.ForeignKey(Account, on_delete=models.PROTECT, null=True)

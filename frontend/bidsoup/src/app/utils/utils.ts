@@ -37,6 +37,13 @@ export const nestedFind =
   return result;
 };
 
+export const getCookie = (key: string) => (
+  document.cookie.split(';')
+  .map(c => c.trim())
+  .filter(c => c.substr(0, key.length + 1) === key + '=')
+  .reduce((result, val) => ( result == null ? val.substr(key.length + 1) : result), null)
+);
+
 export const getInitials = (str: string, maxLength = 1) => (
   str.split(' ').reduce(
     (collector, word) => (

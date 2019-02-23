@@ -14,7 +14,7 @@ export const createUnitType = (unit: Partial<Unit>):
       body: JSON.stringify(unit)
     })
     .then(handleHttpErrors)
-    .then(json => dispatch(fetchUnitTypes()))
+    .then(() => dispatch(fetchUnitTypes()))
     .catch(error => console.log(error));
   };
 };

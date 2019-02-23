@@ -1,12 +1,12 @@
 import fetch from 'cross-fetch';
 import { ThunkAction } from 'redux-thunk';
-import { Decoder, object, string, constant, oneOf } from '@mojotech/json-type-validation';
+import { Decoder, object, array, string, constant, oneOf } from '@mojotech/json-type-validation';
 import { BidItem } from '@app/types/types';
 import { createAction, ActionsUnion } from '@utils/reduxUtils';
 import { AppState } from '@app/types/types';
 import { handleHttpErrors } from '@utils/utils';
 
-const taskItemTypeDecoder: Decoder<BidItem> = object({
+const taskItemTypeDecoder: Decoder<BidItem[]> = array(object({
   url: string(),
   bid: string(),
   unitType: oneOf(string(), constant(null)),
@@ -17,14 +17,14 @@ const taskItemTypeDecoder: Decoder<BidItem> = object({
   markupPercent: oneOf(string(), constant(null)),
   quantity: string(),
   parent: string()
-});
+}));
 
 export const REQUEST_BID_ITEMS = 'REQUEST_BID_ITEMS';
 export const RECEIVE_BID_ITEMS = 'RECEIVE_BID_ITEMS';
 export const Actions = {
   requestBidItems: () =>
     createAction(REQUEST_BID_ITEMS),
-  receiveBidItems: (payload: BidItem) =>
+  receiveBidItems: (payload: BidItem[]) =>
     createAction(RECEIVE_BID_ITEMS, payload)
 };
 export type Actions = ActionsUnion<typeof Actions>;
@@ -35,18 +35,14 @@ export const fetchBidItems = (): ThunkAction<Promise<void>, AppState, never, Act
     return fetch(getState().bids.selectedBid.biditems!)
       .then(handleHttpErrors)
       .then(response => response.json())
-      .then(
-        json => {
-          // tslint:disable-next-line:no-any
-          json.forEach((item: any) => {
-            let res = taskItemTypeDecoder.run(item);
-            if (!res.ok) {
-              console.log('Unexpected type in BidItems payload');
-            }
-          });
-          dispatch(Actions.receiveBidItems(json));
+      .then(json => {
+        let res = taskItemTypeDecoder.run(json);
+        if (res.ok) {
+          dispatch(Actions.receiveBidItems(res.result));
+        } else {
+          Promise.reject('Unexpected BidItems payload');
         }
-      );
+      });
   };
 };
 

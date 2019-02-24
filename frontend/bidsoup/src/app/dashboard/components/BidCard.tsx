@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Bid } from '@app/types/types';
 import { theme } from '@utils/color';
+import { singularOrPlural } from '@utils/styling';
 
 interface Props {
   bid: Bid;
@@ -39,10 +40,6 @@ const DateContainer = styled.div`
   float: right;
   color: ${theme.text.light.hex};
 `;
-
-const singularOrPlural = (num: number, word: string) => (
-  num === 1 ? word : (word + 's')
-);
 
 const dateMessage = (date: string) => {
   let [year, month, day] = date.split('-');

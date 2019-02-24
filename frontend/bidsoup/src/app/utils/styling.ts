@@ -47,3 +47,7 @@ export const beautifyNumber = (num: number, accuracy = 0) => {
   numParts[0] = dollarAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   return numParts.join('.');
 };
+
+export const singularOrPlural = (num: number, word: string) => (
+  num === 1 ? word : (word + 's')
+);

@@ -80,7 +80,7 @@ class BidTaskSerializer(serializers.HyperlinkedModelSerializer):
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Category
-        fields = ('url', 'bid', 'name', 'description', 'markup_percent', 'color', 'taxable')
+        fields = ('url', 'bid', 'name', 'description', 'markup_percent', 'color', 'taxable', 'is_labor')
 
 class CustomerSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -99,3 +99,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email')
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=150)
+    password = serializers.CharField(max_length=128)

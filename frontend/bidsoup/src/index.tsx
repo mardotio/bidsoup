@@ -8,7 +8,7 @@ import registerServiceWorker from './registerServiceWorker';
 import App from './app/App';
 import rootReducer from './app/reducers/rootReducer';
 
-let store = createStore(
+export let store = createStore(
   rootReducer,
   applyMiddleware(
     thunkMiddleware

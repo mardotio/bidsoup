@@ -1,14 +1,16 @@
 from .models import Account, Bid, BidItem, BidTask, Category, Customer, UnitType
 from django.db.models import Q
-from django.contrib.auth.models import User
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework.decorators import detail_route
 from django.core.exceptions import ValidationError as DjangoValidationError
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login as auth_login, get_user_model
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 from .serializers import AccountSerializer, BidSerializer, BidItemSerializer, \
                          BidTaskSerializer, CustomerSerializer, CategorySerializer, \
-                         UnitTypeSerializer, UserSerializer
+                         UnitTypeSerializer, UserSerializer, LoginSerializer
 
 
 class TrapDjangoValidationErrorMixin(object):
@@ -98,7 +100,7 @@ class BidTaskViewSet(viewsets.ModelViewSet):
         return task
 
 
-class CategoryViewSet(viewsets.ModelViewSet):
+class CategoryViewSet(TrapDjangoValidationErrorMixin, viewsets.ModelViewSet):
     serializer_class = CategorySerializer
 
     def get_queryset(self):
@@ -125,5 +127,25 @@ class UnitTypeViewSet(viewsets.ModelViewSet):
     serializer_class = UnitTypeSerializer
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
+    queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
+
+class SessionLoginView(generics.GenericAPIView):
+    permission_classes = (AllowAny,)
+    def get_serializer_class(self):
+        return LoginSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer_class()(data=request.data)
+        if serializer.is_valid():
+            data = serializer.validated_data
+            f = AuthenticationForm(data=data)
+            if f.is_valid():
+                auth_login(request._request, f.get_user())
+                return Response({
+                    'status': 'success',
+                    'expiry': request.session.get_expiry_date()})
+            else:
+                return Response(f.errors.get_json_data(True), 401)
+
+        return Response({'status': 'invalid_body'}, status=400)

@@ -1,4 +1,5 @@
 from django.db import models, transaction
+from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 import uuid
 
@@ -26,9 +27,31 @@ class Category(models.Model):
     markup_percent = models.DecimalField(max_digits=6, decimal_places=3, null=True, blank=True)
     color = models.CharField(max_length=6)
     taxable = models.BooleanField(default=False)
+    is_labor = models.BooleanField(default=False)
 
     def __str__(self):
         return '{self.name} - {self.bid.name}'.format(self=self)
+
+    def clean(self):
+        errors = {}
+        # Ensure is_labor corresponds to specific units
+        if self.is_labor:
+            labor_types = ('PHR', 'PWK',)
+            valid = True
+            for u in self.unittype_set.all():
+                valid = False
+                break
+
+            if not valid:
+                errors['unittype'] = ValidationError(
+                    ('Non-labor (PHR, PWK) units when attempting to save with isLabor true'), code='invalid')
+
+        if errors:
+            raise ValidationError(errors)
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "categories"
@@ -37,6 +60,7 @@ class UnitType(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
+    category = models.ForeignKey('Category', on_delete=models.PROTECT)
     UNIT_CHOICES = (
         ('EA', 'Each'),
         ('PR', 'Pair'),
@@ -46,6 +70,8 @@ class UnitType(models.Model):
         ('FT3', 'Cubic Feet'),
         ('HR', 'Hour'),
         ('WK', 'Week'),
+        ('PHR', 'Person-Hour'),
+        ('PWK', 'Person-Week'),
     )
     unit = models.CharField(max_length=3, choices=UNIT_CHOICES, default='EA')
     unit_price = models.DecimalField(max_digits=8, decimal_places=2)
@@ -81,6 +107,10 @@ class BidItem(models.Model):
         # Don't allow categories from another bid.
         if self.category.bid.id != self.bid.id:
             errors['category'] = ValidationError(('Category from different bid'), code='invalid')
+
+        # Don't allow units from another category.
+        if self.unit_type and self.unit_type.category != self.category:
+            errors['unit_type'] = ValidationError(('Unit from different category'), code='invalid')
 
         # Don't allow parent tasks from another bid.
         if self.parent.bid.id != self.bid.id:
@@ -140,3 +170,6 @@ class Bid(models.Model):
             self.key = get_and_increment_bid_key(self.account_id)
 
         super().save(*args, **kwargs)
+
+class User(AbstractUser):
+    account = models.ForeignKey(Account, on_delete=models.PROTECT, null=True)

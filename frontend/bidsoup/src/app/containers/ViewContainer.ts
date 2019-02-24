@@ -1,11 +1,10 @@
 import { connect } from 'react-redux';
 import View from '../components/View';
 import { AppState } from '@app/types/types';
-import { isDefined } from '@utils/utils';
 
 const mapStateToProps = (state: AppState) => ({
   bid: state.bids.selectedBid.key,
-  account: isDefined(state.account.data) ? state.account.data.slug : null
+  account: state.account.data.map(a => a.slug).getOrElse('')
 });
 
 const ViewContainer = connect(mapStateToProps)(View);

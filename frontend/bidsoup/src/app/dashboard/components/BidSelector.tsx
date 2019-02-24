@@ -7,11 +7,11 @@ import NewBidFormContainer from '@dashboard/containers/NewBidFormContainer';
 import BidCard from '@dashboard/components/BidCard';
 import { Bid, Account } from '@app/types/types';
 import { theme } from '@utils/color';
-import { isDefined } from '@utils/utils';
+import { Option } from 'fp-ts/lib/Option';
 
 interface Props {
   bids: Bid[];
-  account: Account | null;
+  account: Option<Account>;
   showModal: (modalId: string) => void;
   hideModal: (modalId: string) => void;
 }
@@ -23,17 +23,16 @@ const FabContainer = styled.div`
   z-index: 500;
 `;
 
-const generateBidCards = ({bids, account}: Props) => {
-  if (isDefined(account)) {
-    return bids.map((bid) => (
+const generateBidCards = ({bids, account}: Props) => (
+  account.map(a =>
+    bids.map(bid => (
       <BidCard
         bid={bid}
-        account={account.slug}
+        account={a.slug}
       />
-    ));
-  }
-  return [];
-};
+    ))
+  ).getOrElse([])
+);
 
 const bidForm = ({showModal, hideModal}: Props) => (
   <React.Fragment>

@@ -1,9 +1,11 @@
+import { AccountState } from '@app/reducers/accountReducer';
 import { ApiState } from '@taskItem/reducers/apiReducer';
-import { UiState } from '@app/reducers/uiReducer';
 import { BidState } from '@dashboard/reducers/bidReducer';
 import { BidTaskState } from '@taskItem/reducers/bidTasksReducer';
+import { LoginState } from '../login/reducers/loginReducer';
+import { UiState } from '@app/reducers/uiReducer';
 import { UnitState } from '@taskItem/reducers/unitTypeReducer';
-import { AccountState } from '@app/reducers/accountReducer';
+import { BidItemsState } from '@app/taskItem/reducers/bidItemsReducer';
 
 export interface Account {
   bids: string;
@@ -92,27 +94,10 @@ export interface BidItem {
   parent: string;
 }
 
-export interface BidItemState {
-  isFetching: boolean;
-  list: {
-    url: string;
-    bid: string;
-    unitType: string | null;
-    price: string | null;
-    description: string;
-    notes: string;
-    category: string;
-    markupPercent: string;
-    quantity: string;
-    parent: string;
-  };
-  lastFetch: number | null;
-}
-
 export interface BidComponentsState {
   tasks: BidTaskState;
   categories: BidCategoryState;
-  items: BidItemState;
+  items: BidItemsState;
   units: UnitState;
 }
 
@@ -125,4 +110,5 @@ export interface AppState {
   customers: CustomerState;
   ui: UiState;
   account: AccountState;
+  login: LoginState;
 }

@@ -64,21 +64,22 @@ export const Actions = {
 
 export type Actions = ActionsUnion<typeof Actions>;
 
-export const fetchBidListByAccount = (): ThunkAction<Promise<void>, AppState, never, Actions> => {
-  return (dispatch, getState) => {
-    dispatch(Actions.requestBidList());
-    return fetch(getState().account.data!.bids)
-      .then(response => response.json())
-      .then(json => {
-        let bids: Bid[] = [];
-        let res = bidListDecoder.run(json);
-        if (res.ok) {
-          bids = res.result;
-        }
-        dispatch(Actions.receiveBidList(bids, Date.now()));
-      });
-  };
-};
+export const fetchBidListByAccount = (): ThunkAction<Promise<void>, AppState, never, Actions> => (
+  (dispatch, getState) =>
+    getState().account.data.map(a => {
+      dispatch(Actions.requestBidList());
+      return fetch(a.bids)
+        .then(response => response.json())
+        .then(json => {
+          let bids: Bid[] = [];
+          let res = bidListDecoder.run(json);
+          if (res.ok) {
+            bids = res.result;
+          }
+          dispatch(Actions.receiveBidList(bids, Date.now()));
+        });
+    }).getOrElseL(() => Promise.reject())
+);
 
 export const fetchCurrentBid = (): ThunkAction<Promise<Actions>, AppState, never, Actions> => {
   return (dispatch, getState) => {
@@ -98,17 +99,19 @@ export const fetchCurrentBid = (): ThunkAction<Promise<Actions>, AppState, never
 
 export const fetchCustomerList = (): ThunkAction<Promise<Actions>, AppState, never, Actions> => {
   return (dispatch, getState) => {
-    dispatch(Actions.requestCustomerList());
-    return fetch(getState().api.endpoints.customers)
-      .then(response => response.json())
-      .then(json => {
-        let customers: Customer[] = [];
-        let res = customerListDecoder.run(json);
-        if (res.ok) {
-          customers = res.result;
-        }
-        return dispatch(Actions.receiveCustomerList(customers, Date.now()));
-      });
+    return getState().api.endpoints.map(e => {
+      dispatch(Actions.requestCustomerList());
+      return fetch(e.customers)
+        .then(response => response.json())
+        .then(json => {
+          let customers: Customer[] = [];
+          let res = customerListDecoder.run(json);
+          if (res.ok) {
+            customers = res.result;
+          }
+          return dispatch(Actions.receiveCustomerList(customers, Date.now()));
+        });
+    }).getOrElse(Promise.reject());
   };
 };
 
@@ -126,16 +129,18 @@ export const setAndFetchBidByKey = (key: number): ThunkAction<Promise<any>, AppS
 };
 
 export const createBid = (bid: Partial<Bid>): ThunkAction<Promise<void>, AppState, never, Actions> => (
-  (dispatch, getState) => {
-    return fetch(getState().account.data!.bids, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(bid)
-    })
-    .then(handleHttpErrors)
-    .then(json => dispatch(fetchBidListByAccount()))
-    .catch(error => console.log(error));
-  }
+  (dispatch, getState) => (
+    getState().account.data.map(a =>
+      fetch(a.bids, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(bid)
+      })
+      .then(handleHttpErrors)
+      .then(() => dispatch(fetchBidListByAccount())) // This is dangerous.
+      .catch(error => console.log(error))
+    ).getOrElseL(() => Promise.reject())
+  )
 );

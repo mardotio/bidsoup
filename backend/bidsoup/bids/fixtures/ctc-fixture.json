@@ -27,7 +27,8 @@
     "description": "Company vehicles",
     "markup_percent": null,
     "color": "24af63",
-    "taxable": false
+    "taxable": false,
+    "is_labor": false
   }
 },
 {
@@ -39,7 +40,8 @@
     "description": "Category for all equipment",
     "markup_percent": null,
     "color": "704bc6",
-    "taxable": false
+    "taxable": false,
+    "is_labor": false
   }
 },
 {
@@ -51,7 +53,8 @@
     "description": "All man hours go here",
     "markup_percent": null,
     "color": "516077",
-    "taxable": false
+    "taxable": false,
+    "is_labor": false
   }
 },
 {
@@ -63,7 +66,8 @@
     "description": "All labor from subcontractors",
     "markup_percent": null,
     "color": "ce5056",
-    "taxable": false
+    "taxable": false,
+    "is_labor": false
   }
 },
 {
@@ -75,7 +79,8 @@
     "description": "All meterials",
     "markup_percent": null,
     "color": "b2135d",
-    "taxable": false
+    "taxable": false,
+    "is_labor": false
   }
 },
 {
@@ -84,6 +89,7 @@
   "fields": {
     "name": "Crew Vehicle",
     "description": "Price per mile for crew vehicles",
+    "category": "03a301da-e460-4556-8647-55bf09cfd646",
     "unit": "EA",
     "unit_price": "0.80"
   }
@@ -94,6 +100,7 @@
   "fields": {
     "name": "Skid Steer - Weekly",
     "description": "Weekly rate for skid steer",
+    "category": "22ea776c-9bf5-449f-8d94-6b1e3d39c663",
     "unit": "WK",
     "unit_price": "1050.00"
   }
@@ -104,6 +111,7 @@
   "fields": {
     "name": "Worker Average",
     "description": "Average hourly price for one crew member",
+    "category": "35655cbf-5836-4662-a1cd-de94475d9de7",
     "unit": "HR",
     "unit_price": "300.00"
   }
@@ -114,6 +122,7 @@
   "fields": {
     "name": "Skid Steer - Daily",
     "description": "Daily rate for skid steer",
+    "category": "22ea776c-9bf5-449f-8d94-6b1e3d39c663",
     "unit": "EA",
     "unit_price": "350.00"
   }
@@ -1990,6 +1999,60 @@
     "created_on": "2018-06-09T01:07:00.777Z",
     "customer": "c7e8c722-1b8a-4bf3-9284-b8b755c4f194",
     "tax_percent": null
+  }
+},
+{
+  "model": "auth.group",
+  "pk": 1,
+  "fields": {
+    "name": "Full Bid Access",
+    "permissions": [
+      19,
+      20,
+      21,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      22,
+      23,
+      24
+    ]
+  }
+},
+{
+  "model": "bids.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$100000$oNaDaEPXGQDE$u7lq6UlhTM7gcYgBcE4aMFcFOZlHqR+b8Er9NZV1tfA=",
+    "last_login": "2019-02-02T03:23:51.503Z",
+    "is_superuser": false,
+    "username": "bidsoup-test",
+    "first_name": "Ettore",
+    "last_name": "Boiardi",
+    "email": "thechef@bidsoup.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-02-02T03:00:54Z",
+    "account": "a68d3bef-48e0-420f-9a8c-3a368b230d02",
+    "groups": [
+      1
+    ],
+    "user_permissions": []
   }
 }
 ]

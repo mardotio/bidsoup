@@ -48,17 +48,19 @@ export const createBidTask = (task: Partial<BidTask>):
       bid: getState().bids.selectedBid.url,
       ...task
     };
-    return fetch(getState().api.endpoints.bidtasks, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newTask)
-      })
-      // TODO: instead of re-fetching we could merge the response.
-      .then(handleHttpErrors)
-      .then(json => dispatch(fetchBidTasks()))
-      .catch(error => console.log(error));
+    return getState().api.endpoints.map(e => {
+      return fetch(e.bidtasks, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(newTask)
+        })
+        // TODO: instead of re-fetching we could merge the response.
+        .then(handleHttpErrors)
+        .then(() => dispatch(fetchBidTasks()))
+        .catch(error => console.log(error));
+    }).getOrElse(Promise.reject());
   };
 };
 
@@ -98,7 +100,10 @@ export const deleteBidTask = (taskUrl: string):
 export const selectBidTaskByUuid = (uuid: string): ThunkAction<void, AppState, never, Actions> => {
   return (dispatch, getState) => {
     const { api, bidData } = getState();
-    const targetUrl = `${api.endpoints.bidtasks}${uuid}/`;
+    if (api.endpoints.isNone()) {
+      return Promise.reject('Missing API');
+    }
+    const targetUrl = `${api.endpoints.value.bidtasks}${uuid}/`;
     const task =  nestedFind(bidData.tasks.list, 'url', targetUrl, 'children');
     if (task === null) {
       return Promise.reject('UUID not found in task list.');

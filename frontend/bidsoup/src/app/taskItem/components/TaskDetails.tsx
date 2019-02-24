@@ -8,9 +8,11 @@ import Items from '@taskItem/components/Items';
 import EditTaskFormContainer from '@taskItem/containers/EditTaskFormContainer';
 import ActionHeader from '@app/components/ActionHeader';
 import DangerActionModal from '@app/components/DangerActionModal';
+import ModalContainer from '@app/containers/ModalContainer';
 import { theme } from '@utils/color';
 import { isEmpty, includes } from '@utils/utils';
 import { StandardizedItem } from '@utils/conversions';
+import { singularOrPlural } from '@utils/styling';
 import { Category, BidTask } from '@app/types/types';
 
 interface Props {
@@ -51,6 +53,10 @@ const FilterContainer = styled.div`
   margin-top: 1em;
 `;
 
+const ModalDescription = styled.div`
+  padding-bottom: 1em;
+`;
+
 const columns: {
   name: keyof StandardizedItem;
   style: 'text' | 'number' | 'currency' | 'default';
@@ -73,6 +79,11 @@ const columns: {
   },
 ];
 
+const cannotDeleteMessage = (subtasks: number) => (
+  `The selected task has ${subtasks} ${singularOrPlural(subtasks, 'subtask')}
+  and cannot be deleted. Please delete any subtasks first to delete this task.`
+);
+
 export default class TaskDetails extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -91,11 +102,11 @@ export default class TaskDetails extends React.Component<Props, State> {
   }
 
   showConfirmModal = () => {
-    this.props.showModal('confirmTaskDelete');
+    this.props.showModal('deleteTaskModal');
   }
 
   hideConfirmModal = () => {
-    this.props.hideModal('confirmTaskDelete');
+    this.props.hideModal('deleteTaskModal');
   }
 
   deleteTask = () => {
@@ -177,11 +188,11 @@ export default class TaskDetails extends React.Component<Props, State> {
     ));
   }
 
-  render() {
-    return (
-      <Container>
+  modal = () => {
+    if (isEmpty(this.props.selectedTask.children)) {
+      return (
         <DangerActionModal
-          showIf="confirmTaskDelete"
+          showIf="deleteTaskModal"
           title="Delete selected task?"
           body="This action cannot be undone. The selected task and all of it's children will be deleted."
           confirmButtonLabel="Delete"
@@ -189,6 +200,28 @@ export default class TaskDetails extends React.Component<Props, State> {
           cancelAction={this.hideConfirmModal}
           confirmAction={this.deleteTask}
         />
+      );
+    }
+    return (
+      <ModalContainer
+        showIf="deleteTaskModal"
+        title="Task can't be deleted"
+        width="25em"
+      >
+        <div>
+          <HorizontalRule/>
+          <ModalDescription>
+            {cannotDeleteMessage(this.props.selectedTask.children.length)}
+          </ModalDescription>
+        </div>
+      </ModalContainer>
+    );
+  }
+
+  render() {
+    return (
+      <Container>
+        {this.modal()}
         <ActionHeader
           options={[
             {icon: 'clear', action: this.props.unselectTask},

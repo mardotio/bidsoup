@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import * as fromActions from '@taskItem/actions/bidTasksActions';
 import { BidTask } from '@app/types/types';
-import { isDefined } from '@utils/utils';
+import { isDefined, isEmpty } from '@utils/utils';
 
 export interface BidTaskState {
   isFetching: boolean;
@@ -15,6 +15,26 @@ const defaultState: BidTaskState = {
   list: [],
   selectedTask: null,
   lastFetch: null
+};
+
+const recursiveFindDelete = <T>(list: T[], recurseKey: string, matchKey: string, matchValue: string): T[] => {
+  return list.reduce(
+    (collection, single) => {
+      if (single[matchKey] === matchValue) {
+        return collection;
+      } else if (!isEmpty(single[recurseKey])) {
+        return [
+          ...collection,
+          {
+            ...single,
+            [recurseKey]: recursiveFindDelete(single[recurseKey], recurseKey, matchKey, matchValue),
+          }
+        ];
+      }
+      return [...collection, single];
+    },
+    []
+  );
 };
 
 const bidTaskReducer: Reducer<BidTaskState> = (state = defaultState, action: fromActions.Actions) => {
@@ -58,7 +78,7 @@ const bidTaskReducer: Reducer<BidTaskState> = (state = defaultState, action: fro
     case fromActions.DELETE_BID_TASK:
       return {
         ...state,
-        list: action.payload.tasks.filter(t => t.url !== action.payload.taskUrl),
+        list: recursiveFindDelete(action.payload.tasks, 'children', 'url', action.payload.taskUrl),
         selectedTask: isDefined(state.selectedTask) && state.selectedTask.url === action.payload.taskUrl
           ? null
           : state.selectedTask

@@ -62,7 +62,7 @@ const bidTaskReducer: Reducer<BidTaskState> = (state = defaultState, action: fro
         selectedTask: action.payload.task
       };
     case fromActions.RECEIVE_BID_TASK:
-      let mergedTasks = action.payload.tasks.map(task => {
+      let mergedTasks = state.list.map(task => {
         if (task.url === action.payload.task.url) {
           return action.payload.task;
         }
@@ -78,7 +78,7 @@ const bidTaskReducer: Reducer<BidTaskState> = (state = defaultState, action: fro
     case fromActions.DELETE_BID_TASK:
       return {
         ...state,
-        list: recursiveFindDelete(action.payload.tasks, 'children', 'url', action.payload.taskUrl),
+        list: recursiveFindDelete(state.list, 'children', 'url', action.payload.taskUrl),
         selectedTask: isDefined(state.selectedTask) && state.selectedTask.url === action.payload.taskUrl
           ? null
           : state.selectedTask

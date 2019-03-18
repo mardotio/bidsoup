@@ -58,7 +58,8 @@ export const createBidTask = (task: Partial<BidTask>):
         })
         // TODO: instead of re-fetching we could merge the response.
         .then(handleHttpErrors)
-        .then(() => dispatch(fetchBidTasks()))
+        .then(response => response.json())
+        .then(json => dispatch(Actions.receiveBidTask(json)))
         .catch(error => console.log(error));
     }).getOrElse(Promise.reject());
   };

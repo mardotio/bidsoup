@@ -15,8 +15,6 @@ interface Props {
   confirmAction: () => void;
 }
 
-const ModalBody = styled.div``;
-
 const Description = styled.div`
   padding-bottom: 1em;
 `;
@@ -39,7 +37,7 @@ const DangerActionModal = (props: Props) => {
       title={props.title}
       width={'25em'}
     >
-      <ModalBody>
+      <div>
         <HorizontalRule/>
         <Description>{props.body}</Description>
         <ButtonsContainer>
@@ -48,7 +46,7 @@ const DangerActionModal = (props: Props) => {
           </ButtonWrapper>
           <GhostButton onClick={props.confirmAction} color={theme.danger.hex}>{props.confirmButtonLabel}</GhostButton>
         </ButtonsContainer>
-      </ModalBody>
+      </div>
     </ModalContainer>
   );
 };

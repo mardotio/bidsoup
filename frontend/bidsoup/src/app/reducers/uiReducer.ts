@@ -2,11 +2,11 @@ import { Reducer } from 'redux';
 import * as fromActions from '@app/actions/uiActions';
 
 export interface UiState {
-  modalShowing: boolean;
+  modalShowing: string | null;
 }
 
 const defaultState: UiState = {
-  modalShowing: false,
+  modalShowing: null,
 };
 
 const uiReducer: Reducer<UiState> = (state = defaultState, action: fromActions.Actions) => {
@@ -14,15 +14,15 @@ const uiReducer: Reducer<UiState> = (state = defaultState, action: fromActions.A
     case fromActions.SHOW_MODAL:
       return {
         ...state,
-        modalShowing: true
+        modalShowing: action.payload.modalId
       };
-
     case fromActions.HIDE_MODAL:
       return {
         ...state,
-        modalShowing: false
+        modalShowing: state.modalShowing === action.payload.modalId
+          ? null
+          : state.modalShowing
       };
-
     default:
       return state;
   }

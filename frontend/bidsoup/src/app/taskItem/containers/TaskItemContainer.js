@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import TaskItem from '../components/TaskItem';
 import { fetchApi } from '@taskItem/actions/apiActions';
-import { Actions as tasksActions, createBidTask, selectBidTaskByUuid } from '@taskItem/actions/bidTasksActions';
+import { Actions as tasksActions, createBidTask, selectBidTaskByUuid, deleteBidTask } from '@taskItem/actions/bidTasksActions';
 import { fetchAccount } from '@app/actions/accountActions';
 import { Actions as uiActions } from '@app/actions/uiActions';
 import { Actions as bidActions, setAndFetchBidByKey, fetchBidListByAccount } from '@dashboard/actions/bidActions'
@@ -70,7 +70,7 @@ const standardizeItems = (items, categories, units, tax) => {
   }, [])
 }
 
-const mapStateToProps = ({account, ui, bidData, bids}, ownProps) => {
+const mapStateToProps = ({account, bidData, bids}, ownProps) => {
   const itemsWithTotal = standardizeItems(
     bidData.items.list,
     bidData.categories.list,
@@ -80,7 +80,6 @@ const mapStateToProps = ({account, ui, bidData, bids}, ownProps) => {
   const itemsByTask = array2HashByKey(itemsWithTotal, 'parent');
   const taskItems = getTaskItems(itemsByTask, bidData.tasks.selectedTask);
   return {
-    ui: ui,
     selectedBid: ownProps.match.params.bid,
     task: ownProps.match.params.task,
     bids: bids.list,
@@ -115,8 +114,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(createBidTask(task)),
     clearSelectedTask: () =>
       dispatch(tasksActions.clearSelectedBidTask()),
-    showModal: () => dispatch(uiActions.showModal()),
-    hideModal: () => dispatch(uiActions.hideModal())
+    showModal: (modalId) => dispatch(uiActions.showModal(modalId)),
+    hideModal: (modalId) => dispatch(uiActions.hideModal(modalId)),
+    deleteTask: (taskUrl) => dispatch(deleteBidTask(taskUrl)),
+    unselectTask: () => dispatch(tasksActions.clearSelectedBidTask())
   };
 };
 

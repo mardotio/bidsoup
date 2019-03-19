@@ -18,7 +18,7 @@ export const isUndefined = <T>(value: T | void): value is void => (
   value === undefined || value === null
 );
 
-type Nested<T, P extends keyof T> = {
+export type Nested<T, P extends keyof T> = {
   [key in P]: T[]
 };
 

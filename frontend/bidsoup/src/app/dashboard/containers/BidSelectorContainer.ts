@@ -14,15 +14,14 @@ const bidsWithCustomer = (bids: Bid[], customers: Customer[]) => (
   })
 );
 
-const mapStateToProps = ({ui, bids, customers, account}: AppState) => ({
+const mapStateToProps = ({bids, customers, account}: AppState) => ({
   bids: bidsWithCustomer(bids.list, customers.list),
   account: account.data,
-  modalShouldDisplay: ui.modalShowing
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  showModal: () => dispatch(uiActions.showModal()),
-  hideModal: () => dispatch(uiActions.hideModal())
+  showModal: (modalId: string) => dispatch(uiActions.showModal(modalId)),
+  hideModal: (modalId: string) => dispatch(uiActions.hideModal(modalId))
 });
 
 const BidSelectorContainer = connect(mapStateToProps, mapDispatchToProps)(BidSelector);

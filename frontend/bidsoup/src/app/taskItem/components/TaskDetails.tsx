@@ -5,15 +5,24 @@ import Table from '@taskItem/components/Table';
 import PriceBreakdown from '@taskItem/components/PriceBreakdown';
 import CategoryChip from '@taskItem/components/CategoryChip';
 import Items from '@taskItem/components/Items';
+import EditTaskFormContainer from '@taskItem/containers/EditTaskFormContainer';
+import ActionHeader from '@app/components/ActionHeader';
+import DangerActionModal from '@app/components/DangerActionModal';
+import ModalContainer from '@app/containers/ModalContainer';
 import { theme } from '@utils/color';
-import { isEmpty, isUndefined, includes } from '@utils/utils';
+import { isEmpty, includes } from '@utils/utils';
 import { StandardizedItem } from '@utils/conversions';
+import { singularOrPlural } from '@utils/styling';
 import { Category, BidTask } from '@app/types/types';
 
 interface Props {
   items: StandardizedItem[];
   categories: Category[];
   selectedTask: BidTask;
+  deleteTask: (taskUrl: string) => Promise<void>;
+  unselectTask: () => void;
+  showModal: (modalId: string) => void;
+  hideModal: (modalId: string) => void;
 }
 
 interface State {
@@ -21,34 +30,10 @@ interface State {
   items: StandardizedItem[];
 }
 
-interface TaskDescriptionProps {
-  isEmpty: boolean;
-}
+const Container = styled.div``;
 
 const ItemWrapper = styled.div`
-  margin-top: 1em;
-  width: 95%;
-`;
-
-const JobItemHeader = styled.div`
-  font-size: 1.5em;
-`;
-
-const TaskDescriptionContainer = styled.div`
-  display: flex;
-`;
-
-const TaskDescription = styled.div<TaskDescriptionProps>`
-  margin-left: .5em;
-  border: 1px solid transparent;
-  flex: 1;
-  padding: .5em;
-  min-height: 2em;
-  color: ${props => props.isEmpty ? theme.text.light.hex : 'inherit' };
-  &:hover {
-    border: 1px solid ${theme.components.border.hex};
-    border-radius: 5px;
-  }
+  padding: 0 2em;
 `;
 
 const ChipContainer = styled.div`
@@ -68,9 +53,8 @@ const FilterContainer = styled.div`
   margin-top: 1em;
 `;
 
-const Icon = styled.i`
-  color: ${theme.text.light.hex};
-  margin-top: .3em;
+const ModalDescription = styled.div`
+  padding-bottom: 1em;
 `;
 
 const columns: {
@@ -95,6 +79,11 @@ const columns: {
   },
 ];
 
+const cannotDeleteMessage = (subtasks: number) => (
+  `The selected task has ${subtasks} ${singularOrPlural(subtasks, 'subtask')}
+  and cannot be deleted. Please delete any subtasks first to delete this task.`
+);
+
 export default class TaskDetails extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -110,6 +99,19 @@ export default class TaskDetails extends React.Component<Props, State> {
         items: this.filterItems(prevState.selectedCategories)
       }));
     }
+  }
+
+  showConfirmModal = () => {
+    this.props.showModal('deleteTaskModal');
+  }
+
+  hideConfirmModal = () => {
+    this.props.hideModal('deleteTaskModal');
+  }
+
+  deleteTask = () => {
+    this.props.deleteTask(this.props.selectedTask.url);
+    this.hideConfirmModal();
   }
 
   filterItems(selectedCategories: string[]) {
@@ -186,34 +188,61 @@ export default class TaskDetails extends React.Component<Props, State> {
     ));
   }
 
+  modal = () => {
+    if (isEmpty(this.props.selectedTask.children)) {
+      return (
+        <DangerActionModal
+          showIf="deleteTaskModal"
+          title="Delete selected task?"
+          body="This action cannot be undone. The selected task and all of it's children will be deleted."
+          confirmButtonLabel="Delete"
+          onCloseCancel={false}
+          cancelAction={this.hideConfirmModal}
+          confirmAction={this.deleteTask}
+        />
+      );
+    }
+    return (
+      <ModalContainer
+        showIf="deleteTaskModal"
+        title="Task can't be deleted"
+        width="25em"
+      >
+        <div>
+          <HorizontalRule/>
+          <ModalDescription>
+            {cannotDeleteMessage(this.props.selectedTask.children.length)}
+          </ModalDescription>
+        </div>
+      </ModalContainer>
+    );
+  }
+
   render() {
     return (
-      <ItemWrapper>
-        <JobItemHeader>
-          {this.props.selectedTask.title}
-        </JobItemHeader>
-        <HorizontalRule />
-        <TaskDescriptionContainer>
-          <Icon className="material-icons">notes</Icon>
-          <TaskDescription
-            isEmpty={
-              isUndefined(this.props.selectedTask.description) || isEmpty(this.props.selectedTask.description)
-            }
-          >
-            {this.props.selectedTask.description || 'Description'}
-          </TaskDescription>
-        </TaskDescriptionContainer>
-        <HorizontalRule />
-        {this.categoryFilters()}
-        <PriceBreakdown
-          {...this.itemPriceBreakdown()}
+      <Container>
+        {this.modal()}
+        <ActionHeader
+          options={[
+            {icon: 'clear', action: this.props.unselectTask},
+            {icon: 'delete', danger: true, action: this.showConfirmModal},
+            {icon: 'link'}
+          ]}
         />
-        <Items
-          columns={columns}
-          items={this.state.items}
-          categories={this.props.categories}
-        />
-      </ItemWrapper>
+        <EditTaskFormContainer/>
+        <ItemWrapper>
+          <HorizontalRule />
+          {this.categoryFilters()}
+          <PriceBreakdown
+            {...this.itemPriceBreakdown()}
+          />
+          <Items
+            columns={columns}
+            items={this.state.items}
+            categories={this.props.categories}
+          />
+        </ItemWrapper>
+      </Container>
     );
   }
 }

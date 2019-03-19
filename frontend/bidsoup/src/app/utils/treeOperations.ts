@@ -65,12 +65,11 @@ export const addTreeElement =
             }
           ];
         } else if (!wasAdded) {
-          let chi = recursiveAdd(e[children]);
           return [
             ...final,
             {
               ...e,
-              [children]: chi
+              [children]: recursiveAdd(e[children])
             }
           ];
         }

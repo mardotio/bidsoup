@@ -56,7 +56,6 @@ export const createBidTask = (task: Partial<BidTask>):
           },
           body: JSON.stringify(newTask)
         })
-        // TODO: instead of re-fetching we could merge the response.
         .then(handleHttpErrors)
         .then(response => response.json())
         .then(json => dispatch(Actions.receiveBidTask(json)))

@@ -1,40 +1,29 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import Button from '@material-ui/core/Button';
-import { BidTask } from '@app/types/types';
 import InputField from '@app/components/inputs/material/InputField';
-import { DropDownOptions, DropDownItem } from '@app/components/inputs/material/InputField';
-import { isEmpty, flatmap } from '@utils/utils';
+import GhostButton from '@app/components/GhostButton';
+import textValidation from '@utils/validation/text';
+import HorizontalRule from '@app/components/HorizontalRule';
 import { theme } from '@utils/color';
+import { BidTask } from '@app/types/types';
+import { ErrorObject } from '@utils/validation/shared';
 
-const FormContainer = styled.div`
-  margin-left: 20px;
-  margin-right: 20px;
+const Container = styled.div`
+  margin-bottom: 1em;
 `;
 
-const MyInputField = styled(InputField)`
-  margin-top: 10px;
-  margin-bottom: 20px;
+const StyledInput = styled(InputField)`
+  padding-bottom: .5em;
 `;
 
-const SubmitButton = styled(Button)`
-  float: right;
-  margin-right: 20px;
-` as typeof Button;
+const ButtonWrapper = styled.div`
+  text-align: right;
+  margin-top: .5em;
+`;
 
 const name = 'name';
-const desc = 'desc';
-const parent = 'parent';
-type FieldName = typeof name | typeof desc | typeof parent;
-interface FieldData {
-  label: string;
-  currentValue: string;
-  isFocused: boolean;
-  everChanged: boolean;
-  validate: (s: string) => {validated: string, error?: string};
-  options?: DropDownOptions;
-}
-type FieldSet = { [K in FieldName]: FieldData };
+const desc = 'description';
+type FieldName = typeof name | typeof desc;
 
 interface Props {
   tasks: BidTask[];
@@ -42,149 +31,112 @@ interface Props {
 }
 
 interface State {
-  fieldInfo: FieldSet;
-  parentUrl: string;
+  description: {
+    value: string;
+    error: ErrorObject;
+  };
+  title: {
+    value: string;
+    error: ErrorObject;
+  };
+  focus: string | null;
 }
 
-const validateName = (inStr: string) => {
-  if (inStr.length === 0) {
-    return {
-      validated: inStr,
-      error: 'Must input a name.'
-    };
-  } else if (inStr.length < 100) {
-    return {
-      validated: inStr
-    };
-  } else {
-    return {
-      validated: inStr.slice(0, 100),
-      error: '100 character max.'
-    };
-  }
+const defaultErrorState = {
+  hasError: false,
+  message: ''
 };
 
-const alwaysValid = (inStr: string) => ({validated: inStr});
-
 class NewTaskForm extends React.Component<Props, State> {
+  validation = {
+    title: textValidation({maxLength: 100}),
+    description: textValidation({isRequired: false})
+  };
+
   constructor(props: Props) {
     super(props);
-
-    const options = flatmap(props.tasks, 'children', t => ({name: t.title, id: t.url}));
     this.state = {
-      fieldInfo: {
-        parent: {
-          label: 'Parent Task',
-          currentValue: '',
-          isFocused: false,
-          everChanged: false,
-          validate: alwaysValid, // TODO: Only allow options
-          options: {
-            list: options,
-            select: this.selectTask,
-            filter: true
-          }
-        },
-        name: {
-          label: 'Name',
-          currentValue: '',
-          isFocused: false,
-          everChanged: false,
-          validate: validateName
-        },
-        desc: {
-          label: 'Description',
-          currentValue: '',
-          isFocused: false,
-          everChanged: false,
-          validate: alwaysValid
-        }
+      title: {
+        value: '',
+        error: defaultErrorState
       },
-      parentUrl: ''
+      description: {
+        value: '',
+        error: defaultErrorState
+      },
+      focus: null
     };
-  }
-
-  selectTask = (option: DropDownItem) => {
-    const key = parent;
-    let newFieldInfo: FieldSet = Object.assign(this.state.fieldInfo);
-    newFieldInfo[key].currentValue = option.name;
-    this.setState({fieldInfo: newFieldInfo});
-    this.setState({parentUrl: option.id});
   }
 
   fieldChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const key = e.target.name as FieldName;
-    let newFieldInfo: FieldSet = Object.assign(this.state.fieldInfo);
-    newFieldInfo[key].currentValue = this.state.fieldInfo[key].validate(e.target.value).validated;
-    newFieldInfo[key].everChanged = true;
-    if (newFieldInfo[key].options) {
-      newFieldInfo[key].options!.filter = true;
-    }
-
-    this.setState({fieldInfo: newFieldInfo});
+    const fieldName = e.target.name as FieldName;
+    const value = e.target.value;
+    this.setState(prevState => ({
+      ...prevState,
+      [fieldName]: {
+        value,
+        error: this.validation[fieldName](value)
+      }
+    }));
   }
 
-  setFocus = (key: FieldName, isFocused: boolean) => {
-    let newFieldInfo: FieldSet = Object.assign(this.state.fieldInfo);
-    newFieldInfo[key].isFocused = isFocused;
-
-    if (key === parent && !isFocused ) {
-      newFieldInfo.parent.options!.filter = false;
-    }
-
-    this.setState({fieldInfo: newFieldInfo});
-  }
-
-  onClick = (props: Props, state: State) => {
-    if (isEmpty(Object.keys(state.fieldInfo).filter(key =>
-      state.fieldInfo[key].validate(state.fieldInfo[key].currentValue).error !== undefined
-    ))) {
-      const newTask = {
-          parent: state.parentUrl,
-          title: state.fieldInfo[name].currentValue,
-          description: state.fieldInfo[desc].currentValue
-        };
-
-      props.onAddTask(newTask);
+  setFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (this.state.focus !== e.target.name) {
+      this.setState({focus: e.target.name});
     }
   }
+
+  removeFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (this.state.focus === e.target.name) {
+      this.setState({focus: null});
+    }
+  }
+
+  onClick = () => {
+    this.props.onAddTask({
+      title: this.state.title.value,
+      description: this.state.description.value,
+    });
+  }
+
+  formIsValid = () => (
+    !Object.keys(this.validation).reduce(
+      (error, field) => (
+        error || this.validation[field](this.state[field].value).hasError
+      ),
+      false
+    )
+  )
 
   render() {
-    const fields = Object.keys(this.state.fieldInfo).map((key: FieldName) => {
-      // Only consider errors if the field has ever changed. This prevents errors
-      // for fields which must not be empty but are initialized to empty.
-      const field = this.state.fieldInfo[key];
-      const error = field.everChanged && field.validate(field.currentValue).error || '';
-
-      return (
-        <MyInputField
-          key={key}
-          name={key}
-          focusColor={theme.accent.hex}
-          isFocused={field.isFocused}
-          errorState={{
-            hasError: !isEmpty(error),
-            message: error}}
-          label={field.label}
-          value={field.currentValue}
-          onBlur={e => this.setFocus(e.target.name as FieldName, false)}
-          onFocus={e => this.setFocus(e.target.name as FieldName, true)}
-          options={field.options}
-          onChange={this.fieldChanged}
-        />);
-      });
+    const fields = Object.keys(this.validation).map((key: FieldName) => (
+      <StyledInput
+        key={key}
+        name={key}
+        focusColor={theme.accent.hex}
+        isFocused={this.state.focus === key}
+        errorState={this.state[key].error}
+        label={key}
+        value={this.state[key].value}
+        onBlur={this.removeFocus}
+        onFocus={this.setFocus}
+        onChange={this.fieldChanged}
+      />
+    ));
 
     return(
-      <FormContainer>
+      <Container>
+        <HorizontalRule/>
         {fields}
-        <SubmitButton
-          disabled={false}
-          onClick={() => this.onClick(this.props, this.state)}
-          variant={'contained'}
-        >
-          Add Task
-        </SubmitButton>
-      </FormContainer>
+        <ButtonWrapper>
+          <GhostButton
+            onClick={this.onClick}
+            active={this.formIsValid()}
+          >
+            Create Task
+          </GhostButton>
+        </ButtonWrapper>
+      </Container>
     );
   }
 }

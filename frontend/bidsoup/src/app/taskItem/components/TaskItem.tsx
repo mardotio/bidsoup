@@ -102,6 +102,7 @@ const addElements = (props: Props) => {
       <ModalContainer
         title="New Task"
         showIf="newTaskItem"
+        width="40em"
       >
         <NewTaskForm
           tasks={props.tasks}

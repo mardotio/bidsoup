@@ -10,6 +10,11 @@ interface Props {
   createTask: (task: Partial<BidTask>) => Promise<void>;
 }
 
+interface FieldState<T> {
+  value: T;
+  error: ErrorObject;
+}
+
 interface State {
   fields: {
     title: FieldState<string>;
@@ -17,18 +22,12 @@ interface State {
   focused: boolean;
 }
 
-interface FieldState<T> {
-  value: T;
-  error: ErrorObject;
-}
-
 const defaultErrorState: ErrorObject = {
   hasError: false,
   message: ''
 };
 
-const Container = styled.div`
-`;
+const Container = styled.div``;
 
 const TaskNamePlaceholder = styled.p`
   transition: color .3s ease;
@@ -40,14 +39,25 @@ const TaskNamePlaceholder = styled.p`
   }
 `;
 
-const InlineInput = styled.input`
+interface InputProps {
+  hasError: boolean;
+}
+
+const InlineInput = styled.input<InputProps>`
   border: none;
   outline: none;
   font-size: 1em;
   width: 100%;
-  border: 2px solid ${theme.primary.hex};
+  border: 2px solid ${props => props.hasError ? theme.error.hex : theme.primary.hex};
   border-radius: .2em;
   padding: .8em 1.2em;
+  transition: .3s ease;
+`;
+
+const ErrorText = styled.p`
+  color: ${theme.error.hex};
+  font-size: .8em;
+  margin: 0;
 `;
 
 export default class InlineTaskForm extends React.Component<Props, State> {
@@ -92,7 +102,20 @@ export default class InlineTaskForm extends React.Component<Props, State> {
   }
 
   blurField = () => {
-    this.setState({focused: false});
+    if (isEmpty(this.state.fields.title.value)) {
+      this.setState(prevState => ({
+        focused: false,
+        fields: {
+          ...prevState.fields,
+          title: {
+            ...prevState.fields.title,
+            error: defaultErrorState
+          }
+        }
+      }));
+    } else {
+      this.setState({focused: false});
+    }
   }
 
   formHasErrors = () => (
@@ -129,6 +152,7 @@ export default class InlineTaskForm extends React.Component<Props, State> {
           onFocus={this.focusField}
           onBlur={this.blurField}
           autoFocus={true}
+          hasError={this.state.fields.title.error.hasError}
         />
       )
       : (
@@ -138,9 +162,16 @@ export default class InlineTaskForm extends React.Component<Props, State> {
       )
   )
 
+  titleErrors = () => (
+    this.state.fields.title.error.hasError
+      ? <ErrorText>{this.state.fields.title.error.message}</ErrorText>
+      : null
+  )
+
   render() {
     return (
       <Container>
+        {this.titleErrors()}
         {this.renderInputOrLink()}
       </Container>
     );

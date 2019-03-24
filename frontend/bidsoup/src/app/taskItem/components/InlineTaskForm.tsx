@@ -27,8 +27,6 @@ const defaultErrorState: ErrorObject = {
   message: ''
 };
 
-const Container = styled.div``;
-
 const TaskNamePlaceholder = styled.p`
   transition: color .3s ease;
   color: ${theme.text.medium.hex};
@@ -170,10 +168,10 @@ export default class InlineTaskForm extends React.Component<Props, State> {
 
   render() {
     return (
-      <Container>
+      <div>
         {this.titleErrors()}
         {this.renderInputOrLink()}
-      </Container>
+      </div>
     );
   }
 }

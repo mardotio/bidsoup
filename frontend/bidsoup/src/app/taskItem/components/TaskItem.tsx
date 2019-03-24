@@ -8,7 +8,6 @@ import { isUndefined, isDefined, isEmpty } from '@utils/utils';
 import { Bid, Category, BidTask } from '@app/types/types';
 import { StandardizedItem } from '@utils/conversions';
 import { Actions as BidActions } from '@dashboard/actions/bidActions';
-import { Actions as BidTaskActions } from '@taskItem/actions/bidTasksActions';
 import InlineTaskFormContainer from '@taskItem/containers/InlineTaskFormContainer';
 
 interface StandardizedTask extends BidTask {
@@ -31,7 +30,6 @@ interface Props {
   };
   loadPage: () => Promise<void>;
   fetchBidList: () => Promise<BidActions>;
-  addTask: (task: Partial<BidTask>) => Promise<BidTaskActions>;
   setCurrentBid: (bid: string) => void;
   selectTask: (task: string) => void;
   clearSelectedTask: () => void;

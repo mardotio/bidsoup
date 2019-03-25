@@ -122,11 +122,6 @@ class TaskItem extends React.Component<Props> {
   }
 
   render() {
-    if (this.props.tasks.length <= 0) {
-      return (
-        <div>loading...</div>
-      );
-    }
     return (
       <React.Fragment>
         <ViewConatiner>

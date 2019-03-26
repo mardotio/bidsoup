@@ -1,17 +1,14 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import ModalContainer from '@app/containers/ModalContainer';
 import TaskTree from '@taskItem/components/TaskTree';
 import Card from '@app/components/Card';
-import NewTaskForm from '@taskItem/components/NewTaskForm';
-import Fab from '@app/components/Fab';
 import TaskDetails from '@taskItem/components/TaskDetails';
 import { theme } from '@utils/color';
 import { isUndefined, isDefined, isEmpty } from '@utils/utils';
 import { Bid, Category, BidTask } from '@app/types/types';
 import { StandardizedItem } from '@utils/conversions';
 import { Actions as BidActions } from '@dashboard/actions/bidActions';
-import { Actions as BidTaskActions } from '@taskItem/actions/bidTasksActions';
+import InlineTaskFormContainer from '@taskItem/containers/InlineTaskFormContainer';
 
 interface StandardizedTask extends BidTask {
   containedCost: number;
@@ -33,7 +30,6 @@ interface Props {
   };
   loadPage: () => Promise<void>;
   fetchBidList: () => Promise<BidActions>;
-  addTask: (task: Partial<BidTask>) => Promise<BidTaskActions>;
   setCurrentBid: (bid: string) => void;
   selectTask: (task: string) => void;
   clearSelectedTask: () => void;
@@ -58,7 +54,9 @@ const ViewConatiner = styled.div`
 
 const TaskContent = styled(Card)`
   min-width: 600px;
-  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-sizing: border-box;
   ::-webkit-scrollbar {
     width: 5px;
   }
@@ -81,39 +79,6 @@ const ItemContent = styled(Card)<ItemContentProps>`
     : '0'
   )};
 `;
-
-const FabContainer = styled.div`
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 500;
-`;
-
-const addElements = (props: Props) => {
-  return (
-    <React.Fragment>
-      <FabContainer>
-        <Fab
-          onClick={() => props.showModal('newTaskItem')}
-          color={theme.accent.hex}
-          icon={'add'}
-        />
-      </FabContainer>
-      <ModalContainer
-        title="New Task"
-        showIf="newTaskItem"
-      >
-        <NewTaskForm
-          tasks={props.tasks}
-          onAddTask={(task) => {
-            props.hideModal('newTaskItem');
-            props.addTask(task);
-          }}
-        />
-      </ModalContainer>
-    </React.Fragment>
-  );
-};
 
 class TaskItem extends React.Component<Props> {
   componentDidMount() {
@@ -157,11 +122,6 @@ class TaskItem extends React.Component<Props> {
   }
 
   render() {
-    if (this.props.tasks.length <= 0) {
-      return (
-        <div>loading...</div>
-      );
-    }
     return (
       <React.Fragment>
         <ViewConatiner>
@@ -172,6 +132,7 @@ class TaskItem extends React.Component<Props> {
                 this.props.history.push(`/${this.props.account}/bids/${this.props.selectedBid}/tasks/${t}`);
               }}
             />
+            <InlineTaskFormContainer/>
           </TaskContent>
           <ItemContent
             shouldDisplay={isDefined(this.props.selectedTask)}
@@ -179,7 +140,6 @@ class TaskItem extends React.Component<Props> {
             {this.displayTaskItems()}
           </ItemContent>
         </ViewConatiner>
-        {addElements(this.props)}
       </React.Fragment>
     );
   }

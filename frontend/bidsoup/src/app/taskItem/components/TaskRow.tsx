@@ -6,7 +6,7 @@ import { theme } from '@utils/color';
 const Task = styled.div`
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: .8em;
   width: 100%;
   position: relative;
   box-sizing: border-box;

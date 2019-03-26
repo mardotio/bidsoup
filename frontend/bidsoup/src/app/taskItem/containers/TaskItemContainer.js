@@ -110,8 +110,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(setAndFetchBidByKey(Number(bid))),
     selectTask: (task) =>
       dispatch(selectBidTaskByUuid(task)),
-    addTask: (task) =>
-      dispatch(createBidTask(task)),
     clearSelectedTask: () =>
       dispatch(tasksActions.clearSelectedBidTask()),
     showModal: (modalId) => dispatch(uiActions.showModal(modalId)),

@@ -155,7 +155,7 @@ export default class InlineTaskForm extends React.Component<Props, State> {
       )
       : (
         <TaskNamePlaceholder onClick={this.focusField}>
-          + Create task
+          {this.fieldPlaceholder()}
         </TaskNamePlaceholder>
       )
   )

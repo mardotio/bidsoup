@@ -8,6 +8,8 @@ import { isEmpty } from '@utils/utils';
 
 interface Props {
   createTask: (task: Partial<BidTask>) => Promise<void>;
+  hideField: () => void;
+  showField: () => void;
 }
 
 interface FieldState<T> {
@@ -26,16 +28,6 @@ const defaultErrorState: ErrorObject = {
   hasError: false,
   message: ''
 };
-
-const TaskNamePlaceholder = styled.p`
-  transition: color .3s ease;
-  color: ${theme.text.medium.hex};
-  padding: 0 1.2em;
-  cursor: pointer;
-  &:hover {
-    color: ${theme.primary.hex};
-  }
-`;
 
 interface InputProps {
   hasError: boolean;
@@ -89,28 +81,25 @@ export default class InlineTaskForm extends React.Component<Props, State> {
     }));
   }
 
-  fieldPlaceholder = () => (
-    this.state.focused
-      ? 'Task name'
-      : '+ Create task'
-  )
-
   focusField = () => {
-    this.setState({focused: true});
+    this.setState({focused: true}, this.props.showField);
   }
 
   blurField = () => {
     if (isEmpty(this.state.fields.title.value)) {
-      this.setState(prevState => ({
-        focused: false,
-        fields: {
-          ...prevState.fields,
-          title: {
-            ...prevState.fields.title,
-            error: defaultErrorState
+      this.setState(
+        prevState => ({
+          focused: false,
+          fields: {
+            ...prevState.fields,
+            title: {
+              ...prevState.fields.title,
+              error: defaultErrorState
+            }
           }
-        }
-      }));
+        }),
+        this.props.hideField
+      );
     } else {
       this.setState({focused: false});
     }
@@ -139,25 +128,17 @@ export default class InlineTaskForm extends React.Component<Props, State> {
   }
 
   renderInputOrLink = () => (
-    this.state.focused || !isEmpty(this.state.fields.title.value)
-      ? (
-        <InlineInput
-          name="title"
-          value={this.state.fields.title.value}
-          placeholder={this.fieldPlaceholder()}
-          onChange={this.handleInput}
-          onKeyPress={this.submitOnEnter}
-          onFocus={this.focusField}
-          onBlur={this.blurField}
-          autoFocus={true}
-          hasError={this.state.fields.title.error.hasError}
-        />
-      )
-      : (
-        <TaskNamePlaceholder onClick={this.focusField}>
-          {this.fieldPlaceholder()}
-        </TaskNamePlaceholder>
-      )
+    <InlineInput
+      name="title"
+      value={this.state.fields.title.value}
+      placeholder="Task name"
+      onChange={this.handleInput}
+      onKeyPress={this.submitOnEnter}
+      onFocus={this.focusField}
+      onBlur={this.blurField}
+      autoFocus={true}
+      hasError={this.state.fields.title.error.hasError}
+    />
   )
 
   titleErrors = () => (

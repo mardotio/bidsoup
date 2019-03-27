@@ -14,6 +14,7 @@ import { isEmpty, includes } from '@utils/utils';
 import { StandardizedItem } from '@utils/conversions';
 import { singularOrPlural } from '@utils/styling';
 import { Category, BidTask } from '@app/types/types';
+import ChildTasks from './ChildTasks';
 
 interface Props {
   items: StandardizedItem[];
@@ -23,6 +24,7 @@ interface Props {
   unselectTask: () => void;
   showModal: (modalId: string) => void;
   hideModal: (modalId: string) => void;
+  goToTask: (taskUuid: string) => void;
 }
 
 interface State {
@@ -30,7 +32,17 @@ interface State {
   items: StandardizedItem[];
 }
 
-const Container = styled.div``;
+const Container = styled.div`
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-sizing: border-box;
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: ${theme.components.scrollbar.hex};
+  }
+`;
 
 const ItemWrapper = styled.div`
   padding: 0 2em;
@@ -235,6 +247,11 @@ export default class TaskDetails extends React.Component<Props, State> {
           {this.categoryFilters()}
           <PriceBreakdown
             {...this.itemPriceBreakdown()}
+          />
+          <ChildTasks
+            tasks={this.props.selectedTask.children}
+            parent={this.props.selectedTask.url}
+            goToTask={this.props.goToTask}
           />
           <Items
             columns={columns}

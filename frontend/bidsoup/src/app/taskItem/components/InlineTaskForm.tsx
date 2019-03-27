@@ -1,15 +1,14 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import textValidation from '@app/utils/validation/text';
 import { BidTask } from '@app/types/types';
 import { ErrorObject } from '@utils/validation/shared';
-import textValidation from '@app/utils/validation/text';
 import { theme } from '@utils/color';
 import { isEmpty } from '@utils/utils';
 
 interface Props {
   createTask: (task: Partial<BidTask>) => Promise<void>;
   hideField: () => void;
-  showField: () => void;
 }
 
 interface FieldState<T> {
@@ -21,7 +20,6 @@ interface State {
   fields: {
     title: FieldState<string>;
   };
-  focused: boolean;
 }
 
 const defaultErrorState: ErrorObject = {
@@ -64,7 +62,6 @@ export default class InlineTaskForm extends React.Component<Props, State> {
           error: defaultErrorState
         }
       },
-      focused: false,
     };
   }
 
@@ -81,27 +78,9 @@ export default class InlineTaskForm extends React.Component<Props, State> {
     }));
   }
 
-  focusField = () => {
-    this.setState({focused: true}, this.props.showField);
-  }
-
   blurField = () => {
     if (isEmpty(this.state.fields.title.value)) {
-      this.setState(
-        prevState => ({
-          focused: false,
-          fields: {
-            ...prevState.fields,
-            title: {
-              ...prevState.fields.title,
-              error: defaultErrorState
-            }
-          }
-        }),
-        this.props.hideField
-      );
-    } else {
-      this.setState({focused: false});
+      this.props.hideField();
     }
   }
 
@@ -111,35 +90,26 @@ export default class InlineTaskForm extends React.Component<Props, State> {
     )
   )
 
-  submitOnEnter = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !this.formHasErrors()) {
-      this.props.createTask({title: this.state.fields.title.value});
-      this.setState(prevState => ({
-        focused: false,
-        fields: {
-          ...prevState.fields,
-          title: {
-            value: '',
-            error: defaultErrorState
-          }
+  clearField = () => {
+    this.setState(prevState => ({
+      fields: {
+        ...prevState.fields,
+        title: {
+          value: '',
+          error: defaultErrorState
         }
-      }));
-    }
+      }
+    }));
   }
 
-  renderInputOrLink = () => (
-    <InlineInput
-      name="title"
-      value={this.state.fields.title.value}
-      placeholder="Task name"
-      onChange={this.handleInput}
-      onKeyPress={this.submitOnEnter}
-      onFocus={this.focusField}
-      onBlur={this.blurField}
-      autoFocus={true}
-      hasError={this.state.fields.title.error.hasError}
-    />
-  )
+  handleHotKeys = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !this.formHasErrors()) {
+      this.props.createTask({title: this.state.fields.title.value});
+      this.clearField();
+    } else if (e.key === 'Escape' || e.key === 'Esc') {
+      this.props.hideField();
+    }
+  }
 
   titleErrors = () => (
     this.state.fields.title.error.hasError
@@ -151,7 +121,16 @@ export default class InlineTaskForm extends React.Component<Props, State> {
     return (
       <div>
         {this.titleErrors()}
-        {this.renderInputOrLink()}
+        <InlineInput
+          name="title"
+          value={this.state.fields.title.value}
+          placeholder="Task name"
+          onChange={this.handleInput}
+          onKeyUp={this.handleHotKeys}
+          onBlur={this.blurField}
+          autoFocus={true}
+          hasError={this.state.fields.title.error.hasError}
+        />
       </div>
     );
   }

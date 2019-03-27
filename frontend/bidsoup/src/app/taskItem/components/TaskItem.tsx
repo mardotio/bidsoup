@@ -158,7 +158,6 @@ class TaskItem extends React.Component<Props, State> {
     this.state.showNewTaskInput
       ? (
         <InlineTaskFormContainer
-          showField={this.showTaskForm}
           hideField={this.hideTaskForm}
         />
       )

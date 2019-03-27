@@ -39,7 +39,7 @@ const Title = styled.h3`
 const TaskList = styled.ul`
   list-style-type: none;
   padding: 0;
-  margin: .5em 0;
+  margin: .5em 0 0 0;
 `;
 
 const Task =  styled.li`
@@ -52,13 +52,15 @@ const Task =  styled.li`
   }
 `;
 
-const TaskNamePlaceholder = styled.p`
+const TaskNamePlaceholder = styled.button`
+  border: none;
   color: ${theme.text.light.hex};
   cursor: pointer;
-  display: inline-block;
-  padding: 0 .5em;
+  font-size: 1em;
+  outline: none;
+  padding: .5em;
   transition: color .3s ease;
-  &:hover {
+  &:hover, &:focus {
     color: ${theme.primary.hex};
   }
 `;
@@ -97,13 +99,13 @@ class ChildTasks extends React.Component<Props, State> {
       ? (
         <InlineTaskFormContainer
           parent={this.props.parent}
-          showField={this.showTaskForm}
           hideField={this.hideTaskForm}
         />
       )
       : (
         <TaskNamePlaceholder
           onClick={this.showTaskForm}
+          aria-label={'Add child task'}
         >
           + Create task
         </TaskNamePlaceholder>

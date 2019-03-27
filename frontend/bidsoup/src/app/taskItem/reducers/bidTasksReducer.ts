@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import * as fromActions from '@taskItem/actions/bidTasksActions';
 import { BidTask } from '@app/types/types';
-import { isDefined, isEmpty } from '@utils/utils';
+import { isDefined, nestedFind } from '@utils/utils';
 import { deleteTreeElement, addTreeElement } from '@utils/treeOperations';
 
 export interface BidTaskState {
@@ -20,29 +20,6 @@ const defaultState: BidTaskState = {
 
 const deleteTask = (arr: BidTask[], url: string) => deleteTreeElement('children', 'url', arr, url);
 const addTask = (arr: BidTask[], task: BidTask) => addTreeElement('children', 'url', 'parent', arr, task);
-
-// TODO: is task didn't exist, append it to the end of the list
-const recursiveMerge = <T>(list: T[], recurseKey: string, matchKey: string, replace: T | null): T[] => {
-  return list.reduce(
-    (collection, single) => {
-      if (replace === null) {
-        return [...collection, single];
-      } else if (single[matchKey] === replace[matchKey]) {
-        return [...collection, replace];
-      } else if (!isEmpty(single[recurseKey])) {
-        return [
-          ...collection,
-          {
-            ...single,
-            [recurseKey]: recursiveMerge(single[recurseKey], recurseKey, matchKey, replace),
-          }
-        ];
-      }
-      return [...collection, single];
-    },
-    []
-  );
-};
 
 const bidTaskReducer: Reducer<BidTaskState> = (state = defaultState, action: fromActions.Actions) => {
   switch (action.type) {
@@ -69,11 +46,12 @@ const bidTaskReducer: Reducer<BidTaskState> = (state = defaultState, action: fro
         selectedTask: action.payload.task
       };
     case fromActions.RECEIVE_BID_TASK:
+      const list = addTask(state.list, action.payload.task);
       return {
         ...state,
-        list: addTask(state.list, action.payload.task),
-        selectedTask: isDefined(state.selectedTask) && state.selectedTask.url === action.payload.task.url
-          ? action.payload.task
+        list,
+        selectedTask: isDefined(state.selectedTask) && isDefined(action.payload.task.parent)
+          ? nestedFind(list, 'url', state.selectedTask.url, 'children')
           : state.selectedTask
       };
     case fromActions.DELETE_BID_TASK:

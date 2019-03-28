@@ -9,12 +9,12 @@ import EditTaskFormContainer from '@taskItem/containers/EditTaskFormContainer';
 import ActionHeader from '@app/components/ActionHeader';
 import DangerActionModal from '@app/components/DangerActionModal';
 import ModalContainer from '@app/containers/ModalContainer';
+import ChildTasks from '@taskItem/components/ChildTasks';
 import { theme } from '@utils/color';
 import { isEmpty, includes } from '@utils/utils';
 import { StandardizedItem } from '@utils/conversions';
 import { singularOrPlural } from '@utils/styling';
 import { Category, BidTask } from '@app/types/types';
-import ChildTasks from './ChildTasks';
 
 interface Props {
   items: StandardizedItem[];

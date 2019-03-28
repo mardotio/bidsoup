@@ -20,7 +20,7 @@ const Button = styled.button`
   outline: none;
   transition: opacity .3s ease;
   width: 3em;
-  &:hover {
+  &:hover, &:focus {
     opacity: .8;
   }
 `;

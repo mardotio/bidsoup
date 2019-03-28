@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import HorizontalRule from '@app/components/HorizontalRule';
 import SquircleButton from '@app/components/SquircleButton';
 import InlineTaskFormContainer from '@taskItem/containers/InlineTaskFormContainer';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import { withStyles } from '@material-ui/core';
 import { BidTask } from '@app/types/types';
 import { curry } from 'fp-ts/lib/function';
 import { theme } from '@utils/color';
@@ -15,6 +17,7 @@ interface Props {
 
 interface State {
   displayInputField: boolean;
+  expand: boolean;
 }
 
 const Container = styled.div`
@@ -44,7 +47,6 @@ const TaskList = styled.ul`
 
 const Task =  styled.li`
   padding: .5em;
-  transition: .1s ease;
   cursor: pointer;
   border-radius: .3em;
   &:hover {
@@ -65,6 +67,32 @@ const TaskNamePlaceholder = styled.button`
   }
 `;
 
+const TitleIconContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+interface IconProps {
+  reverse: boolean;
+}
+
+const Icon = styled.i<IconProps>`
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity .1s ease;
+  transform: ${props => (
+    props.reverse
+      ? 'rotate(0)'
+      : 'rotate(-180deg)'
+  )};
+`;
+
+const ExpPanel = withStyles({
+  root: {
+    boxShadow: 'none',
+    margin: 0
+  }
+})(ExpansionPanel);
+
 const generateTask = (onClick: Props['goToTask'], task: BidTask) => (
   <Task
     key={task.url}
@@ -80,18 +108,28 @@ const generateTaskList = (tasks: Props['tasks'], onClick: Props['goToTask']) => 
   </TaskList>
 );
 
-class ChildTasks extends React.Component<Props, State> {
+export default class ChildTasks extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {displayInputField: false};
+    this.state = {
+      displayInputField: false,
+      expand: true
+    };
   }
 
   showTaskForm = () => {
-    this.setState({displayInputField: true});
+    this.setState({
+      displayInputField: true,
+      expand: true
+    });
   }
 
   hideTaskForm = () => {
     this.setState({displayInputField: false});
+  }
+
+  toggleExpansion = () => {
+    this.setState(prevState => ({expand: !prevState.expand}));
   }
 
   placeHolderOrForm = () => (
@@ -116,7 +154,16 @@ class ChildTasks extends React.Component<Props, State> {
     return (
       <Container>
         <HeaderContainer>
-          <Title>Subtasks <span>({this.props.tasks.length})</span></Title>
+          <TitleIconContainer>
+            <Icon
+              className="material-icons"
+              reverse={this.state.expand}
+              onClick={this.toggleExpansion}
+            >
+              expand_more
+            </Icon>
+            <Title>Subtasks <span>({this.props.tasks.length})</span></Title>
+          </TitleIconContainer>
           <SquircleButton
             icon="add"
             label="Add child task"
@@ -124,11 +171,13 @@ class ChildTasks extends React.Component<Props, State> {
           />
         </HeaderContainer>
         <HorizontalRule/>
-        {generateTaskList(this.props.tasks, this.props.goToTask)}
-        {this.placeHolderOrForm()}
+        <ExpPanel
+          expanded={this.state.expand}
+        >
+          {generateTaskList(this.props.tasks, this.props.goToTask)}
+          {this.placeHolderOrForm()}
+        </ExpPanel>
       </Container>
     );
   }
 }
-
-export default ChildTasks;

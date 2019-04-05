@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import TaskTree from '@taskItem/components/TaskTree';
 import Card from '@app/components/Card';
 import TaskDetails from '@taskItem/components/TaskDetails';
+import InlineTaskFormContainer from '@taskItem/containers/InlineTaskFormContainer';
 import { theme } from '@utils/color';
 import { isUndefined, isDefined, isEmpty } from '@utils/utils';
 import { Bid, Category, BidTask } from '@app/types/types';
 import { StandardizedItem } from '@utils/conversions';
 import { Actions as BidActions } from '@dashboard/actions/bidActions';
-import InlineTaskFormContainer from '@taskItem/containers/InlineTaskFormContainer';
 
 interface StandardizedTask extends BidTask {
   containedCost: number;
@@ -37,6 +37,10 @@ interface Props {
   hideModal: (modalId: string) => void;
   deleteTask: (taskUrl: string) => Promise<void>;
   unselectTask: () => void;
+}
+
+interface State {
+  showNewTaskInput: boolean;
 }
 
 interface ItemContentProps {
@@ -80,7 +84,23 @@ const ItemContent = styled(Card)<ItemContentProps>`
   )};
 `;
 
-class TaskItem extends React.Component<Props> {
+const TaskNamePlaceholder = styled.p`
+  color: ${theme.text.light.hex};
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 1.2em;
+  transition: color .3s ease;
+  &:hover {
+    color: ${theme.primary.hex};
+  }
+`;
+
+class TaskItem extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = { showNewTaskInput: false };
+  }
+
   componentDidMount() {
     if (isEmpty(this.props.account)) {
       this.props.loadPage();
@@ -103,6 +123,10 @@ class TaskItem extends React.Component<Props> {
     return this.props.bids.find(bid => bid.key === Number(this.props.selectedBid))!.url;
   }
 
+  goToTask = (taskUuid: string) => {
+    this.props.history.push(`/${this.props.account}/bids/${this.props.selectedBid}/tasks/${taskUuid}`);
+  }
+
   displayTaskItems() {
     if (isUndefined(this.props.selectedTask)) {
       return null;
@@ -117,9 +141,34 @@ class TaskItem extends React.Component<Props> {
         unselectTask={this.props.unselectTask}
         showModal={this.props.showModal}
         hideModal={this.props.hideModal}
+        goToTask={this.goToTask}
       />
     );
   }
+
+  hideTaskForm = () => {
+    this.setState({showNewTaskInput: false});
+  }
+
+  showTaskForm = () => {
+    this.setState({showNewTaskInput: true});
+  }
+
+  placeholderOrInput = () => (
+    this.state.showNewTaskInput
+      ? (
+        <InlineTaskFormContainer
+          hideField={this.hideTaskForm}
+        />
+      )
+      : (
+        <TaskNamePlaceholder
+          onClick={this.showTaskForm}
+        >
+          + Create Task
+        </TaskNamePlaceholder>
+      )
+  )
 
   render() {
     return (
@@ -128,11 +177,9 @@ class TaskItem extends React.Component<Props> {
           <TaskContent>
             <TaskTree
               tasks={this.props.tasks}
-              onTaskSelect={t => {
-                this.props.history.push(`/${this.props.account}/bids/${this.props.selectedBid}/tasks/${t}`);
-              }}
+              onTaskSelect={this.goToTask}
             />
-            <InlineTaskFormContainer/>
+            {this.placeholderOrInput()}
           </TaskContent>
           <ItemContent
             shouldDisplay={isDefined(this.props.selectedTask)}

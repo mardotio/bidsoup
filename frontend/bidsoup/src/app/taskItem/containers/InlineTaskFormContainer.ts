@@ -4,14 +4,21 @@ import { createBidTask, Actions } from '@taskItem/actions/bidTasksActions';
 import { ThunkDispatch } from 'redux-thunk';
 import InlineTaskForm from '@taskItem/components/InlineTaskForm';
 
-interface DispatchProps {
-  createTask: (task: Partial<BidTask>) => Promise<Actions | void>;
+interface OwnProps {
+  parent?: string;
+  hideField: () => void;
 }
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, never, Actions>): DispatchProps => ({
+interface DispatchProps {
+  createTask: (task: Partial<BidTask>) => Promise<Actions | void>;
+  hideField: () => void;
+}
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, never, Actions>, ownProps: OwnProps): DispatchProps => ({
   createTask: (task: Partial<BidTask>) => (
-    dispatch(createBidTask(task))
-  )
+    dispatch(createBidTask({...task, parent: ownProps.parent}))
+  ),
+  hideField: ownProps.hideField
 });
 
 const InlineTaskFormContainer = connect(null, mapDispatchToProps)(InlineTaskForm);

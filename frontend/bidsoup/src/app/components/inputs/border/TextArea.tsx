@@ -27,7 +27,7 @@ interface ContainerProps {
 }
 
 interface TextAreaFieldProps {
-  shouldScroll: boolean;
+  shouldScroll?: boolean;
   maxHeight?: number;
 }
 
@@ -36,6 +36,7 @@ const Wrapper = styled.div`
 `;
 
 const Container = styled.div<ContainerProps>`
+  position: relative;
   border: 1px solid ${props => {
     if (props.hasError) {
       return theme.error.hex;
@@ -64,14 +65,25 @@ const ErrorMessage = styled.div`
   margin-top: .5em;
 `;
 
-const GhostDiv = styled.div`
-  width: inherit;
+const GhostDiv = styled.div<TextAreaFieldProps>`
+  width: 100%;
   min-height: 2em;
   white-space: pre-wrap;
   word-wrap: break-word;
   visibility: hidden;
+  max-height: ${props => isDefined(props.maxHeight)
+    ? props.maxHeight + 'px'
+    : 'initial'
+  };
+  overflow: hidden;
+`;
+
+const TextFieldContainer = styled.div`
   position: absolute;
-  top: 0;
+  top: 1em;
+  bottom: 1em;
+  left: 1em;
+  right: 1em;
 `;
 
 const TextAreaField = styled.textarea<TextAreaFieldProps>`
@@ -80,6 +92,7 @@ const TextAreaField = styled.textarea<TextAreaFieldProps>`
   font-family: inherit;
   font-size: inherit;
   width: 100%;
+  height: 100%;
   box-sizing: border-box;
   resize: none;
   transition: .1s;
@@ -124,7 +137,6 @@ export default class TextArea extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.ghostDiv = React.createRef();
-    this.textField = React.createRef();
     this.state = {
       isFocused: false,
       ghostHeight: 0,
@@ -134,17 +146,13 @@ export default class TextArea extends React.Component<Props, State> {
 
   componentDidMount() {
     this.setState({
-      ghostHeight: this.ghostDiv.current!.clientHeight,
-      textFieldWidth: this.textField.current!.scrollWidth
+      ghostHeight: this.ghostDiv.current!.scrollHeight
     });
   }
 
   componentDidUpdate() {
-    if (this.state.textFieldWidth !== this.textField.current!.scrollWidth) {
-      this.setState({textFieldWidth: this.textField.current!.scrollWidth});
-    }
-    if (this.state.ghostHeight !== this.ghostDiv.current!.clientHeight) {
-      this.setState({ghostHeight: this.ghostDiv.current!.clientHeight});
+    if (this.state.ghostHeight !== this.ghostDiv.current!.scrollHeight) {
+      this.setState({ghostHeight: this.ghostDiv.current!.scrollHeight});
     }
   }
 
@@ -170,6 +178,13 @@ export default class TextArea extends React.Component<Props, State> {
     return (
       <Wrapper>
         <Container isFocused={this.state.isFocused} hasError={this.props.error!.hasError}>
+          <GhostDiv
+            ref={this.ghostDiv}
+            maxHeight={this.props.maxHeight}
+          >
+            {this.props.value}
+          </GhostDiv>
+          <TextFieldContainer>
           <TextAreaField
             maxHeight={this.props.maxHeight}
             name={labelToFieldName(this.props.label)}
@@ -178,17 +193,10 @@ export default class TextArea extends React.Component<Props, State> {
             onFocus={this.onFocus}
             onKeyUp={this.onKeyUpChange}
             placeholder={this.props.label}
-            ref={this.textField}
             shouldScroll={this.state.ghostHeight > this.props.maxHeight!}
-            style={{height: this.state.ghostHeight + 'px'}}
             value={this.props.value}
           />
-          <GhostDiv
-            ref={this.ghostDiv}
-            style={{width: this.state.textFieldWidth + 'px'}}
-          >
-            {this.props.value}
-          </GhostDiv>
+          </TextFieldContainer>
         </Container>
         {errorMessage(this.props.error!)}
       </Wrapper>
@@ -196,5 +204,4 @@ export default class TextArea extends React.Component<Props, State> {
   }
 
   private ghostDiv: React.RefObject<HTMLDivElement>;
-  private textField: React.RefObject<HTMLTextAreaElement>;
 }

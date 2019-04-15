@@ -5,6 +5,7 @@ import { AppState } from '../../types/types';
 import { getCookie } from '@app/utils/utils';
 import { history } from '../../App';
 import { store } from 'src';
+import { LoginErrors } from '../reducers/loginReducer';
 
 export const REQUEST_LOGIN = 'REQUEST_LOGIN';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -15,7 +16,7 @@ export const Actions = {
     createAction(REQUEST_LOGIN),
   successLogin: () =>
     createAction(LOGIN_SUCCESS),
-  errorLogin: (errors: object) =>
+  errorLogin: (errors: LoginErrors[]) =>
     createAction(LOGIN_FAILURE, {errors}),
   needsLogin: (nextUrl: string) =>
     createAction(NEEDS_LOGIN, {nextUrl})

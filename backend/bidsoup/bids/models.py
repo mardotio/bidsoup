@@ -1,6 +1,7 @@
 from django.db import models, transaction
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
+from django.utils.crypto import get_random_string
 import uuid
 
 class Account(models.Model):
@@ -169,7 +170,6 @@ class Bid(models.Model):
 
     @transaction.atomic
     def save(self, *args, **kwargs):
-        print(vars(self))
         # Get a key for the new bid or if invalid key
         if not self.pk or not self.key:
             self.key = get_and_increment_bid_key(self.account_id)
@@ -178,3 +178,13 @@ class Bid(models.Model):
 
 class User(AbstractUser):
     account = models.ForeignKey(Account, on_delete=models.PROTECT, null=True)
+
+class MagicLink(models.Model):
+    link = models.CharField(max_length=32, default=get_random_string(32))
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    ACTIONS = (
+        ('CE', 'Confirm Email'),
+        ('RS', 'Reset Password'),
+    )
+    action = models.CharField(max_length=3, choices=ACTIONS, default='CE')
+    created_on = models.DateTimeField(auto_now_add=True)

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Account, Customer, Category, UnitType, BidItem, BidTask, Bid, BidTask, User
+from .models import Account, Customer, Category, UnitType, BidItem, BidTask, Bid, BidTask, User, MagicLink
 from django.contrib.auth.models import Group
 
 admin.site.register(Account)
@@ -11,3 +11,4 @@ admin.site.register(Customer)
 admin.site.register(Category)
 admin.site.register(UnitType)
 admin.site.register(User)
+admin.site.register(MagicLink)

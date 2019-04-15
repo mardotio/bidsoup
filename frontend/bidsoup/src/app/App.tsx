@@ -7,6 +7,7 @@ import { Router, Switch, Route } from 'react-router';
 import LoginContainer from './login/containers/LoginContainer';
 import createBrowserHistory from 'history/createBrowserHistory';
 import { createGenerateClassName, jssPreset } from '@material-ui/core/styles';
+import { EmailSent } from './login/components/EmailSent';
 
 export const history = createBrowserHistory();
 const generateClassName = createGenerateClassName();
@@ -24,6 +25,7 @@ export default class App extends Component {
         <Router history={history}>
           <Switch>
             <Route path="/login" component={LoginContainer}/>
+            <Route path="/check-email" component={EmailSent}/>
             <Route path="/" component={ViewContainer}/>
           </Switch>
         </Router>

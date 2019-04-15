@@ -1,12 +1,14 @@
-from .models import Account, Bid, BidItem, BidTask, Category, Customer, UnitType
+from .models import Account, Bid, BidItem, BidTask, Category, Customer, UnitType, User, MagicLink
+from .users import confirm_user
 from django.db.models import Q
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, mixins, serializers
 from rest_framework.decorators import detail_route
 from django.core.exceptions import ValidationError as DjangoValidationError
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login as auth_login, get_user_model
 from django.http import HttpResponse
 from django.middleware.csrf import get_token
+from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from rest_framework.exceptions import ValidationError
@@ -14,8 +16,9 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework_rules.mixins import PermissionRequiredMixin
 from .serializers import AccountSerializer, BidSerializer, BidItemSerializer, \
-                         BidTaskSerializer, CustomerSerializer, CategorySerializer, \
-                         UnitTypeSerializer, UserSerializer, LoginSerializer
+        BidTaskSerializer, CustomerSerializer, CategorySerializer, UnitTypeSerializer, \
+        UserSerializer, LoginSerializer, SignupSerializer
+from .mailer import send_magic_link
 
 
 class TrapDjangoValidationErrorMixin(object):
@@ -183,8 +186,8 @@ def get_csrf_token(request):
 @method_decorator(csrf_protect, name='dispatch')
 class SessionLoginView(generics.GenericAPIView):
     permission_classes = (AllowAny,)
-    def get_serializer_class(self):
-        return LoginSerializer
+    serializer_class = LoginSerializer
+    queryset = User.objects.all()
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer_class()(data=request.data)
@@ -197,6 +200,36 @@ class SessionLoginView(generics.GenericAPIView):
                     'status': 'success',
                     'expiry': request.session.get_expiry_date()})
             else:
-                return Response(f.errors.get_json_data(True), 401)
+                return Response(f.errors['__all__'].get_json_data(True), 401)
 
         return Response({'status': 'invalid_body'}, status=400)
+
+
+@method_decorator(csrf_protect, name='dispatch')
+class SignupViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
+    permission_classes = (AllowAny,)
+    serializer_class = SignupSerializer
+
+    @staticmethod
+    def _is_new_user(user):
+        return User.objects.filter(Q(username=user.username) | Q(email=user.email)).count() == 0
+
+    def perform_create(self, serializer):
+        data = serializer.data
+        data['is_active'] = False
+        u = User(**data)
+        u.set_password(data.get('password'))
+
+        if self._is_new_user(u):
+            u.save()
+            link = MagicLink.objects.create(user=u)
+            send_magic_link(link, self.request)
+        else:
+            raise serializers.ValidationError([{
+                'message': 'Username or email already exists.',
+                'code': 'duplicate_account'
+            }])
+
+def confirm_from_magic(request, link):
+    confirm_user(link)
+    return redirect('/login/') # TODO: How do we let the backend redirect for the frontend?

@@ -157,7 +157,7 @@ class UnitTypeViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
         q = UnitType.objects.all()
         account = self.request.user.account
 
-        return q.filter(biditem__bid__account=account).distinct()
+        return q.filter(category__bid__account=account)
 
 
 class UserViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):

@@ -96,7 +96,7 @@ class CustomerSerializer(serializers.HyperlinkedModelSerializer):
 class UnitTypeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = UnitType
-        fields = ('url', 'name', 'description', 'unit', 'unit_price')
+        fields = ('url', 'name', 'description', 'unit', 'unit_price', 'category')
         extra_kwargs = {
             'unit_price': {'max_value': get_max_digit_field_value(model._meta.get_field('unit_price'))}
         }

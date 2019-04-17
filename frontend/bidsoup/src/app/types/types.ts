@@ -41,6 +41,7 @@ export interface Unit {
   description: string;
   unit: string;
   unitPrice: number;
+  category: string;
 }
 
 export interface Customer {

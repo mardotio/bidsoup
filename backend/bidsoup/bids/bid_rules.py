@@ -32,7 +32,7 @@ def can_edit_customer(user, customer):
 
 @rules.predicate
 def can_edit_unittype(user, unittype):
-    return can_edit_bid_item(user, unittype.biditem)
+    return can_edit_category(user, unittype.category)
 
 @rules.predicate
 def can_edit_user(user, u):

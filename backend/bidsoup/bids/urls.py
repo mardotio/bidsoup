@@ -26,6 +26,7 @@ category_router.register(r'biditems', views.BidItemViewSet, base_name='category-
 
 urlpatterns = [
     path('login/', views.SessionLoginView.as_view()),
+    path('csrftoken/', views.get_csrf_token),
     path('', include(router.urls)),
     path('', include(accounts_router.urls)),
     path('', include(bids_router.urls)),

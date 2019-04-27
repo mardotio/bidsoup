@@ -5,6 +5,10 @@ from rest_framework.decorators import detail_route
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login, get_user_model
+from django.http import HttpResponse
+from django.middleware.csrf import get_token
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
@@ -171,7 +175,12 @@ class UserViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
 
         return q.filter(account=account)
 
+def get_csrf_token(request):
+    if request.method == 'GET':
+        get_token(request)
+        return HttpResponse('')
 
+@method_decorator(csrf_protect, name='dispatch')
 class SessionLoginView(generics.GenericAPIView):
     permission_classes = (AllowAny,)
     def get_serializer_class(self):

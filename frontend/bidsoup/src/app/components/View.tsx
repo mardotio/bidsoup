@@ -32,7 +32,7 @@ const View = (props: Props) => {
         props.loadAccount();
       }
     },
-    []
+    [props.account]
   );
 
   if (props.account === '') {

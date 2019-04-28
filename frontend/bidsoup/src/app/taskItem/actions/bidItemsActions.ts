@@ -4,7 +4,7 @@ import { Decoder, object, array, string, constant, oneOf } from '@mojotech/json-
 import { BidItem } from '@app/types/types';
 import { createAction, ActionsUnion } from '@utils/reduxUtils';
 import { AppState } from '@app/types/types';
-import { handleHttpErrors } from '@utils/utils';
+import { handleHttpErrors, getCookie } from '@utils/utils';
 
 const taskItemTypeDecoder: Decoder<BidItem[]> = array(object({
   url: string(),
@@ -53,7 +53,8 @@ export const createTaskItem = (bidUrl: string, taskUrl: string, item: Partial<Bi
       return fetch(e.biditems, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'X-CsrfToken': getCookie('csrftoken') + ''
         },
         body: JSON.stringify({
           ...item,
@@ -64,6 +65,6 @@ export const createTaskItem = (bidUrl: string, taskUrl: string, item: Partial<Bi
       .then(handleHttpErrors)
       .then(json => dispatch(fetchBidItems()))
       .catch(error => console.log(error));
-    }).getOrElse(Promise.reject());
+    }).getOrElseL(() => Promise.reject());
   }
 );

@@ -9,12 +9,17 @@ class Account(models.Model):
     slug = models.SlugField(unique=True)
     next_bid_number = models.IntegerField(default=1)
 
+    def __str__(self):
+        return self.name
+
+
 class Customer(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=100, blank=True)
     phone = models.CharField(max_length=15, blank=True)
     email = models.EmailField(blank=True)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

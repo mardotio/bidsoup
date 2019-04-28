@@ -58,6 +58,10 @@ class Login extends React.Component<Props, State> {
     this.state = {username: '', password: ''};
   }
 
+  componentDidMount = () => {
+    fetch('/api/csrftoken');
+  }
+
   fieldChanged = (fieldKey: keyof State) => {
     return (e: React.ChangeEvent<HTMLInputElement>) => {
       const newField = { [fieldKey]: e.target.value };

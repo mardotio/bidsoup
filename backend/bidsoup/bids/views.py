@@ -5,9 +5,14 @@ from rest_framework.decorators import detail_route
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login, get_user_model
+from django.http import HttpResponse
+from django.middleware.csrf import get_token
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
+from rest_framework_rules.mixins import PermissionRequiredMixin
 from .serializers import AccountSerializer, BidSerializer, BidItemSerializer, \
                          BidTaskSerializer, CustomerSerializer, CategorySerializer, \
                          UnitTypeSerializer, UserSerializer, LoginSerializer
@@ -34,14 +39,20 @@ class TrapDjangoValidationErrorMixin(object):
             raise ValidationError(detail.message_dict)
 
 
-class AccountViewSet(viewsets.ModelViewSet):
-    queryset = Account.objects.all()
+class AccountViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
+    permission_required = 'bids.view_accounts'
+    object_permission_required = 'bids.on_account'
     serializer_class = AccountSerializer
     lookup_field = 'slug'
 
+    def get_queryset(self):
+        account = self.request.user.account
+        return Account.objects.filter(id=account.id) if account else None
 
-class BidViewSet(viewsets.ModelViewSet):
-    queryset = Bid.objects.all().order_by('-created_on')
+
+class BidViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
+    permission_required = 'bids.view_bids'
+    object_permission_required = 'bids.owns_bid'
     serializer_class = BidSerializer
 
     def list(self, request, *args, **kwargs):
@@ -56,7 +67,8 @@ class BidViewSet(viewsets.ModelViewSet):
         if 'account_slug' in self.kwargs:
             q = q.filter(account__slug=self.kwargs['account_slug'])
 
-        return q
+        account = self.request.user.account
+        return q.filter(account=account).order_by('-created_on') if account else None
 
     def perform_create(self, serializer):
         kwargs = {}
@@ -67,8 +79,12 @@ class BidViewSet(viewsets.ModelViewSet):
         serializer.save(**kwargs)
 
 
-
-class BidItemViewSet(TrapDjangoValidationErrorMixin, viewsets.ModelViewSet):
+class BidItemViewSet(
+        TrapDjangoValidationErrorMixin,
+        PermissionRequiredMixin,
+        viewsets.ModelViewSet):
+    permission_required = 'bids.view_bid_items'
+    object_permission_required = 'bids.owns_bid_item'
     serializer_class = BidItemSerializer
 
     def get_queryset(self):
@@ -78,10 +94,13 @@ class BidItemViewSet(TrapDjangoValidationErrorMixin, viewsets.ModelViewSet):
         elif 'category_pk' in self.kwargs:
             q = q.filter(category_id=self.kwargs['category_pk'])
 
-        return q
+        account = self.request.user.account
+        return q.filter(bid__account=account)
 
 
-class BidTaskViewSet(viewsets.ModelViewSet):
+class BidTaskViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
+    permission_required = 'bids.view_bid_tasks'
+    object_permission_required = 'bids.owns_bid_task'
     serializer_class = BidTaskSerializer
 
     def get_queryset(self):
@@ -89,7 +108,8 @@ class BidTaskViewSet(viewsets.ModelViewSet):
         if 'bid_pk' in self.kwargs:
             q = q.filter(bid_id=self.kwargs['bid_pk'])
 
-        return q
+        account = self.request.user.account
+        return q.filter(bid__account=account)
 
     def get_object(self):
         """Custom function for detail view because queryset only returns
@@ -100,7 +120,9 @@ class BidTaskViewSet(viewsets.ModelViewSet):
         return task
 
 
-class CategoryViewSet(TrapDjangoValidationErrorMixin, viewsets.ModelViewSet):
+class CategoryViewSet(PermissionRequiredMixin, TrapDjangoValidationErrorMixin, viewsets.ModelViewSet):
+    permission_required = 'bids.view_categories'
+    object_permission_required = 'bids.owns_category'
     serializer_class = CategorySerializer
 
     def get_queryset(self):
@@ -108,12 +130,20 @@ class CategoryViewSet(TrapDjangoValidationErrorMixin, viewsets.ModelViewSet):
         if 'bid_pk' in self.kwargs:
             q = q.filter(bid_id=self.kwargs['bid_pk'])
 
-        return q
+        account = self.request.user.account
+        return q.filter(bid__account=account)
 
 
-class CustomerViewSet(viewsets.ModelViewSet):
-    queryset = Customer.objects.all()
+class CustomerViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
+    permission_required = 'bids.view_customers'
+    object_permission_required = 'bids.has_customer'
     serializer_class = CustomerSerializer
+
+    def get_queryset(self):
+        q = Customer.objects.all()
+
+        account = self.request.user.account
+        return q.filter(account=account)
 
     @detail_route(methods=['get'])
     def bids(self, request, pk=None):
@@ -122,14 +152,35 @@ class CustomerViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class UnitTypeViewSet(viewsets.ModelViewSet):
-    queryset = UnitType.objects.all()
+class UnitTypeViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
+    permission_required = 'bids.view_unittypes'
+    object_permission_required = 'bids.owns_unittype'
     serializer_class = UnitTypeSerializer
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = get_user_model().objects.all()
+    def get_queryset(self):
+        q = UnitType.objects.all()
+        account = self.request.user.account
+
+        return q.filter(category__bid__account=account)
+
+
+class UserViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
+    permission_required = 'bids.view_users'
+    object_permission_required = 'bids.edit_user'
     serializer_class = UserSerializer
 
+    def get_queryset(self):
+        q = get_user_model().objects.all()
+        account = self.request.user.account
+
+        return q.filter(account=account)
+
+def get_csrf_token(request):
+    if request.method == 'GET':
+        get_token(request)
+        return HttpResponse('')
+
+@method_decorator(csrf_protect, name='dispatch')
 class SessionLoginView(generics.GenericAPIView):
     permission_classes = (AllowAny,)
     def get_serializer_class(self):

@@ -2,7 +2,7 @@ import fetch from 'cross-fetch';
 import { ThunkAction } from 'redux-thunk';
 import { createAction, ActionsUnion } from '@utils/reduxUtils';
 import { BidTask, AppState } from '@app/types/types';
-import { handleHttpErrors, nestedFind } from '@utils/utils';
+import { handleHttpErrors, nestedFind, getCookie } from '@utils/utils';
 
 export const CLEAR_SELECTED_TASK = 'CLEAR_SELECTED_TASK';
 export const REQUEST_BID_TASKS = 'REQUEST_BID_TASKS';
@@ -52,7 +52,8 @@ export const createBidTask = (task: Partial<BidTask>):
       return fetch(e.bidtasks, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'X-CsrfToken': getCookie('csrftoken') + ''
           },
           body: JSON.stringify(newTask)
         })
@@ -60,7 +61,7 @@ export const createBidTask = (task: Partial<BidTask>):
         .then(response => response.json())
         .then(json => dispatch(Actions.receiveBidTask(json)))
         .catch(error => console.log(error));
-    }).getOrElse(Promise.reject());
+    }).getOrElseL(() => Promise.reject());
   };
 };
 

@@ -4,7 +4,8 @@ import { Route, Redirect, Switch, withRouter } from 'react-router-dom';
 import SideNav from './SideNav';
 import DashboardContainer from '../dashboard/containers/DashboardContainer';
 import TaskItemContainer from '../taskItem/containers/TaskItemContainer';
-import { theme } from '../utils/color';
+import { theme } from '@utils/color';
+import { isEmpty } from '@app/utils/utils';
 
 const Container = styled.div`
   display: flex;
@@ -28,14 +29,14 @@ interface Props {
 const View = (props: Props) => {
   React.useEffect(
     () => {
-      if (props.account === '') {
+      if (isEmpty(props.account)) {
         props.loadAccount();
       }
     },
     [props.account]
   );
 
-  if (props.account === '') {
+  if (isEmpty(props.account)) {
     return(
       <h1>Loading...</h1>
     );

@@ -4,6 +4,7 @@ import { createAction, ActionsUnion } from '@utils/reduxUtils';
 import { AppState, Account } from '@app/types/types';
 import { Http } from '@app/utils/http';
 import { none, some } from 'fp-ts/lib/Option';
+import { isEmpty } from '@app/utils/utils';
 
 const accountDecoder: Decoder<Account> = object({
   bids: string(),
@@ -35,7 +36,7 @@ export const fetchAccount = (slug: string): ThunkAction<Promise<Actions>, AppSta
     return getState().api.endpoints.map(async e => {
       dispatch(Actions.requestAccount());
       return (await Http.getJson(`${e.accounts}${route}`, json => {
-        if (slug === '') {
+        if (isEmpty(slug)) {
           let res = accountListDecoder.run(json);
           if (res.ok && res.result.length === 1) {
             // TODO: Handle user belonging to multiple accounts.

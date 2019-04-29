@@ -1,33 +1,53 @@
-import React, { Fragment } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import { Route, Redirect, Switch, withRouter } from 'react-router-dom';
-import SideNav from '../components/SideNav';
+import SideNav from './SideNav';
 import DashboardContainer from '../dashboard/containers/DashboardContainer';
 import TaskItemContainer from '../taskItem/containers/TaskItemContainer';
-import LoginContainer from '../login/containers/LoginContainer';
-import { theme } from '../utils/color';
+import { theme } from '@utils/color';
+import { isEmpty } from '@app/utils/utils';
 
 const Container = styled.div`
   display: flex;
   height: 100%;
   overflow: hidden;
   background-color: ${theme.fill.hex};
-`
+`;
 
 const BodyContainer = styled.div`
   flex-grow: 1;
-`
+`;
 
 const ConnectedSideNav = withRouter(SideNav);
 
-const View = props => {
+interface Props {
+  bid: number;
+  account: string;
+  loadAccount: () => Promise<never>;
+}
+
+const View = (props: Props) => {
+  React.useEffect(
+    () => {
+      if (isEmpty(props.account)) {
+        props.loadAccount();
+      }
+    },
+    [props.account]
+  );
+
+  if (isEmpty(props.account)) {
+    return(
+      <h1>Loading...</h1>
+    );
+  }
   const navigation = [
     {
       icon: 'dashboard',
       title: 'Bids',
       route: props.bid ? `/${props.account}/bids/${props.bid}` : '/bids',
       matches: ['/bids', '/:account/bids', '/:account/bids/:bidId']
-    },{
+    }, {
       icon: 'view_list',
       title: 'Tasks',
       route: props.bid ? `/${props.account}/bids/${props.bid}/tasks` : '/tasks',
@@ -35,7 +55,7 @@ const View = props => {
     }
   ];
   return (
-    <Fragment>
+    <React.Fragment>
       <Container>
         <ConnectedSideNav
           icons={navigation}
@@ -50,7 +70,7 @@ const View = props => {
           </Switch>
         </BodyContainer>
       </Container>
-    </Fragment>
+    </React.Fragment>
   );
 };
 

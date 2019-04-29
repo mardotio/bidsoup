@@ -111,7 +111,7 @@ export const fetchCustomerList = (): ThunkAction<Promise<Actions>, AppState, nev
           }
           return dispatch(Actions.receiveCustomerList(customers, Date.now()));
         });
-    }).getOrElse(Promise.reject());
+    }).getOrElseL(() => Promise.reject());
   };
 };
 

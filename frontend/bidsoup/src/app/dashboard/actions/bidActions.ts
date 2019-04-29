@@ -3,7 +3,7 @@ import { createAction, ActionsUnion } from '@utils/reduxUtils';
 import { Bid, Customer, AppState } from '@app/types/types';
 import componentsActions from '../../taskItem/actions/bidComponentsActions';
 import { Decoder, constant, union, object, string, array, number } from '@mojotech/json-type-validation';
-import { handleHttpErrors } from '@utils/utils';
+import { handleHttpErrors, getCookie } from '@utils/utils';
 
 const bidListDecoder: Decoder<Bid[]> = array(object({
   url: string(),
@@ -134,7 +134,8 @@ export const createBid = (bid: Partial<Bid>): ThunkAction<Promise<void>, AppStat
       fetch(a.bids, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'X-CsrfToken': getCookie('csrftoken') + ''
         },
         body: JSON.stringify(bid)
       })

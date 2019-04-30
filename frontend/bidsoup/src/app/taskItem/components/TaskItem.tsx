@@ -114,7 +114,7 @@ class TaskItem extends React.Component<Props, State> {
   componentDidUpdate(prevProps: Props) {
     if (isDefined(prevProps.selectedTask) && isUndefined(this.props.selectedTask)) {
       this.props.history.push(`/${this.props.account}/bids/${this.props.selectedBid}/tasks`);
-    } else if (prevProps.task !== this.props.task) {
+    } else if (this.props.task && prevProps.task !== this.props.task) {
       this.props.selectTask(this.props.task);
     }
   }

@@ -94,9 +94,7 @@ const mapStateToProps = ({account, bidData, bids}, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     loadPage: () => (
-      dispatch(fetchApi())
-        .then(() => dispatch(fetchAccount(ownProps.match.params.account)))
-        .then(() => dispatch(fetchBidListByAccount()))
+      dispatch(fetchBidListByAccount())
         .then(() => dispatch(setAndFetchBidByKey(Number(ownProps.match.params.bid))))
         .then(() => {
           if (ownProps.match.params.task) {
@@ -104,8 +102,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           }
         })
     ),
-    fetchBidList: () =>
-      dispatch(fetchBidListByAccount()),
     setCurrentBid: (bid) =>
       dispatch(setAndFetchBidByKey(Number(bid))),
     selectTask: (task) =>

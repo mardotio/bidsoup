@@ -33,10 +33,11 @@ interface Props {
 }
 
 const BidContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
   background-color: ${theme.background.hex};
-  overflow: scroll;
-  height: 100%;
+  overflow: hidden;
   ::-webkit-scrollbar {
     width: 5px;
   }

@@ -8,7 +8,6 @@ import { theme } from '@utils/color';
 import { isUndefined, isDefined, isEmpty } from '@utils/utils';
 import { Bid, Category, BidTask } from '@app/types/types';
 import { StandardizedItem } from '@utils/conversions';
-import { Actions as BidActions } from '@dashboard/actions/bidActions';
 
 interface StandardizedTask extends BidTask {
   containedCost: number;
@@ -29,7 +28,6 @@ interface Props {
     push: (url: string) => void;
   };
   loadPage: () => Promise<void>;
-  fetchBidList: () => Promise<BidActions>;
   setCurrentBid: (bid: string) => void;
   selectTask: (task: string) => void;
   clearSelectedTask: () => void;
@@ -47,7 +45,7 @@ interface ItemContentProps {
   shouldDisplay: boolean;
 }
 
-const ViewConatiner = styled.div`
+const ViewContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 95%;
@@ -102,7 +100,7 @@ class TaskItem extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    if (isEmpty(this.props.account)) {
+    if (!isEmpty(this.props.account) && isEmpty(this.props.bids)) {
       this.props.loadPage();
     }
     if (this.props.selectedTask) {
@@ -112,15 +110,13 @@ class TaskItem extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (isDefined(prevProps.selectedTask) && isUndefined(this.props.selectedTask)) {
+    if (prevProps.account !== this.props.account) {
+     this.props.loadPage();
+    } else if (isDefined(prevProps.selectedTask) && isUndefined(this.props.selectedTask)) {
       this.props.history.push(`/${this.props.account}/bids/${this.props.selectedBid}/tasks`);
     } else if (this.props.task && prevProps.task !== this.props.task) {
       this.props.selectTask(this.props.task);
     }
-  }
-
-  getBidUrl() {
-    return this.props.bids.find(bid => bid.key === Number(this.props.selectedBid))!.url;
   }
 
   goToTask = (taskUuid: string) => {
@@ -173,7 +169,7 @@ class TaskItem extends React.Component<Props, State> {
   render() {
     return (
       <React.Fragment>
-        <ViewConatiner>
+        <ViewContainer>
           <TaskContent>
             <TaskTree
               tasks={this.props.tasks}
@@ -186,7 +182,7 @@ class TaskItem extends React.Component<Props, State> {
           >
             {this.displayTaskItems()}
           </ItemContent>
-        </ViewConatiner>
+        </ViewContainer>
       </React.Fragment>
     );
   }

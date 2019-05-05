@@ -8,6 +8,7 @@ import { singularOrPlural } from '@utils/styling';
 interface Props {
   bid: Bid;
   account: string;
+  selectBid: (bidId: number) => Promise<void>;
 }
 
 const Container = styled(Link)`
@@ -64,6 +65,7 @@ const BidCard = (props: Props) => {
   return (
     <Container
       to={`/${props.account}/bids/${props.bid.key}`}
+      onClick={() => props.selectBid(props.bid.key)}
     >
       <Title>{props.bid.name}</Title>
       <Truncate>{props.bid.customer}</Truncate>

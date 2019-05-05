@@ -14,6 +14,7 @@ interface Props {
   account: Option<Account>;
   showModal: (modalId: string) => void;
   hideModal: (modalId: string) => void;
+  selectBid: (bidId: number) => Promise<void>;
 }
 
 const FabContainer = styled.div`
@@ -23,12 +24,13 @@ const FabContainer = styled.div`
   z-index: 500;
 `;
 
-const generateBidCards = ({bids, account}: Props) => (
+const generateBidCards = ({bids, account, selectBid}: Props) => (
   account.map(a =>
     bids.map(bid => (
       <BidCard
         bid={bid}
         account={a.slug}
+        selectBid={selectBid}
       />
     ))
   ).getOrElse([])

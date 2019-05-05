@@ -64,8 +64,8 @@ export const Actions = {
 
 export type Actions = ActionsUnion<typeof Actions>;
 
-export const fetchBidListByAccount = (): ThunkAction<Promise<void>, AppState, never, Actions> => (
-  (dispatch, getState) =>
+export const fetchBidListByAccount = (): ThunkAction<Promise<void>, AppState, never, Actions> => {
+  return (dispatch, getState) =>
     getState().account.data.map(a => {
       dispatch(Actions.requestBidList());
       return fetch(a.bids)
@@ -79,7 +79,7 @@ export const fetchBidListByAccount = (): ThunkAction<Promise<void>, AppState, ne
           dispatch(Actions.receiveBidList(bids, Date.now()));
         });
     }).getOrElseL(() => Promise.reject())
-);
+};
 
 export const fetchCurrentBid = (): ThunkAction<Promise<Actions>, AppState, never, Actions> => {
   return (dispatch, getState) => {

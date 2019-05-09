@@ -16,7 +16,7 @@ interface StateProps extends RouteComponentProps<{}> {
 }
 
 const getUuidFromUrl = (url: string) => (
-  url.match(/(?<=bidtasks\/)[0-9a-z-]+/i)![0]
+  url.match(/[0-9a-z]{8}-[0-9a-z-]+/i)![0]
 );
 
 const mapStateToProps = (state: AppState, ownProps: RouteComponentProps<{}>): StateProps => ({

@@ -6,11 +6,10 @@ import GhostButton from '@app/components/GhostButton';
 import { Unit } from '@app/types/types';
 import { theme } from '@utils/color';
 import { beautifyNumber } from '@utils/styling';
-import { Actions } from '@taskItem/actions/unitTypeActions';
 
 interface Props {
   units: Unit[];
-  createUnitType: (u: Partial<Unit>) => Promise<Actions>;
+  createUnitType: (u: Partial<Unit>) => Promise<void>;
 }
 
 interface FormContainerProps {
@@ -100,7 +99,7 @@ const generateRowFromUnit = (unit: Unit) => {
           <div>{unit.description}</div>
         </Unit>
       </Cell>
-      <Cell>${beautifyNumber(unit.unitPrice, 2)}</Cell>
+      <Cell>${beautifyNumber(Number(unit.unitPrice), 2)}</Cell>
       <Cell>{unit.unit}</Cell>
     </Row>
   );

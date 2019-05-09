@@ -96,7 +96,7 @@ const ExpPanel = withStyles({
 const generateTask = (onClick: Props['goToTask'], task: BidTask) => (
   <Task
     key={task.url}
-    onClick={() => onClick(task.url.match(/(?<=bidtasks\/)[0-9a-z-]+/i)![0])}
+    onClick={() => onClick(task.url.match(/[0-9a-z]{8}-[0-9a-z-]+/i)![0])}
   >
     {task.title}
   </Task>

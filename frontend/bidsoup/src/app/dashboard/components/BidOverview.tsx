@@ -1,21 +1,20 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import OverviewHeader from '@dashboard/components/OverviewHeader';
-import CategoryDashboard from '@dashboard/components/CategoryDashboard';
 import UnitDashboard from '@dashboard/components/UnitDashboard';
 import Categories from '@dashboard/components/Categories';
-import { CategoryWithItems } from '@dashboard/components/Dashboard';
-import { Actions } from '@taskItem/actions/unitTypeActions';
-import { Bid, Unit } from '@app/types/types';
+import { Bid, Category, Unit } from '@app/types/types';
 import { theme } from '@utils/color';
+import { useRef } from 'react';
 
 interface Props {
   bid: Bid;
-  categoriesWithItems: {
-    [k: string]: CategoryWithItems;
-  };
+  bidTotal: number;
+  categories: Category[];
+  selectedBidId: number;
   units: Unit[];
-  createUnitType: (u: Partial<Unit>) => Promise<Actions>;
+  createUnitType: (u: Partial<Unit>) => Promise<void>;
+  loadPage: () => Promise<void>
 }
 
 const BidTitle = styled.div`
@@ -35,21 +34,22 @@ const Container = styled.div`
   }
 `;
 
-const bidTotal = ({categoriesWithItems}: Props) => (
-  Object.keys(categoriesWithItems).reduce(
-    (total, category) => (
-      total + categoriesWithItems[category].items.reduce(
-        (categoryTotal, item) => (
-          categoryTotal + item.total + item.tax + item.markup
-        ),
-        0
-      )
-    ),
-    0
-  )
-);
-
 const BidOverview = (props: Props) => {
+
+  const isInitialMount = useRef(true);
+
+  React.useEffect(
+    () => {
+      if (isInitialMount.current && props.selectedBidId !== props.bid.key) {
+        isInitialMount.current = false;
+        props.loadPage();
+      } else if (props.selectedBidId !== props.bid.key) {
+        props.loadPage();
+      }
+    },
+    [props.selectedBidId]
+  );
+
   return (
     <Container>
       <BidTitle>
@@ -57,19 +57,15 @@ const BidOverview = (props: Props) => {
       </BidTitle>
       <OverviewHeader
         {...props.bid}
-        total={bidTotal(props)}
+        total={props.bidTotal}
       />
       <Categories
-        categories={props.categoriesWithItems}
+        categories={props.categories}
         bidTax={props.bid.taxPercent}
       />
       <UnitDashboard
         units={props.units}
         createUnitType={props.createUnitType}
-      />
-      <CategoryDashboard
-        key={props.bid.name}
-        categoriesWithItems={props.categoriesWithItems}
       />
     </Container>
   );

@@ -40,7 +40,7 @@ export interface Unit {
   name: string;
   description: string;
   unit: string;
-  unitPrice: number;
+  unitPrice: number | string;
   category: string;
 }
 

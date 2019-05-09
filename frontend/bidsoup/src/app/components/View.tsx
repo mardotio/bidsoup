@@ -5,7 +5,7 @@ import AppHeader from '@app/components/AppHeader';
 import { theme } from '@utils/color';
 import { isEmpty } from '@app/utils/utils';
 import BidView from '@app/components/BidView';
-import DashboardContainer from '../dashboard/containers/DashboardContainer';
+import BidSelectorContainer from '@dashboard/containers/BidSelectorContainer';
 
 const Container = styled.div`
   display: flex;
@@ -50,7 +50,7 @@ const View = (props: Props) => {
       <BodyContainer id="body-container">
         <Switch>
           <Route path="/:account/bids/:bid" component={BidView}/>
-          <Route path="/:account/bids" component={DashboardContainer}/>
+          <Route path="/:account/bids" component={BidSelectorContainer}/>
           <Route path="/" render={() => <Redirect to={`/${props.account}/bids`}/>}/>
         </Switch>
       </BodyContainer>

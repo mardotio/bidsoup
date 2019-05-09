@@ -3,14 +3,12 @@ import styled from 'styled-components';
 import HorizontalRule from '@app/components/HorizontalRule';
 import Grid from '@app/components/Grid';
 import CircleInitials from '@app/components/CircleInitials';
-import { CategoryWithItems } from '@dashboard/components/Dashboard';
 import { theme } from '@utils/color';
 import { getInitials } from '@app/utils/utils';
+import { Category } from '@app/types/types';
 
 interface Props {
-  categories: {
-    [k: string]: CategoryWithItems;
-  };
+  categories: Category[];
   bidTax: string | null;
 }
 
@@ -61,7 +59,7 @@ const MiniHR = styled.div`
   margin: 0 auto;
 `;
 
-const generateRows = (category: CategoryWithItems) => {
+const generateRows = (category: Category) => {
   return (
     <CardContainer key={category.url}>
       <CircleWrapper>
@@ -78,20 +76,15 @@ const generateRows = (category: CategoryWithItems) => {
   );
 };
 
-const generateTable = (categories: Props['categories']) => {
-  let rows = Object.keys(categories)
-    .reduce((arr, cat) => [...arr, categories[cat]], [])
-    .map(generateRows);
-  return (
-    <Grid
-      cells={rows}
-      containerId="category-container"
-      maxColumns={5}
-      alignment="left"
-      margin="auto"
-    />
-  );
-};
+const generateTable = (categories: Props['categories']) => (
+  <Grid
+    cells={categories.map(generateRows)}
+    containerId="category-container"
+    maxColumns={5}
+    alignment="left"
+    margin="auto"
+  />
+);
 
 const Categories = (props: Props) => {
   return (

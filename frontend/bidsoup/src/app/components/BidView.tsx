@@ -6,14 +6,14 @@ import BidOverviewContainer from '@dashboard/containers/BidOverviewContainer';
 
 const BidView = () => {
   return (
-    <React.Fragment>
+    <>
       <BidNavbarContainer/>
       <Switch>
         <Route path="/:account/bids/:bid/tasks/:task" component={TaskItemContainer}/>
         <Route path="/:account/bids/:bid/tasks" component={TaskItemContainer}/>
         <Route path="/:account/bids/:bid" component={BidOverviewContainer}/>
       </Switch>
-    </React.Fragment>
+    </>
   );
 }
 

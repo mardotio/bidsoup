@@ -4,8 +4,9 @@ import OverviewHeader from '@dashboard/components/OverviewHeader';
 import UnitDashboard from '@dashboard/components/UnitDashboard';
 import Categories from '@dashboard/components/Categories';
 import { Bid, Category, Unit } from '@app/types/types';
-import { theme } from '@utils/color';
+import { Color, theme } from '@utils/color';
 import { useRef } from 'react';
+import IconButton from '@app/components/buttons/IconButton';
 
 interface Props {
   bid: Bid;
@@ -17,13 +18,8 @@ interface Props {
   loadPage: () => Promise<void>
 }
 
-const BidTitle = styled.div`
-  font-size: 150%;
-  padding-top: 1em;
-`;
-
 const Container = styled.div`
-  padding: 0 3em;
+  padding: 0 2em;
   overflow: auto;
   flex: 1;
   ::-webkit-scrollbar {
@@ -32,6 +28,27 @@ const Container = styled.div`
   ::-webkit-scrollbar-thumb {
     background: ${theme.components.scrollbar.hex};
   }
+`;
+
+const TitleContainer = styled.div`
+  background-color: ${Color.shade(0).hex};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em;
+`;
+
+const BidTitle = styled.div`
+  font-size: 1.5em;
+`;
+
+const BidActionsContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const SeparatedButton = styled.span`
+  margin-right: 1em;
 `;
 
 const BidOverview = (props: Props) => {
@@ -52,9 +69,27 @@ const BidOverview = (props: Props) => {
 
   return (
     <Container>
-      <BidTitle>
-        {props.bid.name}
-      </BidTitle>
+      <TitleContainer>
+        <BidTitle>
+          {props.bid.name}
+        </BidTitle>
+        <BidActionsContainer>
+          <SeparatedButton>
+            <IconButton
+              size="M"
+              action={() => console.log('hello')}
+              icon="link"
+              label="Copy Link"
+            />
+          </SeparatedButton>
+          <IconButton
+            size="M"
+            action={() => console.log('hello')}
+            icon="delete"
+            label="Delete"
+          />
+        </BidActionsContainer>
+      </TitleContainer>
       <OverviewHeader
         {...props.bid}
         total={props.bidTotal}
@@ -66,6 +101,7 @@ const BidOverview = (props: Props) => {
       <UnitDashboard
         units={props.units}
         createUnitType={props.createUnitType}
+        categories={props.categories}
       />
     </Container>
   );

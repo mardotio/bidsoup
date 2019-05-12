@@ -1,10 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import HorizontalRule from '@app/components/HorizontalRule';
 import Grid from '@app/components/Grid';
-import CircleInitials from '@app/components/CircleInitials';
-import { theme } from '@utils/color';
-import { getInitials } from '@app/utils/utils';
+import { Color, theme } from '@utils/color';
 import { Category } from '@app/types/types';
 
 interface Props {
@@ -13,40 +10,43 @@ interface Props {
 }
 
 const Container = styled.div`
-  margin-top: 2em;
-  padding: 0;
+  margin-top: 1em;
   width: 100%;
+  padding: 1em 0;
 `;
 
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2em;
-  div:first-child {
-    font-size: 1.25em;
-  };
-`;
-
-const CardContainer = styled.div`
-  border: 1px solid ${theme.components.border.hex};
-  border-radius: .3em;
-  text-align: center;
-  padding: 1.5em;
-  &:hover {
-    background-color: ${theme.interactions.hover.lighten(.05)};
-    cursor: pointer;
+const SectionTitle = styled.div`
+  margin-top: 1em;
+  color: ${theme.primary.hex};
+  &:after {
+    content: "";
+    width: 3em;
+    height: 1px;
+    background-color: ${theme.components.darkBorder.hex};
+    display: block;
+    margin-top: .2em;
   }
 `;
 
-const CircleWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-bottom: .3em;
+const CardContainer = styled.div`
+  align-items: center;
+  display: grid;
+  grid-template-columns: auto auto;
+  border-radius: .3em;
+  padding: 1.5em;
+  background-color: ${Color.shade(0).hex};
+  cursor: pointer;
 `;
 
-const CardTitle = styled.div`
-  font-size: 1.3em;
+const CategoryTitle = styled.h3`
+  border-radius: .3em;
+  color: ${Color.shade(0).hex};
+  display: inline;
+  font-size: 1em;
+  font-weight: normal;
+  margin: 0;
+  justify-self: start;
+  padding: .3em;
 `;
 
 const CardInfo = styled.div`
@@ -54,24 +54,29 @@ const CardInfo = styled.div`
   color: ${theme.text.light.hex};
 `;
 
-const MiniHR = styled.div`
-  width: 10%;
-  margin: 0 auto;
+const MarkupContainer = styled.div`
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  div:first-child {
+    text-align: center;
+    padding: 1em;
+  }
+  div:last-child {
+    color: ${theme.primary.hex};
+    text-align: center;
+  }
 `;
 
 const generateRows = (category: Category) => {
   return (
     <CardContainer key={category.url}>
-      <CircleWrapper>
-        <CircleInitials
-          color={`#${category.color}`}
-          initials={getInitials(category.name)}
-          size={2}
-        />
-      </CircleWrapper>
-      <CardTitle>{category.name}</CardTitle>
-      <MiniHR><HorizontalRule/></MiniHR>
+      <CategoryTitle style={{backgroundColor: `#${category.color}`}}>{category.name}</CategoryTitle>
+      <MarkupContainer>
+        <div>{category.markupPercent ? category.markupPercent : 0}%</div>
+        <div>Markup</div>
+      </MarkupContainer>
       <CardInfo>{Math.floor(Math.random() * 10)} Subcategories</CardInfo>
+      <CardInfo>{Math.floor(Math.random() * 10)} Units</CardInfo>
     </CardContainer>
   );
 };
@@ -86,15 +91,13 @@ const generateTable = (categories: Props['categories']) => (
   />
 );
 
-const Categories = (props: Props) => {
-  return (
+const Categories = (props: Props) => (
+  <>
+    <SectionTitle>Categories</SectionTitle>
     <Container id="category-container">
-      <Header>
-        <div>Categories</div>
-      </Header>
       {generateTable(props.categories)}
     </Container>
-  );
-};
+  </>
+);
 
 export default Categories;

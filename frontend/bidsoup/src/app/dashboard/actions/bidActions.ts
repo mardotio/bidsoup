@@ -64,8 +64,8 @@ export const Actions = {
 
 export type Actions = ActionsUnion<typeof Actions>;
 
-export const fetchBidListByAccount = (): ThunkAction<Promise<void>, AppState, never, Actions> => {
-  return (dispatch, getState) =>
+export const fetchBidListByAccount = (): ThunkAction<Promise<void>, AppState, never, Actions> => (
+  (dispatch, getState) =>
     getState().account.data.map(a => {
       dispatch(Actions.requestBidList());
       return fetch(a.bids)
@@ -79,10 +79,10 @@ export const fetchBidListByAccount = (): ThunkAction<Promise<void>, AppState, ne
           dispatch(Actions.receiveBidList(bids, Date.now()));
         });
     }).getOrElseL(() => Promise.reject())
-};
+);
 
-export const fetchCurrentBid = (): ThunkAction<Promise<Actions>, AppState, never, Actions> => {
-  return (dispatch, getState) => {
+export const fetchCurrentBid = (): ThunkAction<Promise<Actions>, AppState, never, Actions> => (
+  (dispatch, getState) => {
     dispatch(Actions.requestCurrentBid());
     return fetch(getState().bids.selectedBid.url)
       .then(response => response.json())
@@ -94,11 +94,11 @@ export const fetchCurrentBid = (): ThunkAction<Promise<Actions>, AppState, never
         }
         return dispatch(Actions.receiveCurrentBid(bid, Date.now()));
       });
-  };
-};
+  }
+);
 
-export const fetchCustomerList = (): ThunkAction<Promise<Actions>, AppState, never, Actions> => {
-  return (dispatch, getState) => {
+export const fetchCustomerList = (): ThunkAction<Promise<Actions>, AppState, never, Actions> => (
+  (dispatch, getState) => {
     return getState().api.endpoints.map(e => {
       dispatch(Actions.requestCustomerList());
       return fetch(e.customers)
@@ -112,12 +112,12 @@ export const fetchCustomerList = (): ThunkAction<Promise<Actions>, AppState, nev
           return dispatch(Actions.receiveCustomerList(customers, Date.now()));
         });
     }).getOrElseL(() => Promise.reject());
-  };
-};
+  }
+);
 
 // tslint:disable-next-line:no-any
-export const setAndFetchBidByKey = (key: number): ThunkAction<Promise<any>, AppState, never, Actions> => {
-  return (dispatch, getState) => {
+export const setAndFetchBidByKey = (key: number): ThunkAction<Promise<any>, AppState, never, Actions> => (
+  (dispatch, getState) => {
     const bid = getState().bids.list.find(b => b.key === key);
     if (bid === undefined) {
       return Promise.reject('Key not found in bid list.');
@@ -125,8 +125,8 @@ export const setAndFetchBidByKey = (key: number): ThunkAction<Promise<any>, AppS
     dispatch(Actions.setCurrentBid(bid.url));
     return dispatch(fetchCurrentBid())
       .then(() => dispatch(componentsActions.fetchBidComponents()));
-  };
-};
+  }
+);
 
 export const createBid = (bid: Partial<Bid>): ThunkAction<Promise<void>, AppState, never, Actions> => (
   (dispatch, getState) => (

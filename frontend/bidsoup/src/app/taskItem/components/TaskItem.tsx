@@ -104,7 +104,7 @@ class TaskItem extends React.Component<Props, State> {
       this.props.loadPage();
     }
     if (this.props.selectedTask) {
-      let uuid = this.props.selectedTask.url.match(/(?<=bidtasks\/)[0-9a-z-]+/i)![0];
+      let uuid = this.props.selectedTask.url.match(/[0-9a-z]{8}-[0-9a-z-]+/i)![0];
       this.props.history.push(`/${this.props.account}/bids/${this.props.selectedBid}/tasks/${uuid}`);
     }
   }

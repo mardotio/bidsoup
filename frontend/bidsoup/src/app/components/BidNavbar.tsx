@@ -26,7 +26,6 @@ const Container = styled.div`
   padding: 1em 2em;
 `;
 
-const LinksContainer = styled.div``;
 
 interface LinkProps {
   selected: boolean;
@@ -74,9 +73,9 @@ const generateLink = (location: Props['location'], details: RouteObject) => (
   </StyledLink>
 );
 
-const generateNavigationLinks = (routes: RouteObject[], location: Props['location']) => {
-  return routes.map(curry(generateLink)(location));
-};
+const generateNavigationLinks = (routes: RouteObject[], location: Props['location']) => (
+  routes.map(curry(generateLink)(location))
+);
 
 const BidNavbar = (props: Props) => {
   const routing: RouteObject[] = [
@@ -93,9 +92,9 @@ const BidNavbar = (props: Props) => {
 
   return (
     <Container>
-      <LinksContainer>
+      <div>
         {generateNavigationLinks(routing, props.location)}
-      </LinksContainer>
+      </div>
       <Link to={`/${props.account}/bids`} onClick={props.clearSelectedBid}>
         <HeaderIcon className="material-icons">clear</HeaderIcon>
       </Link>

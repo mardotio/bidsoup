@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import HorizontalRule from '@app/components/HorizontalRule';
 import SquircleButton from '@app/components/SquircleButton';
 import InlineTaskFormContainer from '@taskItem/containers/InlineTaskFormContainer';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -31,7 +30,7 @@ const HeaderContainer = styled.div`
 `;
 
 const Title = styled.h3`
-  font-size: 1.25em;
+  font-size: 1em;
   font-weight: normal;
   margin: 0;
   span {
@@ -62,14 +61,27 @@ const TaskNamePlaceholder = styled.button`
   outline: none;
   padding: .5em;
   transition: color .3s ease;
+  background-color: transparent;
   &:hover, &:focus {
     color: ${theme.primary.hex};
   }
 `;
 
-const TitleIconContainer = styled.div`
-  display: flex;
-  align-items: center;
+const SectionTitle = styled.div`
+  margin-top: 1em;
+  color: ${theme.primary.hex};
+  div {
+    display: flex;
+    align-items: center;
+  }
+  &:after {
+    content: "";
+    width: 3em;
+    height: 1px;
+    background-color: ${theme.components.darkBorder.hex};
+    display: block;
+    margin-top: .2em;
+  }
 `;
 
 interface IconProps {
@@ -89,9 +101,14 @@ const Icon = styled.i<IconProps>`
 const ExpPanel = withStyles({
   root: {
     boxShadow: 'none',
-    margin: 0
+    margin: 0,
+    marginTop: '1em'
   }
 })(ExpansionPanel);
+
+const ExpansionPanelContent = styled.div`
+  margin: 1em;
+`;
 
 const generateTask = (onClick: Props['goToTask'], task: BidTask) => (
   <Task
@@ -154,28 +171,31 @@ export default class ChildTasks extends React.Component<Props, State> {
     return (
       <Container>
         <HeaderContainer>
-          <TitleIconContainer>
-            <Icon
-              className="material-icons"
-              reverse={this.state.expand}
-              onClick={this.toggleExpansion}
-            >
-              expand_more
-            </Icon>
-            <Title>Subtasks <span>({this.props.tasks.length})</span></Title>
-          </TitleIconContainer>
+          <SectionTitle>
+            <div>
+              <Icon
+                className="material-icons"
+                reverse={this.state.expand}
+                onClick={this.toggleExpansion}
+              >
+                expand_more
+              </Icon>
+              <Title>Subtasks <span>({this.props.tasks.length})</span></Title>
+            </div>
+          </SectionTitle>
           <SquircleButton
             icon="add"
             label="Add child task"
             onClick={this.showTaskForm}
           />
         </HeaderContainer>
-        <HorizontalRule/>
         <ExpPanel
           expanded={this.state.expand}
         >
-          {generateTaskList(this.props.tasks, this.props.goToTask)}
-          {this.placeHolderOrForm()}
+          <ExpansionPanelContent>
+            {generateTaskList(this.props.tasks, this.props.goToTask)}
+            {this.placeHolderOrForm()}
+          </ExpansionPanelContent>
         </ExpPanel>
       </Container>
     );

@@ -22,7 +22,6 @@ const TableWrapper = styled.div`
   flex-direction: column;
   min-width: 500px;
   width: 100%;
-  padding: 1em 0;
   height: min-content;
   box-sizing: border-box;
 `;

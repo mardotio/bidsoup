@@ -13,7 +13,6 @@ interface IconOptions {
 }
 
 const Container = styled.div`
-  border-bottom: 1px solid ${theme.components.border.hex};
   display: flex;
   flex-direction: row-reverse;
   padding: .5em 1em;

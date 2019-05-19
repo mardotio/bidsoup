@@ -75,7 +75,7 @@ const ItemContent = styled(Card)<ItemContentProps>`
     ? '20px'
     : '0'
   )};
-  transition: flex .3s ease;
+  transition: flex .3s ease-in-out;
   flex: ${({shouldDisplay}) => (shouldDisplay
     ? '1'
     : '0'

@@ -112,6 +112,7 @@ class Items extends React.Component<Props, State> {
           <Table
             columns={this.props.columns}
             rows={this.props.items}
+            categories={this.props.categories}
           />
         </ItemsContainer>
       </div>

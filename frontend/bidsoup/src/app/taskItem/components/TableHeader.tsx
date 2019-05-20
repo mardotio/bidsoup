@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import TableCell from '@taskItem/components/TableCell';
+import { theme } from '@utils/color';
 
 interface Props {
   headers: string[];
@@ -10,9 +11,15 @@ interface Props {
 }
 
 const TableRow = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns:
+    [description] 30%
+    [quantity] 15%
+    [price] 15%
+    [category] 20%
+    [total] 20%;
   font-size: .85em;
-  font-weight: 600;
+  color: ${theme.text.light.hex};
 `;
 
 const getCells = ({ headers, sortBy, filter, reverseOrder}: Props) => {

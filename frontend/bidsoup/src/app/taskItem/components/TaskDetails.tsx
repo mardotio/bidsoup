@@ -89,6 +89,10 @@ const columns: {
     style: 'currency'
   },
   {
+    name: 'category',
+    style: 'default'
+  },
+  {
     name: 'total',
     style: 'currency'
   },

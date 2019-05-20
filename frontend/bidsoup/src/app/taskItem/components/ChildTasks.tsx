@@ -1,12 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import SquircleButton from '@app/components/SquircleButton';
 import InlineTaskFormContainer from '@taskItem/containers/InlineTaskFormContainer';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import { withStyles } from '@material-ui/core';
 import { BidTask } from '@app/types/types';
 import { curry } from 'fp-ts/lib/function';
 import { theme } from '@utils/color';
+import GhostButton from '@app/components/GhostButton';
 
 interface Props {
   tasks: BidTask[];
@@ -183,11 +183,7 @@ export default class ChildTasks extends React.Component<Props, State> {
               <Title>Subtasks <span>({this.props.tasks.length})</span></Title>
             </div>
           </SectionTitle>
-          <SquircleButton
-            icon="add"
-            label="Add child task"
-            onClick={this.showTaskForm}
-          />
+          <GhostButton onClick={this.showTaskForm}>Create Task</GhostButton>
         </HeaderContainer>
         <ExpPanel
           expanded={this.state.expand}

@@ -2,15 +2,16 @@ import * as React from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import HorizontalRule from '@app/components/HorizontalRule';
 import UnitForm from '@dashboard/components/UnitForm';
-import GhostButton from '@app/components/GhostButton';
-import { Unit } from '@app/types/types';
-import { theme } from '@utils/color';
+import { Category, Unit } from '@app/types/types';
+import { Color, theme } from '@utils/color';
 import { beautifyNumber } from '@utils/styling';
-import { Actions } from '@taskItem/actions/unitTypeActions';
+import { curry } from 'fp-ts/lib/function';
+import { isEmpty } from '@utils/utils';
 
 interface Props {
   units: Unit[];
-  createUnitType: (u: Partial<Unit>) => Promise<Actions>;
+  categories: Category[];
+  createUnitType: (u: Partial<Unit>) => Promise<void>;
 }
 
 interface FormContainerProps {
@@ -23,7 +24,22 @@ interface State {
 }
 
 const Container = styled.div`
-  padding: 2em 0 1em 0;
+  background-color: ${Color.shade(0).hex};
+  padding: 1em;
+  margin-top: 1em;
+`;
+
+const SectionTitle = styled.div`
+  margin-top: 1em;
+  color: ${theme.primary.hex};
+  &:after {
+    content: "";
+    width: 3em;
+    height: 1px;
+    background-color: ${theme.components.darkBorder.hex};
+    display: block;
+    margin-top: .2em;
+  }
 `;
 
 const overflowAnimation = () => {
@@ -45,27 +61,6 @@ const FormContainer = styled.div<FormContainerProps>`
   )};
 `;
 
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2em;
-  div:first-child {
-    font-size: 1.25em;
-  };
-`;
-
-const Unit = styled.div`
-  flex: 1;
-  min-width: 15em;
-  justify-content: space-between;
-  div:last-child {
-    font-size: .8em;
-    padding-top: .5em;
-    color: ${theme.text.light.hex};
-  };
-`;
-
 const Table = styled.div`
   width: 100%;
 `;
@@ -84,6 +79,7 @@ const TableHeader = styled(Row)`
   color: ${theme.text.light.hex};
   font-size: .95em;
   border: 0;
+  padding-top: 0;
 `;
 
 const Cell = styled.li`
@@ -91,33 +87,42 @@ const Cell = styled.li`
   width: 33%;
 `;
 
-const generateRowFromUnit = (unit: Unit) => {
+const CategoryChip = styled.span`
+  padding: .3em;
+  color: ${Color.shade(0).hex};
+  border-radius: .3em;
+`;
+
+const generateRowFromUnit = (categories: Category[], unit: Unit) => {
+  if (isEmpty(categories)) { return null; }
+  const category = categories.find(c => c.url === unit.category) as Category;
   return (
     <Row key={unit.url}>
-      <Cell>
-        <Unit key={unit.url}>
-          <div>{unit.name}</div>
-          <div>{unit.description}</div>
-        </Unit>
-      </Cell>
-      <Cell>${beautifyNumber(unit.unitPrice, 2)}</Cell>
+      <Cell>{unit.name}</Cell>
+      <Cell>${beautifyNumber(Number(unit.unitPrice), 2)}</Cell>
       <Cell>{unit.unit}</Cell>
+      <Cell>
+        <CategoryChip style={{backgroundColor: `#${category.color}`}}>
+          {category.name}
+        </CategoryChip>
+      </Cell>
+      <Cell>{unit.description}</Cell>
     </Row>
   );
 };
 
-const generateTableFromUnits = (units: Unit[]) => {
-  return (
-    <Table>
-      <TableHeader>
-        <Cell>Name</Cell>
-        <Cell>Price</Cell>
-        <Cell>Unit</Cell>
-      </TableHeader>
-      {units.map(generateRowFromUnit)}
-    </Table>
-  );
-};
+const generateTableFromUnits = (units: Unit[], categories: Category[]) => (
+  <Table>
+    <TableHeader>
+      <Cell>Name</Cell>
+      <Cell>Price</Cell>
+      <Cell>Unit</Cell>
+      <Cell>Category</Cell>
+      <Cell>Description</Cell>
+    </TableHeader>
+    {units.map(curry(generateRowFromUnit)(categories))}
+  </Table>
+);
 
 export default class UnitDashboard extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -128,22 +133,22 @@ export default class UnitDashboard extends React.Component<Props, State> {
     };
   }
 
-  setEditingState = (isBeingEdited: boolean) => {
-    this.setState({isBeingEdited});
-  }
+  // setEditingState = (isBeingEdited: boolean) => {
+  //   this.setState({isBeingEdited});
+  // }
 
-  displayAddButton = () => {
-    if (this.state.isBeingEdited) {
-      return null;
-    }
-    return (
-      <GhostButton
-        onClick={() => this.setEditingState(true)}
-      >
-        New Unit
-      </GhostButton>
-    );
-  }
+  // displayAddButton = () => {
+  //   if (this.state.isBeingEdited) {
+  //     return null;
+  //   }
+  //   return (
+  //     <GhostButton
+  //       onClick={() => this.setEditingState(true)}
+  //     >
+  //       New Unit
+  //     </GhostButton>
+  //   );
+  // }
 
   closeForm = () => {
     this.setState({
@@ -158,22 +163,21 @@ export default class UnitDashboard extends React.Component<Props, State> {
 
   render = () => {
     return (
-      <Container>
-        <Header>
-          <div>Units</div>
-          {this.displayAddButton()}
-        </Header>
-        <FormContainer
-          shouldDisplay={this.state.isBeingEdited}
-        >
-          <UnitForm
-            submitAction={this.submitForm}
-            cancelAction={this.closeForm}
-          />
-          <HorizontalRule/>
-        </FormContainer>
-        {generateTableFromUnits(this.props.units)}
-      </Container>
+      <>
+        <SectionTitle>Units</SectionTitle>
+        <Container>
+          <FormContainer
+            shouldDisplay={this.state.isBeingEdited}
+          >
+            <UnitForm
+              submitAction={this.submitForm}
+              cancelAction={this.closeForm}
+            />
+            <HorizontalRule/>
+          </FormContainer>
+          {generateTableFromUnits(this.props.units, this.props.categories)}
+        </Container>
+      </>
     );
   }
 }

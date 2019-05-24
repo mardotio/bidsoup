@@ -1,16 +1,14 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import HorizontalRule from '@app/components/HorizontalRule';
-import Table from '@taskItem/components/Table';
 import PriceBreakdown from '@taskItem/components/PriceBreakdown';
 import CategoryChip from '@taskItem/components/CategoryChip';
 import Items from '@taskItem/components/Items';
 import EditTaskFormContainer from '@taskItem/containers/EditTaskFormContainer';
-import ActionHeader from '@app/components/ActionHeader';
 import DangerActionModal from '@app/components/DangerActionModal';
 import ModalContainer from '@app/containers/ModalContainer';
 import ChildTasks from '@taskItem/components/ChildTasks';
-import { theme } from '@utils/color';
+import { Color, theme } from '@utils/color';
 import { isEmpty, includes } from '@utils/utils';
 import { StandardizedItem } from '@utils/conversions';
 import { singularOrPlural } from '@utils/styling';
@@ -44,29 +42,34 @@ const Container = styled.div`
   }
 `;
 
-const ItemWrapper = styled.div`
-  padding: 0 2em;
-`;
-
 const ChipContainer = styled.div`
   display: flex;
   flex: 1;
   flex-wrap: wrap;
 `;
 
-const FilterTitle = styled.div`
-  font-size: 1.2em;
-  color: ${theme.text.dark.hex};
-  padding-right: 1em;
-`;
-
 const FilterContainer = styled.div`
   display: flex;
   margin-top: 1em;
+  background-color: ${Color.shade(0).hex};
+  padding: 1em;
 `;
 
 const ModalDescription = styled.div`
   padding-bottom: 1em;
+`;
+
+const SectionTitle = styled.div`
+  margin-top: 1em;
+  color: ${theme.primary.hex};
+  &:after {
+    content: "";
+    width: 3em;
+    height: 1px;
+    background-color: ${theme.components.darkBorder.hex};
+    display: block;
+    margin-top: .2em;
+  }
 `;
 
 const columns: {
@@ -84,6 +87,10 @@ const columns: {
   {
     name: 'price',
     style: 'currency'
+  },
+  {
+    name: 'category',
+    style: 'default'
   },
   {
     name: 'total',
@@ -113,10 +120,6 @@ export default class TaskDetails extends React.Component<Props, State> {
     }
   }
 
-  showConfirmModal = () => {
-    this.props.showModal('deleteTaskModal');
-  }
-
   hideConfirmModal = () => {
     this.props.hideModal('deleteTaskModal');
   }
@@ -140,27 +143,12 @@ export default class TaskDetails extends React.Component<Props, State> {
     });
   }
 
-  createTable() {
-    if (isEmpty(this.props.items)) {
-      return null;
-    }
-    return (
-      <Table
-        columns={columns}
-        rows={this.state.items}
-      />
-    );
-  }
-
   categoryFilters() {
     if (isEmpty(this.props.items)) {
       return null;
     }
     return (
       <FilterContainer>
-        <FilterTitle>
-          Category:
-        </FilterTitle>
         <ChipContainer>
           {this.generateCategoryChips()}
         </ChipContainer>
@@ -234,31 +222,24 @@ export default class TaskDetails extends React.Component<Props, State> {
     return (
       <Container>
         {this.modal()}
-        <ActionHeader
-          options={[
-            {icon: 'clear', action: this.props.unselectTask},
-            {icon: 'delete', danger: true, action: this.showConfirmModal},
-            {icon: 'link'}
-          ]}
-        />
         <EditTaskFormContainer/>
-        <ItemWrapper>
-          <HorizontalRule />
+        <div>
+          <SectionTitle>Filters</SectionTitle>
           {this.categoryFilters()}
-          <PriceBreakdown
-            {...this.itemPriceBreakdown()}
-          />
-          <ChildTasks
-            tasks={this.props.selectedTask.children}
-            parent={this.props.selectedTask.url}
-            goToTask={this.props.goToTask}
-          />
-          <Items
-            columns={columns}
-            items={this.state.items}
-            categories={this.props.categories}
-          />
-        </ItemWrapper>
+        </div>
+        <PriceBreakdown
+          {...this.itemPriceBreakdown()}
+        />
+        <ChildTasks
+          tasks={this.props.selectedTask.children}
+          parent={this.props.selectedTask.url}
+          goToTask={this.props.goToTask}
+        />
+        <Items
+          columns={columns}
+          items={this.state.items}
+          categories={this.props.categories}
+        />
       </Container>
     );
   }

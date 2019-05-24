@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import BidSelector from '@dashboard/components/BidSelector';
 import { AppState, Bid, Customer } from '@app/types/types';
-import { Dispatch } from 'redux';
 import { Actions as uiActions } from '@app/actions/uiActions';
+import { Actions, fetchBidListByAccount, fetchCustomerList } from '@dashboard/actions/bidActions';
+import { ThunkDispatch } from 'redux-thunk';
 
 const bidsWithCustomer = (bids: Bid[], customers: Customer[]) => (
   bids.map(bid => {
@@ -19,9 +20,13 @@ const mapStateToProps = ({bids, customers, account}: AppState) => ({
   account: account.data,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, never, Actions | uiActions>) => ({
   showModal: (modalId: string) => dispatch(uiActions.showModal(modalId)),
-  hideModal: (modalId: string) => dispatch(uiActions.hideModal(modalId))
+  hideModal: (modalId: string) => dispatch(uiActions.hideModal(modalId)),
+  loadBids: () => (
+    dispatch(fetchCustomerList())
+      .then(() => dispatch(fetchBidListByAccount()))
+  )
 });
 
 const BidSelectorContainer = connect(mapStateToProps, mapDispatchToProps)(BidSelector);

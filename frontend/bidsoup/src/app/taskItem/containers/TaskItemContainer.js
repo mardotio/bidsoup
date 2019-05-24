@@ -1,13 +1,9 @@
 import { connect } from 'react-redux';
 import TaskItem from '../components/TaskItem';
-import { fetchApi } from '@taskItem/actions/apiActions';
-import { Actions as tasksActions, createBidTask, selectBidTaskByUuid, deleteBidTask } from '@taskItem/actions/bidTasksActions';
-import { fetchAccount } from '@app/actions/accountActions';
+import { Actions as tasksActions, selectBidTaskByUuid, deleteBidTask } from '@taskItem/actions/bidTasksActions';
 import { Actions as uiActions } from '@app/actions/uiActions';
-import { Actions as bidActions, setAndFetchBidByKey, fetchBidListByAccount } from '@dashboard/actions/bidActions'
-import { createTaskItem } from '@taskItem/actions/bidItemsActions';
-import componentsActions from '../actions/bidComponentsActions';
-import { isEmpty, nestedFind, isDefined, isUndefined } from '@utils/utils';
+import { setAndFetchBidByKey, fetchBidListByAccount } from '@dashboard/actions/bidActions'
+import { isEmpty, isDefined, isUndefined } from '@utils/utils';
 import { array2HashByKey } from '@utils/sorting';
 import { normalizeItem } from '@utils/conversions';
 
@@ -18,10 +14,6 @@ const getTaskItems = (items, task) => {
   }
   return items[task.url];
 };
-
-const categoriesWithItems = (items, categories) => (
-  categories.filter(category => items.some(item => item.category === category.url))
-)
 
 const buildTask = (task, items) => {
   const sumCost = isDefined(items[task.url])
@@ -94,9 +86,7 @@ const mapStateToProps = ({account, bidData, bids}, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     loadPage: () => (
-      dispatch(fetchApi())
-        .then(() => dispatch(fetchAccount(ownProps.match.params.account)))
-        .then(() => dispatch(fetchBidListByAccount()))
+      dispatch(fetchBidListByAccount())
         .then(() => dispatch(setAndFetchBidByKey(Number(ownProps.match.params.bid))))
         .then(() => {
           if (ownProps.match.params.task) {
@@ -104,14 +94,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           }
         })
     ),
-    fetchBidList: () =>
-      dispatch(fetchBidListByAccount()),
     setCurrentBid: (bid) =>
       dispatch(setAndFetchBidByKey(Number(bid))),
     selectTask: (task) =>
       dispatch(selectBidTaskByUuid(task)),
-    clearSelectedTask: () =>
-      dispatch(tasksActions.clearSelectedBidTask()),
     showModal: (modalId) => dispatch(uiActions.showModal(modalId)),
     hideModal: (modalId) => dispatch(uiActions.hideModal(modalId)),
     deleteTask: (taskUrl) => dispatch(deleteBidTask(taskUrl)),

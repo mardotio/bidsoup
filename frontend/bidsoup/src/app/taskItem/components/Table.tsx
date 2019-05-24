@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import TableRow from '@taskItem/components/TableRow';
 import TableHeader from '@taskItem/components/TableHeader';
 import { StandardizedItem } from '@utils/conversions';
+import { Category } from '@app/types/types';
 
 interface Props {
   columns: {
@@ -10,6 +11,7 @@ interface Props {
     style: 'currency' | 'text' | 'number' | 'default';
   }[];
   rows: StandardizedItem[];
+  categories: Category[];
 }
 
 interface State {
@@ -22,7 +24,6 @@ const TableWrapper = styled.div`
   flex-direction: column;
   min-width: 500px;
   width: 100%;
-  padding: 1em 0;
   height: min-content;
   box-sizing: border-box;
 `;
@@ -62,7 +63,11 @@ export default class Table extends React.Component<Props, State> {
 
   dataSort() {
     let {sortBy, reverse} = this.state;
-    let rows = [...this.props.rows];
+    let rows = [
+      ...this.props.rows.map(r =>
+        ({...r, category: this.props.categories.find(f => f.url === r.category)!.name})
+      )
+    ];
     if (sortBy) {
       let style = this.props.columns.reduce(
         (colStyle, col) => (

@@ -8,12 +8,14 @@ import BidCard from '@dashboard/components/BidCard';
 import { Bid, Account } from '@app/types/types';
 import { theme } from '@utils/color';
 import { Option } from 'fp-ts/lib/Option';
+import { isDefined, isEmpty } from '@utils/utils';
 
 interface Props {
   bids: Bid[];
   account: Option<Account>;
   showModal: (modalId: string) => void;
   hideModal: (modalId: string) => void;
+  loadBids: () => Promise<void>;
 }
 
 const FabContainer = styled.div`
@@ -23,7 +25,7 @@ const FabContainer = styled.div`
   z-index: 500;
 `;
 
-const generateBidCards = ({bids, account}: Props) => (
+const generateBidCards = ({ bids, account }: Props) => (
   account.map(a =>
     bids.map(bid => (
       <BidCard
@@ -57,6 +59,15 @@ const bidForm = ({showModal, hideModal}: Props) => (
 );
 
 const BidSelector = (props: Props) => {
+  React.useEffect(
+    () => {
+      if (isEmpty(props.bids) && isDefined(props.account)) {
+        props.loadBids();
+      }
+    },
+    [props.account]
+  )
+
   let cards = props.bids.length === 0
     ? [<div key={1}>Nothing to see here</div>]
     : generateBidCards(props);

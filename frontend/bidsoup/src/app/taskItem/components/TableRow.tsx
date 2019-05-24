@@ -13,8 +13,14 @@ interface Props {
 }
 
 const Row = styled.div`
-  display: flex;
+  display: grid;
   font-size: 1em;
+  grid-template-columns:
+    [description] 30%
+    [quantity] 15%
+    [price] 15%
+    [category] 20%
+    [total] 20%;
   border-bottom: 1px solid ${theme.interactions.hover.hex};
   &:hover {
     background-color: ${theme.interactions.hover.hex};

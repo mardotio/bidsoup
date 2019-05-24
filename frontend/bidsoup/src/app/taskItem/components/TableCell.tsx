@@ -29,17 +29,7 @@ const Cell = styled.div<CellProps>`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  flex-grow: ${props => {
-    if (props.category === 'description') {
-      return '2';
-    } else if (props.category === 'quantity') {
-      return '.75';
-    } else {
-      return '1';
-    }
-  }};
   cursor: pointer;
-  flex-shrink: ${props => props.category === 'description' ? '2' : '1'};
   display: ${props => props.cellStyle === 'header' ? 'flex' : 'initial'};
   align-items: center;
 `;

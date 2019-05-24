@@ -8,7 +8,6 @@ import { theme } from '@utils/color';
 import { isUndefined, isDefined, isEmpty } from '@utils/utils';
 import { Bid, Category, BidTask } from '@app/types/types';
 import { StandardizedItem } from '@utils/conversions';
-import { Actions as BidActions } from '@dashboard/actions/bidActions';
 
 interface StandardizedTask extends BidTask {
   containedCost: number;
@@ -29,10 +28,8 @@ interface Props {
     push: (url: string) => void;
   };
   loadPage: () => Promise<void>;
-  fetchBidList: () => Promise<BidActions>;
   setCurrentBid: (bid: string) => void;
   selectTask: (task: string) => void;
-  clearSelectedTask: () => void;
   showModal: (modalId: string) => void;
   hideModal: (modalId: string) => void;
   deleteTask: (taskUrl: string) => Promise<void>;
@@ -47,7 +44,7 @@ interface ItemContentProps {
   shouldDisplay: boolean;
 }
 
-const ViewConatiner = styled.div`
+const ViewContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 95%;
@@ -69,7 +66,7 @@ const TaskContent = styled(Card)`
   }
 `;
 
-const ItemContent = styled(Card)<ItemContentProps>`
+const ItemContent = styled.div<ItemContentProps>`
   display: flex;
   justify-content: center;
   overflow: hidden;
@@ -77,7 +74,7 @@ const ItemContent = styled(Card)<ItemContentProps>`
     ? '20px'
     : '0'
   )};
-  transition: flex .3s ease;
+  transition: flex .3s ease-in-out;
   flex: ${({shouldDisplay}) => (shouldDisplay
     ? '1'
     : '0'
@@ -102,25 +99,23 @@ class TaskItem extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    if (isEmpty(this.props.account)) {
+    if (!isEmpty(this.props.account) && isEmpty(this.props.bids)) {
       this.props.loadPage();
     }
     if (this.props.selectedTask) {
-      let uuid = this.props.selectedTask.url.match(/(?<=bidtasks\/)[0-9a-z-]+/i)![0];
+      let uuid = this.props.selectedTask.url.match(/[0-9a-z]{8}-[0-9a-z-]+/i)![0];
       this.props.history.push(`/${this.props.account}/bids/${this.props.selectedBid}/tasks/${uuid}`);
     }
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (isDefined(prevProps.selectedTask) && isUndefined(this.props.selectedTask)) {
+    if (prevProps.account !== this.props.account) {
+     this.props.loadPage();
+    } else if (isDefined(prevProps.selectedTask) && isUndefined(this.props.selectedTask)) {
       this.props.history.push(`/${this.props.account}/bids/${this.props.selectedBid}/tasks`);
-    } else if (prevProps.task !== this.props.task) {
+    } else if (this.props.task && prevProps.task !== this.props.task) {
       this.props.selectTask(this.props.task);
     }
-  }
-
-  getBidUrl() {
-    return this.props.bids.find(bid => bid.key === Number(this.props.selectedBid))!.url;
   }
 
   goToTask = (taskUuid: string) => {
@@ -173,7 +168,7 @@ class TaskItem extends React.Component<Props, State> {
   render() {
     return (
       <React.Fragment>
-        <ViewConatiner>
+        <ViewContainer>
           <TaskContent>
             <TaskTree
               tasks={this.props.tasks}
@@ -186,7 +181,7 @@ class TaskItem extends React.Component<Props, State> {
           >
             {this.displayTaskItems()}
           </ItemContent>
-        </ViewConatiner>
+        </ViewContainer>
       </React.Fragment>
     );
   }

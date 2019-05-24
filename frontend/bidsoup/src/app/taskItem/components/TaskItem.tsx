@@ -30,7 +30,6 @@ interface Props {
   loadPage: () => Promise<void>;
   setCurrentBid: (bid: string) => void;
   selectTask: (task: string) => void;
-  clearSelectedTask: () => void;
   showModal: (modalId: string) => void;
   hideModal: (modalId: string) => void;
   deleteTask: (taskUrl: string) => Promise<void>;
@@ -67,7 +66,7 @@ const TaskContent = styled(Card)`
   }
 `;
 
-const ItemContent = styled(Card)<ItemContentProps>`
+const ItemContent = styled.div<ItemContentProps>`
   display: flex;
   justify-content: center;
   overflow: hidden;

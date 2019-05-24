@@ -5,7 +5,7 @@ import Table from '@taskItem/components/Table';
 import HorizontalRule from '@app/components/HorizontalRule';
 import { StandardizedItem } from '@utils/conversions';
 import { Category } from '@app/types/types';
-import { theme } from '@utils/color';
+import { Color, theme } from '@utils/color';
 import NewItemFormContainer from '../containers/NewItemFormContainer';
 
 interface Props {
@@ -25,19 +25,24 @@ interface FormContainerProps {
   shouldDisplay: boolean;
 }
 
-const Container = styled.div`
+const SectionTitle = styled.div`
+  margin-top: 1em;
+  color: ${theme.primary.hex};
+  &:after {
+    content: "";
+    width: 3em;
+    height: 1px;
+    background-color: ${theme.components.darkBorder.hex};
+    display: block;
+    margin-top: .2em;
+  }
 `;
+
 
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
-
-const Title = styled.div`
-  color: ${theme.text.medium.hex};
-  font-size: 1.25em;
-  padding: .3em 0;
 `;
 
 const overflowAnimation = () => {
@@ -59,6 +64,12 @@ const FormContainer = styled.div<FormContainerProps>`
   )};
 `;
 
+const ItemsContainer = styled.div`
+  padding: 1em;
+  margin-top: 1em;
+  background-color: ${Color.shade(0).hex};
+`;
+
 class Items extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -77,16 +88,17 @@ class Items extends React.Component<Props, State> {
 
   render() {
     return (
-      <Container>
+      <div>
         <Header>
-          <Title>Items</Title>
+          <div>
+            <SectionTitle>Items</SectionTitle>
+          </div>
           <GhostButton
             onClick={this.displayForm}
           >
             Add Item
           </GhostButton>
         </Header>
-        <HorizontalRule/>
         <FormContainer
           shouldDisplay={this.state.isBeingEdited}
         >
@@ -96,11 +108,14 @@ class Items extends React.Component<Props, State> {
           />
           <HorizontalRule/>
         </FormContainer>
-        <Table
-          columns={this.props.columns}
-          rows={this.props.items}
-        />
-      </Container>
+        <ItemsContainer>
+          <Table
+            columns={this.props.columns}
+            rows={this.props.items}
+            categories={this.props.categories}
+          />
+        </ItemsContainer>
+      </div>
     );
   }
 }

@@ -94,7 +94,7 @@ export default class Table extends React.Component<Props, State> {
     let rows = sortedRows.map(row => {
       return (
         <TableRow
-          key={this.props.rows.indexOf(row)}
+          key={row.url}
           keys={this.props.columns}
           row={row}
         />);

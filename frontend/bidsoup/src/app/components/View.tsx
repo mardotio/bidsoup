@@ -2,10 +2,11 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import AppHeader from '@app/components/AppHeader';
-import { theme } from '@utils/color';
-import { isEmpty } from '@app/utils/utils';
-import BidView from '@app/components/BidView';
 import BidSelectorContainer from '@dashboard/containers/BidSelectorContainer';
+import BidView from '@app/components/BidView';
+import { User } from '@app/types/types';
+import { isEmpty } from '@app/utils/utils';
+import { theme } from '@utils/color';
 
 const Container = styled.div`
   display: flex;
@@ -25,14 +26,17 @@ const BodyContainer = styled.div`
 interface Props {
   bid: number;
   account: string;
+  user: User;
   loadAccount: () => Promise<never>;
+  loadUser: () => Promise<never>;
 }
 
 const View = (props: Props) => {
   React.useEffect(
     () => {
       if (isEmpty(props.account)) {
-        props.loadAccount();
+        props.loadAccount()
+          .then(() => props.loadUser());
       }
     },
     [props.account]
@@ -43,10 +47,10 @@ const View = (props: Props) => {
       <h1>Loading...</h1>
     );
   }
+
   return (
     <Container>
-      {/* TODO: Get name from backend */}
-      <AppHeader username="Ettore Boiardi"/>
+      <AppHeader username={`${props.user.firstName} ${props.user.lastName}`}/>
       <BodyContainer id="body-container">
         <Switch>
           <Route path="/:account/bids/:bid" component={BidView}/>

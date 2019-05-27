@@ -1,18 +1,16 @@
 import { ActionsUnion, createAction } from '@utils/reduxUtils';
 import { ThunkAction } from 'redux-thunk';
 import { AppState, User } from '@app/types/types';
-import { Http } from '@utils/http';
-import { array, Decoder, object, string } from '@mojotech/json-type-validation';
-import { none, some } from 'fp-ts/lib/Option';
+import { Http2, HttpError2 } from '@utils/http';
+import * as t from 'io-ts';
+import { pipe, curry } from 'fp-ts/lib/function';
 
-const userAccountDecoder: Decoder<User> = object({
-  username: string(),
-  firstName: string(),
-  lastName: string(),
-  email: string(),
-});
-
-const userAccountListDecoder = array(userAccountDecoder);
+const accountList = t.array(t.type({
+  username: t.string,
+  firstName: t.string,
+  lastName: t.string,
+  email: t.string,
+}));
 
 export const REQUEST_USER_ACCOUNT = 'REQUEST_USER_ACCOUNT';
 export const RECEIVE_USER_ACCOUNT = 'RECEIVE_USER_ACCOUNT';
@@ -33,15 +31,15 @@ export const fetchUserAccount = (): ThunkAction<Promise<UserAccountActions>, App
   async (dispatch, getState) => (
     getState().api.endpoints.map(async e => {
       dispatch(UserAccountActions.requestUserAccount());
-      return ((await Http.getJson(e.users, json => {
-        let response = userAccountListDecoder.run(json);
-        if (response.ok && response.result.length === 1) {
-          return some(response.result[0]);
-        }
-        return none;
-      })))
-      .map<UserAccountActions>(a => dispatch(UserAccountActions.receiveUserAccount(a)))
-      .getOrElse(dispatch(UserAccountActions.receiveUserAccountFailure()));
+
+      return pipe(
+        Http2.get,
+        curry(Http2.filterCodes)([200]),
+        curry(Http2.decodeJson)(accountList)
+      )(e.users)
+        .filterOrElse(u => u.length === 0, {} as HttpError2)
+        .map<UserAccountActions>(u => dispatch(UserAccountActions.receiveUserAccount(u[0])))
+        .getOrElse(dispatch(UserAccountActions.receiveUserAccountFailure())).run();
     })
     .getOrElseL(() => Promise.reject())
   )

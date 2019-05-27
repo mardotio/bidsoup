@@ -6,12 +6,20 @@ import { LoginState } from '../login/reducers/loginReducer';
 import { UiState } from '@app/reducers/uiReducer';
 import { UnitState } from '@taskItem/reducers/unitTypeReducer';
 import { BidItemsState } from '@app/taskItem/reducers/bidItemsReducer';
+import { UserAccountState } from '@app/reducers/userAccountReducer';
 
 export interface Account {
   bids: string;
   name: string;
   slug: string;
   url: string;
+}
+
+export interface User {
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
 }
 
 export interface Bid {
@@ -112,4 +120,5 @@ export interface AppState {
   ui: UiState;
   account: AccountState;
   login: LoginState;
+  user: UserAccountState;
 }

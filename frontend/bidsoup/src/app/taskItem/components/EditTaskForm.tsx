@@ -32,8 +32,11 @@ const Container = styled.div`
 `;
 
 const TaskTitleContainer = styled.div`
-  display: grid;
-  grid-template-columns: 50% 50%;
+  display: flex;
+  align-items: center;
+  span:first-child {
+    flex: 1; 
+  }
 `;
 
 const TaskDescriptionContainer = styled.div`
@@ -103,15 +106,17 @@ export default class EditTaskForm extends React.Component<Props, State> {
     return(
       <Container>
         <TaskTitleContainer>
-          <Input
-            value={this.state.title.value}
-            label="Title"
-            size={1.5}
-            padding={.66}
-            onChange={this.handleFieldChange}
-            error={this.state.title.errorState}
-            onBlur={this.validateAndSubmit}
-          />
+          <span>
+            <Input
+              value={this.state.title.value}
+              label="Title"
+              size={1.5}
+              padding={.66}
+              onChange={this.handleFieldChange}
+              error={this.state.title.errorState}
+              onBlur={this.validateAndSubmit}
+            />
+          </span>
           <ActionHeader options={[
             { icon: 'clear', action: this.props.unselectTask },
             { icon: 'delete', action: () => this.props.showModal('deleteTaskModal'), danger: true },

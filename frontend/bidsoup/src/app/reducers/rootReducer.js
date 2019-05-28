@@ -5,6 +5,7 @@ import uiReducer from '@app/reducers/uiReducer';
 import bidReducer, { customersReducer } from '@dashboard/reducers/bidReducer';
 import { accountReducer } from '@app/reducers/accountReducer';
 import loginReducer from '@app/login/reducers/loginReducer';
+import userAccountReducer from '@app/reducers/userAccountReducer';
 
 const rootReducer = combineReducers({
   api: apiReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   customers: customersReducer,
   ui: uiReducer,
   account: accountReducer,
-  login: loginReducer
+  login: loginReducer,
+  user: userAccountReducer
 });
 
 export default rootReducer;

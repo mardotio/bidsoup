@@ -29,7 +29,7 @@ const Row = styled.div`
   }
 `;
 
-const getCells = ({row, keys,}: Props) => {
+const getCells = ({ row, keys }: Props) => {
   let contents = keys.map(key => {
     return (
       <TableCell

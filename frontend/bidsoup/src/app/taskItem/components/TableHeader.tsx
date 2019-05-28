@@ -11,15 +11,17 @@ interface Props {
 }
 
 const TableRow = styled.div`
-  display: grid;
-  grid-template-columns:
-    [description] 30%
-    [quantity] 15%
-    [price] 15%
-    [category] 20%
-    [total] 20%;
-  font-size: .85em;
   color: ${theme.text.light.hex};
+  column-gap: 2em;
+  cursor: pointer;
+  display: grid;
+  font-size: .85em;
+  grid-template-columns:
+    [description] 3fr
+    [quantity] 1.5fr
+    [price] 1.5fr
+    [category] 1.5fr
+    [total] 2fr;
 `;
 
 const getCells = ({ headers, sortBy, filter, reverseOrder}: Props) => {
@@ -27,7 +29,6 @@ const getCells = ({ headers, sortBy, filter, reverseOrder}: Props) => {
     return (
       <TableCell
         key={header}
-        category={header}
         value={header}
         cellStyle={'header'}
         highlight={header === filter}

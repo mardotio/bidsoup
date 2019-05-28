@@ -2,19 +2,23 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { capitalize, beautifyNumber } from '@utils/styling';
 import { isDefined } from '@utils/utils';
+import { Color, theme } from '@utils/color';
+
+export type CellStyle = 'header' | 'currency' | 'number' | 'text' | 'category' | 'default';
 
 interface Props {
-  category: string;
+  categoryColor?: string;
   value: string | number;
-  cellStyle: 'header' | 'currency' | 'number' | 'text' | 'default';
+  cellStyle: CellStyle;
   highlight?: boolean;
   reverseOrder?: boolean;
   sortBy?: () => void;
 }
 
 interface CellProps {
-  category: string;
+  categoryColor?: string;
   cellStyle: Props['cellStyle'];
+  highlight?: boolean;
 }
 
 interface ArrowProps {
@@ -23,19 +27,21 @@ interface ArrowProps {
 }
 
 const Cell = styled.div<CellProps>`
-  box-sizing: border-box;
-  padding: .8em 1em;
-  flex-basis: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  cursor: pointer;
-  display: ${props => props.cellStyle === 'header' ? 'flex' : 'initial'};
   align-items: center;
-`;
-
-const CurrencySpan = styled.span`
-  float: right;
+  color: ${props => props.highlight ? theme.text.dark.hex : 'inherit'};
+  display: flex;
+  justify-content: ${props => {
+    switch(props.cellStyle) {
+      case 'currency': return 'space-between';
+      case 'number': return 'flex-end';
+      default: return 'normal';
+    }
+  }};
+  overflow: hidden;
+  padding: .8em 1em;
+  text-overflow: ellipsis;
+  transition: color .1s ease;
+  white-space: nowrap;
 `;
 
 const ArrowIcon = styled.i<ArrowProps>`
@@ -51,11 +57,17 @@ const ArrowIcon = styled.i<ArrowProps>`
   )};
 `;
 
-const styleCell = ({value, cellStyle, highlight, reverseOrder}: Props) => {
+const CategoryChip = styled.span`
+  padding: .3em;
+  color: ${Color.shade(0).hex};
+  border-radius: .3em;
+`;
+
+const styleCell = ({value, cellStyle, highlight, reverseOrder, categoryColor}: Props) => {
   switch (cellStyle) {
     case 'header':
       return (
-        <React.Fragment>
+        <>
           {(value as string).toUpperCase()}
           <ArrowIcon
             reverse={reverseOrder!}
@@ -64,14 +76,19 @@ const styleCell = ({value, cellStyle, highlight, reverseOrder}: Props) => {
           >
             arrow_upward
           </ArrowIcon>
-        </React.Fragment>
+        </>
       );
     case 'currency':
       return (
-        <React.Fragment>
-          $<CurrencySpan>{beautifyNumber(value as number, 2)}</CurrencySpan>
-        </React.Fragment>
+        <>
+          <span style={{paddingLeft: '1em'}}>$</span>
+          <span>{beautifyNumber(value as number, 2)}</span>
+        </>
       );
+    case 'category':
+      return (
+        <CategoryChip style={{backgroundColor: `#${categoryColor}`}}>{value}</CategoryChip>
+      )
     case 'number':
       return beautifyNumber(value as number, 2);
     case 'text':
@@ -81,15 +98,16 @@ const styleCell = ({value, cellStyle, highlight, reverseOrder}: Props) => {
   }
 };
 
-const TableCell: React.SFC<Props> = (props) => {
+const TableCell: React.FC<Props> = (props) => {
   let contents = isDefined(props.value)
     ? styleCell(props)
     : props.value;
   return (
     <Cell
-      category={props.category}
+      categoryColor={props.categoryColor}
       onClick={props.sortBy}
       cellStyle={props.cellStyle}
+      highlight={props.highlight}
     >
       {contents}
     </Cell>

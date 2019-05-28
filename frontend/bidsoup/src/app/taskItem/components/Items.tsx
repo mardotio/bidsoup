@@ -11,10 +11,6 @@ import NewItemFormContainer from '../containers/NewItemFormContainer';
 interface Props {
   items: StandardizedItem[];
   categories: Category[];
-  columns: {
-    name: keyof StandardizedItem;
-    style: 'text' | 'number' | 'currency' | 'default';
-  }[];
 }
 
 interface State {
@@ -110,7 +106,6 @@ class Items extends React.Component<Props, State> {
         </FormContainer>
         <ItemsContainer>
           <Table
-            columns={this.props.columns}
             rows={this.props.items}
             categories={this.props.categories}
           />

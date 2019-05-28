@@ -4,12 +4,9 @@ import TableRow from '@taskItem/components/TableRow';
 import TableHeader from '@taskItem/components/TableHeader';
 import { StandardizedItem } from '@utils/conversions';
 import { Category } from '@app/types/types';
+import { CellStyle } from '@taskItem/components/TableCell';
 
 interface Props {
-  columns: {
-    name: string;
-    style: 'currency' | 'text' | 'number' | 'default';
-  }[];
   rows: StandardizedItem[];
   categories: Category[];
 }
@@ -28,18 +25,43 @@ const TableWrapper = styled.div`
   box-sizing: border-box;
 `;
 
+const columns: {
+  name: keyof StandardizedItem;
+  style: CellStyle;
+}[] = [
+  {
+    name: 'description',
+    style: 'text'
+  },
+  {
+    name: 'quantity',
+    style: 'number'
+  },
+  {
+    name: 'price',
+    style: 'currency'
+  },
+  {
+    name: 'category',
+    style: 'category'
+  },
+  {
+    name: 'total',
+    style: 'currency'
+  },
+];
+
 export default class Table extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      sortBy: this.props.columns[0].name,
+      sortBy: columns[0].name,
       reverse: true,
     };
     this.sortBy = this.sortBy.bind(this);
   }
 
   columns2Headers() {
-    let {columns} = this.props;
     let convertedColumns = columns.reduce(
       (row, column) => (
         [...row, column.name]
@@ -69,7 +91,7 @@ export default class Table extends React.Component<Props, State> {
       )
     ];
     if (sortBy) {
-      let style = this.props.columns.reduce(
+      let style = columns.reduce(
         (colStyle, col) => (
           col.name === sortBy
             ? col.style
@@ -95,7 +117,7 @@ export default class Table extends React.Component<Props, State> {
       return (
         <TableRow
           key={row.url}
-          keys={this.props.columns}
+          keys={columns}
           row={row}
         />);
     });

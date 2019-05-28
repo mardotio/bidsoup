@@ -18,6 +18,7 @@ export interface StandardizedItem  extends BidItem {
   total: number;
   markup: number;
   tax: number;
+  categoryColor: string;
 }
 
 // Returns values as percent if defined, otherwise returns 0
@@ -26,7 +27,7 @@ const zeroOrPercent = (value: string | null) => (
 );
 
 export const normalizeItem =
-  (item: BidItem, units: UnitDict, {markupPercent, taxable}: Category, tax: Bid['taxPercent']): StandardizedItem => {
+  (item: BidItem, units: UnitDict, {markupPercent, taxable, color}: Category, tax: Bid['taxPercent']): StandardizedItem => {
     let price = isDefined(item.unitType)
     ? Number(units[item.unitType].unitPrice)
     : Number(item.price);
@@ -41,6 +42,7 @@ export const normalizeItem =
       quantity,
       price,
       total,
+      categoryColor: color,
       tax: calculatedTax,
       markup: (total + calculatedTax) * markup,
       description: item.unitType

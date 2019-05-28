@@ -72,32 +72,6 @@ const SectionTitle = styled.div`
   }
 `;
 
-const columns: {
-  name: keyof StandardizedItem;
-  style: 'text' | 'number' | 'currency' | 'default';
-}[] = [
-  {
-    name: 'description',
-    style: 'text'
-  },
-  {
-    name: 'quantity',
-    style: 'number'
-  },
-  {
-    name: 'price',
-    style: 'currency'
-  },
-  {
-    name: 'category',
-    style: 'default'
-  },
-  {
-    name: 'total',
-    style: 'currency'
-  },
-];
-
 const cannotDeleteMessage = (subtasks: number) => (
   `The selected task has ${subtasks} ${singularOrPlural(subtasks, 'subtask')}
   and cannot be deleted. Please delete any subtasks first to delete this task.`
@@ -236,7 +210,6 @@ export default class TaskDetails extends React.Component<Props, State> {
           goToTask={this.props.goToTask}
         />
         <Items
-          columns={columns}
           items={this.state.items}
           categories={this.props.categories}
         />

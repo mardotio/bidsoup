@@ -42,4 +42,13 @@ const textValidation = (options?: Partial<TextValidation>) => {
   };
 };
 
+export const isEmail = (s: string): boolean => {
+  const emailRegex = new RegExp(''
+    + /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))/.source
+    + /@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.source
+  );
+
+  return s.match(emailRegex) !== null;
+};
+
 export default textValidation;

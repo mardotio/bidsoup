@@ -12,6 +12,7 @@ router.register(r'customers', views.CustomerViewSet, base_name='customer')
 router.register(r'categories', views.CategoryViewSet, base_name='category')
 router.register(r'unittypes', views.UnitTypeViewSet, base_name='unittype')
 router.register(r'users', views.UserViewSet, base_name='user')
+router.register(r'signup', views.SignupViewSet, base_name='signup')
 
 accounts_router = routers.NestedSimpleRouter(router, r'accounts', lookup='account')
 accounts_router.register(r'bids', views.BidViewSet, base_name='account-bid')
@@ -27,6 +28,7 @@ category_router.register(r'biditems', views.BidItemViewSet, base_name='category-
 urlpatterns = [
     path('login/', views.SessionLoginView.as_view()),
     path('csrftoken/', views.get_csrf_token),
+    path('confirm/<link>/', views.confirm_from_magic, name='confirm'),
     path('', include(router.urls)),
     path('', include(accounts_router.urls)),
     path('', include(bids_router.urls)),

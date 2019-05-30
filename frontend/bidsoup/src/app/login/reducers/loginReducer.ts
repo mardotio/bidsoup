@@ -1,5 +1,6 @@
 import { Reducer } from 'redux';
-import * as fromActions from '../actions/loginActions';
+import * as loginActions from '@login/actions/loginActions';
+import * as signupActions from '@login/actions/signupActions';
 
 const enum status {
   loggedIn,
@@ -8,46 +9,58 @@ const enum status {
   authError
 }
 
+export interface LoginErrors {
+  message: string;
+  code: string;
+}
+
 export interface LoginState {
   status: status;
-  errorReasons: object | null;
+  errorReasons: LoginErrors[];
   nextUrl: string;
 }
 
 const defaultState: LoginState = {
   status: status.loggedIn,
-  errorReasons: null,
+  errorReasons: [],
   nextUrl: ''
 };
 
-const loginReducer: Reducer<LoginState> = (state = defaultState, action: fromActions.Actions) => {
+const loginReducer: Reducer<LoginState> =
+    (state = defaultState, action: signupActions.Actions | loginActions.Actions) => {
   switch (action.type) {
-    case fromActions.REQUEST_LOGIN:
+    case loginActions.REQUEST_LOGIN:
       return {
         ...state,
         status: status.inProgress,
-        errorReasons: null
+        errorReasons: []
       };
 
-    case fromActions.LOGIN_SUCCESS:
+    case loginActions.LOGIN_SUCCESS:
       return {
         ...state,
         status: status.loggedIn,
-        errorReasons: null
+        errorReasons: []
       };
 
-    case fromActions.LOGIN_FAILURE:
+    case loginActions.LOGIN_FAILURE:
       return {
         ...state,
         status: status.authError,
         errorReasons: action.payload.errors
       };
 
-    case fromActions.NEEDS_LOGIN:
+    case loginActions.NEEDS_LOGIN:
       return {
         ...state,
         status: status.loggedOut,
         nextUrl: action.payload.nextUrl
+      };
+
+    case signupActions.SIGNUP_ERROR:
+      return {
+        ...state,
+        errorReasons: action.payload.messages
       };
 
     default:

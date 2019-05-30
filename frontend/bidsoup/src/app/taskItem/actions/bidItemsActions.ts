@@ -63,7 +63,7 @@ export const createTaskItem = (bidUrl: string, taskUrl: string, item: Partial<Bi
         })
       })
       .then(handleHttpErrors)
-      .then(json => dispatch(fetchBidItems()))
+      .then(() => dispatch(fetchBidItems()))
       .catch(error => console.log(error));
     }).getOrElseL(() => Promise.reject());
   }

@@ -26,6 +26,7 @@
         "redux-thunk": ["src/definitions/redux-thunk"],
         "@app/*":  ["src/app/*"],
         "@dashboard/*": ["src/app/dashboard/*"],
+        "@login/*": ["src/app/login/*"],
         "@taskItem/*": ["src/app/taskItem/*"],
         "@utils/*": ["src/app/utils/*"],
     },

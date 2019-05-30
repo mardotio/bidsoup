@@ -1,11 +1,11 @@
 import fetch from 'cross-fetch';
-import { createAction, ActionsUnion } from '../../utils/reduxUtils';
+import { createAction, ActionsUnion } from '@utils/reduxUtils';
 import { ThunkAction } from 'redux-thunk';
-import { AppState } from '../../types/types';
+import { AppState } from '@app/types/types';
 import { getCookie } from '@app/utils/utils';
-import { history } from '../../App';
+import { history } from '@app/App';
 import { store } from 'src';
-import { LoginErrors } from '../reducers/loginReducer';
+import { LoginErrors } from '@login/reducers/loginReducer';
 
 export const REQUEST_LOGIN = 'REQUEST_LOGIN';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';

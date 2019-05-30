@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import Login from '../components/Login';
-import { Actions } from '../actions/loginActions';
-import { login as doLogin } from '../actions/loginActions';
-import { signup as doSignup } from '../actions/signupActions';
+import Login from '@login/components/Login';
+import { Actions } from '@login/actions/loginActions';
+import { login as doLogin } from '@login/actions/loginActions';
+import { signup as doSignup } from '@login/actions/signupActions';
 import { AppState } from 'src/app/types/types';
 import { ThunkDispatch } from 'redux-thunk';
 

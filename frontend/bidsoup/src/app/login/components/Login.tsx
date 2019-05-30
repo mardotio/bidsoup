@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { Actions } from '../actions/loginActions';
+import { Actions } from '@login/actions/loginActions';
+import { LoginErrors } from '@login/reducers/loginReducer';
 import { TextField } from '@material-ui/core';
 import { Button } from '@material-ui/core';
 import styled from 'styled-components';
 import { ButtonProps } from '@material-ui/core/Button';
 import { isEmail } from '@app/utils/validation/text';
-import { LoginErrors } from '../reducers/loginReducer';
 
 const Wrapper = styled.div`
   text-align: center;

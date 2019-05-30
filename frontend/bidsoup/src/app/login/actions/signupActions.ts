@@ -3,7 +3,7 @@ import { ThunkAction } from 'redux-thunk';
 import { AppState } from '@app/types/types';
 import { getCookie } from '@app/utils/utils';
 import { history } from '@app/App';
-import { LoginErrors } from '../reducers/loginReducer';
+import { LoginErrors } from '@login/reducers/loginReducer';
 
 export const REQUEST_SIGNUP = 'REQUEST_SIGNUP';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';

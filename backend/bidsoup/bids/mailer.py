@@ -15,7 +15,7 @@ def send_magic_link(magic_link, request):
     text_content = plain_text_template.render(context)
     send_mail('Welcome.',
         text_content,
-        'donotreply@dremnt.com',
+        'donotreply@bidsoup.com',
         (magic_link.user.email,))
 
 def magic_link_to_context(magic, request):

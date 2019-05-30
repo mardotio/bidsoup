@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
-import * as loginActions from '../actions/loginActions';
-import * as signupActions from '../actions/signupActions';
+import * as loginActions from '@login/actions/loginActions';
+import * as signupActions from '@login/actions/signupActions';
 
 const enum status {
   loggedIn,

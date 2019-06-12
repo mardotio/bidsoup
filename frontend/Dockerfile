@@ -2,6 +2,7 @@ FROM node:latest
 RUN mkdir /usr/app
 WORKDIR /usr/app
 COPY bidsoup/package.json /usr/app/
+COPY bidsoup/.yarnclean /usr/app/
 COPY bidsoup/yarn.lock /usr/app/
 RUN yarn install
 COPY bidsoup/tsconfig.json /usr/app/

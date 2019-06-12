@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import InlineTaskFormContainer from '@taskItem/containers/InlineTaskFormContainer';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import { withStyles } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 import { BidTask } from '@app/types/types';
 import { curry } from 'fp-ts/lib/function';
 import { theme } from '@utils/color';

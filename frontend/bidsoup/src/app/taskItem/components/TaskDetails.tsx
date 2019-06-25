@@ -86,14 +86,6 @@ export default class TaskDetails extends React.Component<Props, State> {
     };
   }
 
-  componentDidUpdate(prevProps: Props) {
-    if (this.props.items.length !== prevProps.items.length) {
-      this.setState(prevState => ({
-        items: this.filterItems(prevState.selectedCategories)
-      }));
-    }
-  }
-
   hideConfirmModal = () => {
     this.props.hideModal('deleteTaskModal');
   }
@@ -210,7 +202,7 @@ export default class TaskDetails extends React.Component<Props, State> {
           goToTask={this.props.goToTask}
         />
         <Items
-          items={this.state.items}
+          items={this.filterItems(this.state.selectedCategories)}
           categories={this.props.categories}
         />
       </Container>

@@ -14,6 +14,7 @@ interface Props {
 interface State {
   sortBy: string;
   reverse: boolean;
+  expandedUrl: string | null;
 }
 
 const TableWrapper = styled.div`
@@ -57,6 +58,7 @@ export default class Table extends React.Component<Props, State> {
     this.state = {
       sortBy: columns[0].name,
       reverse: true,
+      expandedUrl: null
     };
     this.sortBy = this.sortBy.bind(this);
   }
@@ -111,6 +113,10 @@ export default class Table extends React.Component<Props, State> {
     return rows;
   }
 
+  setExpandedRow = (url: string | null) => {
+    this.setState({expandedUrl: url});
+  }
+
   render() {
     let sortedRows = this.dataSort();
     let rows = sortedRows.map(row => {
@@ -119,6 +125,9 @@ export default class Table extends React.Component<Props, State> {
           key={row.url}
           keys={columns}
           row={row}
+          expanded={this.state.expandedUrl === row.url}
+          expand={() => this.setExpandedRow(row.url)}
+          contract={() => this.setExpandedRow(null)}
         />);
     });
     return (

@@ -27,7 +27,6 @@ interface Props {
 
 interface State {
   selectedCategories: string[];
-  items: StandardizedItem[];
 }
 
 const Container = styled.div`
@@ -82,7 +81,6 @@ export default class TaskDetails extends React.Component<Props, State> {
     super(props);
     this.state = {
       selectedCategories: this.props.categories.map(cat => cat.url),
-      items: this.props.items
     };
   }
 
@@ -104,7 +102,6 @@ export default class TaskDetails extends React.Component<Props, State> {
       ? this.state.selectedCategories.filter(cat => cat !== catUrl)
       : [...this.state.selectedCategories, catUrl];
     this.setState({
-      items: this.filterItems(selectedCategories),
       selectedCategories
     });
   }
@@ -122,8 +119,8 @@ export default class TaskDetails extends React.Component<Props, State> {
     );
   }
 
-  itemPriceBreakdown() {
-    return this.state.items.reduce(
+  itemPriceBreakdown(items: StandardizedItem[]) {
+    return items.reduce(
       (breakdown, row) => (
         {
           tax: breakdown.tax + row.tax,
@@ -185,6 +182,7 @@ export default class TaskDetails extends React.Component<Props, State> {
   }
 
   render() {
+    const filteredItems = this.filterItems(this.state.selectedCategories);
     return (
       <Container>
         {this.modal()}
@@ -194,7 +192,7 @@ export default class TaskDetails extends React.Component<Props, State> {
           {this.categoryFilters()}
         </div>
         <PriceBreakdown
-          {...this.itemPriceBreakdown()}
+          {...this.itemPriceBreakdown(filteredItems)}
         />
         <ChildTasks
           tasks={this.props.selectedTask.children}
@@ -202,7 +200,7 @@ export default class TaskDetails extends React.Component<Props, State> {
           goToTask={this.props.goToTask}
         />
         <Items
-          items={this.filterItems(this.state.selectedCategories)}
+          items={filteredItems}
           categories={this.props.categories}
         />
       </Container>

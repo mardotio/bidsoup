@@ -1,6 +1,7 @@
 import { BidItem, Category, Bid } from '@app/types/types';
 import { isDefined } from '@utils/utils';
 import { UnitDict } from '@taskItem/actions/unitTypeActions';
+import { capitalize } from '@utils/styling';
 
 /*
   Mutates the given item to include the following:
@@ -54,8 +55,10 @@ export const normalizeItem =
 /*
   Takes the label for a form field and converts it into the name for the field.
   It simply converts all spaces ( ) into dashes (-), and downcases all
-  charaters. For example, Tax Percent would be returned as tax-percent.
+  characters. For example, Tax Percent would be returned as tax-percent.
 */
 export const labelToFieldName = (label: string) => (
   label.replace(/ /g, '-').toLowerCase()
 );
+
+export const idToLabel = (id: string) => (id.split(/(?=[A-Z])/).map(capitalize).join(' '));

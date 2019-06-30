@@ -62,6 +62,16 @@ export class Color {
 
   darken = (percent: number) => (this.adjustColor(-1 * percent));
 
+  toRgb = () => {
+    const rgb = this.rgb;
+    return `rgb(${Object.keys(rgb).map(k => rgb[k]).join(',')})`;
+  }
+
+  toRgba = (alpha: number) => {
+    const rgb = this.rgb;
+    return `rgba(${Object.keys(rgb).map(k => rgb[k]).join(',')},${alpha})`;
+  }
+
   private color: string[];
 
   private hex2Dec = (hex: string) => (Number(parseInt(hex, 16).toString(10)));

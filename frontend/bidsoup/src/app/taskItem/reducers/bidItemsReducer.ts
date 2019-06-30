@@ -27,6 +27,15 @@ const bidItemsReducer: Reducer<BidItemsState> = (state = defaultState, action: f
         list: action.payload,
         lastFetch: Date.now()
       };
+    case fromActions.RECEIVE_BID_ITEM:
+      return {
+        ...state,
+        isFetching: false,
+        list: state.list.map(i => (i.url === action.payload.url
+          ? action.payload
+          : i
+        )),
+      };
     default:
       return state;
   }

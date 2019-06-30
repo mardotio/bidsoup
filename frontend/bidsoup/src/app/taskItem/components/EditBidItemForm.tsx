@@ -260,11 +260,15 @@ class EditBidItemForm extends React.Component<Props, State> {
     </>
   )
 
+  deleteItem = () => {
+    this.props.deleteBidItem().then(this.props.onCancel);
+  }
+
   render() {
     return (
       <Wrapper>
         <DeleteWrapper>
-          <IconButton icon="delete" label="delete-item" size='S' action={this.props.deleteBidItem}/>
+          <IconButton icon="delete" label="delete-item" size='S' action={this.deleteItem}/>
         </DeleteWrapper>
         <FieldsWrapper>
           {isDefined(this.props.item.unitType) ? this.unitItemForm() : this.itemForm()}

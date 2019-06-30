@@ -27,7 +27,6 @@ export class Http {
     return func(await response.json());
   }
 
-   // tslint:disable-next-line:no-any
   public static deleteJson = async <T, K>(uri: string, func: (url: string) => Option<T>) => {
     const response = await fetch(uri, {
       method: 'DELETE',

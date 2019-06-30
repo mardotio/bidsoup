@@ -27,6 +27,8 @@ export const REQUEST_BID_ITEMS = 'REQUEST_BID_ITEMS';
 export const RECEIVE_BID_ITEMS = 'RECEIVE_BID_ITEMS';
 export const RECEIVE_BID_ITEM = 'RECEIVE_BID_ITEM';
 export const RECEIVE_BID_ITEM_FAILURE = 'RECEIVE_BID_ITEM_FAILURE';
+export const DELETE_BID_ITEM = 'DELETE_BID_ITEM';
+export const DELETE_BID_ITEM_FAILURE = 'DELETE_BID_ITEM_FAILURE';
 export const Actions = {
   requestBidItems: () =>
     createAction(REQUEST_BID_ITEMS),
@@ -35,7 +37,11 @@ export const Actions = {
   receiveBidItem: (payload: BidItem) =>
     createAction(RECEIVE_BID_ITEM, payload),
   receiveBidItemFailure: () =>
-    createAction(RECEIVE_BID_ITEM_FAILURE)
+    createAction(RECEIVE_BID_ITEM_FAILURE),
+  deleteBidItem: (payload: BidItem['url']) =>
+    createAction(DELETE_BID_ITEM, payload),
+  deleteBidItemFailure: () =>
+    createAction(DELETE_BID_ITEM_FAILURE)
 };
 export type Actions = ActionsUnion<typeof Actions>;
 
@@ -91,5 +97,16 @@ export const updateBidItem = (item: BidItem):
     }))
     .map<Actions>(a => dispatch(Actions.receiveBidItem(a)))
     .getOrElse(dispatch(Actions.receiveBidItemFailure()))
+  )
+);
+
+export const deleteBidItem = (itemUrl: BidItem['url']):
+  ThunkAction<Promise<Actions | void>, AppState, never, Actions> => (
+  async dispatch => (
+    (await Http.deleteJson(itemUrl, uri => (
+      some(uri)
+    )))
+    .map<Actions>(a => dispatch(Actions.deleteBidItem(a)))
+    .getOrElse(dispatch(Actions.deleteBidItemFailure()))
   )
 );

@@ -10,6 +10,7 @@ import GhostButton from '@app/components/GhostButton';
 import { theme } from '@utils/color';
 import Dropdown, { DropdownOption } from '@app/components/inputs/filled/Dropdown';
 import { fromNullable } from 'fp-ts/lib/Option';
+import IconButton from '@app/components/buttons/IconButton';
 
 interface Props {
   item: BidItem;
@@ -18,6 +19,7 @@ interface Props {
   units: Unit[];
   onSave?: () => void;
   onCancel: () => void;
+  deleteBidItem: () => Promise<void>;
 }
 
 interface State {
@@ -46,6 +48,7 @@ const Wrapper = styled.div`
   border-radius: .3em;
   padding: 1em;
   margin: .5em 0;
+  position: relative;
 `;
 
 const FieldsWrapper = styled.div``;
@@ -66,6 +69,12 @@ const ButtonsWrapper = styled.div`
   span {
     margin-left: 1em;
   }
+`;
+
+const DeleteWrapper = styled.span`
+  position: absolute;
+  top: 0;
+  right: 0;
 `;
 
 const itemToState = (i: BidItem): State['values'] => ({
@@ -254,6 +263,9 @@ class EditBidItemForm extends React.Component<Props, State> {
   render() {
     return (
       <Wrapper>
+        <DeleteWrapper>
+          <IconButton icon="delete" label="delete-item" size='S' action={this.props.deleteBidItem}/>
+        </DeleteWrapper>
         <FieldsWrapper>
           {isDefined(this.props.item.unitType) ? this.unitItemForm() : this.itemForm()}
         </FieldsWrapper>

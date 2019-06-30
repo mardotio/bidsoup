@@ -36,6 +36,12 @@ const bidItemsReducer: Reducer<BidItemsState> = (state = defaultState, action: f
           : i
         )),
       };
+    case fromActions.DELETE_BID_ITEM:
+      return {
+        ...state,
+        isFetching: false,
+        list: state.list.filter(i => i.url !== action.payload)
+      };
     default:
       return state;
   }

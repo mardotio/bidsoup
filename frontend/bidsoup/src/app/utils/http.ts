@@ -26,4 +26,18 @@ export class Http {
     });
     return func(await response.json());
   }
+
+  public static deleteJson = async <T, K>(uri: string, func: (url: string) => Option<T>) => {
+    const response = await fetch(uri, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CsrfToken': getCookie('csrftoken') + ''
+      }
+    });
+    if (response.ok) {
+      return func(uri);
+    }
+    return none;
+  }
 }

@@ -88,7 +88,8 @@ export const deleteBidTask = (taskUrl: string):
     return fetch(taskUrl, {
       method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-CsrfToken': getCookie('csrftoken') + ''
       },
     })
     .then(handleHttpErrors)

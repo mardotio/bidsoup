@@ -82,13 +82,13 @@ export const createTaskItem = (bidUrl: string, taskUrl: string, item: Partial<Bi
 export const updateBidItem = (item: BidItem):
   ThunkAction<Promise<Actions | void>, AppState, never, Actions> => (
   async dispatch => (
-    ((await Http.putJson(item.url, item, json => {
+    (await Http.putJson(item.url, item, json => {
       let typeCheck = bidItemTypeDecoder.run(json);
       if (typeCheck.ok) {
         return some(typeCheck.result);
       }
       return none;
-    })))
+    }))
     .map<Actions>(a => dispatch(Actions.receiveBidItem(a)))
     .getOrElse(dispatch(Actions.receiveBidItemFailure()))
   )

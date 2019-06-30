@@ -9,6 +9,7 @@ import numberValidation from '@utils/validation/number';
 import GhostButton from '@app/components/GhostButton';
 import { theme } from '@utils/color';
 import Dropdown, { DropdownOption } from '@app/components/inputs/filled/Dropdown';
+import { fromNullable } from 'fp-ts/lib/Option';
 
 interface Props {
   item: BidItem;
@@ -70,11 +71,11 @@ const ButtonsWrapper = styled.div`
 const itemToState = (i: BidItem): State['values'] => ({
   category: i.category,
   description: i.description,
-  markupPercent: isDefined(i.markupPercent) ? i.markupPercent : '',
-  notes: isDefined(i.notes) ? i.notes : '',
-  price: isDefined(i.price) ? i.price + '' : '',
+  markupPercent: fromNullable(i.markupPercent).getOrElse(''),
+  notes: fromNullable(i.notes).getOrElse(''),
+  price: fromNullable(i.price).getOrElse('') + '',
   quantity: i.quantity + '',
-  unitType: isDefined(i.unitType) ? i.unitType : ''
+  unitType: fromNullable(i.unitType).getOrElse('')
 });
 
 const defaultErrorState: ErrorObject = {

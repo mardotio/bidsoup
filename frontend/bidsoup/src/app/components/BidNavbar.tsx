@@ -1,8 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { RouteComponentProps } from 'react-router';
-import { matchPath } from 'react-router-dom';
+import { Link, RouteComponentProps, matchPath } from 'react-router-dom';
 import { curry } from 'fp-ts/lib/function';
 import { theme } from '@utils/color';
 

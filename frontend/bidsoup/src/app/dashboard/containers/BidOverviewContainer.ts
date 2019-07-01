@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import BidOverview  from '@dashboard/components/BidOverview';
 import { AppState, Bid, BidItem, Category, Customer, Unit } from '@app/types/types';
 import { UnitDict } from '@taskItem/actions/unitTypeActions';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 import { ThunkDispatch } from 'redux-thunk';
 import { Actions, fetchBidListByAccount, fetchCustomerList, setAndFetchBidByKey } from '@dashboard/actions/bidActions';
 import { createUnitType } from '@dashboard/actions/unitActions';

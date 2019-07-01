@@ -24,7 +24,7 @@ export default class App extends Component {
           <Switch>
             <Route path="/login" component={LoginContainer}/>
             <Route path="/check-email" component={EmailSent}/>
-            <Route path="/" render={() => ViewContainer}/>
+            <Route path="/" component={ViewContainer}/>
           </Switch>
         </Router>
       </StylesProvider>

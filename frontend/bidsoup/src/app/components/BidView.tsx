@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
 import TaskItemContainer from '../taskItem/containers/TaskItemContainer';
 import BidNavbarContainer from '@app/containers/BidNavbarContainer';
 import BidOverviewContainer from '@dashboard/containers/BidOverviewContainer';

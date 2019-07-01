@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import BidNavbar from '@app/components/BidNavbar';
 import { Actions } from '@dashboard/actions/bidActions';
 import { AppState } from '@app/types/types';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 interface DispatchProps {
   clearSelectedBid: () => void;

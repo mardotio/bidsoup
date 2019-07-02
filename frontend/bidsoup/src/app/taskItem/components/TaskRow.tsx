@@ -73,56 +73,35 @@ interface Props {
   onTaskClick(index: string): void;
 }
 
-class TaskRow extends React.Component<Props> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {hovered: false};
-  }
-
-  mouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
-    this.setState({
-      hovered: true
-    });
-  }
-
-  mouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-    this.setState({
-      hovered: false
-    });
-  }
-
-  onArrowClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (this.props.onArrowClick) {
-        this.props.onArrowClick(this.props.url);
-        e.stopPropagation();
-      }
-  }
-
-  render() {
-    let uuid = this.props.url.match(/[0-9a-z]{8}-[0-9a-z-]+/i)![0];
-    return (
-      <Task
-        onMouseEnter={this.mouseEnter}
-        onMouseLeave={this.mouseLeave}
-        onClick={e => this.props.onTaskClick(uuid)}
-      >
-        <Title>
-          <Triangle
-            arrow={this.props.arrow}
-            className="material-icons"
-            onClick={this.onArrowClick}
-            indent={this.props.indent}
-          >
-            arrow_drop_up
-          </Triangle>
-          {this.props.title}
-        </Title>
-        <Cost>
-          ${buildCostString(this.props.cost, this.props.containedCost)}
-        </Cost>
-      </Task>
-    );
+const onArrowClick = (e: React.MouseEvent<HTMLElement>, props: Props) => {
+  if (props.onArrowClick) {
+    props.onArrowClick(props.url);
+    e.stopPropagation();
   }
 }
+
+const TaskRow = (props: Props) => {
+  let uuid = props.url.match(/[0-9a-z]{8}-[0-9a-z-]+/i)![0];
+  return (
+    <Task
+      onClick={() => props.onTaskClick(uuid)}
+    >
+      <Title>
+        <Triangle
+          arrow={props.arrow}
+          className="material-icons"
+          onClick={e => onArrowClick(e, props)}
+          indent={props.indent}
+        >
+          arrow_drop_up
+        </Triangle>
+        {props.title}
+      </Title>
+      <Cost>
+        ${buildCostString(props.cost, props.containedCost)}
+      </Cost>
+    </Task>
+  );
+};
 
 export default TaskRow;

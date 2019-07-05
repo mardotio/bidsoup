@@ -15,7 +15,7 @@ interface Props {
   account: Option<Account>;
   showModal: (modalId: string) => void;
   hideModal: (modalId: string) => void;
-  loadBids: () => Promise<void>;
+  loadBids: () => Promise<unknown>;
 }
 
 const FabContainer = styled.div`
@@ -61,6 +61,7 @@ const bidForm = ({showModal, hideModal}: Props) => (
 const BidSelector = (props: Props) => {
   React.useEffect(
     () => {
+      console.log("where's my selector");
       if (isEmpty(props.bids) && isDefined(props.account)) {
         props.loadBids();
       }

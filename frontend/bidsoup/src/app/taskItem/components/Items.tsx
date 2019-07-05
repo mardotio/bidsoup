@@ -34,7 +34,6 @@ const SectionTitle = styled.div`
   }
 `;
 
-
 const Header = styled.div`
   display: flex;
   justify-content: space-between;

@@ -6,6 +6,9 @@ import { Button } from '@material-ui/core';
 import styled from 'styled-components';
 import { ButtonProps } from '@material-ui/core/Button';
 import { isEmail } from '@app/utils/validation/text';
+import { pipe, curry } from 'fp-ts/lib/function';
+import { Http2, ResponseCodeMap } from '@app/utils/http';
+import * as t from 'io-ts';
 
 const Wrapper = styled.div`
   text-align: center;
@@ -114,6 +117,34 @@ class Login extends React.Component<Props, State> {
     }
   }
 
+  onTest = () => {
+    const expect = t.type({
+      accounts: t.string,
+      biditems: t.string,
+      bids: t.string
+    });
+
+    const codeMap: ResponseCodeMap[] = [
+      {
+        codes: [200],
+        handler: console.log
+      },
+      {
+        codes: [200],
+        handler: (d: unknown) => {
+          expect.decode(d).map(r => {
+            console.log(r.accounts);
+          })
+        }
+      }
+    ];
+
+    pipe(
+      Http2.get,
+      curry(Http2.mapCodes)(codeMap)
+    )('/api/').run();
+  }
+
   isValid = () => this.state.username.length > 3 && this.state.password.length > 6;
 
   handlePasswordKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -168,7 +199,7 @@ class Login extends React.Component<Props, State> {
             <p style={errorStyle}>{this.getErrors()}</p>
           }
           <StyledButton signIn={true} onClick={() => this.onSignIn()} disabled={!this.isValid()}>Sign In</StyledButton>
-          <StyledButton signIn={false} onClick={() => this.onSignUp()} disabled={!this.isValid()}>Sign Up</StyledButton>
+          <StyledButton signIn={false} onClick={() => this.onTest()} disabled={!this.isValid()}>Sign Up</StyledButton>
         </FormBox>
       </Wrapper>
     );

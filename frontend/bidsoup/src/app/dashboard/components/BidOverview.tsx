@@ -15,7 +15,7 @@ interface Props {
   selectedBidId: number;
   units: Unit[];
   createUnitType: (u: Partial<Unit>) => Promise<void>;
-  loadPage: () => Promise<void>
+  loadPage: () => Promise<void>;
 }
 
 const Container = styled.div`

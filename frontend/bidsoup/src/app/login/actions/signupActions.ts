@@ -7,15 +7,15 @@ import { LoginErrors } from '@login/reducers/loginReducer';
 
 export const REQUEST_SIGNUP = 'REQUEST_SIGNUP';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
-export const SIGNUP_ERROR = 'SIGNUP_ERROR';
+export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
 
 export const Actions = {
   requestSignup: () =>
     createAction(REQUEST_SIGNUP),
   signupSuccess: () =>
     createAction(SIGNUP_SUCCESS),
-  signupError: (messages: LoginErrors[]) =>
-    createAction(SIGNUP_ERROR, { messages })
+  signupFailure: (messages: LoginErrors[]) =>
+    createAction(SIGNUP_FAILURE, { messages })
 };
 
 export type Actions = ActionsUnion<typeof Actions>;
@@ -44,7 +44,7 @@ export const signup = (user: string, password: string, email: string):
       history.push('/check-email');
     } else {
       const errors = await response.json();
-      dispatch(Actions.signupError(errors));
+      dispatch(Actions.signupFailure(errors));
     }
   };
 };

@@ -1,19 +1,22 @@
 import { Reducer } from 'redux';
 import * as fromActions from '@dashboard/actions/bidActions';
 import { Bid, Customer } from '@app/types/types';
+import { HttpError } from '@app/utils/http';
 
 export interface BidState {
   list: Bid[];
   isFetching: boolean;
   selectedBid: Bid;
   lastFetch: number | null;
+  lastError: HttpError | null;
 }
 
 const defaultState: BidState = {
   list: [],
   isFetching: false,
   selectedBid: {} as Bid,
-  lastFetch: null
+  lastFetch: null,
+  lastError: null
 };
 
 export interface CustomerState {
@@ -59,6 +62,12 @@ const bidReducer: Reducer<BidState> = (state = defaultState, action: fromActions
         isFetching: false
       };
 
+    case fromActions.RECEIVE_BID_LIST_FAILURE:
+      return {
+        ...state,
+        lastError: action.payload
+      };
+
     case fromActions.REQUEST_CURRENT_BID:
       return {
         ...state,
@@ -81,16 +90,24 @@ const bidReducer: Reducer<BidState> = (state = defaultState, action: fromActions
 export const customersReducer: Reducer<CustomerState> = (state = defaultCustomerState, action: fromActions.Actions) => {
   switch (action.type) {
     case fromActions.REQUEST_CUSTOMER_LIST:
-     return {
-       ...state,
-       isFetching: true
-     };
+      return {
+        ...state,
+        isFetching: true
+      };
+
     case fromActions.RECEIVE_CUSTOMER_LIST:
-     return {
-       list: action.payload.list,
-       isFetching: false,
-       lastFetch: action.payload.fetchTime
-     };
+      return {
+        list: action.payload.list,
+        isFetching: false,
+        lastFetch: action.payload.fetchTime
+      };
+
+    case fromActions.RECEIVE_CUSTOMER_LIST_FAILURE:
+      return {
+        ...state,
+        isFetching: false
+      };
+
     default:
      return state;
   }

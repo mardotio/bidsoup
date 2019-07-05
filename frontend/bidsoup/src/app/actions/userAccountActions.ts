@@ -1,7 +1,7 @@
 import { ActionsUnion, createAction } from '@utils/reduxUtils';
 import { ThunkAction } from 'redux-thunk';
 import { AppState, User } from '@app/types/types';
-import { Http2, HttpError2 } from '@utils/http';
+import { Http2, HttpError } from '@utils/http';
 import * as t from 'io-ts';
 import { pipe, curry } from 'fp-ts/lib/function';
 
@@ -25,7 +25,7 @@ export const UserAccountActions = {
     createAction(RECEIVE_USER_ACCOUNT_FAILURE)
 };
 
-export type UserAccountActions = ActionsUnion<typeof  UserAccountActions>;
+export type UserAccountActions = ActionsUnion<typeof UserAccountActions>;
 
 export const fetchUserAccount = (): ThunkAction<Promise<UserAccountActions>, AppState, never, UserAccountActions> => (
   async (dispatch, getState) => (
@@ -37,7 +37,7 @@ export const fetchUserAccount = (): ThunkAction<Promise<UserAccountActions>, App
         curry(Http2.filterCodes)([200]),
         curry(Http2.decodeJson)(accountList)
       )(e.users)
-        .filterOrElse(u => u.length === 0, {} as HttpError2)
+        .filterOrElse(u => u.length === 0, {} as HttpError)
         .map<UserAccountActions>(u => dispatch(UserAccountActions.receiveUserAccount(u[0])))
         .getOrElse(dispatch(UserAccountActions.receiveUserAccountFailure())).run();
     })

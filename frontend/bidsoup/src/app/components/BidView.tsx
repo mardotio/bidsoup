@@ -15,6 +15,6 @@ const BidView = () => {
       </Switch>
     </>
   );
-}
+};
 
 export default BidView;

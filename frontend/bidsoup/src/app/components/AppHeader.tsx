@@ -50,6 +50,6 @@ const AppHeader = (props: Props) => {
       </UserSection>
     </Container>
   );
-}
+};
 
 export default AppHeader;

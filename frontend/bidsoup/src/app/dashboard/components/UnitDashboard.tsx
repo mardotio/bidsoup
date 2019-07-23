@@ -2,10 +2,11 @@ import * as React from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import HorizontalRule from '@app/components/HorizontalRule';
 import UnitForm from '@dashboard/components/UnitForm';
+import EditUnitFormContainer from '@dashboard/containers/EditUnitFormContainer';
 import { Category, Unit } from '@app/types/types';
 import { Color, theme } from '@utils/color';
 import { beautifyNumber } from '@utils/styling';
-import { curry } from 'fp-ts/lib/function';
+// import { curry } from 'fp-ts/lib/function';
 import { isEmpty } from '@utils/utils';
 
 interface Props {
@@ -21,6 +22,7 @@ interface FormContainerProps {
 interface State {
   isBeingEdited: boolean;
   unit: string | null;
+  selectedUnit: string | null;
 }
 
 const Container = styled.div`
@@ -74,6 +76,7 @@ const Row = styled.ul`
   width: 100%;
   margin: 0;
   border-bottom: 1px solid ${theme.components.border.hex};
+  cursor: pointer;
 `;
 
 const TableHeader = styled(Row)`
@@ -93,26 +96,9 @@ const CategoryChip = styled.span`
   border-radius: 2em;
 `;
 
-const generateRowFromUnit = (categories: Category[], unit: Unit) => {
-  if (isEmpty(categories)) { return null; }
-  const category = categories.find(c => c.url === unit.category) as Category;
-  const catColor = new Color(category.color);
-  return (
-    <Row key={unit.url}>
-      <Cell>{unit.name}</Cell>
-      <Cell>${beautifyNumber(Number(unit.unitPrice), 2)}</Cell>
-      <Cell>{unit.unit}</Cell>
-      <Cell>
-        <CategoryChip style={{backgroundColor: catColor.toRgba(.2), color: catColor.hex}}>
-          {category.name}
-        </CategoryChip>
-      </Cell>
-      <Cell>{unit.description}</Cell>
-    </Row>
-  );
-};
 
-const generateTableFromUnits = (units: Unit[], categories: Category[]) => (
+
+const generateTableFromUnits = (units: Unit[], generateRows: (u: Unit) => void) => (
   <Table>
     <TableHeader>
       <Cell>Name</Cell>
@@ -121,7 +107,7 @@ const generateTableFromUnits = (units: Unit[], categories: Category[]) => (
       <Cell>Category</Cell>
       <Cell>Description</Cell>
     </TableHeader>
-    {units.map(curry(generateRowFromUnit)(categories))}
+    {units.map(generateRows)}
   </Table>
 );
 
@@ -131,6 +117,7 @@ export default class UnitDashboard extends React.Component<Props, State> {
     this.state = {
       isBeingEdited: false,
       unit: null,
+      selectedUnit: null
     };
   }
 
@@ -162,6 +149,35 @@ export default class UnitDashboard extends React.Component<Props, State> {
     this.closeForm();
   }
 
+  editUnit = (u: Unit) => {
+    this.setState({ selectedUnit: u.url });
+  }
+
+  closeSelectedUnit = () => {
+    this.setState({ selectedUnit: null });
+  }
+
+  generateRowFromUnit = (unit: Unit) => {
+    if (isEmpty(this.props.categories)) { return null; }
+    const category = this.props.categories.find(c => c.url === unit.category) as Category;
+    const catColor = new Color(category.color);
+    return this.state.selectedUnit === unit.url
+      ? <EditUnitFormContainer key={unit.url} unit={unit} onCancel={this.closeSelectedUnit}/>
+      : (
+        <Row key={unit.url} onClick={() => this.editUnit(unit)}>
+          <Cell>{unit.name}</Cell>
+          <Cell>${beautifyNumber(Number(unit.unitPrice), 2)}</Cell>
+          <Cell>{unit.unit}</Cell>
+          <Cell>
+            <CategoryChip style={{backgroundColor: catColor.toRgba(.2), color: catColor.hex}}>
+              {category.name}
+            </CategoryChip>
+          </Cell>
+          <Cell>{unit.description}</Cell>
+        </Row>
+      );
+  }
+
   render = () => {
     return (
       <>
@@ -176,7 +192,7 @@ export default class UnitDashboard extends React.Component<Props, State> {
             />
             <HorizontalRule/>
           </FormContainer>
-          {generateTableFromUnits(this.props.units, this.props.categories)}
+          {generateTableFromUnits(this.props.units, this.generateRowFromUnit)}
         </Container>
       </>
     );

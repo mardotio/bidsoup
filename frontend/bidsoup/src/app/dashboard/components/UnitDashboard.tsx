@@ -27,6 +27,7 @@ const Container = styled.div`
   background-color: ${Color.shade(0).hex};
   padding: 1em;
   margin-top: 1em;
+  border-radius: .5em;
 `;
 
 const SectionTitle = styled.div`
@@ -88,21 +89,21 @@ const Cell = styled.li`
 `;
 
 const CategoryChip = styled.span`
-  padding: .3em;
-  color: ${Color.shade(0).hex};
-  border-radius: .3em;
+  padding: .3em .5em;
+  border-radius: 2em;
 `;
 
 const generateRowFromUnit = (categories: Category[], unit: Unit) => {
   if (isEmpty(categories)) { return null; }
   const category = categories.find(c => c.url === unit.category) as Category;
+  const catColor = new Color(category.color);
   return (
     <Row key={unit.url}>
       <Cell>{unit.name}</Cell>
       <Cell>${beautifyNumber(Number(unit.unitPrice), 2)}</Cell>
       <Cell>{unit.unit}</Cell>
       <Cell>
-        <CategoryChip style={{backgroundColor: `#${category.color}`}}>
+        <CategoryChip style={{backgroundColor: catColor.toRgba(.2), color: catColor.hex}}>
           {category.name}
         </CategoryChip>
       </Cell>

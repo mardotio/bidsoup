@@ -21,14 +21,20 @@ const unitTypeReducer: Reducer<UnitState> = (state = defaultState, action: fromA
         ...state,
         isFetching: true,
       };
-
     case fromActions.RECEIVE_UNIT_TYPES:
       return {
         isFetching: false,
         units: action.payload.units,
         lastFetch: action.payload.fetchTime
       };
-
+    case fromActions.RECEIVE_UNIT_TYPE:
+      return {
+        ...state,
+        units: {
+          ...state.units,
+          [action.payload.url]: action.payload
+        }
+      };
     default:
       return state;
   }

@@ -40,4 +40,18 @@ export class Http {
     }
     return none;
   }
+
+  // tslint:disable-next-line:no-any
+  public static optionsJson = async <T, K>(uri: string, func: (json: any) => Option<T>) => {
+    const response = await fetch(uri, {
+      method: 'OPTIONS',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    if (response.ok) {
+      return func(await response.json());
+    }
+    return none;
+  }
 }

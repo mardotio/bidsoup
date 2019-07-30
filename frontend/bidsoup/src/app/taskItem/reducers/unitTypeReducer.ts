@@ -11,7 +11,7 @@ export interface UnitState {
 const defaultState: UnitState = {
   isFetching: false,
   units: {},
-  lastFetch: null
+  lastFetch: null,
 };
 
 const unitTypeReducer: Reducer<UnitState> = (state = defaultState, action: fromActions.Actions) => {
@@ -23,6 +23,7 @@ const unitTypeReducer: Reducer<UnitState> = (state = defaultState, action: fromA
       };
     case fromActions.RECEIVE_UNIT_TYPES:
       return {
+        ...state,
         isFetching: false,
         units: action.payload.units,
         lastFetch: action.payload.fetchTime

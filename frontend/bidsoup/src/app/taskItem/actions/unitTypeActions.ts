@@ -36,18 +36,18 @@ export const RECEIVE_UNIT_TYPE_FAILURE = 'RECEIVE_UNIT_TYPE_FAILURE';
 export const DELETE_UNIT_TYPE = 'DELETE_UNIT_TYPE';
 export const DELETE_UNIT_TYPE_FAILURE = 'DELETE_UNIT_TYPE_FAILURE';
 export const Actions = {
-    requestUnitTypes: () =>
-      createAction(REQUEST_UNIT_TYPES),
-    receiveUnitTypes: (units: UnitDict, fetchTime: number) =>
-      createAction(RECEIVE_UNIT_TYPES, {units, fetchTime}),
-    receiveUnitType: (unit: Unit) =>
-      createAction(RECEIVE_UNIT_TYPE, unit),
-    receiveUnitTypeFailure: () =>
-      createAction(RECEIVE_UNIT_TYPE_FAILURE),
-    deleteUnitType: (unitUrl: Unit['url']) =>
-      createAction(DELETE_UNIT_TYPE, unitUrl),
-    deleteUnitTypeFailure: () =>
-      createAction(DELETE_UNIT_TYPE_FAILURE)
+  requestUnitTypes: () =>
+    createAction(REQUEST_UNIT_TYPES),
+  receiveUnitTypes: (units: UnitDict, fetchTime: number) =>
+    createAction(RECEIVE_UNIT_TYPES, {units, fetchTime}),
+  receiveUnitType: (unit: Unit) =>
+    createAction(RECEIVE_UNIT_TYPE, unit),
+  receiveUnitTypeFailure: () =>
+    createAction(RECEIVE_UNIT_TYPE_FAILURE),
+  deleteUnitType: (unitUrl: Unit['url']) =>
+    createAction(DELETE_UNIT_TYPE, unitUrl),
+  deleteUnitTypeFailure: () =>
+    createAction(DELETE_UNIT_TYPE_FAILURE)
 };
 
 export type Actions = ActionsUnion<typeof Actions>;
@@ -95,11 +95,11 @@ export const updateUnitType = (unit: ExpandedUnit):
 
 export const deleteUnitType = (unitUrl: Unit['url']):
   ThunkAction<Promise<Actions | void>, AppState, never, Actions> => (
-    async dispatch => (
-      (await  Http.deleteJson(unitUrl, uri => (
-        some(uri)
-      )))
-      .map<Actions>(a => dispatch(Actions.deleteUnitType(a)))
-      .getOrElse(dispatch(Actions.deleteUnitTypeFailure()))
-    )
+  async dispatch => (
+    (await  Http.deleteJson(unitUrl, uri => (
+      some(uri)
+    )))
+    .map<Actions>(a => dispatch(Actions.deleteUnitType(a)))
+    .getOrElse(dispatch(Actions.deleteUnitTypeFailure()))
+  )
 );

@@ -162,7 +162,14 @@ export default class UnitDashboard extends React.Component<Props, State> {
     const category = this.props.categories.find(c => c.url === unit.category) as Category;
     const catColor = new Color(category.color);
     return this.state.selectedUnit === unit.url
-      ? <EditUnitFormContainer key={unit.url} unit={unit} onCancel={this.closeSelectedUnit}/>
+      ? (
+        <EditUnitFormContainer
+          key={unit.url}
+          unit={unit}
+          onCancel={this.closeSelectedUnit}
+          onSave={this.closeSelectedUnit}
+        />
+      )
       : (
         <Row key={unit.url} onClick={() => this.editUnit(unit)}>
           <Cell>{unit.name}</Cell>

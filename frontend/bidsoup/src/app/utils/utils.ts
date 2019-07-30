@@ -1,3 +1,5 @@
+import { ErrorObject } from '@utils/validation/shared';
+
 interface ValueWithLength {
   length: number;
 }
@@ -89,3 +91,25 @@ export const handleHttpErrors = (response: Response) => {
 };
 
 export const isNumber = (value: string) => ( /^\d+\.?\d*$/.test(value) );
+
+interface ExpectedState {
+  values: {
+    [k: string]: string | undefined;
+  };
+  validation: {
+    [k: string]: ErrorObject;
+  };
+}
+
+export const setValueAndValidation = <T extends ExpectedState>
+(state: T, field: string, value: string, func: (v: string) => ErrorObject): T => ({
+  ...state,
+  values: {
+    ...state.values,
+    [field]: value
+  },
+  validation: {
+    ...state.validation,
+    [field]: func(value)
+  }
+});

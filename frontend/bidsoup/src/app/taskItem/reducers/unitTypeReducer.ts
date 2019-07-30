@@ -36,6 +36,20 @@ const unitTypeReducer: Reducer<UnitState> = (state = defaultState, action: fromA
           [action.payload.url]: action.payload
         }
       };
+    case fromActions.DELETE_UNIT_TYPE:
+      return {
+        ...state,
+        units: Object.keys(state.units).reduce(
+          (newDict, unitUrl) => {
+            if (unitUrl === action.payload) { return newDict; }
+            return {
+              ...newDict,
+              [unitUrl]: state.units[unitUrl]
+            };
+          },
+          {} as UnitDict
+        )
+      };
     default:
       return state;
   }

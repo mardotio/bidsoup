@@ -6,7 +6,6 @@ import EditUnitFormContainer from '@dashboard/containers/EditUnitFormContainer';
 import { Category, Unit } from '@app/types/types';
 import { Color, theme } from '@utils/color';
 import { beautifyNumber } from '@utils/styling';
-// import { curry } from 'fp-ts/lib/function';
 import { isEmpty } from '@utils/utils';
 
 interface Props {

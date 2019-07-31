@@ -4,13 +4,13 @@ import { Category, Unit } from '@app/types/types';
 import { ErrorObject } from '@utils/validation/shared';
 import Input from '@app/components/inputs/filled/Input';
 import GhostButton from '@app/components/GhostButton';
-import textValidation from '@utils/validation/text';
+import IconButton from '@app/components/buttons/IconButton';
 import Dropdown, { DropdownOption } from '@app/components/inputs/filled/Dropdown';
+import textValidation from '@utils/validation/text';
 import numberValidation from '@utils/validation/number';
 import { theme } from '@utils/color';
 import { setValueAndValidation } from '@utils/utils';
 import { UnitOptions } from '@app/reducers/unitOptionsReducer';
-import IconButton from '@app/components/buttons/IconButton';
 
 interface Props {
   unit: Unit;
@@ -191,7 +191,7 @@ export default class EditUnitForm extends React.Component<Props, State> {
     }).then(this.props.onSave);
   }
 
-  render() {
+  render = () => {
     return (
       <Wrapper>
         <DeleteWrapper>

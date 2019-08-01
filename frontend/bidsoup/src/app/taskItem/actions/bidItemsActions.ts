@@ -66,7 +66,7 @@ export const createBidItem = (bidUrl: string, taskUrl: string, item: Partial<Bid
       item.parent = taskUrl;
       dispatch(Actions.createBidItem());
       return Http2.Defaults.post(e.biditems, item, bidItem)
-        .map<Actions>(item => dispatch(Actions.receiveBidItem(item)))
+        .map<Actions>(i => dispatch(Actions.receiveBidItem(i)))
         .getOrElseL(err => dispatch(Actions.createBidItemFailure(err))).run();
     }).getOrElseL(() => Promise.reject())
   )
@@ -76,7 +76,7 @@ export const updateBidItem = (item: BidItem):
   ThunkAction<Promise<Actions | void>, AppState, never, Actions> => (
   dispatch => (
     Http2.Defaults.put(item.url, item, bidItem)
-      .map<Actions>(item => dispatch(Actions.receiveBidItem(item)))
+      .map<Actions>(i => dispatch(Actions.receiveBidItem(i)))
       .getOrElseL(err => dispatch(Actions.createBidItemFailure(err))).run()
   )
 );

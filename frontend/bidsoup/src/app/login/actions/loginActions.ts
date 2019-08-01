@@ -29,7 +29,7 @@ export const redirectToLogin = (nextUrl: string) => {
   store.dispatch(Actions.needsLogin(nextUrl));
 };
 
-export const login = (user: string, password:string, nextUrl: string):
+export const login = (user: string, password: string, nextUrl: string):
     ThunkAction<Promise<unknown>, AppState, never, Actions> => (
   async dispatch => {
     dispatch(Actions.requestLogin());
@@ -43,7 +43,7 @@ export const login = (user: string, password:string, nextUrl: string):
         return dispatch(Actions.successLogin());
       } else {
         const data = await response.json();
-        return dispatch(Actions.errorLogin(data))
+        return dispatch(Actions.errorLogin(data));
       }
     }).run();
   }

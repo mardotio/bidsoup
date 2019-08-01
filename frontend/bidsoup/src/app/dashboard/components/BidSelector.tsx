@@ -61,13 +61,13 @@ const bidForm = ({showModal, hideModal}: Props) => (
 const BidSelector = (props: Props) => {
   React.useEffect(
     () => {
-      console.log("where's my selector");
+      console.log('where\'s my selector');
       if (isEmpty(props.bids) && isDefined(props.account)) {
         props.loadBids();
       }
     },
     [props.account]
-  )
+  );
 
   let cards = props.bids.length === 0
     ? [<div key={1}>Nothing to see here</div>]

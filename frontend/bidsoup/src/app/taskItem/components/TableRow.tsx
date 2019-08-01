@@ -67,7 +67,7 @@ const renderRowOrForm = (props: Props) => {
     return (
       <EditBidItemFormContainer
         item={standardizedItemToItem(props.row)}
-        onSave={() => { props.contract() }}
+        onSave={props.contract}
         onCancel={props.contract}
       />
     );

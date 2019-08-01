@@ -35,16 +35,18 @@ const Container = styled.div<ButtonProps>`
   ${props => props.active ? hoverStyling : null};
 `;
 
-const clickOnActive = ({onClick, active}: Props) => {
-  const inactive = () => {/*do nothin*/};
-  return active ? onClick : inactive;
+const clickOnActive = ({onClick, active}: Props, e: React.MouseEvent) => {
+  e.stopPropagation();
+  if (active) {
+    onClick();
+  }
 };
 
 const GhostButton: React.SFC<Props> = props => {
   return (
     <Container
       active={props.active}
-      onClick={clickOnActive(props)}
+      onClick={(e) => clickOnActive(props, e)}
       color={props.color!}
     >
       {props.children}

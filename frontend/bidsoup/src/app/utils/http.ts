@@ -16,6 +16,33 @@ export class Http {
     redirectToLogin(next);
     return none;
   }
+
+  // tslint:disable-next-line:no-any
+  public static putJson = async <T, K>(uri: string, body: K, func: (json: any) => Option<T>) => {
+    const response = await fetch(uri, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CsrfToken': getCookie('csrftoken') + ''
+      },
+      body: JSON.stringify(body)
+    });
+    return func(await response.json());
+  }
+
+  public static deleteJson = async <T, K>(uri: string, func: (url: string) => Option<T>) => {
+    const response = await fetch(uri, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CsrfToken': getCookie('csrftoken') + ''
+      }
+    });
+    if (response.ok) {
+      return func(uri);
+    }
+    return none;
+  }
 }
 
 export interface ResponseCodeMap {
@@ -58,18 +85,30 @@ export class Http2 {
   public static post = (uri: string, body: unknown): TaskEither<HttpError, Response> => {
     return tryCatch(
       () => {
-        return fromNullable(getCookie('csrftoken')).map(c =>
-          fetch(uri, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-CsrfToken': c
-            },
-            body: JSON.stringify(body)
-          })
-        ).getOrElseL(() => Promise.reject('Token missing from cookie'));
+        return Http2.createRequestInit('POST', body).map(ri => fetch(uri, ri))
+          .getOrElseL(() => Promise.reject('Token missing from cookie'));
       },
       createPreError);
+  }
+
+  public static put = (uri: string, body: unknown): TaskEither<HttpError, Response> => {
+    return tryCatch(
+      () => {
+        return Http2.createRequestInit('PUT', body).map(ri => fetch(uri, ri))
+          .getOrElseL(() => Promise.reject());
+      },
+      createPreError
+    );
+  }
+
+  public static delete = (uri: string): TaskEither<HttpError, Response> => {
+    return tryCatch(
+      () => {
+        return Http2.createRequestInit('DELETE', null).map(ri => fetch(uri, ri))
+          .getOrElseL(() => Promise.reject());
+      },
+      createPreError
+    );
   }
 
   public static filterCodes = (codes: number[], resp: TaskEither<HttpError, Response>) => (
@@ -103,6 +142,17 @@ export class Http2 {
     return err;
   }
 
+  private static createRequestInit = (method: string, body: unknown) => (
+    fromNullable(getCookie('csrftoken')).map(c => ({
+      method: method,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CsrfToken': c
+      },
+      body: JSON.stringify(body)
+    }))
+  )
+
 }
 
 export namespace Http2 {
@@ -122,6 +172,23 @@ export namespace Http2 {
         curry(Http2.filterCodes)([200, 201]),
         curry(Http2.decodeJson)(decoder)
       )(body)
+      .mapLeft(Http2.handleAuthError)
+    )
+
+    public static put = <T, U>(url: string, body: T, decoder: Decoder<unknown, U>) => (
+      pipe(
+        curry(Http2.put)(url),
+        curry(Http2.filterCodes)([200]),
+        curry(Http2.decodeJson)(decoder)
+      )(body)
+      .mapLeft(Http2.handleAuthError)
+    )
+
+    public static delete = (url: string) => (
+      pipe(
+        Http2.delete,
+        curry(Http2.filterCodes)([204]),
+      )(url)
       .mapLeft(Http2.handleAuthError)
     )
   }

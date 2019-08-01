@@ -35,13 +35,22 @@ const bidItemsReducer: Reducer<BidItemsState> = (state = defaultState, action: f
       return {
         ...state,
         isFetching: false,
-        list: [...state.list, action.payload]
+        list: state.list.map(i => (i.url === action.payload.url
+          ? action.payload
+          : i
+        )),
       };
     case fromActions.CREATE_BID_ITEM_FAILURE:
       return {
         ...state,
         lastError: action.payload
-      }
+      };
+    case fromActions.DELETE_BID_ITEM:
+      return {
+        ...state,
+        isFetching: false,
+        list: state.list.filter(i => i.url !== action.payload)
+      };
     default:
       return state;
   }

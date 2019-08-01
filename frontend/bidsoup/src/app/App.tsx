@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import ViewContainer from '@app/containers/ViewContainer';
 import { create } from 'jss';
-import { Router, Switch, Route } from 'react-router';
+import { Router, Switch, Route } from 'react-router-dom';
 import LoginContainer from './login/containers/LoginContainer';
 import createBrowserHistory from 'history/createBrowserHistory';
 import { EmailSent } from './login/components/EmailSent';

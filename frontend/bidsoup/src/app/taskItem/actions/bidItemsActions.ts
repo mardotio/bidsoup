@@ -26,6 +26,8 @@ export const RECEIVE_BID_ITEMS_FAILURE = 'RECEIVE_BID_ITEMS_FAILURE';
 export const CREATE_BID_ITEM = 'CREATE_BID_ITEM';
 export const RECEIVE_BID_ITEM = 'RECEIVE_BID_ITEM';
 export const CREATE_BID_ITEM_FAILURE = 'CREATE_BID_ITEM_FAILURE';
+export const DELETE_BID_ITEM = 'DELETE_BID_ITEM';
+export const DELETE_BID_ITEM_FAILURE = 'DELETE_BID_ITEM_FAILURE';
 
 export const Actions = {
   requestBidItems: () =>
@@ -39,8 +41,11 @@ export const Actions = {
   receiveBidItem: (payload: BidItem) =>
     createAction(RECEIVE_BID_ITEM, payload),
   createBidItemFailure: (err: HttpError) =>
-    createAction(CREATE_BID_ITEM_FAILURE, err)
-
+    createAction(CREATE_BID_ITEM_FAILURE, err),
+  deleteBidItem: (payload: BidItem['url']) =>
+    createAction(DELETE_BID_ITEM, payload),
+  deleteBidItemFailure: () =>
+    createAction(DELETE_BID_ITEM_FAILURE)
 };
 export type Actions = ActionsUnion<typeof Actions>;
 
@@ -62,7 +67,25 @@ export const createBidItem = (bidUrl: string, taskUrl: string, item: Partial<Bid
       dispatch(Actions.createBidItem());
       return Http2.Defaults.post(e.biditems, item, bidItem)
         .map<Actions>(item => dispatch(Actions.receiveBidItem(item)))
-        .getOrElseL((err) => dispatch(Actions.createBidItemFailure(err))).run();
+        .getOrElseL(err => dispatch(Actions.createBidItemFailure(err))).run();
     }).getOrElseL(() => Promise.reject())
+  )
+);
+
+export const updateBidItem = (item: BidItem):
+  ThunkAction<Promise<Actions | void>, AppState, never, Actions> => (
+  dispatch => (
+    Http2.Defaults.put(item.url, item, bidItem)
+      .map<Actions>(item => dispatch(Actions.receiveBidItem(item)))
+      .getOrElseL(err => dispatch(Actions.createBidItemFailure(err))).run()
+  )
+);
+
+export const deleteBidItem = (itemUrl: BidItem['url']):
+  ThunkAction<Promise<Actions | void>, AppState, never, Actions> => (
+  dispatch => (
+    Http2.Defaults.delete(itemUrl)
+      .map<Actions>(() => dispatch(Actions.deleteBidItem(itemUrl)))
+      .getOrElseL(() => dispatch(Actions.deleteBidItemFailure())).run()
   )
 );

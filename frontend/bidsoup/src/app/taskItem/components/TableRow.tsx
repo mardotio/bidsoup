@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import TableCell, { CellStyle } from '@taskItem/components/TableCell';
 import { theme } from '@utils/color';
 import { StandardizedItem } from '@utils/conversions';
+import { BidItem } from '@app/types/types';
+import EditBidItemFormContainer from '@taskItem/containers/EditBidItemFormContainer';
+import { isDefined } from '@utils/utils';
 
 interface Props {
   keys: {
@@ -10,6 +13,9 @@ interface Props {
     style: CellStyle;
   }[];
   row: StandardizedItem;
+  expanded?: boolean;
+  expand?: () => void;
+  contract: () => void;
 }
 
 const Row = styled.div`
@@ -43,11 +49,41 @@ const getCells = ({ row, keys }: Props) => {
   return contents;
 };
 
-const TableRow = (props: Props) => {
+const standardizedItemToItem = (stdItem: StandardizedItem): BidItem => ({
+  url: stdItem.url,
+  bid: stdItem.bid,
+  unitType: stdItem.unitType,
+  price: isDefined(stdItem.unitType) ? null : stdItem.price,
+  description: stdItem.description,
+  notes: stdItem.notes,
+  category: stdItem.category,
+  markupPercent: stdItem.markupPercent,
+  quantity: stdItem.quantity,
+  parent: stdItem.parent
+});
+
+const renderRowOrForm = (props: Props) => {
+  if (props.expanded) {
+    return (
+      <EditBidItemFormContainer
+        item={standardizedItemToItem(props.row)}
+        onSave={() => { props.contract() }}
+        onCancel={props.contract}
+      />
+    );
+  }
   return (
     <Row>
       {getCells(props)}
     </Row>
+  );
+};
+
+const TableRow = (props: Props) => {
+  return (
+    <div onClick={props.expanded ? undefined : props.expand}>
+      {renderRowOrForm(props)}
+    </div>
   );
 };
 

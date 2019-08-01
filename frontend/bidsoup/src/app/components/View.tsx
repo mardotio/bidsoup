@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Route, Redirect, Switch } from 'react-router-dom';
+import { Route, Redirect, Switch, BrowserRouter } from 'react-router-dom';
 import AppHeader from '@app/components/AppHeader';
 import BidSelectorContainer from '@dashboard/containers/BidSelectorContainer';
 import BidView from '@app/components/BidView';
@@ -52,11 +52,13 @@ const View = (props: Props) => {
     <Container>
       <AppHeader username={`${props.user.firstName} ${props.user.lastName}`}/>
       <BodyContainer id="body-container">
-        <Switch>
-          <Route path="/:account/bids/:bid" component={BidView}/>
-          <Route path="/:account/bids" component={BidSelectorContainer}/>
-          <Route path="/" render={() => <Redirect to={`/${props.account}/bids`}/>}/>
-        </Switch>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/:account/bids/:bid" component={BidView}/>
+            <Route path="/:account/bids" component={BidSelectorContainer}/>
+            <Route path="/" render={() => <Redirect to={`/${props.account}/bids`}/>}/>
+          </Switch>
+        </BrowserRouter>
       </BodyContainer>
     </Container>
   );

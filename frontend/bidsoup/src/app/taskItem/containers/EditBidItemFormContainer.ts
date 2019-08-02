@@ -8,7 +8,7 @@ interface OwnProps {
   item: BidItem;
   onSave?: () => void;
   onCancel: () => void;
-};
+}
 
 interface StateProps {
   categories: Category[];

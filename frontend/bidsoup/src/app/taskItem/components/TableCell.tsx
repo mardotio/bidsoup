@@ -31,7 +31,7 @@ const Cell = styled.div<CellProps>`
   color: ${props => props.highlight ? theme.text.dark.hex : 'inherit'};
   display: flex;
   justify-content: ${props => {
-    switch(props.cellStyle) {
+    switch (props.cellStyle) {
       case 'currency': return 'space-between';
       case 'number': return 'flex-end';
       default: return 'normal';
@@ -88,7 +88,7 @@ const styleCell = ({value, cellStyle, highlight, reverseOrder, categoryColor}: P
     case 'category':
       return (
         <CategoryChip style={{backgroundColor: `#${categoryColor}`}}>{value}</CategoryChip>
-      )
+      );
     case 'number':
       return beautifyNumber(value as number, 2);
     case 'text':

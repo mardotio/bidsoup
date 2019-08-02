@@ -5,7 +5,7 @@ import { isDefined } from '@utils/utils';
 import { Color, theme } from '@utils/color';
 import { idToLabel } from '@utils/conversions';
 
-interface Props extends React.HTMLAttributes<HTMLInputElement>{
+interface Props extends React.HTMLAttributes<HTMLInputElement> {
   id: string;
   label?: string;
   value: string | null;
@@ -30,14 +30,14 @@ const StyledLabel = styled.label<FieldProps>`
 `;
 
 const StyledInput = styled.input<FieldProps>`
-  background-color: ${props => props.hasError ? `${theme.error.toRgba(.3)} !important`: '#f5f8f8'};
+  background-color: ${props => props.hasError ? `${theme.error.toRgba(.3)} !important` : '#f5f8f8'};
   border: 0;
   font-size: 1em;
   border-radius: .3em;
   padding: 1em;
   width: 100%;
   transition: background-color 300ms ease;
-  outline: none; 
+  outline: none;
   color: ${Color.shade(100).hex};
   &:focus + label {
     color: ${theme.text.medium.darken(.2)};
@@ -66,7 +66,7 @@ const getLabel = ( { id, label }: Props) => {
     return label;
   }
   return idToLabel(id);
-}
+};
 
 const getInputName = ({ label, id }: Props) => {
   if (isDefined(id)) {

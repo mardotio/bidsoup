@@ -2,47 +2,51 @@ import { ThunkAction } from 'redux-thunk';
 import { createAction, ActionsUnion } from '@utils/reduxUtils';
 import { Bid, Customer, AppState } from '@app/types/types';
 import componentsActions from '../../taskItem/actions/bidComponentsActions';
-import { Decoder, constant, union, object, string, array, number } from '@mojotech/json-type-validation';
 import { handleHttpErrors, getCookie } from '@utils/utils';
+import * as t from 'io-ts';
+import { Http2, HttpError } from '@app/utils/http';
 
-const bidListDecoder: Decoder<Bid[]> = array(object({
-  url: string(),
-  key: number(),
-  name: string(),
-  description: string(),
-  bidDate: string(),
-  customer: union(string(), constant(null)),
-  taxPercent: union(string(), constant(null))
+const bidList = t.array(t.type({
+  url: t.string,
+  key: t.number,
+  name: t.string,
+  description: t.string,
+  bidDate: t.string,
+  customer: t.union([t.string, t.null]),
+  taxPercent: t.union([t.string, t.null])
 }));
 
-const customerListDecoder: Decoder<Customer[]> = array(object({
-  url: string(),
-  name: string(),
-  email: string(),
-  phone: string()
+const customerList = t.array(t.type({
+  url: t.string,
+  name: t.string,
+  email: t.string,
+  phone: t.string
 }));
 
-const bidDetailDecoder: Decoder<Bid> = object({
-  url: string(),
-  key: number(),
-  name: string(),
-  description: string(),
-  bidDate: string(),
-  customer: union(string(), constant(null)),
-  taxPercent: union(string(), constant(null)),
-  biditems: string(),
-  bidtasks: string(),
-  categories: string(),
+const bidDetail = t.type({
+  url: t.string,
+  key: t.number,
+  name: t.string,
+  description: t.string,
+  bidDate: t.string,
+  customer: t.union([t.string, t.null]),
+  taxPercent: t.union([t.string, t.null]),
+  biditems: t.string,
+  bidtasks: t.string,
+  categories: t.string,
 });
 
 export const CLEAR_SELECTED_BID = 'CLEAR_SELECTED_BID';
 export const SET_CURRENT_BID = 'SET_CURRENT_BID';
 export const REQUEST_BID_LIST = 'REQUEST_BID_LIST';
 export const RECEIVE_BID_LIST = 'RECEIVE_BID_LIST';
+export const RECEIVE_BID_LIST_FAILURE = 'RECEIVE_BID_LIST_FAILURE';
 export const REQUEST_CURRENT_BID = 'REQUEST_CURRENT_BID';
 export const RECEIVE_CURRENT_BID = 'RECEIVE_CURRENT_BID';
+export const RECEIVE_CURRENT_BID_FAILURE = 'RECEIVE_CURRENT_BID_FAILURE';
 export const REQUEST_CUSTOMER_LIST = 'REQUEST_CUSTOMER_LIST';
 export const RECEIVE_CUSTOMER_LIST = 'RECEIVE_CUSTOMER_LIST';
+export const RECEIVE_CUSTOMER_LIST_FAILURE = 'RECEIVE_CUSTOMER_LIST_FAILURE';
 export const Actions = {
   clearSelectedBid: () =>
     createAction(CLEAR_SELECTED_BID),
@@ -50,69 +54,54 @@ export const Actions = {
     createAction(REQUEST_BID_LIST),
   receiveBidList: (list: Bid[], fetchTime: number) =>
     createAction(RECEIVE_BID_LIST, { list, fetchTime }),
+  receiveBidListFailure: (err: HttpError) =>
+    createAction(RECEIVE_BID_LIST_FAILURE, err),
   setCurrentBid: (bid: string) =>
     createAction(SET_CURRENT_BID, { bid }),
   requestCurrentBid: () =>
     createAction(REQUEST_CURRENT_BID),
   receiveCurrentBid: (bid: Bid, fetchTime: number) =>
     createAction(RECEIVE_CURRENT_BID, { bid, fetchTime }),
+  receiveCurrentBidFailure: () =>
+    createAction(RECEIVE_CURRENT_BID_FAILURE),
   requestCustomerList: () =>
     createAction(REQUEST_CUSTOMER_LIST),
   receiveCustomerList: (list: Customer[], fetchTime: number) =>
-    createAction(RECEIVE_CUSTOMER_LIST, { list, fetchTime })
+    createAction(RECEIVE_CUSTOMER_LIST, { list, fetchTime }),
+  receiveCustomerListFailure: () =>
+    createAction(RECEIVE_CUSTOMER_LIST_FAILURE),
 };
 
 export type Actions = ActionsUnion<typeof Actions>;
 
-export const fetchBidListByAccount = (): ThunkAction<Promise<void>, AppState, never, Actions> => (
+export const fetchBidListByAccount = (): ThunkAction<Promise<Actions>, AppState, never, Actions> => (
   (dispatch, getState) =>
     getState().account.data.map(a => {
       dispatch(Actions.requestBidList());
-      return fetch(a.bids)
-        .then(response => response.json())
-        .then(json => {
-          let bids: Bid[] = [];
-          let res = bidListDecoder.run(json);
-          if (res.ok) {
-            bids = res.result;
-          }
-          dispatch(Actions.receiveBidList(bids, Date.now()));
-        });
+      return Http2.Defaults.get(a.bids, bidList)
+        .map<Actions>(bids => dispatch(Actions.receiveBidList(bids, Date.now())))
+        .getOrElseL(err => dispatch(Actions.receiveBidListFailure(err))).run();
     }).getOrElseL(() => Promise.reject())
 );
 
 export const fetchCurrentBid = (): ThunkAction<Promise<Actions>, AppState, never, Actions> => (
   (dispatch, getState) => {
     dispatch(Actions.requestCurrentBid());
-    return fetch(getState().bids.selectedBid.url)
-      .then(response => response.json())
-      .then(json => {
-        let bid = {} as Bid;
-        let res = bidDetailDecoder.run(json);
-        if (res.ok) {
-          bid = res.result;
-        }
-        return dispatch(Actions.receiveCurrentBid(bid, Date.now()));
-      });
+    return Http2.Defaults.get(getState().bids.selectedBid.url, bidDetail)
+      .map<Actions>(b => dispatch(Actions.receiveCurrentBid(b, Date.now())))
+      .getOrElseL(() => dispatch(Actions.receiveCurrentBidFailure())).run();
   }
 );
 
 export const fetchCustomerList = (): ThunkAction<Promise<Actions>, AppState, never, Actions> => (
-  (dispatch, getState) => {
-    return getState().api.endpoints.map(e => {
+  (dispatch, getState) => (
+    getState().api.endpoints.map(e => {
       dispatch(Actions.requestCustomerList());
-      return fetch(e.customers)
-        .then(response => response.json())
-        .then(json => {
-          let customers: Customer[] = [];
-          let res = customerListDecoder.run(json);
-          if (res.ok) {
-            customers = res.result;
-          }
-          return dispatch(Actions.receiveCustomerList(customers, Date.now()));
-        });
-    }).getOrElseL(() => Promise.reject());
-  }
+      return Http2.Defaults.get(e.customers, customerList)
+        .map<Actions>(c => dispatch(Actions.receiveCustomerList(c, Date.now())))
+        .getOrElseL(() => dispatch(Actions.receiveCustomerListFailure())).run();
+    }).getOrElseL(() => Promise.reject())
+  )
 );
 
 // tslint:disable-next-line:no-any
@@ -128,7 +117,8 @@ export const setAndFetchBidByKey = (key: number): ThunkAction<Promise<any>, AppS
   }
 );
 
-export const createBid = (bid: Partial<Bid>): ThunkAction<Promise<void>, AppState, never, Actions> => (
+// TODO return Actions
+export const createBid = (bid: Partial<Bid>): ThunkAction<Promise<any>, AppState, never, Actions> => (
   (dispatch, getState) => (
     getState().account.data.map(a =>
       fetch(a.bids, {

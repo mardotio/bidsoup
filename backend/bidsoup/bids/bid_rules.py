@@ -1,5 +1,5 @@
 import rules
-from rules.predicates import always_allow
+from rules.predicates import always_allow, always_deny
 from .models import Account, User
 
 @rules.predicate

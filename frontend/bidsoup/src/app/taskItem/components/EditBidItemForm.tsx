@@ -116,16 +116,6 @@ const setValueAndValidation = <T extends ExpectedState>
 
 class EditBidItemForm extends React.Component<Props, State> {
 
-  private validation = {
-    category: textValidation(),
-    description: textValidation({maxLength: 100}),
-    markupPercent: numberValidation({isRequired: false}),
-    notes: textValidation({isRequired: false}),
-    price: numberValidation({isRequired: true}),
-    quantity: numberValidation({isRequired: true}),
-    unitType: textValidation({isRequired: true}),
-  };
-
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -268,7 +258,7 @@ class EditBidItemForm extends React.Component<Props, State> {
     return (
       <Wrapper>
         <DeleteWrapper>
-          <IconButton icon="delete" label="delete-item" size='S' action={this.deleteItem}/>
+          <IconButton icon="delete" label="delete-item" size="S" action={this.deleteItem}/>
         </DeleteWrapper>
         <FieldsWrapper>
           {isDefined(this.props.item.unitType) ? this.unitItemForm() : this.itemForm()}
@@ -282,6 +272,17 @@ class EditBidItemForm extends React.Component<Props, State> {
       </Wrapper>
     );
   }
-};
+
+  private validation = {
+    category: textValidation(),
+    description: textValidation({maxLength: 100}),
+    markupPercent: numberValidation({isRequired: false}),
+    notes: textValidation({isRequired: false}),
+    price: numberValidation({isRequired: true}),
+    quantity: numberValidation({isRequired: true}),
+    unitType: textValidation({isRequired: true}),
+  };
+
+}
 
 export default EditBidItemForm;

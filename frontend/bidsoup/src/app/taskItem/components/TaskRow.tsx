@@ -78,7 +78,7 @@ const onArrowClick = (e: React.MouseEvent<HTMLElement>, props: Props) => {
     props.onArrowClick(props.url);
     e.stopPropagation();
   }
-}
+};
 
 const TaskRow = (props: Props) => {
   let uuid = props.url.match(/[0-9a-z]{8}-[0-9a-z-]+/i)![0];

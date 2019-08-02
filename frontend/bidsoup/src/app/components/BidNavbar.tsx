@@ -24,7 +24,6 @@ const Container = styled.div`
   padding: 1em 2em;
 `;
 
-
 interface LinkProps {
   selected: boolean;
 }

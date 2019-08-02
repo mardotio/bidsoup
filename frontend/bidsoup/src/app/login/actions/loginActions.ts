@@ -1,11 +1,11 @@
-import fetch from 'cross-fetch';
 import { createAction, ActionsUnion } from '@utils/reduxUtils';
 import { ThunkAction } from 'redux-thunk';
 import { AppState } from '@app/types/types';
-import { getCookie } from '@app/utils/utils';
 import { history } from '@app/App';
 import { store } from 'src';
 import { LoginErrors } from '@login/reducers/loginReducer';
+import { Http2 } from '@app/utils/http';
+import { pipe, curry } from 'fp-ts/lib/function';
 
 export const REQUEST_LOGIN = 'REQUEST_LOGIN';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -30,29 +30,21 @@ export const redirectToLogin = (nextUrl: string) => {
 };
 
 export const login = (user: string, password: string, nextUrl: string):
-    ThunkAction<Promise<Actions>, AppState, never, Actions> => (
-  async (dispatch) => {
-    const token = getCookie('csrftoken');
-
-    if (token == null) {
-      return Promise.reject('Missing token to log in. Has user disabled or deleted cookies?');
-    }
+    ThunkAction<Promise<unknown>, AppState, never, Actions> => (
+  async dispatch => {
     dispatch(Actions.requestLogin());
-    const response = await fetch(`/api/login/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CsrfToken': token
-      },
-      body: JSON.stringify({'username': user, 'password': password})
-    });
 
-    if (response.status === 200) {
-      history.push(nextUrl);
-      return dispatch(Actions.successLogin());
-    } else {
-      const data = await response.json();
-      return dispatch(Actions.errorLogin(data));
-    }
+    return pipe(
+      (url: string) => Http2.post(url, {username: user, password: password}),
+      curry(Http2.filterCodes)([200, 401])
+    )('/api/login/').map(async response => {
+      if (response.status === 200) {
+        history.push(nextUrl);
+        return dispatch(Actions.successLogin());
+      } else {
+        const data = await response.json();
+        return dispatch(Actions.errorLogin(data));
+      }
+    }).run();
   }
 );

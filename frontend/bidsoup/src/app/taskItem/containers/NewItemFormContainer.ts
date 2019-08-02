@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import NewItemForm from '@taskItem/components/NewItemForm';
 import { AppState, BidItem, Category, Unit } from '@app/types/types';
-import { createTaskItem, Actions } from '@taskItem/actions/bidItemsActions';
+import { createBidItem, Actions } from '@taskItem/actions/bidItemsActions';
 import { ThunkDispatch } from 'redux-thunk';
 
 interface OwnProps {
@@ -29,7 +29,7 @@ const mapStateToProps = (state: AppState): StateProps => ({
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, never, Actions>): DispatchProps => ({
   createNewItem: (bidUrl: string, taskUrl: string, item: Partial<BidItem>) => (
-    dispatch(createTaskItem(bidUrl, taskUrl, item))
+    dispatch(createBidItem(bidUrl, taskUrl, item))
   )
 });
 

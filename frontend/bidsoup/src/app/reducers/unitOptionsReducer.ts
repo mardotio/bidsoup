@@ -32,6 +32,7 @@ const unitOptionsReducer: Reducer<UnitOptionsState> = (state = defaultState, act
         unitOptions: action.payload
       };
     case fromActions.RECEIVE_UNIT_OPTIONS_FAILURE:
+      console.log(action.payload);
       return {
         ...state,
         isFetching: false,

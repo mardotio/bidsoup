@@ -105,6 +105,15 @@ export class Http2 {
       createPreError);
   }
 
+  public static options = (uri: string): TaskEither<HttpError, Response> => {
+    return tryCatch(
+      () => {
+        return Http2.createRequestInit('OPTIONS', null).map(ri => fetch(uri, ri))
+        .getOrElseL(() => Promise.reject());
+      },
+      createPreError);
+  }
+
   public static put = (uri: string, body: unknown): TaskEither<HttpError, Response> => {
     return tryCatch(
       () => {
@@ -186,6 +195,15 @@ export namespace Http2 {
         curry(Http2.filterCodes)([200, 201]),
         curry(Http2.decodeJson)(decoder)
       )(body)
+      .mapLeft(Http2.handleAuthError)
+    )
+
+    public static options = <T, U>(url: string, decoder: Decoder<unknown, U>) => (
+      pipe(
+        Http2.options,
+        curry(Http2.filterCodes)([200]),
+        curry(Http2.decodeJson)(decoder)
+      )(url)
       .mapLeft(Http2.handleAuthError)
     )
 

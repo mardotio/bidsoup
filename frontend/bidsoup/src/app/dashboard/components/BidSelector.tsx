@@ -61,7 +61,6 @@ const bidForm = ({showModal, hideModal}: Props) => (
 const BidSelector = (props: Props) => {
   React.useEffect(
     () => {
-      console.log('where\'s my selector');
       if (isEmpty(props.bids) && isDefined(props.account)) {
         props.loadBids();
       }

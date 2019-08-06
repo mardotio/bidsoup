@@ -1,9 +1,9 @@
-import fetch from 'cross-fetch';
 import { ThunkAction } from 'redux-thunk';
-import { Decoder, object, string } from '@mojotech/json-type-validation';
+import * as t from 'io-ts';
 import { createAction, ActionsUnion } from '@utils/reduxUtils';
+import { Decoder, object, string } from '@mojotech/json-type-validation';
 import { AppState, Unit as ExpandedUnit } from '@app/types/types';
-import { Http } from '@utils/http';
+import { Http, HttpError, Http2 } from '@utils/http';
 import { none, some } from 'fp-ts/lib/Option';
 
 // TODO: Get rid of this. There is a duplicate in types.ts
@@ -16,10 +16,6 @@ interface Unit {
   category: string;
 }
 
-export interface UnitDict {
-  [url: string]: Unit;
-}
-
 const unitTypeDecoder: Decoder<Unit> = object({
   url: string(),
   name: string(),
@@ -29,8 +25,22 @@ const unitTypeDecoder: Decoder<Unit> = object({
   category: string()
 });
 
+export interface UnitDict {
+  [url: string]: Unit;
+}
+
+const unitTypes = t.array(t.type({
+  url: t.string,
+  name: t.string,
+  description: t.string,
+  unit: t.string,
+  unitPrice: t.string,
+  category: t.string
+}));
+
 export const REQUEST_UNIT_TYPES = 'REQUEST_UNIT_TYPES';
 export const RECEIVE_UNIT_TYPES = 'RECEIVE_UNIT_TYPES';
+export const RECEIVE_UNIT_TYPES_FAILURE = 'RECEIVE_UNIT_TYPES_FAILURE';
 export const RECEIVE_UNIT_TYPE = 'RECEIVE_UNIT_TYPE';
 export const RECEIVE_UNIT_TYPE_FAILURE = 'RECEIVE_UNIT_TYPE_FAILURE';
 export const DELETE_UNIT_TYPE = 'DELETE_UNIT_TYPE';
@@ -47,36 +57,31 @@ export const Actions = {
   deleteUnitType: (unitUrl: Unit['url']) =>
     createAction(DELETE_UNIT_TYPE, unitUrl),
   deleteUnitTypeFailure: () =>
-    createAction(DELETE_UNIT_TYPE_FAILURE)
+    createAction(DELETE_UNIT_TYPE_FAILURE),
+  receiveUnitTypesFailure: (err: HttpError) =>
+    createAction( RECEIVE_UNIT_TYPES_FAILURE, err)
 };
 
 export type Actions = ActionsUnion<typeof Actions>;
 
-export const fetchUnitTypes = (): ThunkAction<Promise<void>, AppState, never, Actions> => {
-  return (dispatch, getState) => {
-    return getState().api.endpoints.map(e => {
+export const fetchUnitTypes = (): ThunkAction<Promise<any>, AppState, never, Actions> => (
+  (dispatch, getState) => (
+    getState().api.endpoints.map(e => {
       dispatch(Actions.requestUnitTypes());
-      return fetch(e.unittypes)
-        .then(
-          response => response.json()
-        )
-        .then(
-          json => {
-            let units: UnitDict = {};
-            // tslint:disable-next-line:no-any
-            json.map((u: any) => {
-              let res = unitTypeDecoder.run(u);
-              if (res.ok) {
-                let url = res.result.url;
-                units[url] = res.result;
-              }
-            });
-            dispatch(Actions.receiveUnitTypes(units, Date.now()));
-          }
-        );
-    }).getOrElseL(() => Promise.reject());
-  };
-};
+      return Http2.Defaults.get(e.unittypes, unitTypes)
+      .map<Actions>(units => {
+        const unitObj = units.reduce(
+          (obj, u) => ({
+            ...obj,
+            [u.url]: u
+          }),
+          {} as UnitDict);
+        return dispatch(Actions.receiveUnitTypes(unitObj, Date.now()));
+      })
+      .getOrElseL(err => dispatch(Actions.receiveUnitTypesFailure(err))).run();
+    }).getOrElseL(() => Promise.reject())
+  )
+);
 
 export const updateUnitType = (unit: ExpandedUnit):
   ThunkAction<Promise<Actions | void>, AppState, never, Actions> => (

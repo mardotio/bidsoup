@@ -13,16 +13,16 @@ interface StateProps {
   customers: Customer[];
 }
 
-interface DispatchProps {
-  createNewBid: (bid: Partial<Bid>) => Promise<void>;
-}
+// interface DispatchProps {
+//   createNewBid: (bid: Partial<Bid>) => Promise<any>;
+// }
 
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
   ...ownProps,
   customers: state.customers.list
 });
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, never, Actions>): DispatchProps => ({
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, never, Actions>) => ({
   createNewBid: (bid: Partial<Bid>) => dispatch(createBid(bid))
 });
 

@@ -57,7 +57,7 @@ const loginReducer: Reducer<LoginState> =
         nextUrl: action.payload.nextUrl
       };
 
-    case signupActions.SIGNUP_ERROR:
+    case signupActions.SIGNUP_FAILURE:
       return {
         ...state,
         errorReasons: action.payload.messages

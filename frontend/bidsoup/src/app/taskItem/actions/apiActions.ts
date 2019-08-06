@@ -1,25 +1,21 @@
 import { ThunkAction } from 'redux-thunk';
 import { createAction, ActionsUnion } from '@utils/reduxUtils';
 import { AppState } from '@app/types/types';
-import { Http } from '@app/utils/http';
-import { some } from 'fp-ts/lib/Option';
+import { Http2, HttpError } from '@app/utils/http';
+import * as t from 'io-ts';
 
-// Set up all the types we expect from the API.
-const unittypes = 'unittypes';
-const bids = 'bids';
-const biditems = 'biditems';
-const bidtasks = 'bidtasks';
-const categories = 'categories';
-const customers = 'customers';
-const accounts = 'accounts';
-const users = 'users';
+const endpoints = t.type({
+  unittypes: t.string,
+  bids: t.string,
+  biditems: t.string,
+  bidtasks: t.string,
+  categories: t.string,
+  customers: t.string,
+  accounts: t.string,
+  users: t.string
+});
 
-type Keys = typeof bids | typeof unittypes | typeof biditems | typeof bidtasks |
-  typeof categories | typeof customers | typeof accounts | typeof users;
-
-export type Endpoints = {
-  [key in Keys]: string
-};
+export type Endpoints = t.OutputOf<typeof endpoints>;
 
 export const REQUEST_API = 'REQUEST_API';
 export const RECEIVE_API = 'RECEIVE_API';
@@ -29,7 +25,7 @@ export const Actions = {
     createAction(REQUEST_API),
   receiveApi: (api: Endpoints, fetchTime: number) =>
     createAction(RECEIVE_API, { api, fetchTime }),
-  receiveApiFailure: () => createAction(RECEIVE_API_FAILURE)
+  receiveApiFailure: (err: HttpError) => createAction(RECEIVE_API_FAILURE, err)
 };
 
 export type Actions = ActionsUnion<typeof Actions>;
@@ -42,8 +38,8 @@ export function fetchApi(): ThunkAction<Promise<Actions|void>, AppState, never, 
       return Promise.resolve();
     }
     dispatch(Actions.requestApi());
-    return (await Http.getJson('/api/', json =>
-      some(dispatch(Actions.receiveApi(json, Date.now())) as Actions)))
-      .getOrElseL(() => dispatch(Actions.receiveApiFailure()));
+    return Http2.Defaults.get('/api/', endpoints)
+      .map<Actions>(r => dispatch(Actions.receiveApi(r, Date.now())))
+      .getOrElseL(err => dispatch(Actions.receiveApiFailure(err))).run();
   };
 }

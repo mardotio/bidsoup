@@ -7,6 +7,7 @@ import { UiState } from '@app/reducers/uiReducer';
 import { UnitState } from '@taskItem/reducers/unitTypeReducer';
 import { BidItemsState } from '@app/taskItem/reducers/bidItemsReducer';
 import { UserAccountState } from '@app/reducers/userAccountReducer';
+import { UnitOptionsState } from '@app/reducers/unitOptionsReducer';
 
 export interface Account {
   bids: string;
@@ -113,12 +114,13 @@ export interface BidComponentsState {
 // Temporary interface which can be removed
 // when all reducers return typed state.
 export interface AppState {
+  account: AccountState;
   api: ApiState;
   bidData: BidComponentsState;
   bids: BidState;
   customers: CustomerState;
-  ui: UiState;
-  account: AccountState;
   login: LoginState;
+  ui: UiState;
+  unitOptions: UnitOptionsState;
   user: UserAccountState;
 }

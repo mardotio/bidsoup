@@ -43,6 +43,20 @@ export class Http {
     }
     return none;
   }
+
+  // tslint:disable-next-line:no-any
+  public static optionsJson = async <T, K>(uri: string, func: (json: any) => Option<T>) => {
+    const response = await fetch(uri, {
+      method: 'OPTIONS',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    if (response.ok) {
+      return func(await response.json());
+    }
+    return none;
+  }
 }
 
 export interface ResponseCodeMap {
@@ -87,6 +101,15 @@ export class Http2 {
       () => {
         return Http2.createRequestInit('POST', body).map(ri => fetch(uri, ri))
           .getOrElseL(() => Promise.reject('Token missing from cookie'));
+      },
+      createPreError);
+  }
+
+  public static options = (uri: string): TaskEither<HttpError, Response> => {
+    return tryCatch(
+      () => {
+        return Http2.createRequestInit('OPTIONS', null).map(ri => fetch(uri, ri))
+        .getOrElseL(() => Promise.reject());
       },
       createPreError);
   }
@@ -172,6 +195,15 @@ export namespace Http2 {
         curry(Http2.filterCodes)([200, 201]),
         curry(Http2.decodeJson)(decoder)
       )(body)
+      .mapLeft(Http2.handleAuthError)
+    )
+
+    public static options = <T, U>(url: string, decoder: Decoder<unknown, U>) => (
+      pipe(
+        Http2.options,
+        curry(Http2.filterCodes)([200]),
+        curry(Http2.decodeJson)(decoder)
+      )(url)
       .mapLeft(Http2.handleAuthError)
     )
 

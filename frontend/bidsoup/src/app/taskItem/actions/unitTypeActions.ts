@@ -1,10 +1,8 @@
 import { ThunkAction } from 'redux-thunk';
 import * as t from 'io-ts';
 import { createAction, ActionsUnion } from '@utils/reduxUtils';
-import { Decoder, object, string } from '@mojotech/json-type-validation';
 import { AppState, Unit as ExpandedUnit } from '@app/types/types';
-import { Http, HttpError, Http2 } from '@utils/http';
-import { none, some } from 'fp-ts/lib/Option';
+import { HttpError, Http2 } from '@utils/http';
 
 // TODO: Get rid of this. There is a duplicate in types.ts
 interface Unit {
@@ -16,27 +14,20 @@ interface Unit {
   category: string;
 }
 
-const unitTypeDecoder: Decoder<Unit> = object({
-  url: string(),
-  name: string(),
-  description: string(),
-  unit: string(),
-  unitPrice: string(),
-  category: string()
-});
-
 export interface UnitDict {
   [url: string]: Unit;
 }
 
-const unitTypes = t.array(t.type({
+const unitType = t.type({
   url: t.string,
   name: t.string,
   description: t.string,
   unit: t.string,
   unitPrice: t.string,
   category: t.string
-}));
+});
+
+const unitTypes = t.array(unitType);
 
 export const REQUEST_UNIT_TYPES = 'REQUEST_UNIT_TYPES';
 export const RECEIVE_UNIT_TYPES = 'RECEIVE_UNIT_TYPES';
@@ -52,12 +43,12 @@ export const Actions = {
     createAction(RECEIVE_UNIT_TYPES, {units, fetchTime}),
   receiveUnitType: (unit: Unit) =>
     createAction(RECEIVE_UNIT_TYPE, unit),
-  receiveUnitTypeFailure: () =>
-    createAction(RECEIVE_UNIT_TYPE_FAILURE),
+  receiveUnitTypeFailure: (error: HttpError, url: string) =>
+    createAction(RECEIVE_UNIT_TYPE_FAILURE, { error, url }),
   deleteUnitType: (unitUrl: Unit['url']) =>
     createAction(DELETE_UNIT_TYPE, unitUrl),
-  deleteUnitTypeFailure: () =>
-    createAction(DELETE_UNIT_TYPE_FAILURE),
+  deleteUnitTypeFailure: (error: HttpError, url: string) =>
+    createAction(DELETE_UNIT_TYPE_FAILURE, { error, url }),
   receiveUnitTypesFailure: (err: HttpError) =>
     createAction( RECEIVE_UNIT_TYPES_FAILURE, err)
 };
@@ -84,27 +75,19 @@ export const fetchUnitTypes = (): ThunkAction<Promise<any>, AppState, never, Act
 );
 
 export const updateUnitType = (unit: ExpandedUnit):
-  ThunkAction<Promise<Actions | void>, AppState, never, Actions> => (
+  ThunkAction<Promise<any>, AppState, never, Actions> => (
   async dispatch => (
-    (await Http.putJson(unit.url, unit, json => {
-      const typeCheck = unitTypeDecoder.run(json);
-      if (typeCheck.ok) {
-        return some(typeCheck.result);
-      }
-      return none;
-    }))
-    .map<Actions>(a => dispatch(Actions.receiveUnitType(a)))
-    .getOrElse(dispatch(Actions.receiveUnitTypeFailure()))
+    Http2.Defaults.put(unit.url, unit, unitType)
+      .map<Actions>(unit => dispatch(Actions.receiveUnitType(unit)))
+      .getOrElseL(err => dispatch(Actions.receiveUnitTypeFailure(err, unit.url))).run()
   )
 );
 
 export const deleteUnitType = (unitUrl: Unit['url']):
-  ThunkAction<Promise<Actions | void>, AppState, never, Actions> => (
+  ThunkAction<Promise<any>, AppState, never, Actions> => (
   async dispatch => (
-    (await  Http.deleteJson(unitUrl, uri => (
-      some(uri)
-    )))
-    .map<Actions>(a => dispatch(Actions.deleteUnitType(a)))
-    .getOrElse(dispatch(Actions.deleteUnitTypeFailure()))
+    Http2.Defaults.delete(unitUrl)
+      .map<Actions>(resp => dispatch(Actions.deleteUnitType(resp.url)))
+      .getOrElseL(err => dispatch(Actions.deleteUnitTypeFailure(err, unitUrl))).run()
   )
 );

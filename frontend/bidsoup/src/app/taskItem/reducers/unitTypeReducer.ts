@@ -6,12 +6,18 @@ export interface UnitState {
   isFetching: boolean;
   units: UnitDict;
   lastFetch: number | null;
+  lastFailure: {
+    action: 'POST' | 'DELETE' | 'PUT';
+    time: number;
+    resource: string;
+  } | null;
 }
 
 const defaultState: UnitState = {
   isFetching: false,
   units: {},
   lastFetch: null,
+  lastFailure: null
 };
 
 const unitTypeReducer: Reducer<UnitState> = (state = defaultState, action: fromActions.Actions) => {
@@ -36,6 +42,15 @@ const unitTypeReducer: Reducer<UnitState> = (state = defaultState, action: fromA
           [action.payload.url]: action.payload
         }
       };
+    case fromActions.RECEIVE_UNIT_TYPE_FAILURE:
+      return {
+        ...state,
+        lastFailure: {
+          action: 'PUT',
+          time: Date.now(),
+          resource: action.payload.url
+        }
+      };
     case fromActions.DELETE_UNIT_TYPE:
       return {
         ...state,
@@ -49,6 +64,15 @@ const unitTypeReducer: Reducer<UnitState> = (state = defaultState, action: fromA
           },
           {} as UnitDict
         )
+      };
+    case fromActions.DELETE_UNIT_TYPE_FAILURE:
+      return {
+        ...state,
+        lastError: {
+          action: 'DELETE',
+          time: Date.now(),
+          resource: action.payload.url,
+        }
       };
     default:
       return state;

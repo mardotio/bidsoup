@@ -89,7 +89,7 @@ export default class EditUnitForm extends React.Component<Props, State> {
 
   private validation = {
     category: textValidation(),
-    description: textValidation({maxLength: 100}),
+    description: textValidation({isRequired: false, maxLength: 100}),
     name: textValidation({isRequired: true}),
     unit: textValidation({isRequired: true}),
     unitPrice: numberValidation({isRequired: true}),

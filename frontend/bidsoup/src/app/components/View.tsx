@@ -14,6 +14,7 @@ const Container = styled.div`
   height: 100%;
   overflow: hidden;
   background-color: ${theme.fill.hex};
+  color: ${theme.text.medium.hex};
 `;
 
 const BodyContainer = styled.div`

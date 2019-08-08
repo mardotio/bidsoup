@@ -102,18 +102,18 @@ export class Color {
 }
 
 export const theme = {
-  fill: new Color('#f3f6f9'),
+  fill: new Color('#f8f9fe'),
   background: Color.shade(0),
-  primary: new Color('#4a2aea'),
-  secondary: new Color('#842aea'),
-  accent: new Color('#1180f7'),
+  primary: new Color('#492bea'),
+  secondary: new Color('#7363fe'),
+  accent: new Color('#fe6e6e'),
   error: new Color('#ff1744'),
   danger: new Color('#ed4758'),
-  success: '',
+  success: new Color('#15cd72'),
   text: {
     dark: Color.shade(87),
-    medium: Color.shade(60),
-    light: Color.shade(38)
+    medium: new Color('#1b1e47'),
+    light: new Color('#a4a5b5')
   },
   components: {
     border: Color.shade(8),

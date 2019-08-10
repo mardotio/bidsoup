@@ -5,13 +5,13 @@ services:
     environment:
       - POSTGRES_PASSWORD=$PG_PASS
     volumes:
-      - /var/www/data/prod:/var/lib/postgresql/data
+      - $PROD_PSQL_DATA_PATH:/var/lib/postgresql/data
 
   serv:
     volumes:
       - static:/code/bidsoup/bids/static
     ports:
-      - "127.0.0.1:8000:80"
+      - "8000:80"
 
   backend:
     environment:
@@ -23,8 +23,8 @@ services:
 
   frontend:
     volumes:
-      - static:/usr/app/build
-    command: ["yarn", "build"]
+      - static:/var/www/static
+    command: /bin/bash /usr/app/src/scripts/start-prod.sh
 
 
 volumes:

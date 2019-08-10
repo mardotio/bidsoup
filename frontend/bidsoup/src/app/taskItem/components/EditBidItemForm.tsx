@@ -276,7 +276,7 @@ class EditBidItemForm extends React.Component<Props, State> {
   private validation = {
     category: textValidation(),
     description: textValidation({maxLength: 100}),
-    markupPercent: numberValidation({isRequired: false}),
+    markupPercent: numberValidation({isRequired: false, maxPrecision: 3}),
     notes: textValidation({isRequired: false}),
     price: numberValidation({isRequired: true}),
     quantity: numberValidation({isRequired: true}),

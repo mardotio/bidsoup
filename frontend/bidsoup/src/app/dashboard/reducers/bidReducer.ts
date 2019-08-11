@@ -1,14 +1,13 @@
 import { Reducer } from 'redux';
 import * as fromActions from '@dashboard/actions/bidActions';
-import { Bid, Customer } from '@app/types/types';
-import { HttpError } from '@app/utils/http';
+import { ApiFailure, Bid, Customer } from '@app/types/types';
 
 export interface BidState {
   list: Bid[];
   isFetching: boolean;
   selectedBid: Bid;
   lastFetch: number | null;
-  lastError: HttpError | null;
+  lastFailure: ApiFailure | null;
 }
 
 const defaultState: BidState = {
@@ -16,7 +15,7 @@ const defaultState: BidState = {
   isFetching: false,
   selectedBid: {} as Bid,
   lastFetch: null,
-  lastError: null
+  lastFailure: null,
 };
 
 export interface CustomerState {
@@ -65,7 +64,11 @@ const bidReducer: Reducer<BidState> = (state = defaultState, action: fromActions
     case fromActions.RECEIVE_BID_LIST_FAILURE:
       return {
         ...state,
-        lastError: action.payload
+        lastFailure: {
+          action: 'GET',
+          resource: action.payload.url,
+          time: Date.now()
+        }
       };
 
     case fromActions.REQUEST_CURRENT_BID:
@@ -81,7 +84,20 @@ const bidReducer: Reducer<BidState> = (state = defaultState, action: fromActions
         lastFetch: action.payload.fetchTime,
         isFetching: false
       };
-
+    case fromActions.DELETE_BID:
+      return {
+        ...state,
+        list: state.list.filter(b => b.url !== action.payload)
+      };
+    case fromActions.DELETE_BID_FAILURE:
+      return {
+        ...state,
+        lastFailure: {
+          action: 'DELETE',
+          resource: action.payload.url,
+          time: Date.now()
+        }
+      };
     default:
       return state;
   }

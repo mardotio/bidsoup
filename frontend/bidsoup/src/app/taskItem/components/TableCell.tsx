@@ -58,9 +58,8 @@ const ArrowIcon = styled.i<ArrowProps>`
 `;
 
 const CategoryChip = styled.span`
-  padding: .3em;
-  color: ${Color.shade(0).hex};
-  border-radius: .3em;
+  padding: .3em .5em;
+  border-radius: 2em;
 `;
 
 const styleCell = ({value, cellStyle, highlight, reverseOrder, categoryColor}: Props) => {
@@ -87,7 +86,14 @@ const styleCell = ({value, cellStyle, highlight, reverseOrder, categoryColor}: P
       );
     case 'category':
       return (
-        <CategoryChip style={{backgroundColor: `#${categoryColor}`}}>{value}</CategoryChip>
+        <CategoryChip
+          style={{
+            backgroundColor: new Color(categoryColor!).toRgba(.2),
+            color: `#${categoryColor}`
+          }}
+        >
+          {value}
+        </CategoryChip>
       );
     case 'number':
       return beautifyNumber(value as number, 2);

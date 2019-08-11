@@ -95,8 +95,6 @@ const CategoryChip = styled.span`
   border-radius: 2em;
 `;
 
-
-
 const generateTableFromUnits = (units: Unit[], generateRows: (u: Unit) => void) => (
   <Table>
     <TableHeader>

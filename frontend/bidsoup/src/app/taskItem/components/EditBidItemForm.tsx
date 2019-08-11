@@ -7,10 +7,11 @@ import { ErrorObject } from '@utils/validation/shared';
 import textValidation from '@utils/validation/text';
 import numberValidation from '@utils/validation/number';
 import GhostButton from '@app/components/GhostButton';
-import { theme } from '@utils/color';
+import { Color, theme } from '@utils/color';
 import Dropdown, { DropdownOption } from '@app/components/inputs/filled/Dropdown';
 import { fromNullable } from 'fp-ts/lib/Option';
 import IconButton from '@app/components/buttons/IconButton';
+import TextButton from '@app/components/buttons/TextButton';
 
 interface Props {
   item: BidItem;
@@ -264,7 +265,7 @@ class EditBidItemForm extends React.Component<Props, State> {
           {isDefined(this.props.item.unitType) ? this.unitItemForm() : this.itemForm()}
         </FieldsWrapper>
         <ButtonsWrapper>
-          <GhostButton onClick={this.props.onCancel} color={theme.danger.hex}>Cancel</GhostButton>
+          <TextButton onClick={this.props.onCancel} color={Color.shade(40)}>Cancel</TextButton>
           <span>
             <GhostButton onClick={this.saveChanges}>Save</GhostButton>
           </span>

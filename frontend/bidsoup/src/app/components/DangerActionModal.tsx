@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import ModalContainer from '@app/containers/ModalContainer';
 import GhostButton from './GhostButton';
 import HorizontalRule from './HorizontalRule';
-import { theme } from '@app/utils/color';
+import { Color, theme } from '@app/utils/color';
+import TextButton from '@app/components/buttons/TextButton';
 
 interface Props {
   showIf: string;
@@ -42,7 +43,7 @@ const DangerActionModal = (props: Props) => {
         <Description>{props.body}</Description>
         <ButtonsContainer>
           <ButtonWrapper>
-            <GhostButton onClick={props.cancelAction}>Cancel</GhostButton>
+            <TextButton onClick={props.cancelAction} color={Color.shade(40)}>Cancel</TextButton>
           </ButtonWrapper>
           <GhostButton onClick={props.confirmAction} color={theme.danger.hex}>{props.confirmButtonLabel}</GhostButton>
         </ButtonsContainer>

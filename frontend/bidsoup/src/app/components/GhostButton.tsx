@@ -24,14 +24,16 @@ const hoverStyling = (props: ButtonProps) => (
   `
 );
 
-const Container = styled.div<ButtonProps>`
+const Container = styled.button<ButtonProps>`
   display: inline-block;
   color: ${({active, color}) => active ? color : theme.text.light.hex};
   padding: .5em 1em;
-  border-radius: 20em;
+  border-radius: .5em;
   border: 1px solid ${({active, color}) => active ? color : theme.text.medium.hex};
   transition: .3s ease;
   cursor: default;
+  background-color: transparent;
+  outline: none;
   ${props => props.active ? hoverStyling : null};
 `;
 

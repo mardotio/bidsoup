@@ -11,6 +11,7 @@ const Container = styled.div`
   justify-content: space-between;
   background-color: ${Color.shade(0).hex};
   padding: .5em 2em;
+  box-shadow: 0 1px 3px 0 rgba(21,27,38,.15);
 `;
 
 const AppName = styled.h1`

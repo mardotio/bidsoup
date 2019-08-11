@@ -7,6 +7,8 @@ import { Bid, Category, Unit } from '@app/types/types';
 import { Color, theme } from '@utils/color';
 import { useRef } from 'react';
 import IconButton from '@app/components/buttons/IconButton';
+import { Actions } from '@dashboard/actions/bidActions';
+import DangerActionModal from '@app/components/DangerActionModal';
 
 interface Props {
   bid: Bid;
@@ -16,6 +18,9 @@ interface Props {
   units: Unit[];
   createUnitType: (u: Partial<Unit>) => Promise<void>;
   loadPage: () => Promise<void>;
+  deleteBid: (bidUrl: string) => Promise<Actions>;
+  showModal: (modalId: string) => void;
+  hideModal: (modalId: string) => void;
 }
 
 const Container = styled.div`
@@ -51,6 +56,18 @@ const SeparatedButton = styled.span`
   margin-right: 1em;
 `;
 
+const deleteBidModal = (props: Props) => (
+  <DangerActionModal
+    showIf="deleteBidModal"
+    title="Delete current bid?"
+    body={`This action cannot be undone. "${props.bid.name}", and the related tasks, items, units, and categories will be deleted.`}
+    confirmButtonLabel="Yes, Delete"
+    onCloseCancel={false}
+    cancelAction={() => props.hideModal('deleteBidModal')}
+    confirmAction={() => props.deleteBid(props.bid.url).then(() => props.hideModal('deleteBidModal'))}
+  />
+)
+
 const BidOverview = (props: Props) => {
 
   const isInitialMount = useRef(true);
@@ -69,6 +86,7 @@ const BidOverview = (props: Props) => {
 
   return (
     <Container>
+      {deleteBidModal(props)}
       <TitleContainer>
         <BidTitle>
           {props.bid.name}
@@ -84,7 +102,7 @@ const BidOverview = (props: Props) => {
           </SeparatedButton>
           <IconButton
             size="M"
-            action={() => console.log('hello')}
+            action={() => props.showModal('deleteBidModal')}
             icon="delete"
             label="Delete"
           />

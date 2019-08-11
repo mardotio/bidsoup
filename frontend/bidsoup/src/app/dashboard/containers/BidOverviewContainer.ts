@@ -4,10 +4,17 @@ import { AppState, Bid, BidItem, Category, Customer, Unit } from '@app/types/typ
 import { UnitDict } from '@taskItem/actions/unitTypeActions';
 import { RouteComponentProps } from 'react-router-dom';
 import { ThunkDispatch } from 'redux-thunk';
-import { Actions, fetchBidListByAccount, fetchCustomerList, setAndFetchBidByKey } from '@dashboard/actions/bidActions';
+import {
+  Actions,
+  deleteBid,
+  fetchBidListByAccount,
+  fetchCustomerList,
+  setAndFetchBidByKey
+} from '@dashboard/actions/bidActions';
 import { createUnitType } from '@dashboard/actions/unitActions';
 import { isDefined, isEmpty } from '@utils/utils';
 import { some } from 'fp-ts/lib/Option';
+import { Actions as uiActions } from '@app/actions/uiActions';
 
 interface StateProps {
   categories: Category[];
@@ -20,6 +27,9 @@ interface StateProps {
 interface DispatchProps {
   createUnitType: (u: Partial<Unit>) => Promise<void>;
   loadPage: () => Promise<void>;
+  deleteBid: (bidUrl: string) => Promise<Actions>;
+  showModal: (modalId: string) => void;
+  hideModal: (modalId: string) => void;
 }
 
 const unitsArray = (units: UnitDict) => (
@@ -59,13 +69,16 @@ const mapStateToProps = (state: AppState, ownProps: RouteComponentProps<{bid: st
   bidTotal: calculateBidTotal(state.bidData.units.units, state.bidData.categories.list, state.bidData.items.list, state.bids.selectedBid),
 });
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, never, Actions>, ownProps: RouteComponentProps<{bid: string}>): DispatchProps => ({
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, never, Actions | uiActions>, ownProps: RouteComponentProps<{bid: string}>): DispatchProps => ({
   createUnitType: (unit: Partial<Unit>) => dispatch(createUnitType(unit)),
   loadPage: () => (
     dispatch(fetchBidListByAccount())
       .then(() => dispatch(fetchCustomerList()))
       .then(() => dispatch(setAndFetchBidByKey(Number(ownProps.match.params.bid))))
-  )
+  ),
+  deleteBid: (bidUrl: string) => dispatch(deleteBid(bidUrl)).then(() => dispatch(Actions.clearSelectedBid())),
+  showModal: (modalId: string) => dispatch(uiActions.showModal(modalId)),
+  hideModal: (modalId: string) => dispatch(uiActions.hideModal(modalId))
 });
 
 const BidOverviewContainer = connect(mapStateToProps, mapDispatchToProps)(BidOverview);

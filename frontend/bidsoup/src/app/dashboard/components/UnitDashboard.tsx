@@ -7,10 +7,13 @@ import { Category, Unit } from '@app/types/types';
 import { Color, theme } from '@utils/color';
 import { beautifyNumber } from '@utils/styling';
 import { isEmpty } from '@utils/utils';
+import { UnitOptions } from '@app/reducers/unitOptionsReducer';
+import { fromNullable } from 'fp-ts/lib/Option';
 
 interface Props {
   units: Unit[];
   categories: Category[];
+  unitOptions: UnitOptions[];
   createUnitType: (u: Partial<Unit>) => Promise<void>;
 }
 
@@ -141,6 +144,11 @@ export default class UnitDashboard extends React.Component<Props, State> {
     });
   }
 
+  renderUnitOption = (unitKey: string) => {
+    const unitOption = this.props.unitOptions.find(o => o.value === unitKey);
+    return fromNullable(unitOption).getOrElse({displayName: unitKey, value: unitKey}).displayName;
+  }
+
   submitForm = (u: Partial<Unit>) => {
     this.props.createUnitType(u);
     this.closeForm();
@@ -171,7 +179,7 @@ export default class UnitDashboard extends React.Component<Props, State> {
         <Row key={unit.url} onClick={() => this.editUnit(unit)}>
           <Cell>{unit.name}</Cell>
           <Cell>${beautifyNumber(Number(unit.unitPrice), 2)}</Cell>
-          <Cell>{unit.unit}</Cell>
+          <Cell>{this.renderUnitOption(unit.unit)}</Cell>
           <Cell>
             <CategoryChip style={{backgroundColor: catColor.toRgba(.2), color: catColor.hex}}>
               {category.name}

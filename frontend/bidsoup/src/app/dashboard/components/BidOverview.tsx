@@ -9,6 +9,7 @@ import { useRef } from 'react';
 import IconButton from '@app/components/buttons/IconButton';
 import { Actions } from '@dashboard/actions/bidActions';
 import DangerActionModal from '@app/components/DangerActionModal';
+import { UnitOptions } from '@app/reducers/unitOptionsReducer';
 
 interface Props {
   bid: Bid;
@@ -21,6 +22,7 @@ interface Props {
   deleteBid: (bidUrl: string) => Promise<Actions>;
   showModal: (modalId: string) => void;
   hideModal: (modalId: string) => void;
+  unitOptions: UnitOptions[];
 }
 
 const Container = styled.div`
@@ -120,6 +122,7 @@ const BidOverview = (props: Props) => {
         units={props.units}
         createUnitType={props.createUnitType}
         categories={props.categories}
+        unitOptions={props.unitOptions}
       />
     </Container>
   );

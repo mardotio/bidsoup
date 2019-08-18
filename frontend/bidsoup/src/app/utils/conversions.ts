@@ -27,8 +27,12 @@ const zeroOrPercent = (value: string | null) => (
   isDefined(value) ? (Number(value) / 100) : 0
 );
 
-export const normalizeItem =
-  (item: BidItem, units: UnitDict, {markupPercent, taxable, color}: Category, tax: Bid['taxPercent']): StandardizedItem => {
+export const normalizeItem = (
+  item: BidItem,
+  units: UnitDict,
+  {markupPercent, taxable, color}: Category,
+  tax: Bid['taxPercent']
+): StandardizedItem => {
     let price = isDefined(item.unitType)
     ? Number(units[item.unitType].unitPrice)
     : Number(item.price);

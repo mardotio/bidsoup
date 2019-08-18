@@ -216,7 +216,14 @@ class EditBidItemForm extends React.Component<Props, State> {
   categoryDropdown = () => {
     const categoryOptions = this.props.categories.map(c => ({id: c.url, value: c.name}));
     const selectedCategory = categoryOptions.find(c => c.id === this.state.values.category)!;
-    return <Dropdown id="category" options={categoryOptions} selected={selectedCategory} onSelect={this.selectCategory}/>;
+    return (
+      <Dropdown
+        id="category"
+        options={categoryOptions}
+        selected={selectedCategory}
+        onSelect={this.selectCategory}
+      />
+    );
   }
 
   unitDropdown = () => {

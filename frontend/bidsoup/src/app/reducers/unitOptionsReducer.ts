@@ -18,7 +18,10 @@ const defaultState: UnitOptionsState = {
   unitOptions: []
 };
 
-const unitOptionsReducer: Reducer<UnitOptionsState> = (state = defaultState, action: fromActions.UnitOptionsActions) => {
+const unitOptionsReducer: Reducer<UnitOptionsState> = (
+  state = defaultState,
+  action: fromActions.UnitOptionsActions
+) => {
   switch (action.type) {
     case fromActions.REQUEST_UNIT_OPTIONS:
       return {
@@ -32,7 +35,6 @@ const unitOptionsReducer: Reducer<UnitOptionsState> = (state = defaultState, act
         unitOptions: action.payload
       };
     case fromActions.RECEIVE_UNIT_OPTIONS_FAILURE:
-      console.log(action.payload);
       return {
         ...state,
         isFetching: false,

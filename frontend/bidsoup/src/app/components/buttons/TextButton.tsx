@@ -24,7 +24,7 @@ const Button = styled.button<ButtonProps>`
   border-radius: .5em;
   padding: .5em 1em;
   font-size: 1em;
-  pointer-events: ${props => props.active ? 'auto': 'none'};
+  pointer-events: ${props => props.active ? 'auto' : 'none'};
   &:hover {
     background-color: ${props => props.buttonColor.toRgba(.1)};
   }

@@ -62,13 +62,16 @@ const deleteBidModal = (props: Props) => (
   <DangerActionModal
     showIf="deleteBidModal"
     title="Delete current bid?"
-    body={`This action cannot be undone. "${props.bid.name}", and the related tasks, items, units, and categories will be deleted.`}
+    body={`
+      This action cannot be undone. "${props.bid.name}", and the related tasks, items, units, and categories will be
+      deleted.
+    `}
     confirmButtonLabel="Yes, Delete"
     onCloseCancel={false}
     cancelAction={() => props.hideModal('deleteBidModal')}
     confirmAction={() => props.deleteBid(props.bid.url).then(() => props.hideModal('deleteBidModal'))}
   />
-)
+);
 
 const BidOverview = (props: Props) => {
 

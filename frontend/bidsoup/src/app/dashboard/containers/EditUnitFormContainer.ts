@@ -29,7 +29,10 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps): OwnProps & StateP
   unitOptions: state.unitOptions.unitOptions
 });
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, never, Actions | UnitOptionsActions>, ownProps: OwnProps): DispatchProps => ({
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, never, Actions | UnitOptionsActions>,
+  ownProps: OwnProps
+): DispatchProps => ({
   updateUnit: (unit: Unit) => dispatch(updateUnitType(unit)),
   deleteUnit: () => dispatch(deleteUnitType(ownProps.unit.url)),
   fetchUnitOptions: () => dispatch(fetchUnitOptions())

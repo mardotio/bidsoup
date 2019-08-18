@@ -34,7 +34,7 @@ export const fetchUnitOptions = ():
       dispatch(UnitOptionsActions.requestUnits());
       return Http2.Defaults.options(e.unittypes, unitOptions)
       .map<UnitOptionsActions>(units => {
-        return dispatch(UnitOptionsActions.receiveUnits(units['actions']['POST']['unit']['choices']));
+        return dispatch(UnitOptionsActions.receiveUnits(units.actions['POST']['unit']['choices']));
       })
       .getOrElseL(err => dispatch(UnitOptionsActions.receiveUnitsFailure(err))).run();
     }).getOrElseL(() => Promise.reject())

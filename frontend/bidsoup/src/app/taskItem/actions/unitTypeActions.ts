@@ -78,7 +78,7 @@ export const updateUnitType = (unit: ExpandedUnit):
   ThunkAction<Promise<any>, AppState, never, Actions> => (
   async dispatch => (
     Http2.Defaults.put(unit.url, unit, unitType)
-      .map<Actions>(unit => dispatch(Actions.receiveUnitType(unit)))
+      .map<Actions>(unitResp => dispatch(Actions.receiveUnitType(unitResp)))
       .getOrElseL(err => dispatch(Actions.receiveUnitTypeFailure(err, unit.url))).run()
   )
 );

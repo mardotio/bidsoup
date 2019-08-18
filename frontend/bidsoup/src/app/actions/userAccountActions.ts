@@ -39,7 +39,7 @@ export const fetchUserAccount = (): ThunkAction<Promise<UserAccountActions>, App
       )(e.users)
         .filterOrElse(u => u.length !== 0, {} as HttpError)
         .map<UserAccountActions>(u => dispatch(UserAccountActions.receiveUserAccount(u[0])))
-        .getOrElse(dispatch(UserAccountActions.receiveUserAccountFailure())).run();
+        .getOrElseL(err => dispatch(UserAccountActions.receiveUserAccountFailure())).run();
     })
     .getOrElseL(() => Promise.reject())
   )

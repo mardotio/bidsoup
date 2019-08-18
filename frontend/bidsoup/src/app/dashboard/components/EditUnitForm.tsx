@@ -4,11 +4,12 @@ import { Category, Unit } from '@app/types/types';
 import { ErrorObject } from '@utils/validation/shared';
 import Input from '@app/components/inputs/filled/Input';
 import GhostButton from '@app/components/GhostButton';
+import TextButton from '@app/components/buttons/TextButton';
 import IconButton from '@app/components/buttons/IconButton';
 import Dropdown, { DropdownOption } from '@app/components/inputs/filled/Dropdown';
 import textValidation from '@utils/validation/text';
 import numberValidation from '@utils/validation/number';
-import { theme } from '@utils/color';
+import { Color, theme } from '@utils/color';
 import { setValueAndValidation } from '@utils/utils';
 import { UnitOptions } from '@app/reducers/unitOptionsReducer';
 
@@ -207,7 +208,7 @@ export default class EditUnitForm extends React.Component<Props, State> {
           {this.generateInputField('description')}
         </div>
         <ButtonsWrapper>
-          <GhostButton color={theme.danger.hex} onClick={this.props.onCancel}>Cancel</GhostButton>
+          <TextButton onClick={this.props.onCancel} color={Color.shade(40)}>Cancel</TextButton>
           <span>
             <GhostButton onClick={this.saveChanges}>Save</GhostButton>
           </span>

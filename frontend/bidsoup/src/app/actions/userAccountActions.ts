@@ -37,9 +37,9 @@ export const fetchUserAccount = (): ThunkAction<Promise<UserAccountActions>, App
         curry(Http2.filterCodes)([200]),
         curry(Http2.decodeJson)(accountList)
       )(e.users)
-        .filterOrElse(u => u.length === 0, {} as HttpError)
+        .filterOrElse(u => u.length !== 0, {} as HttpError)
         .map<UserAccountActions>(u => dispatch(UserAccountActions.receiveUserAccount(u[0])))
-        .getOrElse(dispatch(UserAccountActions.receiveUserAccountFailure())).run();
+        .getOrElseL(err => dispatch(UserAccountActions.receiveUserAccountFailure())).run();
     })
     .getOrElseL(() => Promise.reject())
   )

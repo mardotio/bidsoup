@@ -1,16 +1,13 @@
 import { Reducer } from 'redux';
 import * as fromActions from '@taskItem/actions/unitTypeActions';
 import { UnitDict } from '@taskItem/actions/unitTypeActions';
+import { ApiFailure } from '@app/types/types';
 
 export interface UnitState {
   isFetching: boolean;
   units: UnitDict;
   lastFetch: number | null;
-  lastFailure: {
-    action: 'POST' | 'DELETE' | 'PUT';
-    time: number;
-    resource: string;
-  } | null;
+  lastFailure: ApiFailure | null;
 }
 
 const defaultState: UnitState = {

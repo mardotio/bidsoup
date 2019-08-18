@@ -111,6 +111,12 @@ export interface BidComponentsState {
   units: UnitState;
 }
 
+export interface ApiFailure {
+  action: 'POST' | 'PUT' | 'DELETE' | 'OPTIONS' | 'GET';
+  time: number;
+  resource: string;
+}
+
 // Temporary interface which can be removed
 // when all reducers return typed state.
 export interface AppState {

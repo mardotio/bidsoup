@@ -158,7 +158,7 @@ export default class TaskDetails extends React.Component<Props, State> {
           showIf="deleteTaskModal"
           title="Delete selected task?"
           body="This action cannot be undone. The selected task and all of it's children will be deleted."
-          confirmButtonLabel="Delete"
+          confirmButtonLabel="Yes, Delete"
           onCloseCancel={false}
           cancelAction={this.hideConfirmModal}
           confirmAction={this.deleteTask}

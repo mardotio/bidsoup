@@ -70,7 +70,14 @@ const MarkupContainer = styled.div`
 const generateRows = (category: Category) => {
   return (
     <CardContainer key={category.url}>
-      <CategoryTitle style={{backgroundColor: `#${category.color}`}}>{category.name}</CategoryTitle>
+      <CategoryTitle
+        style={{
+          backgroundColor: new Color(category.color).toRgba(.2),
+          color: `#${category.color}`
+        }}
+      >
+        {category.name}
+      </CategoryTitle>
       <MarkupContainer>
         <div>{category.markupPercent ? category.markupPercent : 0}%</div>
         <div>Markup</div>

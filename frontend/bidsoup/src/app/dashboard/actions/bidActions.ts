@@ -47,6 +47,8 @@ export const RECEIVE_CURRENT_BID_FAILURE = 'RECEIVE_CURRENT_BID_FAILURE';
 export const REQUEST_CUSTOMER_LIST = 'REQUEST_CUSTOMER_LIST';
 export const RECEIVE_CUSTOMER_LIST = 'RECEIVE_CUSTOMER_LIST';
 export const RECEIVE_CUSTOMER_LIST_FAILURE = 'RECEIVE_CUSTOMER_LIST_FAILURE';
+export const DELETE_BID = 'DELETE_BID';
+export const DELETE_BID_FAILURE = 'DELETE_BID_FAILURE';
 export const Actions = {
   clearSelectedBid: () =>
     createAction(CLEAR_SELECTED_BID),
@@ -54,8 +56,8 @@ export const Actions = {
     createAction(REQUEST_BID_LIST),
   receiveBidList: (list: Bid[], fetchTime: number) =>
     createAction(RECEIVE_BID_LIST, { list, fetchTime }),
-  receiveBidListFailure: (err: HttpError) =>
-    createAction(RECEIVE_BID_LIST_FAILURE, err),
+  receiveBidListFailure: (error: HttpError, url: string) =>
+    createAction(RECEIVE_BID_LIST_FAILURE, { error, url }),
   setCurrentBid: (bid: string) =>
     createAction(SET_CURRENT_BID, { bid }),
   requestCurrentBid: () =>
@@ -70,6 +72,10 @@ export const Actions = {
     createAction(RECEIVE_CUSTOMER_LIST, { list, fetchTime }),
   receiveCustomerListFailure: () =>
     createAction(RECEIVE_CUSTOMER_LIST_FAILURE),
+  deleteBid: (bidUrl: Bid['url']) =>
+    createAction(DELETE_BID, bidUrl),
+  deleteBidFailure: (error: HttpError, url: string) =>
+    createAction(DELETE_BID_FAILURE, { error, url })
 };
 
 export type Actions = ActionsUnion<typeof Actions>;
@@ -80,7 +86,7 @@ export const fetchBidListByAccount = (): ThunkAction<Promise<Actions>, AppState,
       dispatch(Actions.requestBidList());
       return Http2.Defaults.get(a.bids, bidList)
         .map<Actions>(bids => dispatch(Actions.receiveBidList(bids, Date.now())))
-        .getOrElseL(err => dispatch(Actions.receiveBidListFailure(err))).run();
+        .getOrElseL(err => dispatch(Actions.receiveBidListFailure(err, a.bids))).run();
     }).getOrElseL(() => Promise.reject())
 );
 
@@ -133,5 +139,14 @@ export const createBid = (bid: Partial<Bid>): ThunkAction<Promise<any>, AppState
       .then(() => dispatch(fetchBidListByAccount())) // This is dangerous.
       .catch(error => console.log(error))
     ).getOrElseL(() => Promise.reject())
+  )
+);
+
+export const deleteBid = (bidUrl: Bid['url']):
+  ThunkAction<Promise<Actions>, AppState, never, Actions> => (
+  dispatch => (
+    Http2.Defaults.delete(bidUrl)
+      .map<Actions>(() => dispatch(Actions.deleteBid(bidUrl)))
+      .getOrElseL(err => dispatch(Actions.deleteBidFailure(err, bidUrl))).run()
   )
 );

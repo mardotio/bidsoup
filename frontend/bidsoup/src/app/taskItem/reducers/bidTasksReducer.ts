@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import * as fromActions from '@taskItem/actions/bidTasksActions';
-import { BidTask } from '@app/types/types';
+import { ApiFailure, BidTask } from '@app/types/types';
 import { isDefined, nestedFind } from '@utils/utils';
 import { deleteTreeElement, addTreeElement } from '@utils/treeOperations';
 
@@ -9,13 +9,15 @@ export interface BidTaskState {
   list: BidTask[];
   selectedTask: BidTask | null;
   lastFetch: number | null;
+  lastFailure: ApiFailure | null;
 }
 
 const defaultState: BidTaskState = {
   isFetching: false,
   list: [],
   selectedTask: null,
-  lastFetch: null
+  lastFetch: null,
+  lastFailure: null
 };
 
 const deleteTask = (arr: BidTask[], url: string) => deleteTreeElement('children', 'url', arr, url);
@@ -53,6 +55,15 @@ const bidTaskReducer: Reducer<BidTaskState> = (state = defaultState, action: fro
         selectedTask: isDefined(state.selectedTask) && isDefined(action.payload.task.parent)
           ? nestedFind(list, 'url', state.selectedTask.url, 'children')
           : state.selectedTask
+      };
+    case fromActions.RECEIVE_BID_TASK_FAILURE:
+      return {
+        ...state,
+        lastFailure: {
+          action: 'PUT',
+          time: Date.now(),
+          resource: action.payload.url
+        }
       };
     case fromActions.DELETE_BID_TASK:
       return {

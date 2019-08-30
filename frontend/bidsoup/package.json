@@ -29,11 +29,13 @@
     "@types/react-router-dom": "^4.3.4",
     "@types/styled-components": "^4.1.16",
     "typescript": "3.5.1",
-    "typescript-styled-plugin": "^0.13.0"
+    "typescript-styled-plugin": "^0.13.0",
+    "workbox-build": "^4.3.1"
   },
   "scripts": {
     "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
+    "build-sw": "node ./src/sw-build",
+    "build": "react-scripts-ts build && npm run build-sw",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
   },

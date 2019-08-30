@@ -30,7 +30,8 @@ export default function register() {
     }
 
     window.addEventListener('load', () => {
-      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+      // Using custom service worker since default isn't configurable.
+      const swUrl = `${process.env.PUBLIC_URL}/sw.js`;
 
       if (isLocalhost) {
         // This is running on localhost. Lets check if a service worker still exists or not.
@@ -50,6 +51,10 @@ export default function register() {
       }
     });
   }
+}
+
+function isBackendRoute() {
+  return window.location.pathname.startsWith('/api');
 }
 
 function registerValidSW(swUrl) {

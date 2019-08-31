@@ -117,11 +117,13 @@ export default class EditTaskForm extends React.Component<Props, State> {
               onBlur={this.validateAndSubmit}
             />
           </span>
-          <ActionHeader options={[
-            { icon: 'clear', action: this.props.unselectTask },
-            { icon: 'delete', action: () => this.props.showModal('deleteTaskModal'), danger: true },
-            { icon: 'link' },
-          ]}/>
+          <ActionHeader
+            options={[
+              { icon: 'clear', action: this.props.unselectTask },
+              { icon: 'delete', action: () => this.props.showModal('deleteTaskModal'), danger: true },
+              { icon: 'link' },
+            ]}
+          />
         </TaskTitleContainer>
         <TaskDescriptionContainer>
           <Icon className="material-icons">notes</Icon>

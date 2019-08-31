@@ -67,13 +67,23 @@ const bidWithCustomer = (bid: Bid, customers: Customer[]): Bid => ({
 const mapStateToProps = (state: AppState, ownProps: RouteComponentProps<{bid: string}>): StateProps => ({
   selectedBidId: Number(ownProps.match.params.bid),
   categories: state.bidData.categories.list,
-  bid: isDefined(state.bids.selectedBid.customer) ? bidWithCustomer(state.bids.selectedBid, state.customers.list) : state.bids.selectedBid,
+  bid: isDefined(state.bids.selectedBid.customer)
+    ? bidWithCustomer(state.bids.selectedBid, state.customers.list)
+    : state.bids.selectedBid,
   units: unitsArray(state.bidData.units.units),
-  bidTotal: calculateBidTotal(state.bidData.units.units, state.bidData.categories.list, state.bidData.items.list, state.bids.selectedBid),
+  bidTotal: calculateBidTotal(
+    state.bidData.units.units,
+    state.bidData.categories.list,
+    state.bidData.items.list,
+    state.bids.selectedBid
+  ),
   unitOptions: state.unitOptions.unitOptions
 });
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, never, Actions | uiActions>, ownProps: RouteComponentProps<{bid: string}>): DispatchProps => ({
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, never, Actions | uiActions>,
+  ownProps: RouteComponentProps<{bid: string}>
+): DispatchProps => ({
   createUnitType: (unit: Partial<Unit>) => dispatch(createUnitType(unit)),
   loadPage: () => (
     dispatch(fetchBidListByAccount())

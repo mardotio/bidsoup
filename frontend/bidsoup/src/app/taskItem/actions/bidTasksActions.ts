@@ -83,7 +83,7 @@ export const updateBidTask = (task: BidTask):
   ThunkAction<Promise<any>, AppState, never, Actions> => (
   async dispatch => (
     Http2.Defaults.put(task.url, task, bidTask)
-      .map<Actions>(task => dispatch(Actions.receiveBidTask(task)))
+      .map<Actions>(taskResp => dispatch(Actions.receiveBidTask(taskResp)))
       .getOrElseL(err => dispatch(Actions.receiveBidTaskFailure(err, task.url))).run()
   )
 );

@@ -17,7 +17,10 @@ const defaultState: UserAccountState = {
   fetchError: false
 };
 
-const userAccountReducer: Reducer<UserAccountState> = (state = defaultState, action: fromActions.UserAccountActions) => {
+const userAccountReducer: Reducer<UserAccountState> = (
+  state = defaultState,
+  action: fromActions.UserAccountActions
+) => {
   switch (action.type) {
     case fromActions.REQUEST_USER_ACCOUNT:
       return {

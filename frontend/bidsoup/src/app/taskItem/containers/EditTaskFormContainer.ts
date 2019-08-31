@@ -20,7 +20,9 @@ const mapStateToProps = (state: AppState): StateProps => ({
   task: state.bidData.tasks.selectedTask!
 });
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, never, Actions | uiActions | tasksActions>): DispatchProps => ({
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, never, Actions | uiActions | tasksActions>
+): DispatchProps => ({
   updateTask: (t: BidTask) => dispatch(updateBidTask(t)),
   showModal: (modalId: string) => dispatch(uiActions.showModal(modalId)),
   unselectTask: () => dispatch(tasksActions.clearSelectedBidTask())

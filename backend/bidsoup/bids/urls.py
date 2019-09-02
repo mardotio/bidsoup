@@ -25,7 +25,6 @@ bids_router.register(r'bidtasks', views.BidTaskViewSet, base_name='bid-bidtask')
 category_router = routers.NestedSimpleRouter(router, r'categories', lookup='category')
 category_router.register(r'biditems', views.BidItemViewSet, base_name='category-biditem')
 
-app_name = 'bids'
 urlpatterns = [
     path('login/', views.SessionLoginView.as_view()),
     path('csrftoken/', views.get_csrf_token),

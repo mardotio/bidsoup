@@ -19,5 +19,5 @@ def send_magic_link(magic_link, request):
         (magic_link.user.email,))
 
 def magic_link_to_context(magic, request):
-    url = request.build_absolute_uri(reverse('bids:confirm', args=(magic.link,)))
+    url = request.build_absolute_uri(reverse('confirm', args=(magic.link,)))
     return Context({'username': magic.user.username, 'link_url': url})

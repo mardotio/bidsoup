@@ -9,5 +9,7 @@ COPY bidsoup/tsconfig.json /usr/app/
 COPY bidsoup/tslint.json /usr/app/
 COPY bidsoup/src/ src
 COPY bidsoup/public/ public
+ARG env=DEV
+RUN if [ "$env" = "PROD" ]; then yarn build; fi
 CMD ["npm", "start"]
 EXPOSE 3000

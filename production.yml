@@ -22,6 +22,9 @@ services:
     command: /bin/bash /code/start-prod.sh
 
   frontend:
+    build:
+      args:
+        env: PROD
     volumes:
       - static:/var/www/static
     command: /bin/bash /usr/app/src/scripts/start-prod.sh

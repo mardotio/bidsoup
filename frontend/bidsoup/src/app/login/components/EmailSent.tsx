@@ -1,5 +1,5 @@
 import * as React from 'react';
 
 export const EmailSent = () => (
-  <p>Email Sent. Please check your inbox.</p>
+  <p>You will be receiving an email shortly. Please check your inbox to confirm your account.</p>
 );

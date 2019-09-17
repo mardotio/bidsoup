@@ -8,3 +8,8 @@ def confirm_user(magic_link):
         user.is_active = True
         user.save()
         ml.delete()
+
+def delete_user(magic_link):
+    ml = MagicLink.objects.filter(link=magic_link).get()
+    ml.user.delete()
+    ml.delete()

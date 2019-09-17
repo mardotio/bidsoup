@@ -145,7 +145,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
+SENDGRID_ECHO_TO_STDOUT = DEBUG
+EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/

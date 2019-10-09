@@ -17,6 +17,8 @@ services:
     environment:
       - DJANGO_SECRET_KEY=$DJANGO_SECRET_KEY
       - POSTGRES_PASSWORD=$PG_PASS
+      - SENDGRID_API_KEY
+      - DISCORD_HOOK_URL
     volumes:
       - static:/var/www/static
     command: /bin/bash /code/start-prod.sh

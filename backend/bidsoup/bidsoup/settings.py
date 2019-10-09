@@ -30,8 +30,7 @@ else:
 if 'True' == os.environ.get('DEBUG'):
     DEBUG = True
 else:
-    # Todo: Restore this to false
-    DEBUG = True
+    DEBUG = False
 
 # When debugging, the frontened is proxied to backend so use the forwarded host.
 USE_X_FORWARDED_HOST = DEBUG

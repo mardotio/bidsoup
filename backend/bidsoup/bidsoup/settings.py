@@ -35,7 +35,7 @@ else:
 # When debugging, the frontened is proxied to backend so use the forwarded host.
 USE_X_FORWARDED_HOST = DEBUG
 
-ALLOWED_HOSTS = ['bidchowder.com']
+ALLOWED_HOSTS = ['.bidchowder.com']
 if DEBUG:
     ALLOWED_HOSTS += ['*']
 

@@ -39,7 +39,7 @@ export const signup = (user: string, password: string, email: string):
       body: JSON.stringify({ 'username': user, 'password': password, 'email': email })
     });
 
-    if (response.status === 200) {
+    if (response.status === 201) {
       dispatch(Actions.signupSuccess());
       history.push('/check-email');
     } else {

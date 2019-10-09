@@ -1,5 +1,5 @@
 from .models import Account, Bid, BidItem, BidTask, Category, Customer, UnitType, User, MagicLink
-from .users import confirm_user
+from .users import confirm_user, delete_user
 from django.db.models import Q
 from rest_framework import viewsets, generics, mixins, serializers
 from rest_framework.decorators import detail_route
@@ -18,7 +18,7 @@ from rest_framework_rules.mixins import PermissionRequiredMixin
 from .serializers import AccountSerializer, BidSerializer, BidItemSerializer, \
         BidTaskSerializer, CustomerSerializer, CategorySerializer, UnitTypeSerializer, \
         UserSerializer, LoginSerializer, SignupSerializer
-from .mailer import send_magic_link
+from .magic import send_magic_link_email, send_magic_link_discord
 
 
 class TrapDjangoValidationErrorMixin(object):
@@ -223,7 +223,7 @@ class SignupViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
         if self._is_new_user(u):
             u.save()
             link = MagicLink.objects.create(user=u)
-            send_magic_link(link, self.request)
+            send_magic_link_discord(link, self.request)
         else:
             raise serializers.ValidationError([{
                 'message': 'Username or email already exists.',
@@ -231,5 +231,17 @@ class SignupViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
             }])
 
 def confirm_from_magic(request, link):
-    confirm_user(link)
-    return redirect('/login/') # TODO: How do we let the backend redirect for the frontend?
+    num_params = len(request.GET)
+
+    if num_params == 0:
+        confirm_user(link)
+        return redirect('/login/') # TODO: How do we let the backend redirect for the frontend?
+    elif num_params == 1 and 'delete' in request.GET:
+        delete_user(link)
+        return HttpResponse('User and link deleted')
+    elif num_params == 1 and 'send' in request.GET:
+        l = MagicLink.objects.filter(link=link).get()
+        send_magic_link_email(l, request)
+        return HttpResponse('Email sent')
+    else:
+        return HttpResponse(f'Invalid query parameter{"s" if num_params > 1 else ""}.', status=400)

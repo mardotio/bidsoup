@@ -19,6 +19,7 @@ from .serializers import AccountSerializer, BidSerializer, BidItemSerializer, \
         BidTaskSerializer, CustomerSerializer, CategorySerializer, UnitTypeSerializer, \
         UserSerializer, LoginSerializer, SignupSerializer
 from .magic import send_magic_link_email, send_magic_link_discord
+import re
 
 
 class TrapDjangoValidationErrorMixin(object):
@@ -231,6 +232,10 @@ class SignupViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
             }])
 
 def confirm_from_magic(request, link):
+    # Since discord attempts to unfurl links, return early if their bot made the request
+    if re.search('Discordbot', request.META.get('HTTP_USER_AGENT')):
+        return HttpResponse('Go away')
+
     num_params = len(request.GET)
 
     if num_params == 0:

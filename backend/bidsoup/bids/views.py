@@ -119,7 +119,6 @@ class BidTaskViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
         """Custom function for detail view because queryset only returns
         tasks at root.
         """
-        print(self.kwargs[self.lookup_field])
         task = BidTask.objects.get(pk=self.kwargs[self.lookup_field])
         return task
 
@@ -216,7 +215,7 @@ class SignupViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
         return User.objects.filter(Q(username=user.username) | Q(email=user.email)).count() == 0
 
     def perform_create(self, serializer):
-        data = serializer.data
+        data = serializer.validated_data
         data['is_active'] = False
         u = User(**data)
         u.set_password(data.get('password'))

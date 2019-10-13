@@ -125,6 +125,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 AUTH_USER_MODEL = 'bids.User'
+LOGIN_URL = '/login'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -146,7 +147,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
 SENDGRID_ECHO_TO_STDOUT = DEBUG
-EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
+EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend' if SENDGRID_API_KEY else 'django.core.mail.backends.console.EmailBackend'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/

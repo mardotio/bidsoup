@@ -5,6 +5,12 @@ import { Errors, Decoder } from 'io-ts';
 import { getCookie } from './utils';
 import { pipe, curry } from 'fp-ts/lib/function';
 
+
+const BACKEND_ROUTES = ['/accounts', '/admin', '/api'];
+
+export const isBackendRoute = (route: string) =>
+  BACKEND_ROUTES.find(r => route.startsWith(r)) != undefined;
+
 export class Http {
   // tslint:disable-next-line:no-any
   public static getJson = async <T>(uri: string, func: (json: any) => Option<T>) => {

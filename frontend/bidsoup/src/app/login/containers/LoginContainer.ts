@@ -5,11 +5,15 @@ import { login as doLogin } from '@login/actions/loginActions';
 import { signup as doSignup } from '@login/actions/signupActions';
 import { AppState } from 'src/app/types/types';
 import { ThunkDispatch } from 'redux-thunk';
+import { RouteComponentProps } from 'react-router';
 
-const mapStateToProps = ({login}: AppState) => ({
-  errors: login.errorReasons,
-  nextUrl: login.nextUrl
-});
+const mapStateToProps = ({login}: AppState, ownProps: RouteComponentProps<{}>) => {
+  const next = new URLSearchParams(ownProps.location.search).get('next');
+  return {
+    errors: login.errorReasons,
+    nextUrl: next ? next : login.nextUrl
+  };
+};
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, never, Actions>) => ({
   login: (user: string, password: string, nextUrl: string) =>

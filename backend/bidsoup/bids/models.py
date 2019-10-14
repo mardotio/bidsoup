@@ -38,7 +38,7 @@ class Category(models.Model):
     is_labor = models.BooleanField(default=False)
 
     def __str__(self):
-        return '{self.name} - {self.bid.name}'.format(self=self)
+        return '{self.name} - {self.account.name}'.format(self=self)
 
     def clean(self):
         errors = {}

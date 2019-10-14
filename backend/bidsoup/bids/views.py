@@ -142,6 +142,8 @@ class CategoryViewSet(PermissionRequiredMixin, TrapDjangoValidationErrorMixin, v
         if 'account_slug' in self.kwargs:
             slug = self.kwargs['account_slug']
             kwargs['account_id'] = Account.objects.get(slug=slug).id
+        if serializer.validated_data.get('bid') and not serializer.validated_data.get('account'):
+            kwargs['account_id'] = serializer.validated_data.get('bid').account.id
 
         serializer.save(**kwargs)
 

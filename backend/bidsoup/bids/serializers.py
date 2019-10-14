@@ -21,9 +21,16 @@ class AccountSerializer(serializers.HyperlinkedModelSerializer):
         parent_lookup_kwargs={}
     )
 
+    categories = NestedHyperlinkedIdentityField(
+        view_name='account-category-list',
+        lookup_url_kwarg='account_slug',
+        lookup_field='slug',
+        parent_lookup_kwargs={}
+    )
+
     class Meta:
         model = Account
-        fields = ('url', 'name', 'bids', 'slug')
+        fields = ('url', 'name', 'bids', 'categories', 'slug')
         extra_kwargs = {
             'url': {'view_name': 'account-detail', 'lookup_field': 'slug'}
         }

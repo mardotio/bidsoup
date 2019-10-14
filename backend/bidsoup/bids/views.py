@@ -129,14 +129,21 @@ class CategoryViewSet(PermissionRequiredMixin, TrapDjangoValidationErrorMixin, v
     object_permission_required = 'bids.owns_category'
     serializer_class = CategorySerializer
 
-    #TODO: get from account directly
     def get_queryset(self):
         q = Category.objects.all()
         if 'bid_pk' in self.kwargs:
             q = q.filter(bid_id=self.kwargs['bid_pk'])
 
         account = self.request.user.account
-        return q.filter(bid__account=account)
+        return q.filter(account=account)
+
+    def perform_create(self, serializer):
+        kwargs = {}
+        if 'account_slug' in self.kwargs:
+            slug = self.kwargs['account_slug']
+            kwargs['account_id'] = Account.objects.get(slug=slug).id
+
+        serializer.save(**kwargs)
 
 
 class CustomerViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):

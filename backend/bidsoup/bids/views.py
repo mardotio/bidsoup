@@ -129,6 +129,7 @@ class CategoryViewSet(PermissionRequiredMixin, TrapDjangoValidationErrorMixin, v
     object_permission_required = 'bids.owns_category'
     serializer_class = CategorySerializer
 
+    #TODO: get from account directly
     def get_queryset(self):
         q = Category.objects.all()
         if 'bid_pk' in self.kwargs:

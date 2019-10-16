@@ -4,7 +4,7 @@ import { AppState } from '@app/types/types';
 import { history } from '@app/App';
 import { store } from 'src';
 import { LoginErrors } from '@login/reducers/loginReducer';
-import { Http2 } from '@app/utils/http';
+import { Http2, isBackendRoute } from '@app/utils/http';
 import { pipe, curry } from 'fp-ts/lib/function';
 
 export const REQUEST_LOGIN = 'REQUEST_LOGIN';
@@ -39,7 +39,11 @@ export const login = (user: string, password: string, nextUrl: string):
       curry(Http2.filterCodes)([200, 401])
     )('/api/login/').map(async response => {
       if (response.status === 200) {
-        history.push(nextUrl);
+        if (isBackendRoute(nextUrl)) {
+          window.location.replace(nextUrl)
+        } else {
+          history.push(nextUrl);
+        }
         return dispatch(Actions.successLogin());
       } else {
         const data = await response.json();

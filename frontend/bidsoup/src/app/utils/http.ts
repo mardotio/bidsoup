@@ -8,8 +8,7 @@ import { pipe, curry } from 'fp-ts/lib/function';
 
 const BACKEND_ROUTES = ['/accounts', '/admin', '/api'];
 
-export const isBackendRoute = (route: string) =>
-  BACKEND_ROUTES.find(r => route.startsWith(r)) != undefined;
+export const isBackendRoute = (route: string) => BACKEND_ROUTES.some(r => route.startsWith(r));
 
 export class Http {
   // tslint:disable-next-line:no-any

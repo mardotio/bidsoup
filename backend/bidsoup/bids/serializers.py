@@ -88,7 +88,19 @@ class BidTaskSerializer(serializers.HyperlinkedModelSerializer):
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Category
-        fields = ('url', 'bid', 'name', 'description', 'markup_percent', 'color', 'taxable', 'is_labor')
+        fields = ('url', 'bid', 'name', 'description', 'markup_percent', 'color', 'taxable', 'is_labor', 'from_template')
+        extra_kwargs = {
+            'name': {'allow_blank': True},
+            'color': {'allow_blank': True}
+        }
+
+    def update(self, instance, validated_data):
+        from_template = validated_data.get('from_template')
+        if instance.from_template != from_template:
+            raise serializers.ValidationError('fromTemplate cannot be updated.')
+
+        return super().update(instance, validated_data)
+
 
 class CustomerSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

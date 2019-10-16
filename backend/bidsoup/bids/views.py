@@ -119,7 +119,6 @@ class BidTaskViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
         """Custom function for detail view because queryset only returns
         tasks at root.
         """
-        print(self.kwargs[self.lookup_field])
         task = BidTask.objects.get(pk=self.kwargs[self.lookup_field])
         return task
 
@@ -131,6 +130,10 @@ class CategoryViewSet(PermissionRequiredMixin, TrapDjangoValidationErrorMixin, v
 
     def get_queryset(self):
         q = Category.objects.all()
+
+        if 'account_slug' in self.kwargs:
+            # Only list bid-less Categories (i.e. those used as templates)
+            q = q.filter(bid_id=None)
         if 'bid_pk' in self.kwargs:
             q = q.filter(bid_id=self.kwargs['bid_pk'])
 
@@ -142,8 +145,22 @@ class CategoryViewSet(PermissionRequiredMixin, TrapDjangoValidationErrorMixin, v
         if 'account_slug' in self.kwargs:
             slug = self.kwargs['account_slug']
             kwargs['account_id'] = Account.objects.get(slug=slug).id
-        if serializer.validated_data.get('bid') and not serializer.validated_data.get('account'):
-            kwargs['account_id'] = serializer.validated_data.get('bid').account.id
+
+        if 'bid_pk' in self.kwargs:
+            kwargs['bid_id'] = self.kwargs['bid_pk']
+            kwargs['account_id'] = self.request.user.account_id
+
+        if serializer.validated_data.get('from_template'):
+            source = serializer.validated_data.get('from_template')
+            if source.bid is not None:
+                raise ValidationError('from_template is an instance.')
+
+            skip_fields = ['id', 'used_by', 'from_template', 'bid']
+            copy_fields = [f.name for f in Category._meta.get_fields() if f.name not in skip_fields]
+            for f in copy_fields:
+                val = getattr(source, f, None)
+                if val:
+                    kwargs[f] = val
 
         serializer.save(**kwargs)
 

@@ -85,10 +85,10 @@ class BidTaskSerializer(serializers.HyperlinkedModelSerializer):
         model = BidTask
         fields = ('url', 'parent', 'children', 'bid', 'title', 'description')
 
-class CategorySerializer(serializers.HyperlinkedModelSerializer):
+class CategorySerializer(OptionalFieldsMixin, serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Category
-        fields = ('url', 'bid', 'name', 'description', 'markup_percent', 'color', 'taxable', 'is_labor', 'from_template')
+        fields = ('url', 'bid', 'name', 'description', 'markup_percent', 'color', 'taxable', 'is_labor', 'from_template', 'used_by')
         extra_kwargs = {
             'name': {'allow_blank': True},
             'color': {'allow_blank': True}

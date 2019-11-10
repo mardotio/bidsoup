@@ -126,7 +126,16 @@ class BidTaskViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
 class CategoryViewSet(PermissionRequiredMixin, TrapDjangoValidationErrorMixin, viewsets.ModelViewSet):
     permission_required = 'bids.view_categories'
     object_permission_required = 'bids.owns_category'
-    serializer_class = CategorySerializer
+
+    def get_serializer(self, *args, **kwargs):
+        kwargs['context'] = {'request': self.request}
+        if 'account_slug' in self.kwargs:
+            kwargs['exclude_fields'] = ('from_template',)
+        else:
+            kwargs['exclude_fields'] = ('used_by',)
+
+        return CategorySerializer(*args, **kwargs)
+
 
     def get_queryset(self):
         q = Category.objects.all()

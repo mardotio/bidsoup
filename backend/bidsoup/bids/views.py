@@ -130,7 +130,7 @@ class CategoryViewSet(PermissionRequiredMixin, TrapDjangoValidationErrorMixin, v
     def get_serializer(self, *args, **kwargs):
         kwargs['context'] = {'request': self.request}
         if 'account_slug' in self.kwargs:
-            kwargs['exclude_fields'] = ('from_template',)
+            kwargs['exclude_fields'] = ('from_template', 'bid',)
         else:
             kwargs['exclude_fields'] = ('used_by',)
 

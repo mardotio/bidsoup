@@ -7,7 +7,8 @@ const fetchBidComponents = () => {
   return (dispatch, getState) => {
     return Promise.all([
       dispatch(tasksActions.fetchBidTasks()),
-      dispatch(unitActions.fetchUnitTypes()).then(() => dispatch(fetchBidItems())),
+      dispatch(unitActions.fetchUnitTypes()),
+      dispatch(fetchBidItems()),
       dispatch(categoriesActions.fetchBidCategories()),
     ]);
   }

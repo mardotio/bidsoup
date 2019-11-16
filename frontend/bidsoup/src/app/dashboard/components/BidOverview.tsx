@@ -18,7 +18,7 @@ interface Props {
   selectedBidId: number;
   units: Unit[];
   createUnitType: (u: Partial<Unit>) => Promise<void>;
-  loadPage: () => Promise<void>;
+  loadPage: () => Promise<void[]>;
   deleteBid: (bidUrl: string) => Promise<Actions>;
   showModal: (modalId: string) => void;
   hideModal: (modalId: string) => void;

@@ -23,6 +23,8 @@
   "model": "bids.category",
   "pk": "03a301da-e460-4556-8647-55bf09cfd646",
   "fields": {
+    "account": "a68d3bef-48e0-420f-9a8c-3a368b230d02",
+    "from_template": null,
     "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
     "name": "Vehicles",
     "description": "Company vehicles",
@@ -36,6 +38,8 @@
   "model": "bids.category",
   "pk": "22ea776c-9bf5-449f-8d94-6b1e3d39c663",
   "fields": {
+    "account": "a68d3bef-48e0-420f-9a8c-3a368b230d02",
+    "from_template": null,
     "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
     "name": "Equipment",
     "description": "Category for all equipment",
@@ -49,6 +53,8 @@
   "model": "bids.category",
   "pk": "35655cbf-5836-4662-a1cd-de94475d9de7",
   "fields": {
+    "account": "a68d3bef-48e0-420f-9a8c-3a368b230d02",
+    "from_template": null,
     "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
     "name": "Labor",
     "description": "All man hours go here",
@@ -62,6 +68,8 @@
   "model": "bids.category",
   "pk": "56b1c2b2-b6d7-4a22-b2b3-c2e62e65c09f",
   "fields": {
+    "account": "a68d3bef-48e0-420f-9a8c-3a368b230d02",
+    "from_template": null,
     "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
     "name": "Subcontractors",
     "description": "All labor from subcontractors",
@@ -75,9 +83,11 @@
   "model": "bids.category",
   "pk": "8c7a286a-9365-41d1-bada-abcf0869d946",
   "fields": {
+    "account": "a68d3bef-48e0-420f-9a8c-3a368b230d02",
+    "from_template": null,
     "bid": "7c8fe054-aa7f-45c9-8cd3-baf178abfe56",
     "name": "Materials",
-    "description": "All meterials",
+    "description": "All Materials",
     "markup_percent": null,
     "color": "b2135d",
     "taxable": false,

@@ -27,7 +27,9 @@ class Customer(models.Model):
 
 class Category(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
-    bid = models.ForeignKey('Bid', on_delete=models.CASCADE)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    from_template = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True, blank=True, related_name='used_by')
+    bid = models.ForeignKey('Bid', on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     markup_percent = models.DecimalField(max_digits=6, decimal_places=3, null=True, blank=True)
@@ -36,7 +38,7 @@ class Category(models.Model):
     is_labor = models.BooleanField(default=False)
 
     def __str__(self):
-        return '{self.name} - {self.bid.name}'.format(self=self)
+        return '{self.name} - {self.account.name}'.format(self=self)
 
     def clean(self):
         errors = {}
@@ -180,7 +182,7 @@ class User(AbstractUser):
     account = models.ForeignKey(Account, on_delete=models.PROTECT, null=True)
 
 class MagicLink(models.Model):
-    link = models.CharField(max_length=32, default=get_random_string(32))
+    link = models.CharField(max_length=32)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     ACTIONS = (
         ('CE', 'Confirm Email'),

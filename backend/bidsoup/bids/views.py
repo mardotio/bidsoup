@@ -126,15 +126,52 @@ class BidTaskViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
 class CategoryViewSet(PermissionRequiredMixin, TrapDjangoValidationErrorMixin, viewsets.ModelViewSet):
     permission_required = 'bids.view_categories'
     object_permission_required = 'bids.owns_category'
-    serializer_class = CategorySerializer
+
+    def get_serializer(self, *args, **kwargs):
+        kwargs['context'] = {'request': self.request}
+        if 'account_slug' in self.kwargs:
+            kwargs['exclude_fields'] = ('from_template', 'bid',)
+        else:
+            kwargs['exclude_fields'] = ('used_by',)
+
+        return CategorySerializer(*args, **kwargs)
+
 
     def get_queryset(self):
         q = Category.objects.all()
+
+        if 'account_slug' in self.kwargs:
+            # Only list bid-less Categories (i.e. those used as templates)
+            q = q.filter(bid_id=None)
         if 'bid_pk' in self.kwargs:
             q = q.filter(bid_id=self.kwargs['bid_pk'])
 
         account = self.request.user.account
-        return q.filter(bid__account=account)
+        return q.filter(account=account)
+
+    def perform_create(self, serializer):
+        kwargs = {}
+        if 'account_slug' in self.kwargs:
+            slug = self.kwargs['account_slug']
+            kwargs['account_id'] = Account.objects.get(slug=slug).id
+
+        if 'bid_pk' in self.kwargs:
+            kwargs['bid_id'] = self.kwargs['bid_pk']
+            kwargs['account_id'] = self.request.user.account_id
+
+        if serializer.validated_data.get('from_template'):
+            source = serializer.validated_data.get('from_template')
+            if source.bid is not None:
+                raise ValidationError('from_template is an instance.')
+
+            skip_fields = ['id', 'used_by', 'from_template', 'bid']
+            copy_fields = [f.name for f in Category._meta.get_fields() if f.name not in skip_fields]
+            for f in copy_fields:
+                val = getattr(source, f, None)
+                if val:
+                    kwargs[f] = val
+
+        serializer.save(**kwargs)
 
 
 class CustomerViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):

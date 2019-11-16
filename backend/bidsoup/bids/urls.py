@@ -15,6 +15,7 @@ router.register(r'signup', views.SignupViewSet, base_name='signup')
 
 accounts_router = routers.NestedSimpleRouter(router, r'accounts', lookup='account')
 accounts_router.register(r'bids', views.BidViewSet, base_name='account-bid')
+accounts_router.register(r'categories', views.CategoryViewSet, base_name='account-category')
 
 bids_router = routers.NestedSimpleRouter(router, r'bids', lookup='bid')
 bids_router.register(r'categories', views.CategoryViewSet, base_name='bid-category')

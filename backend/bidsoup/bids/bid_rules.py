@@ -24,7 +24,7 @@ def can_edit_bid_task(user, bid_task):
 
 @rules.predicate
 def can_edit_category(user, category):
-    return category.bid in user.account.bid_set.all()
+    return category.account == user.account
 
 @rules.predicate
 def can_edit_customer(user, customer):

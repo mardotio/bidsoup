@@ -30,7 +30,40 @@ Data can be seeded using django's fixture tools. Running `manage.py loaddata <fi
 If for some reason you want to start over in development with a fresh database, a command is available to drop all the tables and re-migrate. To do this, run `./manage.py updatedb --reset`.
 
 ### Deploy ###
-TBD
+Deployment is handled via merges to master. The script `deploy.sh` is executed off the latest master branch. `bidsoup-infra` contains the configuration and release pipeline source.
+
+### Debugging ###
+The django backend is set up with [django-ptvsd-debug](https://github.com/scottbarkman/django-ptvsd-debug). If the launched with `DEBUG=True` (the default) then the correct packages will be installed and ports exposed. The configuration settings the host side will depend on your editor. For VS Code, the following can be added to `launch.json`:
+
+```json
+  "configurations": [
+    ...
+    {
+      "name": "Python: Remote Attach",
+      "type": "python",
+      "request": "attach",
+      "port": 5678,
+      "host": "localhost",
+      "pathMappings": [
+        {
+          "localRoot": "${workspaceFolder}/backend/bidsoup",
+          "remoteRoot": "/code/bidsoup"
+        }
+      ]
+    },
+  ]
+```
+
+To debug library code, too, add a path map from virtual environment's site-packages such as:
+
+```json
+  {
+    "localRoot": "${workspaceFolder}/backend/.venv/Lib/site-packages",
+    "remoteRoot": "/usr/local/lib/python3.6/site-packages"
+  }
+```
+and set `"justMyCode": false`.
+
 
 ### Contribution guidelines ###
 

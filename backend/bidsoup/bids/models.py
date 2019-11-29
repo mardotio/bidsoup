@@ -181,8 +181,11 @@ class Bid(models.Model):
 class User(AbstractUser):
     account = models.ForeignKey(Account, on_delete=models.PROTECT, null=True)
 
+def generate_link_string():
+    return get_random_string(32)
+
 class MagicLink(models.Model):
-    link = models.CharField(max_length=32)
+    link = models.CharField(max_length=32, default=generate_link_string)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     ACTIONS = (
         ('CE', 'Confirm Email'),

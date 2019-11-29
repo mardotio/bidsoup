@@ -54,6 +54,9 @@ INSTALLED_APPS = [
     'rest_framework_rules',
 ]
 
+if DEBUG:
+    INSTALLED_APPS.insert(0, 'django_ptvsd') # Needed first
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

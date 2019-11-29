@@ -29,7 +29,7 @@ interface StateProps {
 
 interface DispatchProps {
   createUnitType: (u: Partial<Unit>) => Promise<void>;
-  loadPage: () => Promise<void>;
+  loadPage: () => Promise<void[]>;
   deleteBid: (bidUrl: string) => Promise<Actions>;
   showModal: (modalId: string) => void;
   hideModal: (modalId: string) => void;
@@ -85,12 +85,13 @@ const mapDispatchToProps = (
   ownProps: RouteComponentProps<{bid: string}>
 ): DispatchProps => ({
   createUnitType: (unit: Partial<Unit>) => dispatch(createUnitType(unit)),
-  loadPage: () => (
-    dispatch(fetchBidListByAccount())
-      .then(() => dispatch(fetchCustomerList()))
-      .then(() => dispatch(setAndFetchBidByKey(Number(ownProps.match.params.bid))))
-      .then(() => dispatch(fetchUnitOptions()))
-  ),
+  loadPage: () =>
+    Promise.all([
+      dispatch(fetchBidListByAccount())
+        .then(() => dispatch(setAndFetchBidByKey(Number(ownProps.match.params.bid)))),
+      dispatch(fetchCustomerList()),
+      dispatch(fetchUnitOptions())
+    ]),
   deleteBid: (bidUrl: string) => dispatch(deleteBid(bidUrl)).then(() => dispatch(Actions.clearSelectedBid())),
   showModal: (modalId: string) => dispatch(uiActions.showModal(modalId)),
   hideModal: (modalId: string) => dispatch(uiActions.hideModal(modalId)),

@@ -1,4 +1,4 @@
-from .models import Account, Bid, BidTask, BidItem, Category, Customer, UnitType, User
+from .models import Account, Bid, BidTask, BidItem, Category, Customer, Invitation, UnitType, User
 from rest_framework import serializers
 from rest_framework_recursive.fields import RecursiveField
 from rest_framework_nested.relations import NestedHyperlinkedRelatedField, NestedHyperlinkedIdentityField
@@ -121,20 +121,29 @@ class UnitTypeSerializer(serializers.HyperlinkedModelSerializer):
         }
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    # Switching these allows update through the User. Allowing this would be difficult to control the permissions.
-    # account = serializers.HyperlinkedRelatedField(view_name='account-detail', lookup_field='slug', queryset=Account.objects.all())
-    account = serializers.HyperlinkedRelatedField(view_name='account-detail', lookup_field='slug', read_only=True)
-
     class Meta:
         model = User
         fields = ('url', 'username', 'first_name', 'last_name', 'email', 'account')
         extra_kwargs = {
-            'url': {'view_name': 'user-detail', 'lookup_field': 'username'}
+            'url': {'view_name': 'user-detail', 'lookup_field': 'username'},
+            'account': {'view_name': 'account-detail', 'lookup_field': 'slug', 'read_only': True}
         }
+
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=150)
     password = serializers.CharField(max_length=128)
+
+
+class InvitationSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Invitation
+        fields = ('url', 'invited_by', 'account', 'email')
+        extra_kwargs = {
+            'invited_by': {'lookup_field': 'username'},
+            'account': {'lookup_field': 'slug'}
+        }
+
 
 class SignupSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=150)

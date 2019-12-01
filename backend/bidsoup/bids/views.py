@@ -1,4 +1,4 @@
-from .models import Account, Bid, BidItem, BidTask, Category, Customer, UnitType, User, MagicLink
+from .models import Account, Bid, BidItem, BidTask, Category, Customer, Invitation, UnitType, User, MagicLink
 from .users import confirm_user, delete_user
 from django.db.models import Q
 from rest_framework import viewsets, generics, mixins, serializers
@@ -17,7 +17,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework_rules.mixins import PermissionRequiredMixin
 from .serializers import AccountSerializer, BidSerializer, BidItemSerializer, \
         BidTaskSerializer, CustomerSerializer, CategorySerializer, UnitTypeSerializer, \
-        UserSerializer, LoginSerializer, SignupSerializer
+        UserSerializer, InvitationSerializer, LoginSerializer, SignupSerializer
 from .magic import send_magic_link_email, send_magic_link_discord
 import re
 
@@ -192,6 +192,11 @@ class CustomerViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+class InvitationViewSet(viewsets.ModelViewSet):
+    serializer_class = InvitationSerializer
+    queryset = Invitation.objects.all()
+
+
 class UnitTypeViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
     permission_required = 'bids.view_unittypes'
     object_permission_required = 'bids.owns_unittype'
@@ -209,6 +214,7 @@ class UserViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
     object_permission_required = 'bids.edit_user'
     serializer_class = UserSerializer
     lookup_field = 'username'
+    lookup_value_regex = r'[^/]+' # Ensure dot-delimited usernames are valid
 
     def get_queryset(self):
         is_user = False

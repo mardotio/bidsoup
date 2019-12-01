@@ -2,6 +2,7 @@ from django.db import models, transaction
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.utils.crypto import get_random_string
+from urllib.parse import quote
 import uuid
 
 class Account(models.Model):
@@ -180,6 +181,11 @@ class Bid(models.Model):
 
 class User(AbstractUser):
     account = models.ForeignKey(Account, on_delete=models.PROTECT, null=True)
+
+class Invitation(models.Model):
+    invited_by = models.ForeignKey(User, on_delete=models.PROTECT)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    email = models.EmailField(null=True)
 
 def generate_link_string():
     return get_random_string(32)

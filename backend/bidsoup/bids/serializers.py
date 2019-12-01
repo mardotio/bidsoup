@@ -120,10 +120,17 @@ class UnitTypeSerializer(serializers.HyperlinkedModelSerializer):
             'unit_price': {'max_value': get_max_digit_field_value(model._meta.get_field('unit_price'))}
         }
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    # Switching these allows update through the User. Allowing this would be difficult to control the permissions.
+    # account = serializers.HyperlinkedRelatedField(view_name='account-detail', lookup_field='slug', queryset=Account.objects.all())
+    account = serializers.HyperlinkedRelatedField(view_name='account-detail', lookup_field='slug', read_only=True)
+
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email')
+        fields = ('url', 'username', 'first_name', 'last_name', 'email', 'account')
+        extra_kwargs = {
+            'url': {'view_name': 'user-detail', 'lookup_field': 'username'}
+        }
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=150)

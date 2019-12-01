@@ -208,12 +208,21 @@ class UserViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
     permission_required = 'bids.view_users'
     object_permission_required = 'bids.edit_user'
     serializer_class = UserSerializer
+    lookup_field = 'username'
 
     def get_queryset(self):
-        q = get_user_model().objects.all()
+        is_user = False
         account = self.request.user.account
 
-        return q.filter(account=account)
+        if 'username' in self.kwargs and self.kwargs['username'] == '@me':
+            self.kwargs['username'] = self.request.user.username
+            return get_user_model().objects.filter(id=self.request.user.id)
+
+        if account:
+            return get_user_model().objects.filter(account=account)
+        else:
+            return get_user_model().objects.filter(id=self.request.user.id)
+
 
 def get_csrf_token(request):
     if request.method == 'GET':

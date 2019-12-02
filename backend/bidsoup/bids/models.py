@@ -180,7 +180,12 @@ class Bid(models.Model):
         super().save(*args, **kwargs)
 
 class User(AbstractUser):
-    account = models.ForeignKey(Account, on_delete=models.PROTECT, null=True)
+    account = models.ForeignKey(Account, on_delete=models.PROTECT, null=True, blank=True)
+
+    @property
+    def username_url(self):
+        return quote(self.username)
+
 
 class Invitation(models.Model):
     invited_by = models.ForeignKey(User, on_delete=models.PROTECT)

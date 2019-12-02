@@ -45,7 +45,7 @@ class TrapDjangoValidationErrorMixin(object):
 
 class AccountViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
     permission_required = 'bids.view_accounts'
-    object_permission_required = 'bids.on_account'
+    object_permission_required = 'bids.on_account' # TODO: Should only allow if account administrator
     serializer_class = AccountSerializer
     lookup_field = 'slug'
 
@@ -192,9 +192,13 @@ class CustomerViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+#TODO: permissions
 class InvitationViewSet(viewsets.ModelViewSet):
     serializer_class = InvitationSerializer
     queryset = Invitation.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(invited_by=self.request.user)
 
 
 class UnitTypeViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
@@ -213,12 +217,14 @@ class UserViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
     permission_required = 'bids.view_users'
     object_permission_required = 'bids.edit_user'
     serializer_class = UserSerializer
+    # queryset = User.objects.all()
     lookup_field = 'username'
     lookup_value_regex = r'[^/]+' # Ensure dot-delimited usernames are valid
 
     def get_queryset(self):
         is_user = False
         account = self.request.user.account
+        # print('get_queryset-self: ', self.__dir__())
 
         if 'username' in self.kwargs and self.kwargs['username'] == '@me':
             self.kwargs['username'] = self.request.user.username

@@ -2018,9 +2018,6 @@
   "fields": {
     "name": "Full Bid Access",
     "permissions": [
-      19,
-      20,
-      21,
       1,
       2,
       3,

@@ -39,6 +39,15 @@ def can_edit_user(user, u):
     #TODO: Add some type of permission for account owners
     return user == u
 
+@rules.predicate
+def can_invite(user, account):
+    # TODO: ensure user can edit the account
+    user.account == account
+    print('user: ', user)
+    print('account: ', account)
+    return True
+
+
 rules.add_perm('bids.view_accounts', always_allow)
 rules.add_perm('bids.on_account', on_account)
 rules.add_perm('bids.view_bids', has_account)
@@ -55,3 +64,4 @@ rules.add_perm('bids.view_unittypes', has_account)
 rules.add_perm('bids.owns_unittype', can_edit_unittype)
 rules.add_perm('bids.view_users', always_allow)
 rules.add_perm('bids.edit_user', can_edit_user)
+rules.add_perm('bids.invite_to_account', can_invite)

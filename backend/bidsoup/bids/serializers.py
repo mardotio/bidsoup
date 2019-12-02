@@ -2,6 +2,7 @@ from .models import Account, Bid, BidTask, BidItem, Category, Customer, Invitati
 from rest_framework import serializers
 from rest_framework_recursive.fields import RecursiveField
 from rest_framework_nested.relations import NestedHyperlinkedRelatedField, NestedHyperlinkedIdentityField
+from rules import has_perm
 
 def get_max_digit_field_value(digit_field):
     """
@@ -140,9 +141,18 @@ class InvitationSerializer(serializers.HyperlinkedModelSerializer):
         model = Invitation
         fields = ('url', 'invited_by', 'account', 'email')
         extra_kwargs = {
-            'invited_by': {'lookup_field': 'username'},
+            'invited_by': {'lookup_field': 'username', 'read_only': True},
             'account': {'lookup_field': 'slug'}
         }
+
+    def save(self, **kwargs):
+        user = kwargs.get('invited_by')
+        account = self.validated_data.get('account')
+        can_invite = has_perm('bids.invite_to_account', user, account)
+        if not can_invite:
+            raise serializers.ValidationError('Cannot invite user to non-owning account.')
+
+        super().save(**kwargs)
 
 
 class SignupSerializer(serializers.Serializer):

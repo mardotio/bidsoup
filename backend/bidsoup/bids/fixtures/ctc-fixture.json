@@ -2056,11 +2056,19 @@
     "is_staff": false,
     "is_active": true,
     "date_joined": "2019-02-02T03:00:54Z",
-    "account": "a68d3bef-48e0-420f-9a8c-3a368b230d02",
     "groups": [
       1
     ],
     "user_permissions": []
+  }
+},
+{
+  "model": "bids.accountuser",
+  "pk": 1,
+  "fields": {
+    "account": "a68d3bef-48e0-420f-9a8c-3a368b230d02",
+    "user": 1,
+    "access_level": "OWNER"
   }
 }
 ]

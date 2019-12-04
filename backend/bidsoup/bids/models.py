@@ -14,6 +14,16 @@ class Account(models.Model):
     def __str__(self):
         return self.name
 
+class AccountUser(models.Model):
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    ACCESS_LEVELS = (
+        ('OWNER', 'Owner'),
+        ('MANAGER', 'Manager'),
+        ('USER', 'User'),
+    )
+    access_level = models.CharField(max_length=20, choices=ACCESS_LEVELS, default='USER')
+
 
 class Customer(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
@@ -180,7 +190,7 @@ class Bid(models.Model):
         super().save(*args, **kwargs)
 
 class User(AbstractUser):
-    account = models.ForeignKey(Account, on_delete=models.PROTECT, null=True, blank=True)
+    accounts = models.ManyToManyField(Account, through='AccountUser', related_name='users')
 
     @property
     def username_url(self):
@@ -188,6 +198,7 @@ class User(AbstractUser):
 
 
 class Invitation(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
     invited_by = models.ForeignKey(User, on_delete=models.PROTECT)
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
     email = models.EmailField(null=True)

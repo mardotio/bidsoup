@@ -202,6 +202,14 @@ class Invitation(models.Model):
     invited_by = models.ForeignKey(User, on_delete=models.PROTECT)
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
     email = models.EmailField(null=True)
+    STATUS = (
+        ('CREATED', 'Created'),
+        ('SENT', 'Sent'),
+        ('CANCELLED', 'Cancelled'),
+        ('ACCEPTED', 'Accepted'),
+        ('DECLINED', 'Declined'),
+    )
+    status = models.CharField(max_length=12, choices=STATUS, default='CREATED')
 
 def generate_link_string():
     return get_random_string(32)

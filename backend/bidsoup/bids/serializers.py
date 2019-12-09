@@ -124,10 +124,10 @@ class UnitTypeSerializer(serializers.HyperlinkedModelSerializer):
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ('url', 'username', 'first_name', 'last_name', 'email', 'account')
+        fields = ('url', 'username', 'first_name', 'last_name', 'email', 'accounts')
         extra_kwargs = {
             'url': {'view_name': 'user-detail', 'lookup_field': 'username'},
-            'account': {'view_name': 'account-detail', 'lookup_field': 'slug', 'read_only': True}
+            'accounts': {'view_name': 'account-detail', 'lookup_field': 'slug', 'read_only': True}
         }
 
 
@@ -139,10 +139,11 @@ class LoginSerializer(serializers.Serializer):
 class InvitationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Invitation
-        fields = ('url', 'invited_by', 'account', 'email')
+        fields = ('url', 'invited_by', 'account', 'email', 'status')
         extra_kwargs = {
             'invited_by': {'lookup_field': 'username', 'read_only': True},
-            'account': {'lookup_field': 'slug'}
+            'account': {'lookup_field': 'slug'},
+            'status': {'read_only': True},
         }
 
     def save(self, **kwargs):
@@ -153,6 +154,22 @@ class InvitationSerializer(serializers.HyperlinkedModelSerializer):
             raise serializers.ValidationError('Cannot invite user to non-owning account.')
 
         super().save(**kwargs)
+
+
+class InvitationUpdateSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Invitation
+        fields = ('url', 'invited_by', 'account', 'email', 'status')
+        read_only_fields = ('url', 'invited_by', 'account', 'email',)
+        extra_kwargs = {
+            'invited_by': {'lookup_field': 'username'},
+            'account': {'lookup_field': 'slug'},
+        }
+
+    def update(self, invitation, validated_data):
+        # TODO: Only the inviter or invitee can change the status
+        print('context: ', self.context.get('request').user)
+        return super().update(invitation, validated_data)
 
 
 class SignupSerializer(serializers.Serializer):

@@ -4,15 +4,15 @@ from .models import Account, User
 
 @rules.predicate
 def has_account(user):
-    return user.account is not None
+    return user.accounts != []
 
 @rules.predicate
 def on_account(user, account):
-    return user.account == account
+    return user.accounts in accounts
 
 @rules.predicate
 def can_edit_bid(user, bid):
-    return bid in user.account.bid_set.all()
+    return bid.account in user.accounts.all()
 
 @rules.predicate
 def can_edit_bid_item(user, bid_item):
@@ -20,15 +20,15 @@ def can_edit_bid_item(user, bid_item):
 
 @rules.predicate
 def can_edit_bid_task(user, bid_task):
-    return bid_task.bid in user.account.bid_set.all()
+    return bid_task.bid.account in user.accounts.all()
 
 @rules.predicate
 def can_edit_category(user, category):
-    return category.account == user.account
+    return category.account in user.accounts.all()
 
 @rules.predicate
 def can_edit_customer(user, customer):
-    return customer.account == user.account
+    return customer.account in user.accounts.all()
 
 @rules.predicate
 def can_edit_unittype(user, unittype):
@@ -41,11 +41,8 @@ def can_edit_user(user, u):
 
 @rules.predicate
 def can_invite(user, account):
-    # TODO: ensure user can edit the account
-    user.account == account
-    print('user: ', user)
-    print('account: ', account)
-    return True
+    account_user = account.accountuser_set.filter(user=user).first()
+    return account_user != None and account_user.access_level in ['MANAGER', 'OWNER']
 
 
 rules.add_perm('bids.view_accounts', always_allow)
@@ -62,6 +59,6 @@ rules.add_perm('bids.view_customers', has_account)
 rules.add_perm('bids.has_customer', can_edit_customer)
 rules.add_perm('bids.view_unittypes', has_account)
 rules.add_perm('bids.owns_unittype', can_edit_unittype)
-rules.add_perm('bids.view_users', always_allow)
+rules.add_perm('bids.view_users', has_account)
 rules.add_perm('bids.edit_user', can_edit_user)
 rules.add_perm('bids.invite_to_account', can_invite)

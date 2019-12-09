@@ -6,7 +6,7 @@ from rest_framework.decorators import detail_route
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login as auth_login, get_user_model
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 from django.middleware.csrf import get_token
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
@@ -17,7 +17,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework_rules.mixins import PermissionRequiredMixin
 from .serializers import AccountSerializer, BidSerializer, BidItemSerializer, \
         BidTaskSerializer, CustomerSerializer, CategorySerializer, UnitTypeSerializer, \
-        UserSerializer, InvitationSerializer, LoginSerializer, SignupSerializer
+        UserSerializer, InvitationSerializer, InvitationUpdateSerializer, LoginSerializer, SignupSerializer
 from .magic import send_magic_link_email, send_magic_link_discord
 import re
 
@@ -50,8 +50,7 @@ class AccountViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
     lookup_field = 'slug'
 
     def get_queryset(self):
-        account = self.request.user.account
-        return Account.objects.filter(id=account.id) if account else None
+        return self.request.user.accounts.all()
 
 
 class BidViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
@@ -71,8 +70,8 @@ class BidViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
         if 'account_slug' in self.kwargs:
             q = q.filter(account__slug=self.kwargs['account_slug'])
 
-        account = self.request.user.account
-        return q.filter(account=account).order_by('-created_on') if account else None
+        accounts = self.request.user.accounts.all()
+        return q.filter(account__in=accounts).order_by('-created_on')
 
     def perform_create(self, serializer):
         kwargs = {}
@@ -98,8 +97,8 @@ class BidItemViewSet(
         elif 'category_pk' in self.kwargs:
             q = q.filter(category_id=self.kwargs['category_pk'])
 
-        account = self.request.user.account
-        return q.filter(bid__account=account)
+        accounts = self.request.user.accounts.all()
+        return q.filter(bid__account__in=accounts)
 
 
 class BidTaskViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
@@ -112,8 +111,8 @@ class BidTaskViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
         if 'bid_pk' in self.kwargs:
             q = q.filter(bid_id=self.kwargs['bid_pk'])
 
-        account = self.request.user.account
-        return q.filter(bid__account=account)
+        accounts = self.request.user.accounts.all()
+        return q.filter(bid__account__in=accounts)
 
     def get_object(self):
         """Custom function for detail view because queryset only returns
@@ -146,8 +145,8 @@ class CategoryViewSet(PermissionRequiredMixin, TrapDjangoValidationErrorMixin, v
         if 'bid_pk' in self.kwargs:
             q = q.filter(bid_id=self.kwargs['bid_pk'])
 
-        account = self.request.user.account
-        return q.filter(account=account)
+        accounts = self.request.user.accounts.all()
+        return q.filter(account__in=accounts)
 
     def perform_create(self, serializer):
         kwargs = {}
@@ -156,8 +155,9 @@ class CategoryViewSet(PermissionRequiredMixin, TrapDjangoValidationErrorMixin, v
             kwargs['account_id'] = Account.objects.get(slug=slug).id
 
         if 'bid_pk' in self.kwargs:
-            kwargs['bid_id'] = self.kwargs['bid_pk']
-            kwargs['account_id'] = self.request.user.account_id
+            bid_id = self.kwargs.get('bid_pk')
+            kwargs['bid_id'] = bid_id
+            kwargs['account_id'] = Bid.objects.get(id=bid_id).account_id
 
         if serializer.validated_data.get('from_template'):
             source = serializer.validated_data.get('from_template')
@@ -182,8 +182,8 @@ class CustomerViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         q = Customer.objects.all()
 
-        account = self.request.user.account
-        return q.filter(account=account)
+        accounts = self.request.user.accounts.all()
+        return q.filter(account__in=accounts)
 
     @detail_route(methods=['get'])
     def bids(self, request, pk=None):
@@ -192,14 +192,33 @@ class CustomerViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-#TODO: permissions
-class InvitationViewSet(viewsets.ModelViewSet):
-    serializer_class = InvitationSerializer
-    queryset = Invitation.objects.all()
+class InvitationViewSet(
+        mixins.ListModelMixin,
+        mixins.RetrieveModelMixin,
+        mixins.CreateModelMixin,
+        mixins.UpdateModelMixin,
+        viewsets.GenericViewSet):
+    # Skips permission required since it's handled by the serializer
+
+    def get_serializer_class(self):
+        # print('getSerClass: ', self.__dir__())
+        print('self.action: ', self.action)
+        print('self.lookup_field: ', self.lookup_field)
+        if self.action == 'update':
+            return InvitationUpdateSerializer
+        else:
+            return InvitationSerializer
+
+    def get_queryset(self):
+        q = Invitation.objects.all()
+        accounts = self.request.user.accounts.all()
+        return q.filter(account__in=accounts)
 
     def perform_create(self, serializer):
         serializer.save(invited_by=self.request.user)
 
+def test(request: HttpRequest) -> HttpResponse:
+    return 'response'
 
 class UnitTypeViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
     permission_required = 'bids.view_unittypes'
@@ -208,30 +227,28 @@ class UnitTypeViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
 
     def get_queryset(self):
         q = UnitType.objects.all()
-        account = self.request.user.account
+        accounts = self.request.user.accounts.all()
 
-        return q.filter(category__bid__account=account)
+        return q.filter(category__bid__account__in=accounts)
 
 
 class UserViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
     permission_required = 'bids.view_users'
     object_permission_required = 'bids.edit_user'
     serializer_class = UserSerializer
-    # queryset = User.objects.all()
     lookup_field = 'username'
     lookup_value_regex = r'[^/]+' # Ensure dot-delimited usernames are valid
 
     def get_queryset(self):
         is_user = False
-        account = self.request.user.account
-        # print('get_queryset-self: ', self.__dir__())
+        accounts = self.request.user.accounts.all()
 
         if 'username' in self.kwargs and self.kwargs['username'] == '@me':
             self.kwargs['username'] = self.request.user.username
             return get_user_model().objects.filter(id=self.request.user.id)
 
-        if account:
-            return get_user_model().objects.filter(account=account)
+        if accounts:
+            return get_user_model().objects.filter(accounts__in=accounts)
         else:
             return get_user_model().objects.filter(id=self.request.user.id)
 

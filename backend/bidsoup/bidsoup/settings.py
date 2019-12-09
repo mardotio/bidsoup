@@ -32,6 +32,10 @@ if 'True' == os.environ.get('DEBUG'):
 else:
     DEBUG = False
 
+# Configuration behind proxy
+# See https://docs.djangoproject.com/en/2.0/ref/settings/#secure-proxy-ssl-header
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 # When debugging, the frontened is proxied to backend so use the forwarded host.
 USE_X_FORWARDED_HOST = DEBUG
 

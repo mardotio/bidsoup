@@ -1,3 +1,5 @@
+* text=auto
+
 # Use LF EOL for the following files
 *.css text eol=lf
 *.html text eol=lf

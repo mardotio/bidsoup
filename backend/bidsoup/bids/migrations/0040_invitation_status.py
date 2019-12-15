@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='invitation',
             name='status',
-            field=models.CharField(choices=[('CREATED', 'Created'), ('SENT', 'Sent'), ('ACCEPTED', 'Accepted'), ('DECLINED', 'Declined')], default='CREATED', max_length=12),
+            field=models.CharField(choices=[('CREATED', 'Created'), ('SENT', 'Sent'), ('CANCELLED', 'Cancelled'), ('ACCEPTED', 'Accepted'), ('DECLINED', 'Declined')], default='CREATED', max_length=12),
         ),
     ]

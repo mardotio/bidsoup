@@ -6,7 +6,7 @@ from rest_framework.decorators import detail_route
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login as auth_login, get_user_model
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpResponse
 from django.middleware.csrf import get_token
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator

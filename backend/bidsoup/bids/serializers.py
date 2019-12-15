@@ -1,4 +1,4 @@
-from .models import Account, Bid, BidTask, BidItem, Category, Customer, Invitation, UnitType, User
+from .models import Account, AccountUser, Bid, BidTask, BidItem, Category, Customer, Invitation, UnitType, User
 from rest_framework import serializers
 from rest_framework_recursive.fields import RecursiveField
 from rest_framework_nested.relations import NestedHyperlinkedRelatedField, NestedHyperlinkedIdentityField
@@ -121,10 +121,20 @@ class UnitTypeSerializer(serializers.HyperlinkedModelSerializer):
             'unit_price': {'max_value': get_max_digit_field_value(model._meta.get_field('unit_price'))}
         }
 
+class AccountUserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = AccountUser
+        fields = ('access_level', 'account')
+        extra_kwargs = {
+            'account': {'view_name': 'account-detail', 'lookup_field': 'slug', 'read_only': True}
+        }
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    accounts = AccountUserSerializer(source='accountuser_set', many=True, read_only=True)
+
     class Meta:
         model = User
-        fields = ('url', 'username', 'first_name', 'last_name', 'email', 'accounts')
+        fields = ('url', 'username', 'first_name', 'last_name', 'email', 'accounts',)
         extra_kwargs = {
             'url': {'view_name': 'user-detail', 'lookup_field': 'username'},
             'accounts': {'view_name': 'account-detail', 'lookup_field': 'slug', 'read_only': True}
@@ -181,6 +191,8 @@ class InvitationUpdateSerializer(serializers.HyperlinkedModelSerializer):
 
         if invitee and invitee == user:
             if invitation.status == 'SENT' and new_status in ('ACCEPTED', 'DECLINED'):
+                if new_status == 'ACCEPTED':
+                    AccountUser.objects.create(user=user, account=invitation.account)
                 return super().update(invitation, validated_data)
             else:
                 raise serializers.ValidationError('Invalid status change.')

@@ -212,9 +212,7 @@ class InvitationViewSet(
 
     def perform_create(self, serializer):
         serializer.save(invited_by=self.request.user)
-
-def test(request: HttpRequest) -> HttpResponse:
-    return 'response'
+        # TODO: send invitation email
 
 class UnitTypeViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
     permission_required = 'bids.view_unittypes'

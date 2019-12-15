@@ -8,7 +8,7 @@ def has_account(user):
 
 @rules.predicate
 def on_account(user, account):
-    return user.accounts in accounts
+    return account in user.accounts.all()
 
 @rules.predicate
 def can_edit_bid(user, bid):

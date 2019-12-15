@@ -19,6 +19,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if settings.DEBUG:
             if options['reset']:
+                # Migrate back admin because it has a dependency on the User model.
+                call_command('migrate', 'admin', 'zero')
+
                 passwd = os.environ['POSTGRES_PASSWORD']
                 with psycopg2.connect(dbname='postgres', user='postgres', password=passwd, host='db') as conn:
                     tables = []
@@ -39,7 +42,10 @@ class Command(BaseCommand):
             else:
                 self.stdout.write('Performing migrations only.')
 
-            call_command('migrate')
+            call_command('migrate', 'bids')
+            if options['reset']:
+                # Migrate back admin
+                call_command('migrate', 'admin')
         else:
             self.stdout.write('DEBUG is False!')
             self.stdout.write('Database cannot be reset in production!')

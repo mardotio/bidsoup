@@ -160,6 +160,7 @@ class InvitationUpdateSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Invitation
         fields = ('url', 'invited_by', 'account', 'email', 'status')
+        # All fields are read-only _except_ status
         read_only_fields = ('url', 'invited_by', 'account', 'email',)
         extra_kwargs = {
             'invited_by': {'lookup_field': 'username'},
@@ -167,9 +168,28 @@ class InvitationUpdateSerializer(serializers.HyperlinkedModelSerializer):
         }
 
     def update(self, invitation, validated_data):
-        # TODO: Only the inviter or invitee can change the status
-        print('context: ', self.context.get('request').user)
-        return super().update(invitation, validated_data)
+        """
+        The only allowed updates are:
+         - account managers: CREATED | SENT -> CANCELLED
+         - invitee: SENT -> ACCEPTED | DECLINED
+        """
+        user = self.context.get('request').user
+        new_status = validated_data.get('status')
+        account_user = invitation.account.accountuser_set.filter(access_level__in=('OWNER', 'MANAGER',))
+        account_managers = [u.user for u in list(account_user)]
+        invitee = User.objects.filter(email=invitation.email).first()
+
+        if invitee and invitee == user:
+            if invitation.status == 'SENT' and new_status in ('ACCEPTED', 'DECLINED'):
+                return super().update(invitation, validated_data)
+            else:
+                raise serializers.ValidationError('Invalid status change.')
+
+        if user in account_managers:
+            if invitation.status in ('CREATED', 'SENT') and new_status == 'CANCELLED':
+                return super().update(invitation, validated_data)
+            else:
+                raise serializers.ValidationError('Invalid status change.')
 
 
 class SignupSerializer(serializers.Serializer):

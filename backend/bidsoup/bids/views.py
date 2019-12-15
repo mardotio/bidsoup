@@ -198,12 +198,8 @@ class InvitationViewSet(
         mixins.CreateModelMixin,
         mixins.UpdateModelMixin,
         viewsets.GenericViewSet):
-    # Skips permission required since it's handled by the serializer
 
     def get_serializer_class(self):
-        # print('getSerClass: ', self.__dir__())
-        print('self.action: ', self.action)
-        print('self.lookup_field: ', self.lookup_field)
         if self.action == 'update':
             return InvitationUpdateSerializer
         else:
@@ -212,7 +208,7 @@ class InvitationViewSet(
     def get_queryset(self):
         q = Invitation.objects.all()
         accounts = self.request.user.accounts.all()
-        return q.filter(account__in=accounts)
+        return q.filter(Q(account__in=accounts) | Q(email=self.request.user.email))
 
     def perform_create(self, serializer):
         serializer.save(invited_by=self.request.user)

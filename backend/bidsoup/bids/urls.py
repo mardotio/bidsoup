@@ -4,14 +4,15 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'accounts', views.AccountViewSet, base_name='account')
-router.register(r'bids', views.BidViewSet, base_name='bid')
 router.register(r'biditems', views.BidItemViewSet, base_name='biditem')
+router.register(r'bids', views.BidViewSet, base_name='bid')
 router.register(r'bidtasks', views.BidTaskViewSet, base_name='bidtask')
-router.register(r'customers', views.CustomerViewSet, base_name='customer')
 router.register(r'categories', views.CategoryViewSet, base_name='category')
+router.register(r'customers', views.CustomerViewSet, base_name='customer')
+router.register(r'invitations', views.InvitationViewSet, base_name='invitation')
+router.register(r'signup', views.SignupViewSet, base_name='signup')
 router.register(r'unittypes', views.UnitTypeViewSet, base_name='unittype')
 router.register(r'users', views.UserViewSet, base_name='user')
-router.register(r'signup', views.SignupViewSet, base_name='signup')
 
 accounts_router = routers.NestedSimpleRouter(router, r'accounts', lookup='account')
 accounts_router.register(r'bids', views.BidViewSet, base_name='account-bid')

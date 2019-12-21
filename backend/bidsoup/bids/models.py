@@ -2,6 +2,7 @@ from django.db import models, transaction
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.utils.crypto import get_random_string
+from urllib.parse import quote
 import uuid
 
 class Account(models.Model):
@@ -12,6 +13,16 @@ class Account(models.Model):
 
     def __str__(self):
         return self.name
+
+class AccountUser(models.Model):
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    ACCESS_LEVELS = (
+        ('OWNER', 'Owner'),
+        ('MANAGER', 'Manager'),
+        ('USER', 'User'),
+    )
+    access_level = models.CharField(max_length=20, choices=ACCESS_LEVELS, default='USER')
 
 
 class Customer(models.Model):
@@ -179,7 +190,26 @@ class Bid(models.Model):
         super().save(*args, **kwargs)
 
 class User(AbstractUser):
-    account = models.ForeignKey(Account, on_delete=models.PROTECT, null=True)
+    accounts = models.ManyToManyField(Account, through='AccountUser', related_name='users')
+
+    @property
+    def username_url(self):
+        return quote(self.username)
+
+
+class Invitation(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
+    invited_by = models.ForeignKey(User, on_delete=models.PROTECT)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    email = models.EmailField(null=True)
+    STATUS = (
+        ('CREATED', 'Created'),
+        ('SENT', 'Sent'),
+        ('CANCELLED', 'Cancelled'),
+        ('ACCEPTED', 'Accepted'),
+        ('DECLINED', 'Declined'),
+    )
+    status = models.CharField(max_length=12, choices=STATUS, default='CREATED')
 
 def generate_link_string():
     return get_random_string(32)

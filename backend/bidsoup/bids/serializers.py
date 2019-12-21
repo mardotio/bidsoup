@@ -1,7 +1,8 @@
-from .models import Account, Bid, BidTask, BidItem, Category, Customer, UnitType, User
+from .models import Account, AccountUser, Bid, BidTask, BidItem, Category, Customer, Invitation, UnitType, User
 from rest_framework import serializers
 from rest_framework_recursive.fields import RecursiveField
 from rest_framework_nested.relations import NestedHyperlinkedRelatedField, NestedHyperlinkedIdentityField
+from rules import has_perm
 
 def get_max_digit_field_value(digit_field):
     """
@@ -120,14 +121,88 @@ class UnitTypeSerializer(serializers.HyperlinkedModelSerializer):
             'unit_price': {'max_value': get_max_digit_field_value(model._meta.get_field('unit_price'))}
         }
 
-class UserSerializer(serializers.ModelSerializer):
+class AccountUserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = AccountUser
+        fields = ('access_level', 'account')
+        extra_kwargs = {
+            'account': {'view_name': 'account-detail', 'lookup_field': 'slug', 'read_only': True}
+        }
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    accounts = AccountUserSerializer(source='accountuser_set', many=True, read_only=True)
+
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email')
+        fields = ('url', 'username', 'first_name', 'last_name', 'email', 'accounts',)
+        extra_kwargs = {
+            'url': {'view_name': 'user-detail', 'lookup_field': 'username'},
+            'accounts': {'view_name': 'account-detail', 'lookup_field': 'slug', 'read_only': True}
+        }
+
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=150)
     password = serializers.CharField(max_length=128)
+
+
+class InvitationSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Invitation
+        fields = ('url', 'invited_by', 'account', 'email', 'status')
+        extra_kwargs = {
+            'invited_by': {'lookup_field': 'username', 'read_only': True},
+            'account': {'lookup_field': 'slug'},
+            'status': {'read_only': True},
+        }
+
+    def save(self, **kwargs):
+        user = kwargs.get('invited_by')
+        account = self.validated_data.get('account')
+        can_invite = has_perm('bids.invite_to_account', user, account)
+        if not can_invite:
+            raise serializers.ValidationError('Cannot invite user to non-owning account.')
+
+        super().save(**kwargs)
+
+
+class InvitationUpdateSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Invitation
+        fields = ('url', 'invited_by', 'account', 'email', 'status')
+        # All fields are read-only _except_ status
+        read_only_fields = ('url', 'invited_by', 'account', 'email',)
+        extra_kwargs = {
+            'invited_by': {'lookup_field': 'username'},
+            'account': {'lookup_field': 'slug'},
+        }
+
+    def update(self, invitation, validated_data):
+        """
+        The only allowed updates are:
+         - account managers: CREATED | SENT -> CANCELLED
+         - invitee: SENT -> ACCEPTED | DECLINED
+        """
+        user = self.context.get('request').user
+        new_status = validated_data.get('status')
+        account_user = invitation.account.accountuser_set.filter(access_level__in=('OWNER', 'MANAGER',))
+        account_managers = [u.user for u in list(account_user)]
+        invitee = User.objects.filter(email=invitation.email).first()
+
+        if invitee and invitee == user:
+            if invitation.status == 'SENT' and new_status in ('ACCEPTED', 'DECLINED'):
+                if new_status == 'ACCEPTED':
+                    AccountUser.objects.create(user=user, account=invitation.account)
+                return super().update(invitation, validated_data)
+            else:
+                raise serializers.ValidationError('Invalid status change.')
+
+        if user in account_managers:
+            if invitation.status in ('CREATED', 'SENT') and new_status == 'CANCELLED':
+                return super().update(invitation, validated_data)
+            else:
+                raise serializers.ValidationError('Invalid status change.')
+
 
 class SignupSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=150)

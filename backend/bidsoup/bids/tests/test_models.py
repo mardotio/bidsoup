@@ -1,5 +1,5 @@
 from django.test import TestCase
-from bids.models import BidItem, Category
+from ..models import BidItem, Category
 from django.core.exceptions import ValidationError
 
 class ModelTest(TestCase):

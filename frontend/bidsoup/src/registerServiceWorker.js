@@ -53,10 +53,6 @@ export default function register() {
   }
 }
 
-function isBackendRoute() {
-  return window.location.pathname.startsWith('/api');
-}
-
 function registerValidSW(swUrl) {
   navigator.serviceWorker
     .register(swUrl)

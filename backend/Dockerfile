@@ -1,4 +1,4 @@
-FROM python:3.6
+FROM python:3.8
 ENV PYTHONUNBUFFERED 1
 # Install cron and clear out daily folder since it ships with content.
 RUN apt-get update && apt-get --assume-yes install cron && rm /etc/cron.daily/*

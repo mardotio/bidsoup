@@ -3,28 +3,28 @@ from rest_framework_nested import routers
 from . import views
 
 router = routers.DefaultRouter()
-router.register(r'accounts', views.AccountViewSet, base_name='account')
-router.register(r'biditems', views.BidItemViewSet, base_name='biditem')
-router.register(r'bids', views.BidViewSet, base_name='bid')
-router.register(r'bidtasks', views.BidTaskViewSet, base_name='bidtask')
-router.register(r'categories', views.CategoryViewSet, base_name='category')
-router.register(r'customers', views.CustomerViewSet, base_name='customer')
-router.register(r'invitations', views.InvitationViewSet, base_name='invitation')
-router.register(r'signup', views.SignupViewSet, base_name='signup')
-router.register(r'unittypes', views.UnitTypeViewSet, base_name='unittype')
-router.register(r'users', views.UserViewSet, base_name='user')
+router.register(r'accounts', views.AccountViewSet, basename='account')
+router.register(r'biditems', views.BidItemViewSet, basename='biditem')
+router.register(r'bids', views.BidViewSet, basename='bid')
+router.register(r'bidtasks', views.BidTaskViewSet, basename='bidtask')
+router.register(r'categories', views.CategoryViewSet, basename='category')
+router.register(r'customers', views.CustomerViewSet, basename='customer')
+router.register(r'invitations', views.InvitationViewSet, basename='invitation')
+router.register(r'signup', views.SignupViewSet, basename='signup')
+router.register(r'unittypes', views.UnitTypeViewSet, basename='unittype')
+router.register(r'users', views.UserViewSet, basename='user')
 
 accounts_router = routers.NestedSimpleRouter(router, r'accounts', lookup='account')
-accounts_router.register(r'bids', views.BidViewSet, base_name='account-bid')
-accounts_router.register(r'categories', views.CategoryViewSet, base_name='account-category')
+accounts_router.register(r'bids', views.BidViewSet, basename='account-bid')
+accounts_router.register(r'categories', views.CategoryViewSet, basename='account-category')
 
 bids_router = routers.NestedSimpleRouter(router, r'bids', lookup='bid')
-bids_router.register(r'categories', views.CategoryViewSet, base_name='bid-category')
-bids_router.register(r'biditems', views.BidItemViewSet, base_name='bid-biditem')
-bids_router.register(r'bidtasks', views.BidTaskViewSet, base_name='bid-bidtask')
+bids_router.register(r'categories', views.CategoryViewSet, basename='bid-category')
+bids_router.register(r'biditems', views.BidItemViewSet, basename='bid-biditem')
+bids_router.register(r'bidtasks', views.BidTaskViewSet, basename='bid-bidtask')
 
 category_router = routers.NestedSimpleRouter(router, r'categories', lookup='category')
-category_router.register(r'biditems', views.BidItemViewSet, base_name='category-biditem')
+category_router.register(r'biditems', views.BidItemViewSet, basename='category-biditem')
 
 urlpatterns = [
     path('login/', views.SessionLoginView.as_view()),

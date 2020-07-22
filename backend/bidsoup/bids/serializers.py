@@ -80,7 +80,7 @@ class BidItemSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'bid', 'unit_type', 'price', 'description', 'notes', 'category', 'markup_percent', 'quantity', 'parent')
 
 class BidTaskSerializer(serializers.HyperlinkedModelSerializer):
-    children = serializers.ListField(source='children.all', read_only=True, child=RecursiveField())
+    children = serializers.ListField(source='get_ordered_children', read_only=True, child=RecursiveField())
 
     class Meta:
         model = BidTask
@@ -208,3 +208,8 @@ class SignupSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=150)
     password = serializers.CharField(max_length=128, write_only=True)
     email = serializers.EmailField()
+
+
+class BidTaskOrderSerializer(serializers.Serializer):
+    children = serializers.ListField(child=RecursiveField())
+    url = serializers.CharField()

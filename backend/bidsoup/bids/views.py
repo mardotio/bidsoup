@@ -2,7 +2,7 @@ from .models import Account, Bid, BidItem, BidTask, Category, Customer, Invitati
 from .users import confirm_user, delete_user
 from django.db.models import Q
 from rest_framework import viewsets, generics, mixins, serializers
-from rest_framework.decorators import detail_route
+from rest_framework.decorators import action
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login as auth_login, get_user_model
@@ -17,8 +17,10 @@ from rest_framework.permissions import AllowAny
 from rest_framework_rules.mixins import PermissionRequiredMixin
 from .serializers import AccountSerializer, BidSerializer, BidItemSerializer, \
         BidTaskSerializer, CustomerSerializer, CategorySerializer, UnitTypeSerializer, \
-        UserSerializer, InvitationSerializer, InvitationUpdateSerializer, LoginSerializer, SignupSerializer
+        UserSerializer, InvitationSerializer, InvitationUpdateSerializer, LoginSerializer, SignupSerializer, \
+        BidTaskOrderSerializer
 from .magic import send_magic_link_email, send_magic_link_discord
+from urllib.parse import urlparse
 import re
 
 
@@ -112,7 +114,7 @@ class BidTaskViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
             q = q.filter(bid_id=self.kwargs['bid_pk'])
 
         accounts = self.request.user.accounts.all()
-        return q.filter(bid__account__in=accounts)
+        return q.filter(bid__account__in=accounts).order_by('sort_order')
 
     def get_object(self):
         """Custom function for detail view because queryset only returns
@@ -120,6 +122,31 @@ class BidTaskViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
         """
         task = BidTask.objects.get(pk=self.kwargs[self.lookup_field])
         return task
+
+    @action(methods=['post'], detail=False)
+    def order(self, request, **kwargs):
+        serializer = BidTaskOrderSerializer(data=request.data, many=True, context={'request': request})
+        if serializer.is_valid():
+            # recursively loop through children, setting order and id
+            data = serializer.data
+            for i in range(len(data)):
+                update_order(data[i], i)
+
+            return Response(data)
+        else:
+            return Response(serializer.errors, status=400)
+
+
+def update_order(task, relative_order):
+    url = task.get('url')
+    if url[-1] == '/':
+        url = url[:-1]
+    task['id'] = urlparse(url).path.split('/')[-1]
+    task['sort_order'] = relative_order
+    for o in range(len(task.get('children'))):
+        update_order(task.get('children')[o], o)
+
+
 
 
 class CategoryViewSet(PermissionRequiredMixin, TrapDjangoValidationErrorMixin, viewsets.ModelViewSet):
@@ -185,7 +212,7 @@ class CustomerViewSet(PermissionRequiredMixin, viewsets.ModelViewSet):
         accounts = self.request.user.accounts.all()
         return q.filter(account__in=accounts)
 
-    @detail_route(methods=['get'])
+    @action(detail=True, methods=['get'])
     def bids(self, request, pk=None):
         queryset = Bid.objects.all().filter(customer_id=pk)
         serializer = BidSerializer(queryset, many=True, context={'request':request})

@@ -156,6 +156,10 @@ class BidTask(models.Model):
     bid = models.ForeignKey('Bid', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
+    sort_order = models.IntegerField(default=0)
+
+    def get_ordered_children(self):
+        return self.children.all().order_by('sort_order')
 
     def __str__(self):
         return '{self.title} - {self.bid.name}'.format(self=self)

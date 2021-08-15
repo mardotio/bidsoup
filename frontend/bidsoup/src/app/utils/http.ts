@@ -163,28 +163,7 @@ export class Http2 {
     })
   )
 
-  public static handleAuthError = (err: HttpError) => {
-    if (err.kind === 'code' && [401, 403].indexOf(err.response.status) > -1) {
-      redirectToLogin(window.location.pathname);
-    }
-    return err;
-  }
-
-  private static createRequestInit = (method: string, body: unknown) => (
-    fromNullable(getCookie('csrftoken')).map(c => ({
-      method: method,
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CsrfToken': c
-      },
-      body: JSON.stringify(body)
-    }))
-  )
-
-}
-
-export namespace Http2 {
-  export class Defaults {
+  static Defaults = class {
     public static get = <T>(url: string, decoder: Decoder<unknown, T>) => (
       pipe(
         Http2.get,
@@ -229,4 +208,23 @@ export namespace Http2 {
       .mapLeft(Http2.handleAuthError)
     )
   }
+
+  public static handleAuthError = (err: HttpError) => {
+    if (err.kind === 'code' && [401, 403].indexOf(err.response.status) > -1) {
+      redirectToLogin(window.location.pathname);
+    }
+    return err;
+  }
+
+  private static createRequestInit = (method: string, body: unknown) => (
+    fromNullable(getCookie('csrftoken')).map(c => ({
+      method: method,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CsrfToken': c
+      },
+      body: JSON.stringify(body)
+    }))
+  )
+
 }

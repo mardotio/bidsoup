@@ -3,6 +3,12 @@ import styled from 'styled-components';
 import { beautifyNumber } from '@utils/styling';
 import { theme } from '@utils/color';
 
+
+const DragHandle = styled.i`
+  opacity: 0;
+  cursor: grab;
+`;
+
 const Task = styled.div`
   display: flex;
   align-items: center;
@@ -12,9 +18,16 @@ const Task = styled.div`
   box-sizing: border-box;
   &:hover {
     background-color: ${theme.interactions.hover.hex};
+    > ${DragHandle} {
+      opacity: 0.2;
+      &:hover {
+        opacity: 0.9;
+      }
+    }
   }
   cursor: pointer;
 `;
+
 
 export enum ArrowStyle {
   Collapsed,
@@ -86,6 +99,7 @@ const TaskRow = (props: Props) => {
     <Task
       onClick={() => props.onTaskClick(uuid)}
     >
+      <DragHandle className="material-icons">drag_handle</DragHandle>
       <Title>
         <Triangle
           arrow={props.arrow}

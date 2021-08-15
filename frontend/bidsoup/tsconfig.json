@@ -1,9 +1,13 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "outDir": "build/dist",
     "module": "esnext",
     "target": "es5",
-    "lib": ["es6", "dom"],
+    "lib": [
+      "es6",
+      "dom"
+    ],
     "sourceMap": true,
     "allowJs": true,
     "jsx": "react",
@@ -16,25 +20,22 @@
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
-    "baseUrl": ".",
     "typeRoots": [
-        "node_modules/@types",
-        "src/definitions"
+      "node_modules/@types",
+      "src/definitions"
     ],
-    "paths": {
-        "react": ["node_modules/@types/react"],
-        "redux-thunk": ["src/definitions/redux-thunk"],
-        "@app/*":  ["src/app/*"],
-        "@dashboard/*": ["src/app/dashboard/*"],
-        "@login/*": ["src/app/login/*"],
-        "@taskItem/*": ["src/app/taskItem/*"],
-        "@utils/*": ["src/app/utils/*"],
-    },
     "plugins": [
       {
         "name": "typescript-styled-plugin"
       }
-    ]
+    ],
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": false,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true
   },
   "exclude": [
     "node_modules",
@@ -45,5 +46,9 @@
     "webpack",
     "jest",
     "src/setupTests.ts"
-  ]
+  ],
+  "include": [
+    "src"
+  ],
+  "extends": "./base-tsconfig"
 }

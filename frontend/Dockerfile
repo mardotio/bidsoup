@@ -9,7 +9,6 @@ COPY ["bidsoup/tsconfig.json", "bidsoup/tslint.json", "bidsoup/base-tsconfig.jso
 COPY bidsoup/src/ src
 COPY bidsoup/public/ public
 ARG env=DEV
-ENV CI=true
 RUN if [ "$env" = "PROD" ]; then yarn build; fi
 CMD ["npm", "start"]
 EXPOSE 3000

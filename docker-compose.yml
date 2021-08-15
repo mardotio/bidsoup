@@ -8,6 +8,7 @@ services:
 
   frontend:
     build: frontend/
+    stdin_open: true
 
   backend:
     build: backend/

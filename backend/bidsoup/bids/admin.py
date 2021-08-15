@@ -16,11 +16,6 @@ class UserAdmin(BaseUserAdmin):
     model = User
     inlines = (AccountUserInline, )
 
-    # filter_horizontal = ('accounts',)
-    # fieldsets = BaseUserAdmin.fieldsets + (
-    #     (None, {'fields': ('accounts',)}),
-    # )
-
 
 admin.site.register(Account)
 admin.site.register(Bid)

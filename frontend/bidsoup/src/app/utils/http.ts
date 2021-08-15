@@ -228,6 +228,3 @@ export class Http2 {
   )
 
 }
-
-// export namespace Http2 {
-// }

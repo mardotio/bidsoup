@@ -1,19 +1,25 @@
 from django.contrib import admin
 
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.admin import TabularInline
 from django.contrib.auth.models import Group
-from .models import Account, Customer, Category, UnitType, BidItem, BidTask, Bid, BidTask, User, MagicLink, Invitation
+from .models import Account, AccountUser, Customer, Category, UnitType, BidItem, BidTask, Bid, BidTask, User, MagicLink, Invitation
+
+class AccountUserInline(TabularInline):
+    model = AccountUser
+
 
 class UserAdmin(BaseUserAdmin):
     """
     https://stackoverflow.com/questions/15012235/using-django-auth-useradmin-for-a-custom-user-model
     """
     model = User
-    fieldsets = BaseUserAdmin.fieldsets + (
-        (None, {'fields': ('account',)}),
-    )
+    inlines = (AccountUserInline, )
 
-
+    # filter_horizontal = ('accounts',)
+    # fieldsets = BaseUserAdmin.fieldsets + (
+    #     (None, {'fields': ('accounts',)}),
+    # )
 
 
 admin.site.register(Account)

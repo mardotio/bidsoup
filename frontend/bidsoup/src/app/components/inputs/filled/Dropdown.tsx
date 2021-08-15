@@ -101,7 +101,7 @@ interface OptionProps {
   hovered: boolean;
 }
 
-const Option = styled.li<OptionProps>`
+const DropdownOption = styled.li<OptionProps>`
   padding: 1em;
   cursor: pointer;
   border-radius: .3em;
@@ -160,7 +160,7 @@ export default class Dropdown extends React.Component<Props, State> {
   }
 
   dropdownOption = (option: DropdownOption, index: number) => (
-    <Option
+    <DropdownOption
       ref={index === this.state.hoverIndex.getOrElse(-1) ? this.selectedRef : undefined}
       key={option.id}
       id={option.id}
@@ -170,7 +170,7 @@ export default class Dropdown extends React.Component<Props, State> {
       onMouseEnter={() => this.setState({ hoverIndex: some(index) })}
     >
       {option.value}
-    </Option>
+    </DropdownOption>
   )
 
   scrollNext = () => {

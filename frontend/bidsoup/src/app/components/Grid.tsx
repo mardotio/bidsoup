@@ -38,7 +38,7 @@ const Container = styled.ul<ContainerProps>`
   padding-left: ${props => (props.sidePadding.left + 'px')};
   padding-right: ${props => (props.sidePadding.right + 'px')};
   margin: 0;
-  overflow: scroll;
+  overflow: auto;
   list-style: none;
   ::-webkit-scrollbar {
     width: 5px;
@@ -174,7 +174,7 @@ export default class Grid extends React.Component<Props, State> {
           right: 0
         };
       default:
-        throw(`Grid does not support ${this.props.alignment} alignment`);
+        throw(new Error(`Grid does not support ${this.props.alignment} alignment`));
     }
   }
 

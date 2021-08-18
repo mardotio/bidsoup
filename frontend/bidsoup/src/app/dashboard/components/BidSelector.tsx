@@ -59,15 +59,14 @@ const bidForm = ({showModal, hideModal}: Props) => (
 );
 
 const BidSelector = (props: Props) => {
-  const { account, bids } = props;
-
+  const {account} = props;
   React.useEffect(
     () => {
-      if (isEmpty(bids) && isDefined(account)) {
+      if (isEmpty(props.bids) && isDefined(account)) {
         props.loadBids();
       }
     },
-    [account, bids]
+    [props.account]
   );
 
   let cards = props.bids.length === 0

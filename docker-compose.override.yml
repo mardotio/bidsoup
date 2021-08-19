@@ -7,7 +7,7 @@ services:
 
   backend:
     volumes:
-      - ./backend/bidsoup:/code/bidsoup/
+      - ./backend/bidsoup:/code/bidsoup
     command: /bin/bash /code/start-dev.sh
     environment:
       - 'DEBUG=True'
@@ -20,15 +20,13 @@ services:
 
   frontend:
     volumes:
-      - ./frontend/bidsoup/src:/usr/app/src/
-      - ./frontend/bidsoup/public:/usr/app/public/
+      - ./frontend/bidsoup/src:/usr/app/src
+      - ./frontend/bidsoup/public:/usr/app/public
       - ./frontend/bidsoup/tslint.json:/usr/app/tslint.json
       - ./frontend/bidsoup/tsconfig.json:/usr/app/tsconfig.json
       - ./frontend/bidsoup/.env.development:/usr/app/.env.development
     ports:
       - 3000:3000
-    environment:
-      - CHOKIDAR_USEPOLLING=true
 
   db:
     ports:

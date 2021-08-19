@@ -147,8 +147,6 @@ def update_order(task, relative_order):
         update_order(task.get('children')[o], o)
 
 
-
-
 class CategoryViewSet(PermissionRequiredMixin, TrapDjangoValidationErrorMixin, viewsets.ModelViewSet):
     permission_required = 'bids.view_categories'
     object_permission_required = 'bids.owns_category'
